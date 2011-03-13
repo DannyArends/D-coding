@@ -88,4 +88,4 @@ void LUinvert(double[][] lu, double[][] inv, int dim, int[] ndx){
      LUsolve(lu,dim,ndx,b);
      for (r=0; r<dim; r++) inv[r][c]= b[r];
   }
-} 
+}
