@@ -18,9 +18,17 @@
  *     A copy of the GNU General Public License, version 3, is available
  *     at http://www.r-project.org/Licenses/GPL-3
  *
- * Contains: searchArray, searchArrayBinary
+ * Contains: doRange, searchArray, searchArrayBinary
  * 
  **/
+ 
+ pure uint[] doRange(int start,uint length){
+  uint array[];
+  for(uint i = 0; i < (length-1); i++){
+   array ~= start+i;
+  }
+  return array;
+}
 
 pure bool searchArray(T)(T[] haystack, T needle){
   foreach(T s; haystack){

@@ -11,6 +11,7 @@ import std.stdio;
 
 alias double[][] dmatrix;
 alias double[] dvector;
+alias char[] cvector;
 alias int[] ivector;
 
 dmatrix newdmatrix(uint nrow,uint ncol){
@@ -39,6 +40,15 @@ dvector newdvector(uint length){
   x.length = length;
   for(int j=0;j<length;j++){
     x[j]=0;
+  }
+  return x;
+}
+
+cvector newcvector(uint length){
+  cvector x;
+  x.length = length;
+  for(int j=0;j<length;j++){
+    x[j]='-';
   }
   return x;
 }

@@ -103,6 +103,7 @@ double betacf(double a, double b, double x){
     if ( fabs((az-aold)/az)  < 3.0e-7) return az;
   }
   writefln("a or b too big or max number of iterations too small");
+  return 0;
 }
 
 /* functions gammln, betacf, betai necessary to calculate F(P,df1,df2) */

@@ -27,7 +27,7 @@ import std.stdio;
 import std.conv;
 
 import textreader;
-import arrayfunctions;
+import searching;
 
 pure T doMean(T)(T[] data){
   T mean = 0;
@@ -74,8 +74,8 @@ real doCorrelation(T)(T[] d1, T[] d2){
 }
 
 void main(string[] args){
-  auto dataset = new LargeFileScanner();
-  
+  auto dataset = new TextReader();
+
   uint individuals[] = doRange(19,100);
   auto data1 = dataset.loadSubMatrix!double(args[1],individuals);
   foreach(ref a; data1){

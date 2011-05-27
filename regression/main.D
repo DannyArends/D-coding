@@ -9,7 +9,8 @@ import std.stdio;
 import std.math;
 
 import types;
-import regression
+import regression;
+import augmentation;
 
 void main(string[] args){
   writefln("Multiple linear regression in D");

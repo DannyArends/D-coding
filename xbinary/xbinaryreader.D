@@ -32,10 +32,10 @@ import std.regex;
 import std.datetime;
 import core.time;
 
-void main(string[] args){
-  auto ret = new BinaryScanner();
-  ret.loadToMemory(args[1]);
-}
+//void main(string[] args){
+ // auto ret = new BinaryReader();
+//  ret.loadToMemory(args[1]);
+//}
 
 class BinaryReader{
   ubyte[] buffer;
