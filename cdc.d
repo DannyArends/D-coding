@@ -155,7 +155,7 @@ version(Tango)
 	extern (C) int system(char *);  // Tango's process hangs sometimes
 	//import tango.core.tools.TraceExceptions; // enable to get stack trace in buildyage.d on internal failure
 } else
-{	import std.date;
+{	import std.datetime;
 	version (D_Version2)
 		import std.string : join, indexOf, replace, tolower;
 	else
@@ -614,10 +614,11 @@ struct System
 
 	/// Get the current number of milliseconds since Jan 1 1970.
 	static long time()
-	{	version (Tango)
+	{	version (Tango){
 			return Clock.now.unix.millis;
-		else
-			return getUTCtime();
+		}else{
+      return Clock.currStdTime();
+    }
 	}
 
 	/// Print output to the console.  Uses String.format internally and therefor accepts the same arguments.

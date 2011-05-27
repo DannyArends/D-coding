@@ -32,29 +32,51 @@ import std.regex;
 import std.datetime;
 import core.time;
 
-//void main(string[] args){
- // auto ret = new BinaryReader();
-//  ret.loadToMemory(args[1]);
-//}
+enum BUFFERSIZE {BUFFER_16KB = 16_384,BUFFER_2MB = 2_097_152, BUFFER_4MB = 4_194_304,BUFFER_16MB = 16_777_216, BUFFER_64MB = 67_108_864, BUFFER_256MB = 268_435_456}
 
 class BinaryReader{
   ubyte[] buffer;
-    
-  int loadToMemory(string filename){
-    if(!exists(filename) || !isfile(filename)) return -1;
-    auto f = new File(filename,"rb");
-    ubyte[] buff = new ubyte[1024];
-    
-    auto t0 = Clock.currTime();
-    auto t1 = Clock.currTime();
-    while(f.rawRead(buff)){
-      //writef("%s",buff);
-      writef("%d\n",countchars(cast(string)buff,"\n"));
-    }
-    t1 = Clock.currTime();
-    writef("%d\n",(t1-t0));
-    return 0;
+  uint buffersize = BUFFERSIZE.BUFFER_16KB;
+  
+  void setBufferSize(uint customsize){
+    buffersize=customsize;
   }
+  
+  void setBufferSize(BUFFERSIZE bsize){
+    buffersize=bsize;
+  }
+  
+  /*
+  * Load the indexing of our binary format to memory
+  *
+  * @param filename to load
+  * @return Number of buffers needed to read in the entire file
+  */
+  long loadToMemory(string filename){
+    if(!exists(filename) || !isfile(filename)) return -1;
+    uint filesize = cast(uint)getSize(filename);
+    long linecount=0;
+    ubyte[] inputbuffer = new ubyte[buffersize];
+    
+    auto f = new File(filename,"rb");
+    auto t0 = Clock.currTime();
+    long buffercount = 0;
+    while(f.rawRead(inputbuffer)){
+      foreach(int i,byte b ; inputbuffer){
+        //Create the indexes for the xbinary format
+        
+      }
+      writef("%d %d\n",inputbuffer.length,buffercount);
+      delete inputbuffer; inputbuffer = new ubyte[buffersize];
+      buffercount++;
+    }
+    auto t1 = Clock.currTime();
+    
+    f.close();
+    writef("Filesize %d: took %d buffers in %d\n", filesize, buffercount, (t1-t0));
+    return buffercount;
+  }
+  
   /**
    *
    * Unit test for the binary_reader class

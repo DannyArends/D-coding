@@ -26,7 +26,6 @@ import std.math;
 import std.stdio;
 import std.conv;
 
-import textreader;
 import searching;
 
 pure T doMean(T)(T[] data){
@@ -71,17 +70,4 @@ real doCorrelation(T)(T[] d1, T[] d2){
     sumofsquares += (delta1 * delta2);
   }
   return (sumofsquares / (doStandardDeviation(d1)*doStandardDeviation(d2)));
-}
-
-void main(string[] args){
-  auto dataset = new TextReader();
-
-  uint individuals[] = doRange(19,100);
-  auto data1 = dataset.loadSubMatrix!double(args[1],individuals);
-  foreach(ref a; data1){
-    foreach(ref b; data1){ 
-      writef("%f\t", doCorrelation!double(a,b));
-    }
-    write("\n");
-  }
 }

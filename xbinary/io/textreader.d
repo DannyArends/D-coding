@@ -29,17 +29,122 @@ import std.string;
 import std.conv;
 import std.file;
 import std.regex;
+import std.datetime;
+import core.time;
+
+import xbinaryreader;
 
 class TextReader{
   string buffer;
   string[] entities;
+  uint buffersize = BUFFERSIZE.BUFFER_16KB;
+  long rowindex=0;
+  long colindex=0;
+    
+  void setBufferSize(uint customsize){
+    buffersize=customsize;
+  }
+  
+  void setBufferSize(BUFFERSIZE bsize){
+    buffersize=bsize;
+  }
+  
+    /*
+  * Loads a single item in a tab separated file to memory.
+  *
+  * @param filename to load
+  * @return Number of buffers needed to read in the entire file
+  */
+  int describeFile(string filename){
+    if(!exists(filename) || !isfile(filename)) return -1;
+    uint filesize = cast(uint)getSize(filename);
+    long linecount=0;
+    ubyte[] inputbuffer = new ubyte[buffersize];
+    
+    auto f = new File(filename,"rb");
+    auto t0 = Clock.currTime();
+    long buffercount = 0;
+    long tabscount = 0;
+    while(f.rawRead(inputbuffer)){
+      foreach(int i,byte b ; inputbuffer){
+        switch(cast(char)b){
+          case '\n':
+            linecount++;
+            break;
+          case '\t':
+            tabscount++;
+            break;
+          default: break;
+        }
+      }
+      delete inputbuffer; inputbuffer = new ubyte[buffersize];
+      buffercount++;
+    }
+    auto t1 = Clock.currTime();
+    f.close();
+    writef("Filesize %d: %d buffers %d lines, %d tabs in %d\n", filesize, buffercount, linecount, tabscount, (t1-t0));
+    return 1;
+  }
+    
+  /*
+  * Loads a single item from a tab separated file to memory.
+  *
+  * @param filename to load
+  * @return Number of buffers needed to read in the entire file
+  */
+  string loadToMemory(string filename, long row, long col){
+    if(!exists(filename) || !isfile(filename)) return "No such file";
+    uint filesize = cast(uint)getSize(filename);
+    long linecount=0;
+    ubyte[] inputbuffer = new ubyte[buffersize];
+    
+    auto f = new File(filename,"rb");
+    auto t0 = Clock.currTime();
+    long buffercount = 0;
+    long tabscount = 0;
+    long[] newline_indexes;
+    while(f.rawRead(inputbuffer)){
+      uint tabsi = 0;
+      uint tabei = 0;
+      foreach(int i,byte b ; inputbuffer){
+        switch(cast(char)b){
+          case '\n':
+            newline_indexes ~= (buffersize * buffercount) + i; 
+            /* Slice up the item at rowindex, colindex*/
+            if(row==rowindex && col==colindex) return(cast(string)inputbuffer[tabsi..(i-1)]);
+            tabsi=(i+1);
+            rowindex++;
+            if(rowindex > row) return "No such column"; // Exceptional situation, someone asked for a column that doesn't exist
+            colindex=0;
+            linecount++;
+            break;
+          case '\t':
+            tabscount++;
+            tabei=i;
+            /* Slice up the item at rowindex, colindex*/
+            if(row==rowindex && col==colindex){
+              return(cast(string)inputbuffer[tabsi..tabei]);
+            }
+            colindex++;
+            tabsi=(i+1); 
+            break;
+          default: break;
+        }
+      }
+      delete inputbuffer; inputbuffer = new ubyte[buffersize];
+      buffercount++;
+    }
+    auto t1 = Clock.currTime();
+    f.close();
+    return "No such row";
+  }
   
   T[][] loadSubMatrix(T)(string filename,uint[] columns){
     auto f = new File(filename,"rb");
     auto data = new T[][columns.length-1];
     ulong linecount = 0;
     if(isfile(filename)){
-      writefln("Filesize: %d", getSize(filename));
+      debug writefln("Filesize: %d", getSize(filename));
       while(f.readln(buffer)){
         entities = buffer.split("\t");
         if(linecount == 0){
