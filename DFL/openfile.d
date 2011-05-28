@@ -11,16 +11,16 @@ class OpenFileTab: dfl.tabcontrol.TabPage
 {
 	// Do not modify or move this block of variables.
 	//~Entice Designer variables begin here.
-	dfl.textbox.TextBox textBox2;
+	dfl.textbox.TextBox filenameBox;
 	dfl.button.Button selectBtn;
 	dfl.button.Button parseBtn;
 	dfl.button.Button rowBtn;
-	dfl.textbox.TextBox textBox3;
+	dfl.textbox.TextBox col_start;
 	dfl.button.Button subMatrixBtn;
-	dfl.textbox.TextBox textBox4;
+	dfl.textbox.TextBox row_start;
 	dfl.button.Button itemBtn;
-	dfl.textbox.TextBox textBox5;
-	dfl.textbox.TextBox textBox6;
+	dfl.textbox.TextBox row_end;
+	dfl.textbox.TextBox col_end;
 	dfl.label.Label label1;
 	dfl.label.Label label2;
 	dfl.button.Button colBtn;
@@ -41,11 +41,11 @@ class OpenFileTab: dfl.tabcontrol.TabPage
 		// Do not manually modify this function.
 		//~Entice Designer 0.8.5.02 code begins here.
 		//~DFL TabPage
-		//~DFL dfl.textbox.TextBox=textBox2
-		textBox2 = new dfl.textbox.TextBox();
-		textBox2.name = "textBox2";
-		textBox2.bounds = dfl.all.Rect(8, 8, 128, 24);
-		textBox2.parent = this;
+		//~DFL dfl.textbox.TextBox=filenameBox
+		filenameBox = new dfl.textbox.TextBox();
+		filenameBox.name = "filenameBox";
+		filenameBox.bounds = dfl.all.Rect(8, 8, 128, 24);
+		filenameBox.parent = this;
 		//~DFL dfl.button.Button=selectBtn
 		selectBtn = new dfl.button.Button();
 		selectBtn.name = "selectBtn";
@@ -64,38 +64,38 @@ class OpenFileTab: dfl.tabcontrol.TabPage
 		rowBtn.text = "Row";
 		rowBtn.bounds = dfl.all.Rect(8, 48, 64, 24);
 		rowBtn.parent = this;
-		//~DFL dfl.textbox.TextBox=textBox3
-		textBox3 = new dfl.textbox.TextBox();
-		textBox3.name = "textBox3";
-		textBox3.bounds = dfl.all.Rect(89, 80, 48, 24);
-		textBox3.parent = this;
+		//~DFL dfl.textbox.TextBox=col_start
+		col_start = new dfl.textbox.TextBox();
+		col_start.name = "col_start";
+		col_start.bounds = dfl.all.Rect(89, 80, 48, 24);
+		col_start.parent = this;
 		//~DFL dfl.button.Button=subMatrixBtn
 		subMatrixBtn = new dfl.button.Button();
 		subMatrixBtn.name = "subMatrixBtn";
 		subMatrixBtn.text = "SubMatrix";
 		subMatrixBtn.bounds = dfl.all.Rect(280, 80, 64, 24);
 		subMatrixBtn.parent = this;
-		//~DFL dfl.textbox.TextBox=textBox4
-		textBox4 = new dfl.textbox.TextBox();
-		textBox4.name = "textBox4";
-		textBox4.bounds = dfl.all.Rect(88, 48, 48, 24);
-		textBox4.parent = this;
+		//~DFL dfl.textbox.TextBox=row_start
+		row_start = new dfl.textbox.TextBox();
+		row_start.name = "row_start";
+		row_start.bounds = dfl.all.Rect(88, 48, 48, 24);
+		row_start.parent = this;
 		//~DFL dfl.button.Button=itemBtn
 		itemBtn = new dfl.button.Button();
 		itemBtn.name = "itemBtn";
 		itemBtn.text = "Item";
 		itemBtn.bounds = dfl.all.Rect(280, 48, 64, 24);
 		itemBtn.parent = this;
-		//~DFL dfl.textbox.TextBox=textBox5
-		textBox5 = new dfl.textbox.TextBox();
-		textBox5.name = "textBox5";
-		textBox5.bounds = dfl.all.Rect(216, 48, 48, 24);
-		textBox5.parent = this;
-		//~DFL dfl.textbox.TextBox=textBox6
-		textBox6 = new dfl.textbox.TextBox();
-		textBox6.name = "textBox6";
-		textBox6.bounds = dfl.all.Rect(217, 80, 48, 24);
-		textBox6.parent = this;
+		//~DFL dfl.textbox.TextBox=row_end
+		row_end = new dfl.textbox.TextBox();
+		row_end.name = "row_end";
+		row_end.bounds = dfl.all.Rect(216, 48, 48, 24);
+		row_end.parent = this;
+		//~DFL dfl.textbox.TextBox=col_end
+		col_end = new dfl.textbox.TextBox();
+		col_end.name = "col_end";
+		col_end.bounds = dfl.all.Rect(217, 80, 48, 24);
+		col_end.parent = this;
 		//~DFL dfl.label.Label=label1
 		label1 = new dfl.label.Label();
 		label1.name = "label1";
