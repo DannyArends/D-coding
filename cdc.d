@@ -206,6 +206,7 @@ int defaultBuild(string[] args)
 	{	switch (arg)
 		{	case "-verbose": verbose = true; break;
 			case "-dmd": compiler = "dmd"; break;
+      case "-dfl": compiler = "dfl"; break;
 			case "-gdc": compiler = "gdc"; break;
 			case "-ldc": compiler = "ldc"; break;
 			case "-run": run = true; options~="-run";  break;
