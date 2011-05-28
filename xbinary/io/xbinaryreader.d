@@ -38,13 +38,19 @@ class BinaryReader{
   ubyte[] buffer;
   uint buffersize = BUFFERSIZE.BUFFER_16KB;
   
-  void setBufferSize(uint customsize){
-    buffersize=customsize;
-  }
+ /*
+  * Sets the buffersize to a user-defined custom size
+  *
+  * @param uint with the custom size of the linebuffer
+  */
+  void setBufferSize(uint customsize){ buffersize=customsize; }
   
-  void setBufferSize(BUFFERSIZE bsize){
-    buffersize=bsize;
-  }
+ /*
+  * Sets the buffersize to a system-predefined size
+  *
+  * @param BUFFERSIZE of the linebuffer
+  */
+  void setBufferSize(BUFFERSIZE bsize){ buffersize=bsize; }
   
   /*
   * Load the indexing of our binary format to memory

@@ -21,6 +21,7 @@
  * Contains: main
  * 
  **/
+
 import std.stdio;
 import std.conv;
 
@@ -29,6 +30,7 @@ import textreader;
 import statistics;
 import textreader;
 import searching;
+import iofunctions;
  
 void main(string[] args){
   TextReader reader = new TextReader();
@@ -43,9 +45,17 @@ void main(string[] args){
     }
   }
   if(reader.describeFile(args[1])){
-    writef("%s",reader.loadToMemory(args[1],to!long(args[3]),to!long(args[4])));
-  } 
-  
+    stdout.flush();
+    string[][] item = reader.applyTo!string(args[1],&singleItem!string,to!long(args[3]),to!long(args[4]));
+    writef("single item: test: %s\n",item[0][0]);
+    stdout.flush();
+    string[][] row_items = reader.applyTo!string(args[1],&singleRow!string,to!long(args[3]));
+    writef("row test: %s %s %s\n",row_items[0][0],row_items[0][1],row_items[0][2]);
+    stdout.flush();
+    string[][] col_items = reader.applyTo!string(args[1],&singleColumn!string,to!long(args[3]));
+    writef("col test: %s %s %s\n",col_items[0][0],col_items[0][1],col_items[0][2]);
+    stdout.flush();
+  }
   //auto reader2 = new TextReader();
   //reader2.loadToMemory(args[1]);
 
