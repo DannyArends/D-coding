@@ -94,7 +94,7 @@ class OpenFileTab: dfl.tabcontrol.TabPage
 		//~DFL dfl.textbox.TextBox=col_end
 		col_end = new dfl.textbox.TextBox();
 		col_end.name = "col_end";
-		col_end.bounds = dfl.all.Rect(217, 80, 48, 24);
+		col_end.bounds = dfl.all.Rect(216, 80, 48, 24);
 		col_end.parent = this;
 		//~DFL dfl.label.Label=label1
 		label1 = new dfl.label.Label();
