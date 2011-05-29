@@ -19,7 +19,7 @@ private import std.conv;
 private void* getFunctionThroughVoid(HXModule shared_library, string functionname){
 	void* symbol = ExeModule_GetSymbol(shared_library, functionname);
 	if (symbol is null) {
-		write(("Failed to load OpenGL proc address " ~ functionname ~ ".\n\0").ptr);
+		writeln("Failed to load function address " ~ functionname);
 	}
 	return symbol;
 }
