@@ -9,9 +9,13 @@ Installation
 Compile with using dmd (and dfl) on %PATH%:
 
   $ dmd -run cdc.d -lib libload
+  
   $ dmd -run cdc.d -lib regression
+  
   $ dmd -run cdc.d xbinary -Ixbinary
+  
   $ dmd -run cdc.d xbinary -Ixbinary
+  
   $ dmd -run cdc.d -dfl DFL
 
 
