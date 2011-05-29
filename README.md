@@ -14,6 +14,19 @@ Compile with using dmd (and dfl) on %PATH%:
     $ dmd -run cdc.d xbinary -Ixbinary
     $ dmd -run cdc.d -dfl DFL
 
+Contributing
+------------
+
+Want to contribute? Great!
+
+1. Clone it.
+2. Compile it.
+3. Run it.
+4. Modify some code. (Search -> 'TODO')
+5. Go back to 2, or
+6. Submit a patch
+
+You can also just post comments on code / commits.
 Danny Arends
 
 Disclaimer
