@@ -1,6 +1,20 @@
 Some practice in D
 =================
 
+Installation
+------------
+- Download and install DMD
+- (Optional for GUI) Download and install DFL
+
+Compile with using dmd (and dfl) on %PATH%:
+
+  $ dmd -run cdc.d -lib libload
+  $ dmd -run cdc.d -lib regression
+  $ dmd -run cdc.d xbinary -Ixbinary
+  $ dmd -run cdc.d xbinary -Ixbinary
+  $ dmd -run cdc.d -dfl DFL
+
+
 Danny Arends
 
 Disclaimer
