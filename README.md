@@ -3,7 +3,7 @@ Some practice in D
 
 Installation
 ------------
-- Download and install DMD
+- Download and install DMD for D language 2.0+
 - (Optional for GUI) Download and install DFL
 
 Compile with using dmd (and dfl) on %PATH%:
