@@ -23,6 +23,8 @@
  * Contains: singleItem, singleRow, singleColumn, subMatrix
  * 
  **/
+module core.xbinary.io.iofunctions;
+ 
 import std.stdio;
 import std.conv;
 import core.vararg;

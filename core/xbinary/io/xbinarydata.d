@@ -21,6 +21,7 @@
  * Contains: DataSet, DataEntry
  * 
  **/
+module core.xbinary.io.xbinarydata;
 
 import std.math; 
 import std.stdio;

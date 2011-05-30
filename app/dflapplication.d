@@ -1,7 +1,8 @@
 import std.stdio;
 import dfl.all;
 
-import gui.dfl.openfiletab;
+import gui.dfl.mainform;
+import gui.dfl.openfile;
 import gui.dfl.abouttab;
 
 int main(){

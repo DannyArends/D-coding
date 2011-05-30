@@ -4,7 +4,7 @@
 	www.dprogramming.com/entice.php
 */
 
-module gui.opengl.abouttab;
+module gui.dfl.abouttab;
 
 import dfl.all;
 

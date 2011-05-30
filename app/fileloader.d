@@ -25,12 +25,12 @@
 import std.stdio;
 import std.conv;
 
-import xbinaryreader;
-import textreader;
-import statistics;
-import textreader;
-import searching;
-import iofunctions;
+import core.xbinary.io.xbinaryreader;
+import core.xbinary.io.textreader;
+import core.regression.statistics;
+import core.xbinary.io.textreader;
+import core.arrays.searching;
+import core.xbinary.io.iofunctions;
  
 void main(string[] args){
   TextReader reader = new TextReader();

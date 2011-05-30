@@ -21,7 +21,8 @@
  * Contains: TextReader
  * 
  **/
-
+module core.xbinary.io.textreader;
+ 
 import std.math; 
 import std.stdio;
 import std.array;
@@ -33,8 +34,8 @@ import std.datetime;
 import core.time;
 import core.vararg;
 
-import xbinaryreader;
-import iofunctions;
+import core.xbinary.io.xbinaryreader;
+import core.xbinary.io.iofunctions;
 
 class TextReader{
   string buffer;

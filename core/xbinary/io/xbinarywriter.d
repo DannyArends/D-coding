@@ -21,8 +21,7 @@
  * Contains: BinaryWriter
  * 
  **/
-
-module xbinary;
+module core.xbinary.io.xbinarywriter;
 
 import std.math; 
 import std.stdio;

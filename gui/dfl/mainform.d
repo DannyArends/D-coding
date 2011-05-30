@@ -4,7 +4,7 @@
 	www.dprogramming.com/entice.php
 */
 
-module gui.opengl.mainform;
+module gui.dfl.mainform;
 
 import std.stdio;
 import dfl.all;

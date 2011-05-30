@@ -9,17 +9,18 @@ Installation
 Compile with using dmd (and dfl) on %PATH%:
     
     #Pure Components
-    $ dmd -run cdc.d -lib core -ofCore.lib -Icore -Ideps  #Core: Depends on itself and deps
+    $ dmd -run cdc.d -lib core -ofCore.lib       #Core: Depends on itself and deps
+    $ dmd -run cdc.d -dfl -lib gui -ofGui.lib    #GUI: Depends on core and deps
     
     #Single application
-    $ dmd -run cdc.d app/fileloader -Icore                #Exp:     XBinary
-    $ dmd -run cdc.d -dfl app/dflapplication.d            #GUI:     DFL
+    $ dmd -run cdc.d app/fileloader.d Core.lib              #Exp: XBinary, depends Core.lib
+    $ dmd -run cdc.d -dfl app/dflapplication.d Gui.lib    #GUI: DFL, depends on Gui.lib
     
-    #External libraries (against Core.lib)
-    $ dmd -run cdc.d -lib deps/r Core.lib -ofR.lib -Icore
+    #External libraries (e.g. R against Core.lib)
+    $ dmd -run cdc.d -lib deps/r Core.lib -ofR.lib
     
     #D application linked versus Core.lib and R.DLL
-    $ dmd -run cdc.d app/regression.d Core.lib R.lib -Icore -Ideps
+    $ dmd -run cdc.d app/regression.d Core.lib R.lib
 
 Contributing
 ------------
