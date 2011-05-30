@@ -9,7 +9,7 @@ Installation
 Compile with using dmd (and dfl) on %PATH%:
     
     #Pure Components
-    $ dmd -run cdc.d -lib core -ofCore.lib       #Core: Depends on itself and deps
+    $ dmd -run cdc.d -lib core -ofCore.lib -Ideps       #Core: Depends on itself and deps
     $ dmd -run cdc.d -dfl -lib gui -ofGui.lib    #GUI: Depends on core and deps
     
     #Single application
@@ -20,7 +20,7 @@ Compile with using dmd (and dfl) on %PATH%:
     $ dmd -run cdc.d -lib deps/r Core.lib -ofR.lib
     
     #D application linked versus Core.lib and R.DLL
-    $ dmd -run cdc.d app/regression.d Core.lib R.lib
+    $ dmd -run cdc.d app/regression.d Core.lib R.lib -Ideps
 
 Contributing
 ------------

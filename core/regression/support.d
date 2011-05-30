@@ -24,11 +24,11 @@ import std.math;
 
 import core.regression.types;
 import core.regression.LUdecomposition;
-//import r.r;
+import r.r;
 
 double Lnormal(double residual, double variance){
-  return exp(-pow(residual/sqrt(variance),2.0)/2.0 - log(sqrt(2.0*PI*variance)));
-  //return dnorm(residual,0,sqrt(variance),0);
+  //return exp(-pow(residual/sqrt(variance),2.0)/2.0 - log(sqrt(2.0*PI*variance)));
+  return dnorm(residual,0,sqrt(variance),0);
 }
 
 dvector calculateparameters(uint nvariables, uint nsamples, dmatrix xt, dvector w, dvector y, int verbose){
