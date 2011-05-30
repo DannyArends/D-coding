@@ -1,14 +1,30 @@
-module libload.libload;
-//============================================================================
-// libLoad.d - Shared library loader
-//
-// Description: 
-//   Shared c and cpp library loader for the D language
-//
-// Version: 0.1
-// Contributors: Danny Arends
-// Written in the D Programming Language (http://www.digitalmars.com/d)
-//============================================================================
+/**
+ * \file libLoad.d - Shared library loader
+ * 
+ * Description: 
+ *   Shared c and cpp library loader for the D language
+ *
+ * Copyright (c) 2010 Danny Arends
+ *     This program is free software; you can redistribute it and/or
+ *     modify it under the terms of the GNU General Public License,
+ *     version 3, as published by the Free Software Foundation.
+ * 
+ *     This program is distributed in the hope that it will be useful,
+ *     but without any warranty; without even the implied warranty of
+ *     merchantability or fitness for a particular purpose.  See the GNU
+ *     General Public License, version 3, for more details.
+ * 
+ *     A copy of the GNU General Public License, version 3, is available
+ *     at http://www.r-project.org/Licenses/GPL-3
+ *
+ * Contains: 
+ * - pure: load_function, load_function
+ * - private: getFunctionThroughVoid, load_library
+ *
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **/
+module core.libload.libload;
+//D 2.0 std imports
 private import std.loader;
 private import std.stdio;
 private import std.conv;
@@ -16,7 +32,7 @@ private import std.conv;
 /*
  * Gets a function void* from a HXModule and functionname 
  */
-private void* getFunctionThroughVoid(HXModule shared_library, string functionname){
+protected void* getFunctionThroughVoid(HXModule shared_library, string functionname){
 	void* symbol = ExeModule_GetSymbol(shared_library, functionname);
 	if (symbol is null) throw new Exception("Failed to load function address " ~ functionname);
 	return symbol;
@@ -25,7 +41,7 @@ private void* getFunctionThroughVoid(HXModule shared_library, string functionnam
 /*
  * Loads a single shared library (dll, so, dylib)
  */
-private HXModule load_library(string library_prefix){
+protected HXModule load_library(string library_prefix){
   HXModule shared_library = null;
 	version (Windows) {
 		shared_library = ExeModule_Load(library_prefix ~ ".dll");
@@ -42,7 +58,7 @@ private HXModule load_library(string library_prefix){
 /*
  * Loads a single function (Opens the library_prefix file)
  */
-pure T load_function(T)(string library_prefix, string functionname) {
+T load_function(T)(string library_prefix, string functionname) {
   HXModule shared_library = load_library(library_prefix);
   T returnfunction = load_function!T(shared_library, functionname);
   debug writeln(functionname ~" function mapped from " ~ library_prefix);
@@ -52,6 +68,6 @@ pure T load_function(T)(string library_prefix, string functionname) {
 /*
  * Loads a single function (Needs a live reference to the library)
  */
-pure T load_function(T)(HXModule shared_library, string functionname) {
+T load_function(T)(HXModule shared_library, string functionname) {
   return (cast(T) getFunctionThroughVoid(shared_library, functionname));
 }

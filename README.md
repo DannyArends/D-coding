@@ -7,11 +7,19 @@ Installation
 - (Optional for GUI) Download and install DFL
 
 Compile with using dmd (and dfl) on %PATH%:
-
-    $ dmd -run cdc.d -lib libload -oflibload.lib
-    $ dmd -run cdc.d -lib regression -ofregression.lib
-    $ dmd -run cdc.d xbinary -Ixbinary
-    $ dmd -run cdc.d -dfl DFL
+    
+    #Pure Components
+    $ dmd -run cdc.d -lib core -ofCore.lib -Icore -Ideps  #Core: Depends on itself and deps
+    
+    #Single application
+    $ dmd -run cdc.d app/fileloader -Icore                #Exp:     XBinary
+    $ dmd -run cdc.d -dfl app/dflapplication.d            #GUI:     DFL
+    
+    #External libraries (against Core.lib)
+    $ dmd -run cdc.d -lib deps/r Core.lib -ofR.lib -Icore
+    
+    #D application linked versus Core.lib and R.DLL
+    $ dmd -run cdc.d app/regression.d Core.lib R.lib -Icore -Ideps
 
 Contributing
 ------------

@@ -8,9 +8,9 @@
 import std.stdio;
 import std.math;
 
-import types;
-import regression;
-import augmentation;
+import core.regression.types;
+import core.regression.regression;
+import core.regression.augmentation;
 
 void main(string[] args){
   writefln("Multiple linear regression in D");
@@ -18,5 +18,5 @@ void main(string[] args){
   dvector trait = [3.5,3.9,3.2,3.45,4.8];
   dvector weight = [1,1,1,1,1];
   ivector nullmodellayout = [1,1,1];
-  writefln("LOD = ",multipleregression(designmatrix,trait,weight,nullmodellayout,0));
+  writefln("LOD = %f",multipleregression(designmatrix,trait,weight,nullmodellayout,1));
 }

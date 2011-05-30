@@ -2,22 +2,36 @@
  * \file regression.D
  *
  * Copyright (c) 2010 Danny Arends
+ *     This program is free software; you can redistribute it and/or
+ *     modify it under the terms of the GNU General Public License,
+ *     version 3, as published by the Free Software Foundation.
  * 
+ *     This program is distributed in the hope that it will be useful,
+ *     but without any warranty; without even the implied warranty of
+ *     merchantability or fitness for a particular purpose.  See the GNU
+ *     General Public License, version 3, for more details.
+ * 
+ *     A copy of the GNU General Public License, version 3, is available
+ *     at http://www.r-project.org/Licenses/GPL-3
+ *
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
  **/
  
-module regression;
+module core.regression.regression;
  
 import std.stdio;
 import std.math;
 
-import types;
-import support;
+import core.regression.types;
+import core.regression.support;
 
 double multipleregression(dmatrix designmatrix, dvector y, dvector weight, ivector nullmodellayout,int verbose){
     if (designmatrix.length != weight.length) {
+      writefln("No weights for some individuals found");
       return 0;
     }
     if (designmatrix.length != y.length) {
+      writefln("No y variable for some individuals found");
       return 0;
     }
     double sum=0;
@@ -40,7 +54,7 @@ double likelihoodbyem(uint nvariables,uint nsamples, dmatrix x, dvector w, dvect
   double logLprev    = 0.0f;
   
   if(verbose){
-    writefln("Designmatrix:",x);
+    writefln("Designmatrix: %s",x);
   }
   
   dvector Fy = newdvector(nsamples);
@@ -57,7 +71,7 @@ double likelihoodbyem(uint nvariables,uint nsamples, dmatrix x, dvector w, dvect
     emcycle++;
   }
   
-  writefln("EM took ",emcycle,"/",maxemcycles," cycles");
+  writefln("EM took %d/%d cyclies", emcycle, maxemcycles);
   multivariateregression(nvariables,nsamples,x,w,y,Fy,false,nullmodellayout,2);
   return (logL);
 }
@@ -85,12 +99,12 @@ double multivariateregression(uint nvariables, uint nsamples, dmatrix x, dvector
   double  logLQTL   = calculateloglikelihood(nsamples, residual, w, variance, &Fy, verbose);
   
   if(verbose > 1){
-    writefln("Variance: ",variance);
-    writefln("Weights: ",w);
-    writefln("Estimated parameters: ",XtWY);
-    writefln("Estimated fit: ",fit);
-    writefln("Estimated residuals: ",residual);
-    writefln("Loglikelihood: ",logLQTL);
+    writefln("Variance: %f",variance);
+    writefln("Weights: %f",w);
+    writefln("Estimated parameters: %f",XtWY);
+    writefln("Estimated fit: %f",fit);
+    writefln("Estimated residuals: %f",residual);
+    writefln("Loglikelihood: %f",logLQTL);
   }
 
   return logLQTL;

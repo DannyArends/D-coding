@@ -4,6 +4,8 @@
 	www.dprogramming.com/entice.php
 */
 
+module gui.opengl.openfile;
+
 import dfl.all;
 
 

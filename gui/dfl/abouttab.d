@@ -4,8 +4,9 @@
 	www.dprogramming.com/entice.php
 */
 
-import dfl.all;
+module gui.opengl.abouttab;
 
+import dfl.all;
 
 class AboutTab: dfl.tabcontrol.TabPage
 {

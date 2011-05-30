@@ -4,10 +4,13 @@
 	www.dprogramming.com/entice.php
 */
 
+module gui.opengl.mainform;
+
 import std.stdio;
 import dfl.all;
-import openfiletab;
-import abouttab;
+
+import gui.dfl.openfile;
+import gui.dfl.abouttab;
 
 
 class DApplication: dfl.form.Form
@@ -217,27 +220,3 @@ class DApplication: dfl.form.Form
     helpBox.visible(!helpBox.visible());
   }
 }
-
-
-int main()
-{
-	int result = 0;
-	
-	try
-	{
-		//Application.enableVisualStyles();
-		
-		//@  Other application initialization code here.
-		
-		Application.run(new DApplication());
-	}
-	catch(Throwable o)
-	{
-		msgBox(o.toString(), "Fatal Error", MsgBoxButtons.OK, MsgBoxIcon.ERROR);
-		
-		result = 1;
-	}
-	
-	return result;
-}
-

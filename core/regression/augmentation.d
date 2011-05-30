@@ -2,20 +2,41 @@
  * \file augmentation.D
  *
  * Copyright (c) 2010 Danny Arends
+ *     This program is free software; you can redistribute it and/or
+ *     modify it under the terms of the GNU General Public License,
+ *     version 3, as published by the Free Software Foundation.
  * 
+ *     This program is distributed in the hope that it will be useful,
+ *     but without any warranty; without even the implied warranty of
+ *     merchantability or fitness for a particular purpose.  See the GNU
+ *     General Public License, version 3, for more details.
+ * 
+ *     A copy of the GNU General Public License, version 3, is available
+ *     at http://www.r-project.org/Licenses/GPL-3
+ *
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
  **/
  
-module augmentation;
+module core.regression.augmentation;
  
 import std.stdio;
 import std.math;
 
-import types;
-import support;
+private import core.regression.types;
+private import core.regression.support;
 
 
 double rf(double cmdistance){
   return (0.5*(1.0-exp(-0.02*cmdistance)));
+}
+
+const int RFUNKNOWN = 999;
+
+enum : char{
+  MLEFT = 'L',
+  MMIDDLE='M',
+  MRIGHT='R',
+  MUNLINKED='U',
 }
 
 dvector calcrf(cvector position, dvector mapdistance){
@@ -27,7 +48,7 @@ dvector calcrf(cvector position, dvector mapdistance){
       r[m]= rf(mapdistance[m+1]-mapdistance[m]);
       if (r[m]<0) {
         writefln("ERROR: Position=",position[m]," r[m]=",r[m]);
-        return;
+        return r;
       }
     }
   }
@@ -67,4 +88,5 @@ double augmentation(dmatrix markers, cvector positions, dvector rf, int verbose)
   for(uint i=1; i < markers.length; i++){
   
   }
+  return 0.0;
 }

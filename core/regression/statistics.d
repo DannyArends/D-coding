@@ -22,11 +22,13 @@
  * 
  **/
  
+module core.regression.statistics;
+ 
 import std.math; 
 import std.stdio;
 import std.conv;
 
-import searching;
+import core.arrays.searching;
 
 pure T doMean(T)(T[] data){
   T mean = 0;

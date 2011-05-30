@@ -19,8 +19,9 @@
  *     at http://www.r-project.org/Licenses/GPL-3
  *
  * Contains: doRange, searchArray, searchArrayBinary
- * 
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
  **/
+ module core.arrays.searching;
  
  pure uint[] doRange(int start,uint length){
   uint array[];
