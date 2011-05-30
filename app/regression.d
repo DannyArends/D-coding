@@ -1,5 +1,5 @@
 /**
- * \file main.D
+ * \file regression.D
  *
  * Copyright (c) 2010 Danny Arends
  * 
@@ -8,7 +8,10 @@
 import std.stdio;
 import std.math;
 
+import r.r;
+
 import core.regression.types;
+import core.regression.support;
 import core.regression.regression;
 import core.regression.augmentation;
 

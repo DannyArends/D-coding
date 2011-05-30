@@ -83,11 +83,15 @@ typedef double function(double, double, double, int) fpdnorm;
 typedef double function(double, double, double, int, int) fppnorm;
 typedef double function(double, double, double, int, int) fpqnorm;
 typedef double function(double, double) fprnorm;
+typedef double function(double) fplgamma;
+typedef double function(double, double, double, int, int) fpqf;
 
 fpdnorm			dnorm;
 fppnorm			pnorm;
 fpqnorm			qnorm;
 fprnorm			rnorm;
+fplgamma    gammln;
+fpqf        qf;
 
 static this(){
   HXModule lib = load_library("R");
@@ -95,5 +99,7 @@ static this(){
   pnorm = load_function!fppnorm(lib,"Rf_pnorm5");
   qnorm = load_function!fpqnorm(lib,"Rf_qnorm5");
   rnorm = load_function!fprnorm(lib,"Rf_rnorm");
+  gammln = load_function!fplgamma(lib,"Rf_lgammafn");
+  qf = load_function!fpqf(lib,"Rf_qf");
   writeln("Mapped R.dll");
 }

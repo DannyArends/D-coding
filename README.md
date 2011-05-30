@@ -21,6 +21,7 @@ Compile with using dmd (and dfl) on %PATH%:
     
     #D application linked versus Core.lib and R.DLL
     $ dmd -run cdc.d app/regression.d Core.lib R.lib -Ideps
+    $ regression
 
 Contributing
 ------------
