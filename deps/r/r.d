@@ -47,59 +47,48 @@ import r.r_ext.RS;
 
 import core.libload.libload;
 
-//R_internals.h
-
+//Additional enum defined in R_internals.h
 enum  SEXPTYPE : uint {
-    NILSXP	= 0,	/* nil = NULL */
-    SYMSXP	= 1,	/* symbols */
-    LISTSXP	= 2,	/* lists of dotted pairs */
-    CLOSXP	= 3,	/* closures */
-    ENVSXP	= 4,	/* environments */
-    PROMSXP	= 5,	/* promises: [un]evaluated closure arguments */
-    LANGSXP	= 6,	/* language constructs (special lists) */
-    SPECIALSXP	= 7,	/* special forms */
-    BUILTINSXP	= 8,	/* builtin non-special forms */
-    CHARSXP	= 9,	/* "scalar" string type (internal only)*/
-    LGLSXP	= 10,	/* logical vectors */
-    INTSXP	= 13,	/* integer vectors */
-    REALSXP	= 14,	/* real variables */
-    CPLXSXP	= 15,	/* complex variables */
-    STRSXP	= 16,	/* string vectors */
-    DOTSXP	= 17,	/* dot-dot-dot object */
-    ANYSXP	= 18,	/* make "any" args work */
-    VECSXP	= 19,	/* generic vectors */
-    EXPRSXP	= 20,	/* expressions vectors */
-    BCODESXP	= 21,	/* byte code */
-    EXTPTRSXP	= 22,	/* external pointer */
-    WEAKREFSXP	= 23,	/* weak reference */
-    RAWSXP	= 24,	/* raw bytes */
-    S4SXP	= 25,	/* S4 non-vector */
-    FUNSXP	= 99	/* Closure or Builtin */
+  NILSXP	= 0,	/* nil = NULL */
+  SYMSXP	= 1,	/* symbols */
+  LISTSXP	= 2,	/* lists of dotted pairs */
+  CLOSXP	= 3,	/* closures */
+  ENVSXP	= 4,	/* environments */
+  PROMSXP	= 5,	/* promises: [un]evaluated closure arguments */
+  LANGSXP	= 6,	/* language constructs (special lists) */
+  SPECIALSXP	= 7,	/* special forms */
+  BUILTINSXP	= 8,	/* builtin non-special forms */
+  CHARSXP	= 9,	/* "scalar" string type (internal only)*/
+  LGLSXP	= 10,	/* logical vectors */
+  INTSXP	= 13,	/* integer vectors */
+  REALSXP	= 14,	/* real variables */
+  CPLXSXP	= 15,	/* complex variables */
+  STRSXP	= 16,	/* string vectors */
+  DOTSXP	= 17,	/* dot-dot-dot object */
+  ANYSXP	= 18,	/* make "any" args work */
+  VECSXP	= 19,	/* generic vectors */
+  EXPRSXP	= 20,	/* expressions vectors */
+  BCODESXP	= 21,	/* byte code */
+  EXTPTRSXP	= 22,	/* external pointer */
+  WEAKREFSXP	= 23,	/* weak reference */
+  RAWSXP	= 24,	/* raw bytes */
+  S4SXP	= 25,	/* S4 non-vector */
+  FUNSXP	= 99	/* Closure or Builtin */
 };
 
 extern (C):
-//Rmath.h
+//These are the functions we map to D from Rmath.h
 typedef double function(double, double, double, int) fpdnorm;
-typedef double function(double, double, double, int, int) fppnorm;
-typedef double function(double, double, double, int, int) fpqnorm;
-typedef double function(double, double) fprnorm;
-typedef double function(double) fplgamma;
 typedef double function(double, double, double, int, int) fpqf;
 
+//These are the function pointers
 fpdnorm			dnorm;
-fppnorm			pnorm;
-fpqnorm			qnorm;
-fprnorm			rnorm;
-fplgamma    gammln;
 fpqf        qf;
 
+//Load the functions when the module is loaded
 static this(){
   HXModule lib = load_library("R");
   dnorm = load_function!fpdnorm(lib,"Rf_dnorm4");
-  pnorm = load_function!fppnorm(lib,"Rf_pnorm5");
-  qnorm = load_function!fpqnorm(lib,"Rf_qnorm5");
-  rnorm = load_function!fprnorm(lib,"Rf_rnorm");
-  gammln = load_function!fplgamma(lib,"Rf_lgammafn");
   qf = load_function!fpqf(lib,"Rf_qf");
   writeln("Mapped R.dll");
 }
