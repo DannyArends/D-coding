@@ -56,18 +56,26 @@ protected HXModule load_library(string library_prefix){
 }
 
 /*
- * Loads a single function (Opens the library_prefix file)
+ * Adds the operator call to load_function(T)(lib, name)
  */
-T load_function(T)(string library_prefix, string functionname) {
-  HXModule shared_library = load_library(library_prefix);
-  T returnfunction = load_function!T(shared_library, functionname);
-  debug writeln(functionname ~" function mapped from " ~ library_prefix);
-	return returnfunction;
+package struct function_binding(T) {
+  void opCall(HXModule lib, string name) {
+    *fptr = getFunctionThroughVoid(lib, name);
+  }
+
+  private{
+    void** fptr;
+  }
 }
 
 /*
  * Loads a single function (Needs a live reference to the library)
  */
-T load_function(T)(HXModule shared_library, string functionname) {
-  return (cast(T) getFunctionThroughVoid(shared_library, functionname));
+template load_function(T){
+  function_binding!(T) load_function(ref T a) {
+    function_binding!(T) res;
+    res.fptr = cast(void**)&a;
+    return res;
+  }
 }
+
