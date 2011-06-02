@@ -8,9 +8,9 @@ private import dfl.all;
 import std.stdio;
 import std.conv;
 import gl.gl;
-import gl.glu;
-import gl.glut;
-import glcontrol;
+import gl.gl_1_0;
+import gl.gl_1_1;
+import gui.opengl.glcontrol;
 
 class GameLoop: Timer{
   private GLControl glc;
@@ -38,7 +38,6 @@ class MyGLControl : GLControl{
       writef("After glviewport: %s\n",to!string(glGetError()));
       glEnable(GL_BLEND);
       glEnable(GL_TEXTURE_2D);
-      glEnable(GL_MULTISAMPLE);
       glEnable(GL_POLYGON_SMOOTH);
       writef("After Enables: %s\n",to!string(glGetError()));
       glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
@@ -47,7 +46,8 @@ class MyGLControl : GLControl{
       writef("After glMatrixMode PERSP: %s %X\n",to!string(glGetError()),GL_PROJECTION);
       glLoadIdentity(); //reset projection matrix
       writef("After LoadIdentity: %s\n",to!string(glGetError()));
-      gluPerspective(cast(GLfloat)54.0f, cast(GLfloat) bounds.width / cast(GLfloat) bounds.height, cast(GLfloat)1.0f, cast(GLfloat)1000.0f);
+      glFrustum (-1.0, 1.0, -1.0, 1.0, 1.5, 20.0);
+      //gluPerspective(cast(GLfloat)54.0f, cast(GLfloat) bounds.width / cast(GLfloat) bounds.height, cast(GLfloat)1.0f, cast(GLfloat)1000.0f);
       writef("After gluPerspective: %s\n",to!string(glGetError()));
       glMatrixMode(GL_MODELVIEW); //set modelview matrix
       writef("After glMatrixMode MODEL: %s\n",to!string(glGetError()));
