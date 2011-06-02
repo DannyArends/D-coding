@@ -5,6 +5,7 @@
  *   Wrapper for R.dll
  *
  * Copyright (c) 2010 Danny Arends
+ *
  *     This program is free software; you can redistribute it and/or
  *     modify it under the terms of the GNU General Public License,
  *     version 3, as published by the Free Software Foundation.
@@ -30,6 +31,8 @@ private import std.loader;
 private import std.stdio;
 private import std.conv;
 
+import core.libload.libload;
+
 import std.c.stdlib;
 import std.c.stdio;
 import std.c.math;
@@ -44,8 +47,6 @@ import r.r_ext.Print;
 import r.r_ext.Random;
 import r.r_ext.Utils;
 import r.r_ext.RS;
-
-import core.libload.libload;
 
 //Additional enum defined in R_internals.h
 enum  SEXPTYPE : uint {
@@ -77,18 +78,14 @@ enum  SEXPTYPE : uint {
 };
 
 extern (C):
-//These are the functions we map to D from Rmath.h
-typedef double function(double, double, double, int) fpdnorm;
-typedef double function(double, double, double, int, int) fpqf;
-
-//These are the function pointers
-fpdnorm			dnorm;
-fpqf        qf;
+  //These are the functions we map to D from Rmath.h
+  double function(double, double, double, int) dnorm;
+  double function(double, double, double, int, int) qf;
 
 //Load the functions when the module is loaded
 static this(){
   HXModule lib = load_library("R");
-  dnorm = load_function!fpdnorm(lib,"Rf_dnorm4");
-  qf = load_function!fpqf(lib,"Rf_qf");
-  writeln("Mapped R.dll");
+  load_function(dnorm)(lib,"Rf_dnorm4");
+  load_function(qf)(lib,"Rf_qf");
+  writeln("mapped R.dll");
 }
