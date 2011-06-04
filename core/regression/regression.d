@@ -20,10 +20,31 @@
 module core.regression.regression;
  
 import std.stdio;
+import std.conv;
 import std.math;
 
 import core.regression.types;
 import core.regression.support;
+
+void multipleregression_R(int* nvariables,int* nsamples, double* x, double* w, double* y,double* estparams, int* nullmodellayout,int* verbose, double* lodscore){
+  dvector xx = x[0..(*nvariables)*(*nsamples)];
+  dvector ww = w[0..(*nsamples)];
+  dvector yy = y[0..(*nsamples)];
+  ivector nullmodel = nullmodellayout[0..(*nvariables)];
+  
+  dmatrix designmatrix = vectortomatrix!double((*nsamples),(*nvariables),xx);
+  
+  (*lodscore)  = multipleregression(designmatrix, yy, ww, nullmodel,(*verbose));
+  
+  dmatrix Xt   = translatematrix((*nvariables),(*nsamples),designmatrix,(*verbose));
+  dvector XtWY = calculateparameters((*nvariables),(*nsamples),Xt,ww,yy,(*verbose));
+  for (uint i=0; i < cast(uint)(*nvariables); i++){
+    estparams[i] = XtWY[i];    
+  }
+  freematrix(Xt,(*nvariables));
+  freevector(XtWY);
+  if((*verbose)) writefln("lodscore: %f\n",(*lodscore));
+}
 
 double multipleregression(dmatrix designmatrix, dvector y, dvector weight, ivector nullmodellayout,int verbose){
     if (designmatrix.length != weight.length) {
@@ -42,7 +63,7 @@ double multipleregression(dmatrix designmatrix, dvector y, dvector weight, ivect
       writefln("No estimate of constant in model");
     }
     dvector estparams;
-    dvector wcopy = newdvector(weight);
+    dvector wcopy = copyvector!double(weight);
     return (2*likelihoodbyem(designmatrix[0].length, designmatrix.length, designmatrix, wcopy, y, verbose) - 2 * nullmodel(designmatrix[0].length, designmatrix.length, designmatrix, wcopy, y, nullmodellayout, verbose)) / 4.60517;
 }
 
@@ -57,8 +78,8 @@ double likelihoodbyem(uint nvariables,uint nsamples, dmatrix x, dvector w, dvect
     writefln("Designmatrix: %s",x);
   }
   
-  dvector Fy = newdvector(nsamples);
-  ivector nullmodellayout = newivector(nvariables);
+  dvector Fy = newvector!double(nsamples);
+  ivector nullmodellayout = newvector!int(nvariables);
   
   if(verbose > 1) writefln("Starting EM:");
   while((emcycle<maxemcycles) && (delta > 1.0e-9)){
@@ -77,7 +98,7 @@ double likelihoodbyem(uint nvariables,uint nsamples, dmatrix x, dvector w, dvect
 }
 
 double nullmodel(uint nvariables, uint nsamples, dmatrix x, dvector w, dvector y,ivector nullmodellayout,int verbose){
-  dvector Fy = newdvector(nsamples);
+  dvector Fy = newvector!double(nsamples);
   return multivariateregression(nvariables,nsamples,x,w,y,Fy,true,nullmodellayout,verbose);;
 }
 
@@ -93,8 +114,8 @@ double multivariateregression(uint nvariables, uint nsamples, dmatrix x, dvector
     }
   }
 
-  dvector fit = newdvector(nsamples);
-  dvector residual = newdvector(nsamples);
+  dvector fit = newvector!double(nsamples);
+  dvector residual = newvector!double(nsamples);
   double  variance  = calculatestatistics(nvariables, nsamples, Xt, XtWY, y, w, &fit, &residual,verbose);
   double  logLQTL   = calculateloglikelihood(nsamples, residual, w, variance, &Fy, verbose);
   

@@ -34,9 +34,9 @@ double Lnormal(double residual, double variance){
 dvector calculateparameters(uint nvariables, uint nsamples, dmatrix xt, dvector w, dvector y, int verbose){
   int d=0;
   double xtwj;
-  dmatrix XtWX = newdmatrix(nvariables, nvariables);
-  dvector XtWY = newdvector(nvariables);
-  ivector indx = newivector(nvariables);
+  dmatrix XtWX = newmatrix!double(nvariables, nvariables);
+  dvector XtWY = newvector!double(nvariables);
+  ivector indx = newvector!int(nvariables);
   if(verbose > 2) writefln("Calculating XtWX and XtWY");
   for(uint i=0; i<nsamples; i++){
     for(uint j=0; j<nvariables; j++){
@@ -55,7 +55,7 @@ dvector calculateparameters(uint nvariables, uint nsamples, dmatrix xt, dvector 
 }
 
 dmatrix translatematrix(int nvariables, int nsamples, dmatrix x, int verbose){
-  double[][] Xt = newdmatrix(nvariables,nsamples);
+  double[][] Xt = newmatrix!double(nvariables,nsamples);
   if(verbose > 2) writefln("Calculating Xt");
   for(uint i=0; i<nsamples; i++){
     for(uint j=0; j<nvariables; j++){
@@ -82,7 +82,7 @@ double calculatestatistics(uint nvariables, uint nsamples, dmatrix xt, dvector x
 
 double calculateloglikelihood(uint nsamples, dvector residual,dvector w, double variance, dvector* Fy,int verbose){
   double logL  = 0.0;
-  dvector indL = newdvector(nsamples);
+  dvector indL = newvector!double(nsamples);
 
   for (uint i=0; i<nsamples; i++){
     (*Fy)[i]  = Lnormal(residual[i],variance);

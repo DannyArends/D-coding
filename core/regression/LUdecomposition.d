@@ -29,8 +29,8 @@ import core.regression.support;
 bool LUdecompose(double[][] m, int dim, int[] ndx, int *d) {
   int r, c, rowmax, i;
   double max, temp, sum;
-  double[] swap = newdvector(dim);
-  double[] scale= newdvector(dim);
+  double[] swap = newvector!double(dim);
+  double[] scale= newvector!double(dim);
   *d=1;
   for (r=0; r<dim; r++) {
     for (max=0.0, c=0; c<dim; c++){
