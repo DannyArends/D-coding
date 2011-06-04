@@ -46,21 +46,21 @@ enum : int{
 
 
 class GLControl: Control{
-    GLContext _context;
-    protected win.gdi.HDC _hdc;
-    protected int[] _pixel_attribs;
+  GLContext _context;
+  protected win.gdi.HDC _hdc;
+  protected int[] _pixel_attribs;
     
-    /** Create a new GLControl 
+ /** Create a new GLControl 
      *  The optional argument pixelFormatAttribList allows one to customize the 
      *  type of GL visual that is requested.  Valid attribute names are drawn from
      *  DFL_GL_RGBA and related enum values.  Some enums take a 
      */
-    this(int[] pixelFormatAttribList = null) {
-      if(pixelFormatAttribList) _pixel_attribs = pixelFormatAttribList.dup;
-    }
+  this(int[] pixelFormatAttribList = null) {
+    if(pixelFormatAttribList) _pixel_attribs = pixelFormatAttribList.dup;
+  }
 
 
-    /** Create a new GLControl 
+ /** Create a new GLControl 
      *
      *  The arguemnt share_with specifies a GLContext with which to share display
      *  lists.  By default, display lists owned by one context are not visible
@@ -72,27 +72,27 @@ class GLControl: Control{
      *  DFL_GL_RGBA and related enum values.  Some enums take a parameter, in which
      *  case it is just provided inline along with the 
      */
-    this(GLContext share_with, int[] pixelFormatAttribList = null) { 
-      _context = share_with; 
-      if(pixelFormatAttribList) _pixel_attribs = pixelFormatAttribList.dup;
-    }
+  this(GLContext share_with, int[] pixelFormatAttribList = null) { 
+    _context = share_with; 
+    if(pixelFormatAttribList) _pixel_attribs = pixelFormatAttribList.dup;
+  }
 
-    override void onHandleCreated(EventArgs ea){
-      _hdc = GetDC(handle);
-      writef("Obtained Hardware Device: %s\n",_hdc);
-      setupPixelFormat();
+  override void onHandleCreated(EventArgs ea){
+    _hdc = GetDC(handle);
+    writef("Obtained Hardware Device: %s\n",_hdc);
+    setupPixelFormat();
 
-      createContext();
-      makeCurrent();
-      initGL();
+    createContext();
+    makeCurrent();
+    initGL();
 
-      // Always call resize at the beginning because resizing is usually a 
-      // part of init-ing and we don't want to do window-size related initializations
-      // in two places.
-      onResize(EventArgs.empty);
-      //invalidate();
-      super.onHandleCreated(ea);
-    }
+    // Always call resize at the beginning because resizing is usually a 
+    // part of init-ing and we don't want to do window-size related initializations
+    // in two places.
+    onResize(EventArgs.empty);
+    //invalidate();
+    super.onHandleCreated(ea);
+  }
     
     override void onHandleDestroyed(EventArgs ea){
       wglMakeCurrent(cast(dfl.internal.winapi.HANDLE)_hdc, null);
@@ -109,8 +109,8 @@ class GLControl: Control{
       pfd.nVersion = 1;
       pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
       pfd.iPixelType = PFD_TYPE_RGBA;
-      pfd.cColorBits = 16;
-      pfd.cAlphaBits = 8;
+      pfd.cColorBits = 32;
+      pfd.cAlphaBits = 4;
       pfd.cAccumBits = 0;
       pfd.cDepthBits = 8;
       pfd.cStencilBits = 8;
@@ -215,6 +215,7 @@ class GLControl: Control{
      *  It is current by default, so there is no need to call makeCurrent() first.
      */
     protected void initGL(){
+    
     }
 
     /** You may override the render() method instead of onPaint.

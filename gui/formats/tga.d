@@ -47,21 +47,47 @@ enum TgaType{
 
 struct tgaInfo{
 	int             status;
-  uint            textureID;
+  GLuint[]        textureID;
   short           width, height;
 	ubyte           type, pixelDepth;
  	ubyte[]         imageData;
 };
 
 class TGA{
-
+  tgaInfo* info;
+  
+  uint loadAsFont(){
+    glEnable(GL_TEXTURE_2D);
+    auto base = glGenLists(256);
+    glBindTexture(GL_TEXTURE_2D, info.textureID[0]);
+    for(int offset=0; offset<256; offset++){
+      float cx=cast(float)(offset%16)/16.0f;					// X Position Of Current Character
+      float cy=cast(float)(offset/16)/16.0f;					// Y Position Of Current Character
+      glNewList(base+offset,GL_COMPILE);					    // Start Building A List
+			glBegin(GL_QUADS);
+				glTexCoord2f(cx,1.0f-cy-0.0625f);			        // Texture Coord (Bottom Left)
+				glVertex2d(0,16);							                // Vertex Coord (Bottom Left)
+				glTexCoord2f(cx+0.0625f,1.0f-cy-0.0625f);	    // Texture Coord (Bottom Right)
+				glVertex2i(16,16);							              // Vertex Coord (Bottom Right)
+				glTexCoord2f(cx+0.0625f,1.0f-cy-0.001f);	    // Texture Coord (Top Right)
+				glVertex2i(16,0);							                // Vertex Coord (Top Right)
+				glTexCoord2f(cx,1.0f-cy-0.001f);		        	// Texture Coord (Top Left)
+				glVertex2i(0,0);							                // Vertex Coord (Top Left)
+			glEnd();
+			glTranslated(14,0,0);							              // Move To The Right Of The Character
+      glEndList();
+    }
+    glDisable(GL_TEXTURE_2D);
+    return base;
+  }
+  
   bool load(string filename){
     if(!exists(filename) || !isfile(filename)) return false;
     writefln("Opening tga-file: %s",filename);
     
     ubyte cGarbage;
     short iGarbage;
-    tgaInfo* info;
+    info = new tgaInfo();
     ubyte aux;
     GLuint type=GL_RGBA;
     auto fp = new File(filename,"rb");
@@ -97,7 +123,7 @@ class TGA{
       info.status = TgaType.TGA_ERROR_MEMORY;
       fp.close(); return false;
     }
-    fread(&info.imageData,ubyte.sizeof,total,f);
+    fread(&(info.imageData[0]),ubyte.sizeof,total,f);
     if(mode >= 3){
       for(uint i=0; i < total; i+= mode) {
         aux = info.imageData[i];
@@ -105,17 +131,23 @@ class TGA{
         info.imageData[i+2] = aux;
       }
     }
-    glGenTextures(1, &(info.textureID));					// Generate OpenGL texture IDs
-    glBindTexture(GL_TEXTURE_2D, info.textureID);			// Bind Our Texture
+    info.textureID  = new GLuint[1];
+    glEnable(GL_TEXTURE_2D);
+    writef("After GL_TEXTURE_2D: %s\n",to!string(glGetError()));
+    glGenTextures(3, &(info.textureID[0]));					// Generate OpenGL texture IDs
+    writef("After glGenTextures: %s\n",to!string(glGetError()));
+    glBindTexture(GL_TEXTURE_2D, info.textureID[0]);			// Bind Our Texture
+    writef("After glBindTexture: %s\n",to!string(glGetError()));
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);	// Linear Filtered
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);	// Linear Filtered
 	  if (info.pixelDepth == 24){
       type=GL_RGB;
     }
-    glTexImage2D(GL_TEXTURE_2D, 0, type, info.width, info.height, 0, type, GL_UNSIGNED_BYTE, cast(void*)info.imageData);
+    glTexImage2D(GL_TEXTURE_2D, 0, type, info.width, info.height, 0, type, GL_UNSIGNED_BYTE, &(info.imageData[0]));
+    glDisable(GL_TEXTURE_2D);
     info.status = TgaType.TGA_OK;
     fp.close();
-    writefln("Loaded tga-file: %s to buffer: %d",filename,info.textureID);
+    writefln("Loaded tga-file: %s to texture-buffer: %d",filename,info.textureID);
     return true;
   }
 }

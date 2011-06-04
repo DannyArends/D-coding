@@ -33,6 +33,12 @@ import std.conv;
 import std.file;
 import std.regex;
 
+private import core.arrays.algebra;
+
+private import gl.gl_1_0;
+private import gl.gl_1_1;
+private import gl.gl_ext;
+
 struct vertextype{
   int boneID;
   float v[3];
@@ -66,9 +72,92 @@ struct object3ds{
 class model3ds{
   object3ds[] objects;
   material3ds[] materials;
+  bool buffered = false;
   
   this(){
   
+  }
+  
+  void buffer(){
+    // Generate And Bind The Vertex Buffer
+    //GLuint* buffernum;
+    //glGenBuffersARB(1, &buffernum[0]);					// Get A Valid Name
+    //writefln("Generating vertexbuffer %d %d",(*buffernum));
+  	
+    foreach(object3ds model;objects){
+      int cnt=0;    
+      GLfloat verticesunpacked[];
+      verticesunpacked.length = 9*model.polygon.length;
+      ubyte[] colorunpacked;
+      colorunpacked.length = 12*model.polygon.length;
+      for(int x=0;x<model.polygon.length;x++){
+        for(int triside=0;triside<3;triside++){
+          for(int sideloc=0;sideloc<3;sideloc++){
+            int vertexnum = model.polygon[x].p[triside];
+            if(vertexnum >= model.vertex.length){
+              writefln("Model %s contains incomplete polygon at %d",model.name,x);
+              vertexnum=1;
+            }
+              verticesunpacked[cnt] = model.vertex[vertexnum].v[sideloc];
+              cnt++;
+            }
+          }
+        }
+    
+      //glBindBufferARB( GL_ARRAY_BUFFER_ARB, (*buffernum) );			// Bind The Buffer
+      //glBufferDataARB( GL_ARRAY_BUFFER_ARB, model.polygon.length*9*GLfloat.sizeof, cast(void*)&verticesunpacked, GL_DYNAMIC_DRAW_ARB );
+     // glGenBuffersARB(1, buffernum); 
+      cnt=0;
+      for(int x=0;x<model.polygon.length;x++){
+        //int matnum = findmaterial(model.polygon[x].materialname);   //Find material for this edge
+        for(int triside=0;triside<3;triside++){
+          for(int color=0;color<4;color++){
+            colorunpacked[cnt] = 0;//cast(ubyte)materials[0].ambient[color];   //Set color
+            cnt++;
+          }
+        }
+      }
+     // glBindBufferARB(GL_ARRAY_BUFFER_ARB, (*buffernum));
+      //glBufferDataARB(GL_ARRAY_BUFFER_ARB, model.polygon.length*12*ubyte.sizeof, &colorunpacked, GL_DYNAMIC_DRAW_ARB);
+    }
+    buffered = true;
+    writefln("Buffering done");
+  }
+  
+  
+  void render(){
+    float     triangle[3][3];
+    float     normal[3];
+    
+    foreach(object3ds model;objects){
+      glPushMatrix();
+      //glTranslatef(x, y, z);
+      glScalef(  0.1f,  0.1f, 0.1f);
+      glRotatef( 90.0f,-1.0f, 0.0f, 0.0f);  
+      for(int x=0;x<model.polygon.length;x++){
+        for(int triside=0;triside<3;triside++){
+          for(int sideloc=0;sideloc<3;sideloc++){
+            int vertexnum = model.polygon[x].p[triside];
+            triangle[triside][sideloc] = model.vertex[vertexnum].v[sideloc];
+            normal = trianglefindnormal!float(triangle);
+          }
+        }
+        glColor3f(1.0f, 0.0f, 0.0f);
+
+        glBegin(GL_TRIANGLES);
+        glNormal3f(normal[0], normal[1], normal[2]);
+        glTexCoord2f(model.mapcoord[model.polygon[x].p[0]].u,model.mapcoord[model.polygon[x].p[0]].v);
+        glVertex3f(triangle[0][0],triangle[0][1],triangle[0][2]); //Vertex definition
+
+        glTexCoord2f(model.mapcoord[model.polygon[x].p[1]].u,model.mapcoord[model.polygon[x].p[1]].v);
+        glVertex3f(triangle[1][0],triangle[1][1],triangle[1][2]); //Vertex definition
+
+        glTexCoord2f(model.mapcoord[model.polygon[x].p[2]].u,model.mapcoord[model.polygon[x].p[2]].v);
+        glVertex3f(triangle[2][0],triangle[2][1],triangle[2][2]); //Vertex definition
+        glEnd();
+      }
+      glPopMatrix();
+    }
   }
 
   bool load(string filename){
@@ -132,6 +221,7 @@ class model3ds{
           fread(&l_qty, ushort.sizeof, 1, f);            
           for(uint i=0; i<l_qty; i++){
             fread(&temp, ushort.sizeof, 1, f);
+            model.polygon[temp].material=materialname;
           }
       break;
       case 0xAFFF: break;
