@@ -7,103 +7,25 @@
 private import dfl.all;
 import std.stdio;
 import std.conv;
-import gl.gl;
-import gl.gl_1_0;
-import gl.gl_1_1;
-import gui.opengl.glcontrol;
-import gui.formats.object3ds;
 
-class GameLoop: Timer{
-  private GLControl glc;
-  this (uint fps, GLControl glc){
-    this.glc = glc;
-    this.interval = 1000/fps;
-  }
-    
-  override void onTick(EventArgs ea){
-    glc.invalidate();
-  }
-}
-
-class MyGLControl : GLControl{
-  protected float angley_ = 0.00f;
-  protected float anglex_ = 0.00f;
-
-  this(){
-  }
-
-  protected:
-    override void onResize(EventArgs ea){
-      makeCurrent();
-      glViewport(0, 0, bounds.width, bounds.height);
-      writef("After glviewport: %s\n",to!string(glGetError()));
-      glEnable(GL_BLEND);
-      glEnable(GL_TEXTURE_2D);
-      glEnable(GL_POLYGON_SMOOTH);
-      writef("After Enables: %s\n",to!string(glGetError()));
-      glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
-      glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-      glMatrixMode(GL_PROJECTION);
-      writef("After glMatrixMode PERSP: %s %X\n",to!string(glGetError()),GL_PROJECTION);
-      glLoadIdentity(); //reset projection matrix
-      writef("After LoadIdentity: %s\n",to!string(glGetError()));
-      glFrustum (-1.0, 1.0, -1.0, 1.0, 1.5, 20.0);
-      //gluPerspective(cast(GLfloat)54.0f, cast(GLfloat) bounds.width / cast(GLfloat) bounds.height, cast(GLfloat)1.0f, cast(GLfloat)1000.0f);
-      writef("After gluPerspective: %s\n",to!string(glGetError()));
-      glMatrixMode(GL_MODELVIEW); //set modelview matrix
-      writef("After glMatrixMode MODEL: %s\n",to!string(glGetError()));
-      glLoadIdentity(); //reset modelview matrix
-      writef("After load ID %s\n",to!string(glGetError()));
-      invalidate();
-    }
-
-    override void initGL() {
-      glClearColor(1.0f,1.0f,0.3f,0.0f);
-    }
-
-    override void render(){
-      makeCurrent();
-      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-      glLoadIdentity();
-      //writef("After clear & ident %s\n",to!string(glGetError()));
-      anglex_ += 2.11;
-      angley_ += 4.;
-      if (anglex_>360.0) anglex_ -= 360.0f;
-      if (angley_>360.0) angley_ -= 360.0f;
-
-      glTranslatef(0.0f, 0.0f, -6.0f);
-      //writef("After translate %s\n",to!string(glGetError()));
-      glRotatef(angley_, 0.0f,1.0f,0.0f);
-      glRotatef(anglex_, 0.1f,0.0f,0.0f);
-      //writef("After rotate %s\n",to!string(glGetError()));
-      glBegin(GL_TRIANGLES);
-        glColor3f(0.2,0.5,1.0); glVertex3f( 0.0f, 1.0f, 0.0f);      // Top
-        glColor3f(1.0,0.2,0.5); glVertex3f(-1.0f,-1.0f, 0.0f);      // Bottom Left
-        glColor3f(0.5,1.0,0.2); glVertex3f( 1.0f,-1.0f, 0.0f);      // Bottom Right
-      glEnd();                                                    // Finished Drawing
-      //writef("After triangles %s\n",to!string(glGetError()));
-      swapBuffers();
-      //writef("Executed opengltest.render() %s\n",to!string(glGetError()));
-      stdout.flush();
-    }
-}
+import gui.opengl.glengine;
+import gui.opengl.gltimer;
 
 class opengltest: dfl.form.Form
 {
     // Do not modify or move this block of variables.
     //~Entice Designer variables begin here.
-    MyGLControl glcontrol;
+    RenderingEngine glcontrol;
     dfl.panel.Panel ctrlPanel;
     dfl.button.Button exitButton;
     //~Entice Designer variables end here.
-    
-    GameLoop gameloop;
+    glTimer gameloop;
     
     this(){
       createMenu();
       initializeOpengltest();
       // Other opengltest initialization code here.
-      gameloop = new GameLoop(120, glcontrol);
+      gameloop = new glTimer(120, glcontrol);
       gameloop.start();
       exitButton.click ~= &fileExitClick;
     }
@@ -143,7 +65,7 @@ class opengltest: dfl.form.Form
         exitButton.bounds = dfl.all.Rect(0, 0, 98, 23);
         exitButton.parent = ctrlPanel;
         //~DFL GlControl:dfl.label.Label=glcontrol
-        glcontrol = new MyGLControl();
+        glcontrol = new RenderingEngine();
         glcontrol.name = "glcontrol";
         glcontrol.dock = dfl.all.DockStyle.FILL;
         glcontrol.bounds = dfl.all.Rect(100, 0, 404, 365);
@@ -162,8 +84,6 @@ class opengltest: dfl.form.Form
 int main(){
   int result = 0;
   try{
-    auto object = new model3ds();
-    object.load("models/humanoid.3ds");
     Application.run(new opengltest());
   }catch(Throwable o){
     msgBox(o.toString(), "Fatal Error", MsgBoxButtons.OK, MsgBoxIcon.ERROR);
