@@ -59,8 +59,13 @@ protected HXModule load_library(string library_prefix){
  * Adds the operator call to load_function(T)(lib, name)
  */
 package struct function_binding(T) {
-  void opCall(HXModule lib, string name) {
-    *fptr = getFunctionThroughVoid(lib, name);
+  bool opCall(HXModule lib, string name) {
+    try{
+      *fptr = getFunctionThroughVoid(lib, name);
+      return true;
+    }catch(Exception e){
+      return false;
+    }
   }
 
   private{
@@ -78,4 +83,3 @@ template load_function(T){
     return res;
   }
 }
-
