@@ -133,11 +133,8 @@ class TGA{
     }
     info.textureID  = new GLuint[1];
     glEnable(GL_TEXTURE_2D);
-    writef("After GL_TEXTURE_2D: %s\n",to!string(glGetError()));
     glGenTextures(3, &(info.textureID[0]));					// Generate OpenGL texture IDs
-    writef("After glGenTextures: %s\n",to!string(glGetError()));
     glBindTexture(GL_TEXTURE_2D, info.textureID[0]);			// Bind Our Texture
-    writef("After glBindTexture: %s\n",to!string(glGetError()));
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);	// Linear Filtered
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);	// Linear Filtered
 	  if (info.pixelDepth == 24){
