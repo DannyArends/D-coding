@@ -11,6 +11,7 @@ import gl.gl;
 import gl.gl_1_0;
 import gl.gl_1_1;
 import gui.opengl.glcontrol;
+import gui.formats.object3ds;
 
 class GameLoop: Timer{
   private GLControl glc;
@@ -161,6 +162,8 @@ class opengltest: dfl.form.Form
 int main(){
   int result = 0;
   try{
+    auto object = new model3ds();
+    object.load("models/humanoid.3ds");
     Application.run(new opengltest());
   }catch(Throwable o){
     msgBox(o.toString(), "Fatal Error", MsgBoxButtons.OK, MsgBoxIcon.ERROR);

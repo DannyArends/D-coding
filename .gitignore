@@ -6,3 +6,4 @@
 *.lib
 *.h
 old/
+models/

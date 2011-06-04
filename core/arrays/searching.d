@@ -21,9 +21,10 @@
  * Contains: doRange, searchArray, searchArrayBinary
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **/
- module core.arrays.searching;
+
+module core.arrays.searching;
  
- pure uint[] doRange(int start,uint length){
+pure uint[] doRange(int start,uint length){
   uint array[];
   for(uint i = 0; i < (length-1); i++){
    array ~= start+i;
