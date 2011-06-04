@@ -78,6 +78,7 @@ class model3ds{
     string objectname   = "";
     string texturename  = "";
     object3ds* model;
+    material3ds* material;
     char r, g, b;
     ushort l_chunk_id;
     uint l_chunk_length;
@@ -101,6 +102,7 @@ class model3ds{
         }while(l_char != '\0');
         if(model!=null) objects ~= (*model);
         model = new object3ds();
+        model.name = objectname;
       break; 
       case 0x4100: break; 
       case 0x4110: 
@@ -127,9 +129,9 @@ class model3ds{
             fread(&l_char, 1, 1, f);
             materialname ~= l_char;
           }while(l_char != '\0');
-          fread (&l_qty, ushort.sizeof, 1, f);            
+          fread(&l_qty, ushort.sizeof, 1, f);            
           for(uint i=0; i<l_qty; i++){
-            fread (&temp, ushort.sizeof, 1, f);
+            fread(&temp, ushort.sizeof, 1, f);
           }
       break;
       case 0xAFFF: break;
@@ -139,6 +141,9 @@ class model3ds{
           fread (&l_char, 1, 1, f);
           materialname ~= l_char;
         }while(l_char != '\0');
+        if(material!=null) materials ~= (*material);
+        material = new material3ds();
+        material.name = materialname;
       break;       
       case 0xA010:
         is_diffuse = false;is_specular = false;is_ambient = true;
@@ -156,23 +161,24 @@ class model3ds{
           fread(&l_char, 1, 1, f);
           texturename ~= l_char;
         }while(l_char != '\0');
+        material.texture = texturename;
       break;
       case 0x0011:
         fread(&r, char.sizeof, 1, f);
         fread(&g, char.sizeof, 1, f);
         fread(&b, char.sizeof, 1, f);
         if(is_diffuse){
-          //material->diffuse[0] = GetRValue(RGB(r,g,b));
-          //material->diffuse[1] = GetGValue(RGB(r,g,b));
-          //material->diffuse[2] = GetBValue(RGB(r,g,b));                            
+          material.diffuse[0] = r;
+          material.diffuse[1] = g;
+          material.diffuse[2] = b;
         }else if(is_ambient){
-          //material->ambient[0] = GetRValue(RGB(r,g,b));
-          //material->ambient[1] = GetGValue(RGB(r,g,b));
-          //material->ambient[2] = GetBValue(RGB(r,g,b));  
+          material.ambient[0] = r;
+          material.ambient[1] = g;
+          material.ambient[2] = b;
         }else if(is_specular){
-          //material->specular[0] = GetRValue(RGB(r,g,b));
-          //material->specular[1] = GetGValue(RGB(r,g,b));
-          //material->specular[2] = GetBValue(RGB(r,g,b));  
+          material.specular[0] = r;
+          material.specular[1] = g;
+          material.specular[2] = b;
         }       
       break;
       case 0x4140:
@@ -188,8 +194,10 @@ class model3ds{
       break;
     } 
   }
+  if(model!=null) objects ~= (*model);
+  if(material!=null) materials ~= (*material);
   fp.close();
-  writefln("Loaded 3ds-file: %s, %d objects",filename, objects.length);
+  writefln("Loaded 3ds-file: %s, %d objects, %d materials",filename, objects.length,materials.length);
   return true;
   }
 }
