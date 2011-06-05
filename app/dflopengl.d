@@ -28,7 +28,6 @@ class mainForm: dfl.form.Form
       // Other opengltest initialization code here.
       gameloop = new glTimer(210, glcontrol);
       gameloop.start();
-      glcontrol.click ~= &glClick;
       addShortcut(Keys.LEFT, &glKey); 
       addShortcut(Keys.RIGHT, &glKey);
       addShortcut(Keys.UP, &glKey);
@@ -131,10 +130,6 @@ class mainForm: dfl.form.Form
   
   void fileOpenClick(Object sender, EventArgs ea){
     writefln("FileOpen clicked");
-  }
-  
-  void glClick(Object sender, EventArgs ea){
-    writefln("%s",ea);
   }
   
   void glKey(Object sender, FormShortcutEventArgs ea){

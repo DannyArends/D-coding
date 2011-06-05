@@ -10,7 +10,7 @@ import std.math;
 
 import r.r;
 
-import core.regression.types;
+import core.typedefs.types;
 import core.regression.support;
 import core.regression.regression;
 import core.regression.augmentation;
