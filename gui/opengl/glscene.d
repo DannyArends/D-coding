@@ -77,8 +77,8 @@ class Scene{
     if (angley_>360.0) angley_ -= 360.0f;
 
     glTranslatef(0.0f, 0.0f, -6.0f);
-    glRotatef(angley_, 0.0f,1.0f,0.0f);
-    glRotatef(anglex_, 0.1f,0.0f,0.0f);
+//    glRotatef(angley_, 0.0f,1.0f,0.0f);
+  //  glRotatef(anglex_, 0.1f,0.0f,0.0f);
     glBegin(GL_TRIANGLES);
       glColor3f(0.2,0.5,1.0); glVertex3f( 0.0f, 1.0f, 0.0f);      // Top
       glColor3f(1.0,0.2,0.5); glVertex3f(-1.0f,-1.0f, 0.0f);      // Bottom Left

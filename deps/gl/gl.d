@@ -30,12 +30,13 @@ template load_extension(T){
  * binding of a single extension
  */
 package struct ext_binding(T) {
-  bool opCall(string name){
+  bool opCall(string name,bool verbose = false, string msg = "Bound extension"){
     void *func = wglGetProcAddress(&name.dup[0]);
     if(!func){
       writeln("Cannot bind extension: " ~ name);
       return false;
     }else{
+      if(verbose) writeln(msg ~ ": " ~ name);
       *eptr = func;
       return true;
     }

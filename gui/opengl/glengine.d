@@ -27,8 +27,12 @@ module gui.opengl.glengine;
 private import dfl.all;
 import std.stdio;
 import std.conv;
+import std.datetime;
+import core.time;
+
 import gl.gl;
 import gl.gl_1_0;
+import gl.gl_ext;
 import gui.opengl.glcontrol;
 import gui.opengl.glscene;
 import gui.opengl.glhud;
@@ -52,13 +56,20 @@ class RenderingEngine : GLControl{
 
     override void initGL() {
       glClearColor(1.0f,1.0f,0.3f,0.0f);
+      load_extensions();
+      load_VBO_extensions();
       screen = new Scene(bounds.width, bounds.height);
       hud = new Hud(bounds.width, bounds.height);
     }
 
     override void render(){
+      auto t0 = Clock.currTime();
       screen.render();
+      auto t1 = Clock.currTime();
       hud.render();
+      auto t2 = Clock.currTime();
       swapBuffers();
+      auto t3 = Clock.currTime();
+      writefln("Screen:%d,Hud:%d,swap:%d,total:%d",(t1-t0),(t2-t1),(t3-t2),(t3-t0));
     }
 }

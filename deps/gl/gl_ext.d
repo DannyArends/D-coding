@@ -16,11 +16,23 @@ static bool isArbBufferEnabled(){
 }
 
 bool load_VBO_extensions(){
-  if(!load_extension(glBindBufferARB)("glBindBufferARB")) return false;
+  if(!load_extension(glBindBufferARB)("glBindBufferARB")){
+    if(!load_extension(glBindBufferARB)("glBindBuffer",true,"OpenGL 1.5 fail-safe")){  
+      return false;
+    }
+  }
   if(!load_extension(glDeleteBuffersARB)("glDeleteBuffersARB")) return false;
-  if(!load_extension(glGenBuffersARB)("glGenBuffersARB")) return false;
-  if(!load_extension(glIsBufferARB)("glIsBufferARB")) return false;
-  if(!load_extension(glBufferDataARB)("glBufferDataARB")) return false;
+  if(!load_extension(glGenBuffersARB)("glGenBuffersARB")){ //fall over to opengl 1.5
+    if(!load_extension(glGenBuffersARB)("glGenBuffers",true,"OpenGL 1.5 fail-safe")){
+      return false;
+    }
+  }
+  if(!load_extension(glIsBufferARB)("glIsBufferARB")) arb_buffer_enabled= false;
+  if(!load_extension(glBufferDataARB)("glBufferDataARB")){ //fall over to opengl 1.5
+    if(!load_extension(glBufferDataARB)("glBufferData",true,"OpenGL 1.5 fail-safe")){
+      return false;
+    }
+  }
   if(!load_extension(glBufferSubDataARB)("glBufferSubDataARB")) return false;
   if(!load_extension(glMapBufferARB)("glMapBufferARB")) return false;
   if(!load_extension(glUnmapBufferARB)("glUnmapBufferARB")) return false;

@@ -29,7 +29,7 @@ We can map external libraries e.g. R.dll, Windows (GDI32.dll + Kernel.dll), Open
     $ regression.exe
     
     #D application linked versus Gui.lib, OpenGL.lib and Windows.lib
-    $ dmd -run cdc.d -dfl app/dflopengl.d Gui.lib OpenGL.lib Windows.lib -Ideps
+    $ dmd -run cdc.d -dfl app/dflopengl.d Gui.lib OpenGL.lib Windows.lib Core.lib -Ideps
     $ dflopengl.exe
 
 Contributing

@@ -110,11 +110,11 @@ class GLControl: Control{
       pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
       pfd.iPixelType = PFD_TYPE_RGBA;
       pfd.cColorBits = 32;
-      pfd.cAlphaBits = 4;
+      pfd.cAlphaBits = 8;
       pfd.cAccumBits = 0;
-      pfd.cDepthBits = 8;
+      pfd.cDepthBits = 24;
       pfd.cStencilBits = 8;
-      pfd.cAuxBuffers = 0;
+      pfd.cAuxBuffers = 4;
       pfd.iLayerType = PFD_MAIN_PLANE;
         
       dfl.internal.winapi.PIXELFORMATDESCRIPTOR winpfd = cast(dfl.internal.winapi.PIXELFORMATDESCRIPTOR) pfd;
