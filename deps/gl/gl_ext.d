@@ -4,7 +4,7 @@ import std.loader;
 import std.stdio;
 import std.conv;
 import std.c.stdarg;
-
+private import gl.gl;
 private import gl.gl_1_0;
 
 import core.libload.libload;
@@ -15,22 +15,20 @@ static bool isArbBufferEnabled(){
   return arb_buffer_enabled;
 }
 
-//Load the functions when the module is loaded
-static this(){
-  HXModule lib = load_library("opengl32");
-  // gl 1.1
-  if(!load_function(glBindBufferARB)(lib, "glBindBufferARB")) arb_buffer_enabled=false;
-  if(!load_function(glDeleteBuffersARB)(lib, "glDeleteBuffersARB")) arb_buffer_enabled=false;
-  if(!load_function(glGenBuffersARB)(lib, "glGenBuffersARB")) arb_buffer_enabled=false;
-  if(!load_function(glIsBufferARB)(lib, "glIsBufferARB")) arb_buffer_enabled=false;
-  if(!load_function(glBufferDataARB)(lib, "glBufferDataARB")) arb_buffer_enabled=false;
-  if(!load_function(glBufferSubDataARB)(lib, "glBufferSubDataARB")) arb_buffer_enabled=false;
-  if(!load_function(glMapBufferARB)(lib, "glMapBufferARB")) arb_buffer_enabled=false;
-  if(!load_function(glUnmapBufferARB)(lib, "glUnmapBufferARB")) arb_buffer_enabled=false;
-  if(!load_function(glGetBufferParameterivARB)(lib, "glGetBufferParameterivARB")) arb_buffer_enabled=false;
-  if(!load_function(glGetBufferPointervARB)(lib, "glGetBufferPointervARB")) arb_buffer_enabled=false;
+bool load_VBO_extensions(){
+  if(!load_extension(glBindBufferARB)("glBindBufferARB")) return false;
+  if(!load_extension(glDeleteBuffersARB)("glDeleteBuffersARB")) return false;
+  if(!load_extension(glGenBuffersARB)("glGenBuffersARB")) return false;
+  if(!load_extension(glIsBufferARB)("glIsBufferARB")) return false;
+  if(!load_extension(glBufferDataARB)("glBufferDataARB")) return false;
+  if(!load_extension(glBufferSubDataARB)("glBufferSubDataARB")) return false;
+  if(!load_extension(glMapBufferARB)("glMapBufferARB")) return false;
+  if(!load_extension(glUnmapBufferARB)("glUnmapBufferARB")) return false;
+  if(!load_extension(glGetBufferParameterivARB)("glGetBufferParameterivARB")) return false;
+  if(!load_extension(glGetBufferPointervARB)("glGetBufferPointervARB")) return false;
   arb_buffer_enabled=true;
   writeln("Mapped ARB buffers");
+  return true;
 }
 
 alias ptrdiff_t GLintptrARB;

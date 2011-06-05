@@ -8,8 +8,43 @@ import std.c.stdarg;
 
 private import gl.gl_1_0;
 private import gl.gl_1_1;
+private import gl.gl_1_2;
+private import gl.gl_1_3;
+private import gl.gl_1_4;
+private import gl.gl_1_5;
 
 import core.libload.libload;
+
+/*
+ * Loads a single gl extension (Needs a live reference to the library)
+ */
+template load_extension(T){
+    ext_binding!(T) load_extension(ref T a) {
+    ext_binding!(T) res;
+    res.eptr = cast(void**)&a;
+    return res;
+  }
+}
+
+/*
+ * binding of a single extension
+ */
+package struct ext_binding(T) {
+  bool opCall(string name){
+    void *func = wglGetProcAddress(&name.dup[0]);
+    if(!func){
+      writeln("Cannot bind extension: " ~ name);
+      return false;
+    }else{
+      *eptr = func;
+      return true;
+    }
+  }
+  
+  private{
+    void** eptr;
+  }
+}
 
 //Load the functions when the module is loaded
 static this(){
@@ -368,4 +403,130 @@ static this(){
   load_function(glDrawElements)(lib, "glDrawElements");
   load_function(glInterleavedArrays)(lib, "glInterleavedArrays");
   writeln("Mapped opengl32.dll");
+}
+
+
+void load_extensions(){
+  writeln("openGL extensions");
+  // gl 1.2
+  load_extension(glDrawRangeElements)("glDrawRangeElements");
+  load_extension(glTexImage3D)("glTexImage3D");
+  load_extension(glTexSubImage3D)("glTexSubImage3D");
+  load_extension(glCopyTexSubImage3D)("glCopyTexSubImage3D");
+  // gl 1.3
+  load_extension(glActiveTexture)("glActiveTexture");
+  load_extension(glClientActiveTexture)("glClientActiveTexture");
+  load_extension(glMultiTexCoord1d)("glMultiTexCoord1d");
+  load_extension(glMultiTexCoord1dv)("glMultiTexCoord1dv");
+  load_extension(glMultiTexCoord1f)("glMultiTexCoord1f");
+  load_extension(glMultiTexCoord1fv)("glMultiTexCoord1fv");
+  load_extension(glMultiTexCoord1i)("glMultiTexCoord1i");
+  load_extension(glMultiTexCoord1iv)("glMultiTexCoord1iv");
+  load_extension(glMultiTexCoord1s)("glMultiTexCoord1s");
+  load_extension(glMultiTexCoord1sv)("glMultiTexCoord1sv");
+  load_extension(glMultiTexCoord2d)("glMultiTexCoord2d");
+  load_extension(glMultiTexCoord2dv)("glMultiTexCoord2dv");
+  load_extension(glMultiTexCoord2f)("glMultiTexCoord2f");
+  load_extension(glMultiTexCoord2fv)("glMultiTexCoord2fv");
+  load_extension(glMultiTexCoord2i)("glMultiTexCoord2i");
+  load_extension(glMultiTexCoord2iv)("glMultiTexCoord2iv");
+  load_extension(glMultiTexCoord2s)("glMultiTexCoord2s");
+  load_extension(glMultiTexCoord2sv)("glMultiTexCoord2s");
+  load_extension(glMultiTexCoord3d)("glMultiTexCoord3d");
+  load_extension(glMultiTexCoord3dv)("glMultiTexCoord3d");
+  load_extension(glMultiTexCoord3f)("glMultiTexCoord3f");
+  load_extension(glMultiTexCoord3fv)("glMultiTexCoord3fv");
+  load_extension(glMultiTexCoord3i)("glMultiTexCoord3i");
+  load_extension(glMultiTexCoord3iv)("glMultiTexCoord3iv");
+  load_extension(glMultiTexCoord3s)("glMultiTexCoord3s");
+  load_extension(glMultiTexCoord3sv)("glMultiTexCoord3sv");
+  load_extension(glMultiTexCoord4d)("glMultiTexCoord4d");
+  load_extension(glMultiTexCoord4dv)("glMultiTexCoord4dv");
+  load_extension(glMultiTexCoord4f)("glMultiTexCoord4f");
+  load_extension(glMultiTexCoord4fv)("glMultiTexCoord4fv");
+  load_extension(glMultiTexCoord4i)("glMultiTexCoord4i");
+  load_extension(glMultiTexCoord4iv)("glMultiTexCoord4iv");
+  load_extension(glMultiTexCoord4s)("glMultiTexCoord4s");
+  load_extension(glMultiTexCoord4sv)("glMultiTexCoord4sv");
+  load_extension(glLoadTransposeMatrixd)("glLoadTransposeMatrixd");
+  load_extension(glLoadTransposeMatrixf)("glLoadTransposeMatrixf");
+  load_extension(glMultTransposeMatrixd)("glMultTransposeMatrixd");
+  load_extension(glMultTransposeMatrixf)("glMultTransposeMatrixf");
+  load_extension(glSampleCoverage)("glSampleCoverage");
+  load_extension(glCompressedTexImage1D)("glCompressedTexImage1D");
+  load_extension(glCompressedTexImage2D)("glCompressedTexImage2D");
+  load_extension(glCompressedTexImage3D)("glCompressedTexImage3D");
+  load_extension(glCompressedTexSubImage1D)("glCompressedTexSubImage1D");
+  load_extension(glCompressedTexSubImage2D)("glCompressedTexSubImage2D");
+  load_extension(glCompressedTexSubImage3D)("glCompressedTexSubImage3D");
+  load_extension(glGetCompressedTexImage)("glGetCompressedTexImage");
+  // gl 1.4
+  load_extension(glBlendFuncSeparate)("glBlendFuncSeparate");
+  load_extension(glFogCoordf)("glFogCoordf");
+  load_extension(glFogCoordfv)("glFogCoordfv");
+  load_extension(glFogCoordd)("glFogCoordd");
+  load_extension(glFogCoorddv)("glFogCoorddv");
+  load_extension(glFogCoordPointer)("glFogCoordPointer");
+  load_extension(glMultiDrawArrays)("glMultiDrawArrays");
+  load_extension(glMultiDrawElements)("glMultiDrawElements");
+  load_extension(glPointParameterf)("glPointParameterf");
+  load_extension(glPointParameterfv)("glPointParameterfv");
+  load_extension(glPointParameteri)("glPointParameteri");
+  load_extension(glPointParameteriv)("glPointParameteriv");
+  load_extension(glSecondaryColor3b)("glSecondaryColor3b");
+  load_extension(glSecondaryColor3bv)("glSecondaryColor3bv");
+  load_extension(glSecondaryColor3d)("glSecondaryColor3d");
+  load_extension(glSecondaryColor3dv)("glSecondaryColor3dv");
+  load_extension(glSecondaryColor3f)("glSecondaryColor3f");
+  load_extension(glSecondaryColor3fv)("glSecondaryColor3fv");
+  load_extension(glSecondaryColor3i)("glSecondaryColor3i");
+  load_extension(glSecondaryColor3iv)("glSecondaryColor3iv");
+  load_extension(glSecondaryColor3s)("glSecondaryColor3s");
+  load_extension(glSecondaryColor3sv)("glSecondaryColor3sv");
+  load_extension(glSecondaryColor3ub)("glSecondaryColor3ub");
+  load_extension(glSecondaryColor3ubv)("glSecondaryColor3ubv");
+  load_extension(glSecondaryColor3ui)("glSecondaryColor3ui");
+  load_extension(glSecondaryColor3uiv)("glSecondaryColor3uiv");
+  load_extension(glSecondaryColor3us)("glSecondaryColor3us");
+  load_extension(glSecondaryColor3usv)("glSecondaryColor3usv");
+  load_extension(glSecondaryColorPointer)("glSecondaryColorPointer");
+  load_extension(glWindowPos2d)("glWindowPos2d");
+  load_extension(glWindowPos2dv)("glWindowPos2dv");
+  load_extension(glWindowPos2f)("glWindowPos2f");
+  load_extension(glWindowPos2fv)("glWindowPos2fv");
+  load_extension(glWindowPos2i)("glWindowPos2i");
+  load_extension(glWindowPos2iv)("glWindowPos2iv");
+  load_extension(glWindowPos2s)("glWindowPos2s");
+  load_extension(glWindowPos2sv)("glWindowPos2sv");
+  load_extension(glWindowPos3d)("glWindowPos3d");
+  load_extension(glWindowPos3dv)("glWindowPos3dv");
+  load_extension(glWindowPos3f)("glWindowPos3f");
+  load_extension(glWindowPos3fv)("glWindowPos3fv");
+  load_extension(glWindowPos3i)("glWindowPos3i");
+  load_extension(glWindowPos3iv)("glWindowPos3iv");
+  load_extension(glWindowPos3s)("glWindowPos3s");
+  load_extension(glWindowPos3sv)("glWindowPos3sv");
+  load_extension(glBlendEquation)("glBlendEquation");
+  load_extension(glBlendColor)("glBlendColor");
+  // gl 1.5
+  load_extension(glGenQueries)("glGenQueries");
+  load_extension(glDeleteQueries)("glDeleteQueries");
+  load_extension(glIsQuery)("glIsQuery");
+  load_extension(glBeginQuery)("glBeginQuery");
+  load_extension(glEndQuery)("glEndQuery");
+  load_extension(glGetQueryiv)("glGetQueryiv");
+  load_extension(glGetQueryObjectiv)("glGetQueryObjectiv");
+  load_extension(glGetQueryObjectuiv)("glGetQueryObjectuiv");
+  load_extension(glBindBuffer)("glBindBuffer");
+  load_extension(glDeleteBuffers)("glDeleteBuffers");
+  load_extension(glGenBuffers)("glGenBuffers");
+  load_extension(glIsBuffer)("glIsBuffer");
+  load_extension(glBufferData)("glBufferData");
+  load_extension(glBufferSubData)("glBufferSubData");
+  load_extension(glGetBufferSubData)("glGetBufferSubData");
+  load_extension(glMapBuffer)("glMapBuffer");
+  load_extension(glUnmapBuffer)("glUnmapBuffer");
+  load_extension(glGetBufferParameteriv)("glGetBufferParameteriv");
+  load_extension(glGetBufferPointerv)("glGetBufferPointerv");
+  writeln("mapped openGL extensions");
 }

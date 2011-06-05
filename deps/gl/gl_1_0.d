@@ -24,6 +24,8 @@ alias float   GLfloat;
 alias float   GLclampf;
 alias double  GLdouble;
 alias double  GLclampd;
+alias ptrdiff_t GLintptr;
+alias ptrdiff_t GLsizeiptr;
 
 /* Constants */
 const GL_FALSE = 0x0;
