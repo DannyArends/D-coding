@@ -224,6 +224,30 @@ class GLControl: Control{
      */
     protected void render(){
     }
+    
+    protected override void onMouseDown(MouseEventArgs mea){
+      switch(mea.button){
+        case MouseButtons.LEFT:   write("Left");
+        break;
+        case MouseButtons.RIGHT:  write("Right");
+        break;
+        case MouseButtons.MIDDLE: write("Middle");
+        break;
+      }
+      writefln(" mouse btn %d times at: %d %d",mea.clicks,mea.x,mea.y);
+    }
+    
+    protected override void onMouseUp(MouseEventArgs mea){
+      switch(mea.button){
+        case MouseButtons.LEFT:   write("Left");
+        break;
+        case MouseButtons.RIGHT:  write("Right");
+        break;
+        case MouseButtons.MIDDLE: write("Middle");
+        break;
+      }
+      writefln(" mouse btn up %d times at: %d %d",mea.clicks,mea.x,mea.y);
+    }
 
     override void onResize(EventArgs ea){ 
     }

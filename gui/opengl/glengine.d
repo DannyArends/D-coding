@@ -61,6 +61,30 @@ class RenderingEngine : GLControl{
       screen = new Scene(bounds.width, bounds.height);
       hud = new Hud(bounds.width, bounds.height);
     }
+    
+    protected override void onMouseDown(MouseEventArgs mea){
+      switch(mea.button){
+        case MouseButtons.LEFT:   write("Left");
+        break;
+        case MouseButtons.RIGHT:  write("Right");
+        break;
+        case MouseButtons.MIDDLE: write("Middle");
+        break;
+      }
+      writefln(" mouse btn down %d times at: %d %d",mea.clicks,mea.x,mea.y);
+    }
+    
+    protected override void onMouseUp(MouseEventArgs mea){
+      switch(mea.button){
+        case MouseButtons.LEFT:   write("Left");
+        break;
+        case MouseButtons.RIGHT:  write("Right");
+        break;
+        case MouseButtons.MIDDLE: write("Middle");
+        break;
+      }
+      writefln(" mouse btn up %d times at: %d %d",mea.clicks,mea.x,mea.y);
+    }
 
     override void render(){
       auto t0 = Clock.currTime();
