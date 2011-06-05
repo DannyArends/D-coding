@@ -33,7 +33,7 @@ import std.math;
 * @param d2 any type any length vector<br>
 */
 T[] subtract(T)(T[] d1,T[] d2){
-  if(d1.length!=d2.length) throw new Exception("Error: Should have same length %d != %d", d1.length, d2.length);
+  if(d1.length!=d2.length) throw new Exception("Error: Should have same length");
   T[] diff;
   diff.length = d1.length;
   for(int x=0;x<d1.length;x++){
@@ -49,7 +49,7 @@ T[] subtract(T)(T[] d1,T[] d2){
 * @param d2 any type any length vector<br>
 */
 T[] add(T)(T[] d1,T[] d2){
-  if(d1.length!=d2.length) throw new Exception("Error: Should have same length %d != %d", d1.length, d2.length);
+  if(d1.length!=d2.length) throw new Exception("Error: Should have same length");
   T[] sum;
   sum.length = d1.length;
   for(int x=0;x<d1.length;x++){
@@ -69,6 +69,23 @@ T[] multiply(T)(T[] d1, float alpha){
   factor.length = d1.length;
   for(int x=0;x<d1.length;x++){
     factor[x] = d1[x] * alpha;
+  }
+  return factor;
+}
+
+/**
+* D-routine that adds a multiple of another vector with a constant<br>
+* bugs: none found<br>
+* @param d1 any type any length vector<br>
+* @param d2 any type any length vector<br>
+* @param alpha float parameter holding the maginification factor<br>
+*/
+T[] addnmultiply(T)(T[] d1,T[] d2, float alpha){
+  if(d1.length!=d2.length) throw new Exception("Error: Should have same length");
+  T[] factor;
+  factor.length = d1.length;
+  for(int x=0;x<d1.length;x++){
+    factor[x] = d1[x] + d2[x] * alpha;
   }
   return factor;
 }

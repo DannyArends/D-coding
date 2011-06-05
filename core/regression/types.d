@@ -24,6 +24,7 @@ import std.conv;
 import core.memory;
 
 alias double[][] dmatrix;
+alias bool[][] bmatrix;
 alias char[][] cmatrix;
 alias int[][] imatrix;
 
@@ -37,7 +38,7 @@ T[][] newmatrix(T)(uint nrow,uint ncol){
   for(uint i=0;i<nrow;i++){
     x[i].length=ncol;
     for(uint j=0;j<ncol;j++){
-      x[i][j]= to!T(0);
+      x[i][j]= (*new T());
     }
   }
   return x;
