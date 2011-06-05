@@ -42,14 +42,52 @@ class mainForm: dfl.form.Form
     protected void createMenu(){
       this.menu = new MainMenu;
         
-      auto mmenu = new MenuItem;
-      mmenu.text = "&File";
-      this.menu.menuItems.add(mmenu);
+      auto mmenu1 = new MenuItem;
+      mmenu1.text = "&File";
+      this.menu.menuItems.add(mmenu1);
+      
+      auto mi11 = new MenuItem;
+      mi11.text = "&Open";
+      mi11.click ~= &fileOpenClick;
+      mmenu1.menuItems.add(mi11);
+      
+      auto mi12 = new MenuItem;
+      mi12.text = "&Save";
+      mi12.click ~= &fileSaveClick;
+      mmenu1.menuItems.add(mi12);
+      
+      auto mi13 = new MenuItem;
+      mi13.text = "E&xit";
+      mi13.click ~= &fileExitClick;
+      mmenu1.menuItems.add(mi13);
+      
+      auto mmenu2 = new MenuItem;
+      mmenu2.text = "&Edit";
+      this.menu.menuItems.add(mmenu2);
+      
+      auto mi21 = new MenuItem;
+      mi21.text = "&Map";
+      mmenu2.menuItems.add(mi21);
+      
+      auto mmenu3 = new MenuItem;
+      mmenu3.text = "&Settings";
+      this.menu.menuItems.add(mmenu3);
+      
+      auto mi31 = new MenuItem;
+      mi31.text = "&Graphics";
+      mmenu3.menuItems.add(mi31);
+      
+      auto mmenu4 = new MenuItem;
+      mmenu4.text = "?";
+      this.menu.menuItems.add(mmenu4);
         
-      auto mi = new MenuItem;
-      mi.text = "E&xit";
-      mi.click ~= &fileExitClick;
-      mmenu.menuItems.add(mi);
+      auto mi41 = new MenuItem;
+      mi41.text = "&About";
+      mmenu4.menuItems.add(mi41);
+      
+      auto mi42 = new MenuItem;
+      mi42.text = "&Help";
+      mmenu4.menuItems.add(mi42);
     }
 
     
@@ -59,12 +97,11 @@ class mainForm: dfl.form.Form
 		//~DFL Form
 		formBorderStyle = dfl.all.FormBorderStyle.FIXED_SINGLE;
 		text = "D openGL Framework";
-		clientSize = dfl.all.Size(994, 600);
+		clientSize = dfl.all.Size(1004, 685);
 		//~DFL GLControl:dfl.label.Label=glcontrol
 		glcontrol = new RenderingEngine();
 		glcontrol.name = "glcontrol";
-		glcontrol.dock = dfl.all.DockStyle.RIGHT;
-		glcontrol.bounds = dfl.all.Rect(194, 0, 800, 600);
+		glcontrol.bounds = dfl.all.Rect(201, 8, 800, 600);
 		glcontrol.parent = this;
 		//~DFL dfl.textbox.TextBox=textBox1
 		textBox1 = new dfl.textbox.TextBox();
@@ -72,19 +109,28 @@ class mainForm: dfl.form.Form
 		textBox1.dock = dfl.all.DockStyle.BOTTOM;
 		textBox1.multiline = true;
 		textBox1.readOnly = true;
-		textBox1.bounds = dfl.all.Rect(0, 528, 194, 72);
+		textBox1.bounds = dfl.all.Rect(0, 613, 1004, 72);
 		textBox1.parent = this;
 		//~DFL dfl.groupbox.GroupBox=groupBox1
 		groupBox1 = new dfl.groupbox.GroupBox();
 		groupBox1.name = "groupBox1";
 		groupBox1.dock = dfl.all.DockStyle.LEFT;
-		groupBox1.bounds = dfl.all.Rect(0, 0, 192, 528);
+		groupBox1.bounds = dfl.all.Rect(0, 0, 192, 613);
 		groupBox1.parent = this;
 		//~Entice Designer 0.8.5.02 code ends here.
     }
 
   void fileExitClick(Object sender, EventArgs ea){
+    writefln("Shutdown");
     Application.exitThread();
+  }
+  
+  void fileSaveClick(Object sender, EventArgs ea){
+    writefln("FileSave clicked");
+  }
+  
+  void fileOpenClick(Object sender, EventArgs ea){
+    writefln("FileOpen clicked");
   }
   
   void glClick(Object sender, EventArgs ea){

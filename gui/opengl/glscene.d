@@ -84,6 +84,6 @@ class Scene{
       glColor3f(1.0,0.2,0.5); glVertex3f(-1.0f,-1.0f, 0.0f);      // Bottom Left
       glColor3f(0.5,1.0,0.2); glVertex3f( 1.0f,-1.0f, 0.0f);      // Bottom Right
     glEnd();                                                    // Finished Drawing
-    object.render();
+    //object.render();
   }
 }
