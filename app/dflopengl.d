@@ -25,7 +25,7 @@ class opengltest: dfl.form.Form
       createMenu();
       initializeOpengltest();
       // Other opengltest initialization code here.
-      gameloop = new glTimer(200, glcontrol);
+      gameloop = new glTimer(210, glcontrol);
       gameloop.start();
       exitButton.click ~= &fileExitClick;
     }

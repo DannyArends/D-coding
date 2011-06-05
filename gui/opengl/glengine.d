@@ -34,11 +34,11 @@ import gl.gl;
 import gl.gl_1_0;
 import gl.gl_ext;
 import gui.opengl.glcontrol;
-import gui.opengl.glraytracer;
+import gui.opengl.glscene;
 import gui.opengl.glhud;
 
 class RenderingEngine : GLControl{
-  Raytracer screen;
+  Scene screen;
   Hud hud;
   
   this(){
@@ -58,7 +58,7 @@ class RenderingEngine : GLControl{
       glClearColor(1.0f,1.0f,0.3f,0.0f);
       load_extensions();
       load_VBO_extensions();
-      screen = new Raytracer(bounds.width, bounds.height);
+      screen = new Scene(bounds.width, bounds.height);
       hud = new Hud(bounds.width, bounds.height);
     }
 
