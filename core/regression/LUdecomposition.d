@@ -23,7 +23,7 @@ module core.regression.LUdecomposition;
 import std.stdio;
 import std.math;
 
-import core.regression.types;
+import core.typedefs.types;
 import core.regression.support;
 
 bool LUdecompose(double[][] m, int dim, int[] ndx, int *d) {

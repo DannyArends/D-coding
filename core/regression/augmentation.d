@@ -22,8 +22,8 @@ module core.regression.augmentation;
 import std.stdio;
 import std.math;
 
-private import core.regression.types;
-private import core.regression.support;
+import core.typedefs.types;
+import core.regression.support;
 
 
 double rf(double cmdistance){

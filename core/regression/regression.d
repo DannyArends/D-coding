@@ -23,7 +23,7 @@ import std.stdio;
 import std.conv;
 import std.math;
 
-import core.regression.types;
+import core.typedefs.types;
 import core.regression.support;
 
 void multipleregression_R(int* nvariables,int* nsamples, double* x, double* w, double* y,double* estparams, int* nullmodellayout,int* verbose, double* lodscore){

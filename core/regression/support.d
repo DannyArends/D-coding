@@ -22,7 +22,7 @@ module core.regression.support;
 import std.stdio;
 import std.math;
 
-import core.regression.types;
+import core.typedefs.types;
 import core.regression.LUdecomposition;
 import r.r;
 
