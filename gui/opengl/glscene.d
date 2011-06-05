@@ -18,7 +18,7 @@
  *     A copy of the GNU General Public License, version 3, is available
  *     at http://www.r-project.org/Licenses/GPL-3
  *
- * Contains: Hud
+ * Contains: Scene
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **/
  
@@ -42,7 +42,7 @@ class Scene{
   this(uint w, uint h){
     onResize(w,h);
     object = new model3ds();
-    object.load("data/models/humanoid.3ds");
+    object.load("data/models/Bone_0.3ds");
     object.buffer();
   }
   
@@ -77,8 +77,8 @@ class Scene{
     if (angley_>360.0) angley_ -= 360.0f;
 
     glTranslatef(0.0f, 0.0f, -6.0f);
-//    glRotatef(angley_, 0.0f,1.0f,0.0f);
-  //  glRotatef(anglex_, 0.1f,0.0f,0.0f);
+    glRotatef(angley_, 0.0f,1.0f,0.0f);
+    glRotatef(anglex_, 0.1f,0.0f,0.0f);
     glBegin(GL_TRIANGLES);
       glColor3f(0.2,0.5,1.0); glVertex3f( 0.0f, 1.0f, 0.0f);      // Top
       glColor3f(1.0,0.2,0.5); glVertex3f(-1.0f,-1.0f, 0.0f);      // Bottom Left

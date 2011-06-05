@@ -116,6 +116,7 @@ class model3ds{
         int matnum = findMaterial(model.polygon[x].material);   //Find material for this edge
         for(int triside=0;triside<3;triside++){
           for(int color=0;color<4;color++){
+            
             if(matnum >= 0){
               colorunpacked[ccnt] = cast(ubyte)materials[matnum].ambient[color];   //Set color
             }else{
@@ -127,9 +128,9 @@ class model3ds{
       }
     }
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, vertexbuffer);
-    glBufferDataARB(GL_ARRAY_BUFFER_ARB, npolygons*9*GLfloat.sizeof, &verticesunpacked[0], GL_DYNAMIC_DRAW_ARB);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, npolygons*9*GLfloat.sizeof, &verticesunpacked[0], GL_STATIC_DRAW_ARB);
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, colorbuffer);
-    glBufferDataARB(GL_ARRAY_BUFFER_ARB, npolygons*12*ubyte.sizeof, &colorunpacked[0], GL_DYNAMIC_DRAW_ARB);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, npolygons*12*ubyte.sizeof, &colorunpacked[0], GL_STATIC_DRAW_ARB);
     
     buffered = true;
     writefln("Buffering done");
@@ -304,6 +305,7 @@ class model3ds{
           material.diffuse[1] = g;
           material.diffuse[2] = b;
         }else if(is_ambient){
+          writefln("%d %d %d",r,g,b);
           material.ambient[0] = r;
           material.ambient[1] = g;
           material.ambient[2] = b;

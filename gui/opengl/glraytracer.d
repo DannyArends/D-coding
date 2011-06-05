@@ -1,5 +1,5 @@
 /**
- * \file glhud.D
+ * \file glraytracer.D
  *
  * last modified Jun, 2011
  * first written May, 2011
@@ -18,63 +18,59 @@
  *     A copy of the GNU General Public License, version 3, is available
  *     at http://www.r-project.org/Licenses/GPL-3
  *
- * Contains: Hud
+ * Contains: Raytracer
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **/
  
-module gui.opengl.glhud;
+module gui.opengl.glraytracer;
 
 private import dfl.all;
 import std.stdio;
 import std.conv;
+import std.datetime;
+import std.random;
+import core.time;
+
 import gl.gl;
 import gl.gl_1_0;
-import gl.gl_1_1;
 import gui.opengl.glcontrol;
-import gui.formats.tga;
+import gui.formats.object3ds;
+import core.arrays.ray;
 
-class Hud{
+class Raytracer{
   GLfloat width;
   GLfloat height;
-  uint fontbase;
-  TGA font;
+  camera cameraobject;
+  world worldcoords;
   
   this(uint w, uint h){
     onResize(w,h);
-    font = new TGA();
-    font.load("data/fonts/font.tga");
-    fontbase = font.loadAsFont();
   }
   
   void onResize(uint w, uint h){
     width  = cast(GLfloat)w;
     height = cast(GLfloat)h;
-  }
-  
-  GLvoid glprint(GLint x, GLint y, uint base, int set, string toprint){
-    if (set>1) set=1;
-    if (set<0) set=0;
-    
-    glLoadIdentity();
-    glEnable(GL_TEXTURE_2D);						
-    glTranslated(x,y,0);								
-    glListBase(base-32+(128*set));
-    glScalef(1.0f,1.0f,1.0f);
-    glColor3f(1.0f, 1.0f, 1.0f);
-    glCallLists(toprint.length,GL_UNSIGNED_BYTE, &toprint.dup[0]);
-    glDisable(GL_TEXTURE_2D);
-    glLoadIdentity();
-  }
-  
-  void render(){
+    cameraobject.width=w;
+    cameraobject.width=w;
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0.0f, width, height, 0.0f, -1.0f, 1.0f);
     glMatrixMode(GL_MODELVIEW);
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, font.info.textureID[0]);
     glLoadIdentity();
-    glprint(20,20,fontbase,0,"Testing the HUD");
-    glDisable(GL_TEXTURE_2D);
+  }
+  
+  void render(){
+    glBegin(GL_POINTS);
+    auto t0 = Clock.currTime();
+    auto t1 = Clock.currTime();
+    while((t1-t0).fracSec().msecs() < 190){
+    	int y = uniform(0, cast(int)height);
+			int x = uniform(0, cast(int)width);
+      auto ray = constructRayThroughPixel(worldcoords,cameraobject,x,y);
+      glColor3f(x/width, y/height, 0.0f);
+      glVertex2f(x, y);
+      t1 = Clock.currTime();
+    }
+    glEnd();
   }
 }
