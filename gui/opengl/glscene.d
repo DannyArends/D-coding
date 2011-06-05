@@ -42,7 +42,7 @@ class Scene{
   this(uint w, uint h){
     onResize(w,h);
     object = new model3ds();
-    object.load("data/models/Bone_0.3ds");
+    object.load("data/models/humanoid.3ds");
     object.buffer();
   }
   

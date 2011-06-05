@@ -56,6 +56,22 @@ struct tgaInfo{
 class TGA{
   tgaInfo* info;
   
+  this(){
+  
+  }
+  
+  this(short width, short height, string filename="screen.tga"){
+    info = new tgaInfo();
+    info.width=width;
+    info.height=height;
+    info.type=2;
+    info.pixelDepth=32;
+    uint total = info.height * info.width * (info.pixelDepth/8);
+    info.imageData = new ubyte[total];
+    glReadPixels(0,0,width,height,GL_RGBA,GL_UNSIGNED_BYTE, &info.imageData[0]);
+    save(filename);
+  }
+  
   uint loadAsFont(){
     glEnable(GL_TEXTURE_2D);
     auto base = glGenLists(256);
@@ -147,4 +163,43 @@ class TGA{
     writefln("Loaded tga-file: %s to texture-buffer: %d",filename,info.textureID);
     return true;
   }
+  
+  
+  void save(string filename) {
+    ubyte cGarbage = 0;
+    short iGarbage = 0;
+    uint mode;
+    ubyte aux;
+    GLuint type=GL_RGBA;
+    auto fp = new File(filename,"wb");
+    auto f = fp.getFP();
+
+    // compute image type: 2 for RGB(A), 3 for greyscale
+    mode = info.pixelDepth / 8;
+    // write the header
+    fwrite(&cGarbage, ubyte.sizeof, 1, f);
+    fwrite(&cGarbage, ubyte.sizeof, 1, f);
+    fwrite(&info.type, ubyte.sizeof, 1, f);
+    fwrite(&iGarbage, short.sizeof, 1, f);
+    fwrite(&iGarbage, short.sizeof, 1, f);
+    fwrite(&cGarbage, ubyte.sizeof, 1, f);
+    fwrite(&iGarbage, short.sizeof, 1, f);
+    fwrite(&iGarbage, short.sizeof, 1, f);
+    fwrite(&info.width, short.sizeof, 1, f);
+    fwrite(&info.height, short.sizeof, 1, f);
+    fwrite(&info.pixelDepth, ubyte.sizeof, 1,f);
+    fwrite(&cGarbage, ubyte.sizeof, 1, f);
+
+    // convert the image data from RGB(a) to BGR(A)
+    if(mode >= 3){
+      for(int i=0; i < info.width * info.height * mode ; i+= mode) {
+        aux = info.imageData[i];
+        info.imageData[i] = info.imageData[i+2];
+        info.imageData[i+2] = aux;
+      }
+    }
+    fwrite(&info.imageData[0], ubyte.sizeof, info.width * info.height * mode, f);
+    fp.close();
+  }
+
 }

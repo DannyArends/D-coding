@@ -227,9 +227,9 @@ class GLControl: Control{
 
     override void onResize(EventArgs ea){ 
     }
-
+    
     override void onPaint(PaintEventArgs pea){
-        super.onPaint(pea);
+        //super.onPaint(pea);
         render();
     }
     

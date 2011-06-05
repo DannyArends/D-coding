@@ -53,7 +53,7 @@ class RenderingEngine : GLControl{
       debug writefln("Resized to: %d %d, error: %s",bounds.width, bounds.height,to!string(glGetError()));
       invalidate();
     }
-
+    
     override void initGL() {
       glClearColor(1.0f,1.0f,0.3f,0.0f);
       load_extensions();
@@ -70,6 +70,6 @@ class RenderingEngine : GLControl{
       auto t2 = Clock.currTime();
       swapBuffers();
       auto t3 = Clock.currTime();
-      writefln("Screen:%d,Hud:%d,swap:%d,total:%d",(t1-t0),(t2-t1),(t3-t2),(t3-t0));
+      debug writefln("Screen:%d,Hud:%d,swap:%d,total:%d",(t1-t0),(t2-t1),(t3-t2),(t3-t0));
     }
 }
