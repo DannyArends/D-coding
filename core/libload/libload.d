@@ -64,6 +64,7 @@ package struct function_binding(T) {
       *fptr = getFunctionThroughVoid(lib, name);
       return true;
     }catch(Exception e){
+      writeln("Cannot bind function: " ~ name);
       return false;
     }
   }
