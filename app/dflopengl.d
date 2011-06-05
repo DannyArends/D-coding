@@ -10,15 +10,16 @@ import std.conv;
 
 import gui.opengl.glengine;
 import gui.opengl.gltimer;
+import gui.opengl.glcontrol;
 
-class opengltest: dfl.form.Form
+class mainForm: dfl.form.Form
 {
     // Do not modify or move this block of variables.
     //~Entice Designer variables begin here.
-    RenderingEngine glcontrol;
-    dfl.panel.Panel ctrlPanel;
-    dfl.button.Button exitButton;
-    //~Entice Designer variables end here.
+	GLControl glcontrol;
+	dfl.textbox.TextBox textBox1;
+	dfl.groupbox.GroupBox groupBox1;
+	//~Entice Designer variables end here.
     glTimer gameloop;
     
     this(){
@@ -27,7 +28,15 @@ class opengltest: dfl.form.Form
       // Other opengltest initialization code here.
       gameloop = new glTimer(210, glcontrol);
       gameloop.start();
-      exitButton.click ~= &fileExitClick;
+      glcontrol.click ~= &glClick;
+      addShortcut(Keys.LEFT, &glKey); 
+      addShortcut(Keys.RIGHT, &glKey);
+      addShortcut(Keys.UP, &glKey);
+      addShortcut(Keys.DOWN, &glKey);
+      addShortcut(Keys.SPACE, &glKey);
+      addShortcut(Keys.TAB, &glKey);
+      addShortcut(Keys.ENTER, &glKey);
+      addShortcut(Keys.ESCAPE, &fileExitClick);
     }
     
     protected void createMenu(){
@@ -46,35 +55,59 @@ class opengltest: dfl.form.Form
     
     private void initializeOpengltest(){
         // Do not manually modify this function.
-        //~Entice Designer 0.8.3 code begins here.
-        //~DFL Form
-        text = "opengltest";
-        clientSize = dfl.all.Size(504, 365);
-        //~DFL dfl.panel.Panel=ctrlPanel
-        ctrlPanel = new dfl.panel.Panel();
-        ctrlPanel.name = "ctrlPanel";
-        ctrlPanel.dock = dfl.all.DockStyle.LEFT;
-        ctrlPanel.borderStyle = dfl.all.BorderStyle.FIXED_SINGLE;
-        ctrlPanel.bounds = dfl.all.Rect(0, 0, 100, 365);
-        ctrlPanel.parent = this;
-        //~DFL dfl.button.Button=exitButton
-        exitButton = new dfl.button.Button();
-        exitButton.name = "exitButton";
-        exitButton.dock = dfl.all.DockStyle.TOP;
-        exitButton.text = "E&xit";
-        exitButton.bounds = dfl.all.Rect(0, 0, 98, 23);
-        exitButton.parent = ctrlPanel;
-        //~DFL GlControl:dfl.label.Label=glcontrol
-        glcontrol = new RenderingEngine();
-        glcontrol.name = "glcontrol";
-        glcontrol.dock = dfl.all.DockStyle.FILL;
-        glcontrol.bounds = dfl.all.Rect(100, 0, 404, 365);
-        glcontrol.parent = this;
-        //~Entice Designer 0.8.3 code ends here.
+        //~Entice Designer 0.8.5.02 code begins here.
+		//~DFL Form
+		formBorderStyle = dfl.all.FormBorderStyle.FIXED_SINGLE;
+		text = "D openGL Framework";
+		clientSize = dfl.all.Size(994, 600);
+		//~DFL GLControl:dfl.label.Label=glcontrol
+		glcontrol = new RenderingEngine();
+		glcontrol.name = "glcontrol";
+		glcontrol.dock = dfl.all.DockStyle.RIGHT;
+		glcontrol.bounds = dfl.all.Rect(194, 0, 800, 600);
+		glcontrol.parent = this;
+		//~DFL dfl.textbox.TextBox=textBox1
+		textBox1 = new dfl.textbox.TextBox();
+		textBox1.name = "textBox1";
+		textBox1.dock = dfl.all.DockStyle.BOTTOM;
+		textBox1.multiline = true;
+		textBox1.readOnly = true;
+		textBox1.bounds = dfl.all.Rect(0, 528, 194, 72);
+		textBox1.parent = this;
+		//~DFL dfl.groupbox.GroupBox=groupBox1
+		groupBox1 = new dfl.groupbox.GroupBox();
+		groupBox1.name = "groupBox1";
+		groupBox1.dock = dfl.all.DockStyle.LEFT;
+		groupBox1.bounds = dfl.all.Rect(0, 0, 192, 528);
+		groupBox1.parent = this;
+		//~Entice Designer 0.8.5.02 code ends here.
     }
 
   void fileExitClick(Object sender, EventArgs ea){
     Application.exitThread();
+  }
+  
+  void glClick(Object sender, EventArgs ea){
+    writefln("%s",ea);
+  }
+  
+  void glKey(Object sender, FormShortcutEventArgs ea){
+    switch(ea.shortcut){
+      case Keys.LEFT:  writeln("Left");
+      break;
+      case Keys.RIGHT: writeln("Right");
+      break;
+      case Keys.UP:    writeln("Up");
+      break;
+      case Keys.DOWN:  writeln("Down");
+      break;
+      case Keys.SPACE: writeln("Space");
+      break;
+      case Keys.TAB:   writeln("Tab");
+      break;
+      case Keys.ENTER: writeln("Enter");
+      break;
+    }
   }
 
   protected:
@@ -84,7 +117,7 @@ class opengltest: dfl.form.Form
 int main(){
   int result = 0;
   try{
-    Application.run(new opengltest());
+    Application.run(new mainForm());
   }catch(Throwable o){
     msgBox(o.toString(), "Fatal Error", MsgBoxButtons.OK, MsgBoxIcon.ERROR);
     result = 1;
