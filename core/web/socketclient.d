@@ -1,5 +1,5 @@
 /**
- * \file socketserver.d
+ * \file socketclient.d
  * 
  * Description: 
  *
@@ -18,16 +18,16 @@
  *     at http://www.r-project.org/Licenses/GPL-3
  *
  * Contains: 
- * - class: socketserver
+ * - class: SocketClient
  *
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **/
-module sockets.socketserver;
+module core.web.socketclient;
 
 import std.stdio;
 import std.socket;
 
-class socketserver{
+class SocketClient{
   private:
   string host;
   ushort port;
@@ -50,25 +50,24 @@ class socketserver{
   }
 
   
-  bool Connect(){
+  bool connect(){
     assert(host !is null);
     assert(port > 0);
 
     handle = new TcpSocket;
     assert( handle.isAlive );
-    
-    // Connect
     try{
       handle.connect( new InternetAddress( host, cast(int)port ) );
+      handle.blocking(true);
     }catch( SocketException e ){
-      writefln( "Failed to connect to %s:%d - %s", host, port, e.toString() );
+      writefln("Failed to connect to %s:%d - %s", host, port, e.toString());
       delete handle;
       return false;
     }
     return true;
   }
 
-  bool Disconnect(){
+  bool disconnect(){
     if(handle !is null){
       if(handle.isAlive) handle.close;
       delete handle;
@@ -76,49 +75,41 @@ class socketserver{
     return true;
   }
 
-  bool IsAlive(){
+  bool isAlive(){
     if( handle !is null )
       return handle.isAlive;
     return false;
   }
 
-  bool Write( string msg ){
-    if( !IsAlive )
-      return false;
-
-    writefln( "SENDING: %s", msg );
-
-    auto ret = handle.send( msg ~ "\n" );
-    if( !ret )
-      return false;
-
+  bool write( string msg ){
+    if( !isAlive ) return false;
+    debug writefln("Sending: %s", msg );
+    auto ret = handle.send( msg );
+    if( !ret ) return false;
     return true;
   }
 
-  string Read( uint bufferSize=1024 ){
-    if(!IsAlive) return null;
+  string read( uint bufferSize=1024 ){
+    if(!isAlive) return null;
     
     char[] buf = new char[bufferSize];
     auto ret = handle.receive( buf );
     
     if( !ret ) return null;
     if( ret == -1 ) return null;
-
     char[] data = buf[0 .. ret].dup;
-    // If we didn't manage to read everything to the buffer
-    // read the rest..
-    while( ret == bufferSize ){
+
+    while(ret == bufferSize){
       delete buf;
       buf = new char[bufferSize];
       ret = handle.receive( buf );
-      if( !ret )
-        return cast(string)data;
+      if( !ret ) return cast(string)data;
       data ~= buf[0 .. ret];
     }
     return cast(string)data;
   }
 
-  Socket* GetHandle(){
+  Socket* getHandle(){
     return &handle;
   }
 }
