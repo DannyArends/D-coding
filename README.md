@@ -13,8 +13,10 @@ Compile with using dmd (and dfl) on %PATH%:
     $ dmd -run cdc.d -dfl -lib gui -ofGui.lib -Ideps    #GUI: Depends on core and deps
     
     #Single application
-    $ dmd -run cdc.d app/fileloader.d Core.lib              #Exp: XBinary, depends Core.lib
+    $ dmd -run cdc.d app/fileloader.d Core.lib              #File loading test, depends Core.lib
     $ fileloader.exe
+    $ dmd -run cdc.d app/httpreader.d Core.lib              #Httpreader test, depends Core.lib
+    $ httpreader  www.dannyarends.nl 80 /
     $ dmd -run cdc.d -dfl app/dflapplication.d Gui.lib      #GUI: DFL, depends on Gui.lib
     $ dflapplication.exe
     
@@ -23,6 +25,9 @@ We can map external libraries e.g. R.dll, Windows (GDI32.dll + Kernel.dll), Open
     $ dmd -run cdc.d -lib deps/r Core.lib -ofR.lib
     $ dmd -run cdc.d -lib deps/win Core.lib -ofWindows.lib
     $ dmd -run cdc.d -lib deps/gl Core.lib -ofOpenGL.lib -Ideps
+    
+Building bigger applications by mixing and matching the parts that we want and put em together using a 
+single app/main.d
     
     #Mix and match D applications e.g. link versus Core.lib and R.lib
     $ dmd -run cdc.d app/regression.d Core.lib R.lib -Ideps

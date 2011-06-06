@@ -49,24 +49,24 @@ class SocketClient{
     }
   }
  
-  bool connect(){
+  public bool connect(){
     assert(host !is null);
     assert(port > 0);
 
     handle = new TcpSocket;
-    assert( handle.isAlive );
+    assert(handle.isAlive);
     try{
       handle.connect( new InternetAddress( host, cast(int)port ) );
       handle.blocking(true);
-    }catch( SocketException e ){
-      writefln("Failed to connect to %s:%d - %s", host, port, e.toString());
+    }catch(SocketException ex){
+      writefln("Failed to connect to %s:%d - %s", host, port, ex.toString());
       delete handle;
       return false;
     }
     return true;
   }
 
-  bool disconnect(){
+  public bool disconnect(){
     if(handle !is null){
       if(handle.isAlive) handle.close;
       delete handle;
@@ -74,26 +74,29 @@ class SocketClient{
     return true;
   }
 
-  bool isAlive(){
-    if(handle !is null)
+  public bool isAlive(){
+    if(handle !is null){
       return handle.isAlive;
+    }
     return false;
   }
 
-  bool write(string msg){
-    if( !isAlive ) return false;
+  public bool write(string msg){
+    if(!isAlive) return false;
     debug writefln("Sending: %s", msg );
     auto ret = handle.send( msg );
-    if( !ret ) return false;
+    if(!ret) return false;
     return true;
   }
 
-  string read(uint bufferSize=1024){
+  public string read(uint bufferSize){
     if(!isAlive) return null;
+    
     char[] buf = new char[bufferSize];
     auto ret = handle.receive(buf);
-    if( !ret ) return null;
-    if( ret == -1 ) return null;
+    
+    if(!ret) return null;
+    if(ret == -1) return null;
 
     char[] data = buf[0 .. ret].dup;
 
@@ -107,7 +110,7 @@ class SocketClient{
     return cast(string)data;
   }
 
-  Socket* getHandle(){
+  public Socket* getHandle(){
     return &handle;
   }
 }
