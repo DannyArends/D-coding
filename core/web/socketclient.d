@@ -48,8 +48,7 @@ class SocketClient{
       delete handle;
     }
   }
-
-  
+ 
   bool connect(){
     assert(host !is null);
     assert(port > 0);
@@ -76,12 +75,12 @@ class SocketClient{
   }
 
   bool isAlive(){
-    if( handle !is null )
+    if(handle !is null)
       return handle.isAlive;
     return false;
   }
 
-  bool write( string msg ){
+  bool write(string msg){
     if( !isAlive ) return false;
     debug writefln("Sending: %s", msg );
     auto ret = handle.send( msg );
@@ -89,14 +88,13 @@ class SocketClient{
     return true;
   }
 
-  string read( uint bufferSize=1024 ){
+  string read(uint bufferSize=1024){
     if(!isAlive) return null;
-    
     char[] buf = new char[bufferSize];
-    auto ret = handle.receive( buf );
-    
+    auto ret = handle.receive(buf);
     if( !ret ) return null;
     if( ret == -1 ) return null;
+
     char[] data = buf[0 .. ret].dup;
 
     while(ret == bufferSize){

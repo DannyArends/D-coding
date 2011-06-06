@@ -32,7 +32,7 @@ import core.web.socketclient;
 class HttpClient {
   SocketClient server;
   string host;
-  string protocol = "HTTP/1.1";
+  string protocol = "HTTP/1.0";
   ushort port = 80;
 
   this(string h, ushort p = 80){
@@ -41,14 +41,15 @@ class HttpClient {
     server = new SocketClient(h,p);
   }
   
-  string readURL(string url = "/"){
+  string getRawURL(string url = "/"){
     if(server.connect()){
       server.write("GET " ~ url ~ " " ~ protocol ~ "\r\nHost: " ~ host ~ "\r\n\r\n");
-      string r = server.read(1024);
+      string r = server.read(1);
       server.disconnect();
       return r;
     }else{
       return null;
     }
   }
+  
 }
