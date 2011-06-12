@@ -1,5 +1,5 @@
 /**
- * \file xbinaryreader.D
+ * \file xbin/reader.d
  *
  * last modified May, 2011
  * first written May, 2011
@@ -21,7 +21,7 @@
  * Contains: BinaryReader
  * 
  **/
-module core.xbinary.io.xbinaryreader;
+module core.io.xbin.reader;
 
 import std.math; 
 import std.stdio;

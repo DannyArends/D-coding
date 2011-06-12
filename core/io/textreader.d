@@ -21,7 +21,7 @@
  * Contains: TextReader
  * 
  **/
-module core.xbinary.io.textreader;
+module core.io.textreader;
  
 import std.math; 
 import std.stdio;

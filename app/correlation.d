@@ -1,5 +1,5 @@
 /**
- * \file fileloader.d
+ * \file correlation.d
  *
  * last modified May, 2011
  * first written May, 2011
@@ -30,7 +30,7 @@ import core.io.xbin.reader;
 import core.io.iofunctions;
 import core.io.textreader;
 import core.regression.statistics;
- 
+
 void main(string[] args){
   TextReader reader = new TextReader();
   if(args.length > 2){
@@ -43,16 +43,12 @@ void main(string[] args){
       default     :reader.setBufferSize(BUFFERSIZE.BUFFER_16KB);break;
     }
   }
-  if(reader.describeFile(args[1])){
-    stdout.flush();
-    string[][] item = reader.applyTo!string(args[1],&singleItem!string,to!long(args[3]),to!long(args[4]));
-    writef("single item: test: %s\n",item[0][0]);
-    stdout.flush();
-    string[][] row_items = reader.applyTo!string(args[1],&singleRow!string,to!long(args[3]));
-    writef("row test: %s %s %s\n",row_items[0][0],row_items[0][1],row_items[0][2]);
-    stdout.flush();
-    string[][] col_items = reader.applyTo!string(args[1],&singleColumn!string,to!long(args[3]));
-    writef("col test: %s %s %s\n",col_items[0][0],col_items[0][1],col_items[0][2]);
-    stdout.flush();
+  uint individuals[] = doRange(19,100);
+  auto data1 = reader.loadSubMatrix!double(args[1],individuals);
+  foreach(ref a; data1){
+    foreach(ref b; data1){ 
+      writef("%f\t", doCorrelation!double(a,b));
+    }
+    write("\n");
   }
 }

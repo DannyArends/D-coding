@@ -1,5 +1,5 @@
 /**
- * \file xbinarydata.D
+ * \file xbin/data.d
  *
  * last modified May, 2011
  * first written May, 2011
@@ -21,7 +21,7 @@
  * Contains: DataSet, DataEntry
  * 
  **/
-module core.xbinary.io.xbinarydata;
+module core.io.xbin.data;
 
 import std.math; 
 import std.stdio;

@@ -1,11 +1,9 @@
 /**
- * \file xbinarywriter.D
+ * \file folders.D
  *
- * last modified May, 2011
- * first written May, 2011
+ * Everything related to folder
  *
- * Copyright (c) 2010 Danny Arends, Joeri v/d Velde, Pjotr Prins, Karl W. Broman, Ritsert C. Jansen
- * 
+ * Copyright (c) 2010 Danny Arends
  *     This program is free software; you can redistribute it and/or
  *     modify it under the terms of the GNU General Public License,
  *     version 3, as published by the Free Software Foundation.
@@ -18,24 +16,8 @@
  *     A copy of the GNU General Public License, version 3, is available
  *     at http://www.r-project.org/Licenses/GPL-3
  *
- * Contains: BinaryWriter
- * 
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
  **/
-module core.xbinary.io.xbinarywriter;
 
-import std.math; 
-import std.stdio;
-import std.array;
-import std.string;
-import std.file;
 
-class BinaryWriter{
-  /**
-   *
-   * Unit test for the xbinary_writer class
-   *       
-   **/
-  unittest{
-  
-  }
-}
+ 
