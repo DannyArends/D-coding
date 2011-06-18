@@ -1,6 +1,3 @@
-Some practice in D
-=================
-
 Installation
 ------------
 - Download and install DMD for D language 2.0+
