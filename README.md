@@ -41,8 +41,8 @@ single arc/main.d file in the src/ folder. Here we link the multiple regression 
     $ regression.exe
 
 Or when lazy just let the linker figure out which parts we need, unfortunately then the linker links all DLLs referenced 
-from deps at Application startup. This is why core in Core is not allowed to load libraries, only code in src/plugins and 
-src/gui is allowed to reference external SO/DLL files.
+from deps at Application startup. This is why src/core file are not allowed to load libraries, only code in src/plugins and 
+src/gui files are allowed to include from the deps/ dir (and as such map external SO/DLL files).
 
     $ dmd -run cdc.d src/regression.d src/core src/plugins deps/
     $ regression.exe
