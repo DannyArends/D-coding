@@ -34,10 +34,8 @@ We can map external libraries e.g. R.dll, Windows (GDI32.dll + Kernel.dll), Open
     $ dmd -run cdc.d -lib deps/win Core.lib -ofWindows.lib -Isrc/
     $ dmd -run cdc.d -lib deps/gl Core.lib -ofOpenGL.lib -Ideps -Isrc/
     
-Building bigger applications by mixing and matching the parts that we want and put em together using a 
-single app/main.d
-    
-Mix and match D applications e.g. link versus Core.lib, Regression.lib and R.lib
+Building bigger applications is made possible by mixing and matching the parts that we want and putting them together using a 
+single arc/main.d file in the src/ folder. Here we link the Regression application using Core.lib, Regression.lib and R.lib
 
     $ dmd -run cdc.d src/regression.d Core.lib R.lib Regression.lib -Isrc/ -Ideps/
     $ regression.exe
