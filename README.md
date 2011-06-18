@@ -17,13 +17,13 @@ Plugin library example: Depends regression depends on core and R
 
     $ dmd -run cdc.d -lib src/plugins/regression src/core -ofRegression.lib -Ideps/
     
-Static or versus library compilation of a Single application
+Two ways of compile a single application are available: (1) Full compile, (2) Using a previously build library
 
-    $ dmd -run cdc.d src/fileloader.d src/core                 #File loading test, full compile
+    $ dmd -run cdc.d src/fileloader.d src/core                 #File loading test, Full compile
     $ dmd -run cdc.d src/fileloader.d Core.lib -Isrc/          #Or versus the library (Note: include of src/)
     $ fileloader.exe
     
-    $ dmd -run cdc.d app/httpreader.d src/core                 #Httpreader
+    $ dmd -run cdc.d app/httpreader.d src/core                 #Httpreader, Full compile
     $ httpreader  www.dannyarends.nl 80 /
     $ dmd -run cdc.d -dfl src/dflapplication.d Gui.lib -Isrc/  #GUI example DFL, depends on Gui.lib
     $ dflapplication.exe
