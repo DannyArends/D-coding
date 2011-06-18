@@ -38,7 +38,7 @@ T[][] newmatrix(T)(uint nrow,uint ncol){
   for(uint i=0;i<nrow;i++){
     x[i].length=ncol;
     for(uint j=0;j<ncol;j++){
-      x[i][j]= (*new T());
+      x[i][j]= cast(T)(0);
     }
   }
   return x;

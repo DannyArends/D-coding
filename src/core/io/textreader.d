@@ -1,5 +1,5 @@
 /**
- * \file textreader.D
+ * \file textreader.d
  *
  * last modified May, 2011
  * first written May, 2011
@@ -34,8 +34,8 @@ import std.datetime;
 import core.time;
 import core.vararg;
 
-import core.xbinary.io.xbinaryreader;
-import core.xbinary.io.iofunctions;
+import core.io.xbin.reader;
+import core.io.iofunctions;
 
 class TextReader{
   string buffer;

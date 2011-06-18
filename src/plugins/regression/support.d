@@ -17,13 +17,13 @@
  *
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **/
-module core.regression.support;
+module plugins.regression.support;
 
 import std.stdio;
 import std.math;
 
 import core.typedefs.types;
-import core.regression.LUdecomposition;
+import plugins.regression.LUdecomposition;
 import r.r;
 
 double Lnormal(double residual, double variance){

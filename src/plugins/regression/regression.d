@@ -17,14 +17,14 @@
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **/
  
-module core.regression.regression;
+module plugins.regression.regression;
  
 import std.stdio;
 import std.conv;
 import std.math;
 
 import core.typedefs.types;
-import core.regression.support;
+import plugins.regression.support;
 
 void multipleregression_R(int* nvariables,int* nsamples, double* x, double* w, double* y,double* estparams, int* nullmodellayout,int* verbose, double* lodscore){
   dvector xx = x[0..(*nvariables)*(*nsamples)];

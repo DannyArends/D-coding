@@ -18,13 +18,13 @@
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **/
 
-module core.regression.LUdecomposition;
+module plugins.regression.LUdecomposition;
  
 import std.stdio;
 import std.math;
 
 import core.typedefs.types;
-import core.regression.support;
+import plugins.regression.support;
 
 bool LUdecompose(double[][] m, int dim, int[] ndx, int *d) {
   int r, c, rowmax, i;

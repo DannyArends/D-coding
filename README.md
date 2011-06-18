@@ -8,33 +8,42 @@ Installation
 
 Compile with using dmd (and dfl) on %PATH%:
     
-    #Pure Components
-    $ dmd -run cdc.d -lib core -ofCore.lib -Ideps       #Core: Depends on itself and deps
-    $ dmd -run cdc.d -dfl -lib gui -ofGui.lib -Ideps    #GUI: Depends on core and deps
+    #Standalone LIB components for use
+    $ dmd -run cdc.d -lib src/core -ofCore.lib
+    $ dmd -run cdc.d -dfl -lib src/gui src/core -ofGui.lib -Ideps
     
-    #Single application
-    $ dmd -run cdc.d app/fileloader.d Core.lib              #File loading test, depends Core.lib
+    #Plugin library example: Depends regression depends on core and R
+    $ dmd -run cdc.d -lib src/plugins/regression src/core -ofRegression.lib -Ideps/
+    
+    #Static or versus library compilation of a Single application
+    $ dmd -run cdc.d src/fileloader.d src/core              #File loading test, full compile
+    $ dmd -run cdc.d src/fileloader.d Core.lib -Isrc/       #Or versus the library (Note: include of src/)
     $ fileloader.exe
-    $ dmd -run cdc.d app/httpreader.d Core.lib              #Httpreader test, depends Core.lib
+    
+    $ dmd -run cdc.d app/httpreader.d src/core                 #Httpreader
     $ httpreader  www.dannyarends.nl 80 /
-    $ dmd -run cdc.d -dfl app/dflapplication.d Gui.lib      #GUI: DFL, depends on Gui.lib
+    $ dmd -run cdc.d -dfl src/dflapplication.d Gui.lib -Isrc/  #GUI example DFL, depends on Gui.lib
     $ dflapplication.exe
     
 We can map external libraries e.g. R.dll, Windows (GDI32.dll + Kernel.dll), OpenGL32.dll using Core.lib
 
-    $ dmd -run cdc.d -lib deps/r Core.lib -ofR.lib
-    $ dmd -run cdc.d -lib deps/win Core.lib -ofWindows.lib
-    $ dmd -run cdc.d -lib deps/gl Core.lib -ofOpenGL.lib -Ideps
+    $ dmd -run cdc.d -lib deps/r Core.lib -ofR.lib -Isrc/
+    $ dmd -run cdc.d -lib deps/win Core.lib -ofWindows.lib -Isrc/
+    $ dmd -run cdc.d -lib deps/gl Core.lib -ofOpenGL.lib -Ideps -Isrc/
     
 Building bigger applications by mixing and matching the parts that we want and put em together using a 
 single app/main.d
     
-    #Mix and match D applications e.g. link versus Core.lib and R.lib
-    $ dmd -run cdc.d app/regression.d Core.lib R.lib -Ideps
+    #Mix and match D applications e.g. link versus Core.lib, Regression.lib and R.lib
+    $ dmd -run cdc.d src/regression.d Core.lib R.lib Regression.lib -Isrc/ -Ideps/
+    #Or let the linker figure it out (Note: links all needed DLLs at startup)
+    $ dmd -run cdc.d src/regression.d src/core src/plugins deps/
     $ regression.exe
     
-    #D application linked versus Gui.lib, OpenGL.lib and Windows.lib
+    #D application linked versus many libraries (Gui.lib, OpenGL.lib and Windows.lib)
     $ dmd -run cdc.d -dfl app/dflopengl.d Gui.lib OpenGL.lib Windows.lib Core.lib -Ideps
+    #Or let the linker figure it out (Note: links all needed DLLs at startup)
+    $ dmd -run cdc.d -dfl src/dflopengl.d src/core src/gui deps/
     $ dflopengl.exe
 
 Contributing

@@ -22,7 +22,7 @@
  * 
  **/
  
-module core.regression.statistics;
+module plugins.regression.statistics;
  
 import std.math; 
 import std.stdio;

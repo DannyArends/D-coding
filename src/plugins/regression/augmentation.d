@@ -17,13 +17,13 @@
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **/
  
-module core.regression.augmentation;
+module plugins.regression.augmentation;
  
 import std.stdio;
 import std.math;
 
 import core.typedefs.types;
-import core.regression.support;
+import plugins.regression.support;
 
 
 double rf(double cmdistance){

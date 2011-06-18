@@ -29,7 +29,6 @@ import core.arrays.searching;
 import core.io.xbin.reader;
 import core.io.iofunctions;
 import core.io.textreader;
-import core.regression.statistics;
  
 void main(string[] args){
   TextReader reader = new TextReader();
