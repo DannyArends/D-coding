@@ -35,17 +35,20 @@ We can map external libraries e.g. R.dll, Windows (GDI32.dll + Kernel.dll), Open
     $ dmd -run cdc.d -lib deps/gl Core.lib -ofOpenGL.lib -Ideps -Isrc/
     
 Building bigger applications is made possible by mixing and matching the parts that we want and putting them together using a 
-single arc/main.d file in the src/ folder. Here we link the Regression application using Core.lib, Regression.lib and R.lib
+single arc/main.d file in the src/ folder. Here we link the multiple regression application using Core.lib, Regression.lib and R.lib
 
     $ dmd -run cdc.d src/regression.d Core.lib R.lib Regression.lib -Isrc/ -Ideps/
     $ regression.exe
 
-Or let the linker figure it out (Note: links all needed DLLs at startup)
+Or when lazy just let the linker figure out which parts we need, unfortunately then the linker links all DLLs referenced 
+from deps at Application startup. This is why core in Core is not allowed to load libraries, only code in src/plugins and 
+src/gui is allowed to reference external SO/DLL files.
 
     $ dmd -run cdc.d src/regression.d src/core src/plugins deps/
     $ regression.exe
-    
-D application linked versus many libraries (Gui.lib, OpenGL.lib and Windows.lib)
+
+Another example is a D application that uses OpenGL in the GUI context, basically we link versus many libraries (Gui.lib, 
+OpenGL.lib and Windows.lib). Compile the libraries first (see above) and the build the application,
 
     $ dmd -run cdc.d -dfl app/dflopengl.d Gui.lib OpenGL.lib Windows.lib Core.lib -Ideps
     $ dflopengl.exe
