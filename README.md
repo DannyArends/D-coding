@@ -7,7 +7,20 @@ Installation
 - (Optional for GUI) Download and install DFL
 
 Compile with using dmd (and dfl) on %PATH%:
-  
+
+Applications
+------------
+The applications itself are not that intresting, a short description:
+
+- Regression: Multiple regression adapted from MQM routine
+- Fileloader: High speed big data file loading using the D language
+- Httpreader: Basic HTTP slurper
+- Dflapplication: First test in DFL
+- Dfltreeexample: Directory browsing plugin for DFL
+- Dflopengl: OpenGL test application in D supporting 3DS model and TGA texture loading
+
+Re-usable components
+------------
 Standalone LIB components for re-use
 
     $ dmd -run cdc.d -lib src/core -ofCore.lib
@@ -41,7 +54,7 @@ single arc/main.d file in the src/ folder. Here we link the multiple regression 
     $ regression.exe
 
 Or when lazy just let the linker figure out which parts we need, unfortunately then the linker links all DLLs referenced 
-from deps at Application startup. This is why src/core file are not allowed to load libraries, only src/plugins and 
+from deps to be loaded at application startup. This is why src/core file are NOT allowed to load libraries, only src/plugins and 
 src/gui files are allowed to include from the deps/ dir (and as such map external SO/DLL files).
 
     $ dmd -run cdc.d src/regression.d src/core src/plugins deps/
@@ -53,21 +66,10 @@ OpenGL.lib and Windows.lib). Compile the libraries first (see above) and the bui
     $ dmd -run cdc.d -dfl app/dflopengl.d Gui.lib OpenGL.lib Windows.lib Core.lib -Ideps
     $ dflopengl.exe
 
-Or let the linker figure it out (Note: links all needed DLLs at startup)
+Or let the linker figure it out (Note: loads all needed DLLs at startup)
 
     $ dmd -run cdc.d -dfl src/dflopengl.d src/core src/gui deps/
     $ dflopengl.exe
-
-Applications
-------------
-The applications itself are not that intresting, a short description:
-
-- regression: Multiple regression adapted from MQM routine
-- fileloader: High speed big data file loading using the D language
-- httpreader: Basic HTTP slurper
-- dflapplication: First test in DFL
-- dfltreeexample: Directory browsing plugin for DFL
-- dflopengl: OpenGL test application in D supporting 3DS model and TGA texture loading
 
 Contributing
 ------------
