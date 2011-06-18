@@ -7,8 +7,8 @@ Installation
 - (Optional for GUI) Download and install DFL
 
 Compile with using dmd (and dfl) on %PATH%:
-    
-Standalone LIB components for use
+  
+Standalone LIB components for re-use
 
     $ dmd -run cdc.d -lib src/core -ofCore.lib
     
@@ -57,6 +57,17 @@ Or let the linker figure it out (Note: links all needed DLLs at startup)
 
     $ dmd -run cdc.d -dfl src/dflopengl.d src/core src/gui deps/
     $ dflopengl.exe
+
+Applications
+------------
+The applications itself are not that intresting, a short description:
+
+- regression: Multiple regression adapted from MQM routine
+- fileloader: High speed big data file loading using the D language
+- httpreader: Basic HTTP slurper
+- dflapplication: First test in DFL
+- dfltreeexample: Directory browsing plugin for DFL
+- dflopengl: OpenGL test application in D supporting 3DS model and TGA texture loading
 
 Contributing
 ------------
