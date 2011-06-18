@@ -11,12 +11,12 @@ Compile with using dmd (and dfl) on %PATH%:
 Standalone LIB components for use
 
     $ dmd -run cdc.d -lib src/core -ofCore.lib
+    
+Plugin library examples: Gui.lib depends on openGL, Regression.lib depends on Core and R (in deps)
+    
     $ dmd -run cdc.d -dfl -lib src/gui src/core -ofGui.lib -Ideps
-    
-Plugin library example: Depends regression depends on core and R
-
     $ dmd -run cdc.d -lib src/plugins/regression src/core -ofRegression.lib -Ideps/
-    
+
 Two ways of compile a single application are available: (1) Full compile, (2) Using a previously build library
 
     $ dmd -run cdc.d src/fileloader.d src/core                 #File loading test, Full compile
@@ -41,7 +41,7 @@ single arc/main.d file in the src/ folder. Here we link the multiple regression 
     $ regression.exe
 
 Or when lazy just let the linker figure out which parts we need, unfortunately then the linker links all DLLs referenced 
-from deps at Application startup. This is why src/core file are not allowed to load libraries, only code in src/plugins and 
+from deps at Application startup. This is why src/core file are not allowed to load libraries, only src/plugins and 
 src/gui files are allowed to include from the deps/ dir (and as such map external SO/DLL files).
 
     $ dmd -run cdc.d src/regression.d src/core src/plugins deps/
