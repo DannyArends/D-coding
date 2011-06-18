@@ -8,16 +8,16 @@ Installation
 
 Compile with using dmd (and dfl) on %PATH%:
     
-    #Standalone LIB components for use
+Standalone LIB components for use
     $ dmd -run cdc.d -lib src/core -ofCore.lib
     $ dmd -run cdc.d -dfl -lib src/gui src/core -ofGui.lib -Ideps
     
-    #Plugin library example: Depends regression depends on core and R
+Plugin library example: Depends regression depends on core and R
     $ dmd -run cdc.d -lib src/plugins/regression src/core -ofRegression.lib -Ideps/
     
-    #Static or versus library compilation of a Single application
-    $ dmd -run cdc.d src/fileloader.d src/core              #File loading test, full compile
-    $ dmd -run cdc.d src/fileloader.d Core.lib -Isrc/       #Or versus the library (Note: include of src/)
+Static or versus library compilation of a Single application
+    $ dmd -run cdc.d src/fileloader.d src/core                 #File loading test, full compile
+    $ dmd -run cdc.d src/fileloader.d Core.lib -Isrc/          #Or versus the library (Note: include of src/)
     $ fileloader.exe
     
     $ dmd -run cdc.d app/httpreader.d src/core                 #Httpreader
@@ -34,15 +34,15 @@ We can map external libraries e.g. R.dll, Windows (GDI32.dll + Kernel.dll), Open
 Building bigger applications by mixing and matching the parts that we want and put em together using a 
 single app/main.d
     
-    #Mix and match D applications e.g. link versus Core.lib, Regression.lib and R.lib
+Mix and match D applications e.g. link versus Core.lib, Regression.lib and R.lib
     $ dmd -run cdc.d src/regression.d Core.lib R.lib Regression.lib -Isrc/ -Ideps/
-    #Or let the linker figure it out (Note: links all needed DLLs at startup)
+Or let the linker figure it out (Note: links all needed DLLs at startup)
     $ dmd -run cdc.d src/regression.d src/core src/plugins deps/
     $ regression.exe
     
-    #D application linked versus many libraries (Gui.lib, OpenGL.lib and Windows.lib)
+D application linked versus many libraries (Gui.lib, OpenGL.lib and Windows.lib)
     $ dmd -run cdc.d -dfl app/dflopengl.d Gui.lib OpenGL.lib Windows.lib Core.lib -Ideps
-    #Or let the linker figure it out (Note: links all needed DLLs at startup)
+Or let the linker figure it out (Note: links all needed DLLs at startup)
     $ dmd -run cdc.d -dfl src/dflopengl.d src/core src/gui deps/
     $ dflopengl.exe
 
