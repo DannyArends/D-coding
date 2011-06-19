@@ -29,11 +29,6 @@ import dfl.all;
 import std.file;
 import dfl.treeview, dfl.event, dfl.base;
 
-const string[] dmd_ext = [".d", ".di"];
-const string[] txt_ext = [".txt", ".csv"];
-const string[] img_ext = [".tga",".jpg",".gif"];
-
-
 class DirControl: Panel{
   bool showAll = true;
   TreeView tree;
