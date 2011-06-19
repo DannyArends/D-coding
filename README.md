@@ -12,6 +12,7 @@ The applications itself are not that intresting, a short description:
 - Regression: Multiple regression adapted from MQM routine
 - Fileloader: High speed big data file loading using the D language
 - Httpreader: Basic HTTP slurper
+- Httpserver: Basic try at a HTTP server
 - Dflapplication: First test in DFL
 - Dfltreeexample: Directory browsing plugin for DFL
 - Dflopengl: OpenGL test application in D supporting 3DS model and TGA texture loading
@@ -33,8 +34,9 @@ Two ways of compile a single application are available: (1) Full compile, (2) Us
     $ dmd -run cdc.d src/fileloader.d Core.lib -Isrc/          #Or versus the library (Note: include of src/)
     $ fileloader.exe
     
-    $ dmd -run cdc.d app/httpreader.d src/core                 #Httpreader, Full compile
+    $ dmd -run cdc.d src/httpreader.d src/core                 #Httpreader, Full compile
     $ httpreader  www.dannyarends.nl 80 /
+    
     $ dmd -run cdc.d -dfl src/dflapplication.d Gui.lib -Isrc/  #GUI example DFL, depends on Gui.lib
     $ dflapplication.exe
     
@@ -60,7 +62,7 @@ src/gui files are allowed to include from the deps/ dir (and as such map externa
 Another example is a D application that uses OpenGL in the GUI context, basically we link versus many libraries (Gui.lib, 
 OpenGL.lib and Windows.lib). Compile the libraries first (see above) and the build the application,
 
-    $ dmd -run cdc.d -dfl app/dflopengl.d Gui.lib OpenGL.lib Windows.lib Core.lib -Ideps
+    $ dmd -run cdc.d -dfl src/dflopengl.d Gui.lib OpenGL.lib Windows.lib Core.lib -Ideps
     $ dflopengl.exe
 
 Or let the linker figure it out (Note: loads all needed DLLs at startup)
