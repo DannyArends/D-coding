@@ -30,6 +30,15 @@ import std.conv;
 import core.vararg;
 
 //TODO: Easy :)
+T[][] all(T)(T[][] t, string data, long row, long col, long rindex, long cindex){
+  if(row==0 && col==0){
+    t = new T[][1];
+  }
+  t[0] ~= to!T(data);
+  return t;
+}
+
+//TODO: Easy :)
 T[][] singleItem(T)(T[][] t, string data, long row, long col, long rindex, long cindex){
   if(row==rindex && col==cindex){
     auto returnval = new T[][1];
