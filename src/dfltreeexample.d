@@ -1,20 +1,19 @@
 import dfl.all;
 import std.file;
+import std.conv;
 import gui.dfl.dircontrol;
+import gui.dfl.filecontrol;
+
 
 void main() {
   auto form = new Form;
   auto label = new Label;
-  auto tree = new DirControl();
-  tree.tree.afterSelect ~= delegate void (TreeView t, TreeViewEventArgs e) {
-          label. text = "Text: " ~ e.node.text ~
-          "\nPath: " ~ e.node.fullPath;
-  };
-  form.clientSize = dfl.all.Size(800, 600);
-  form.controls.add(tree);
-  label.dock = DockStyle.RIGHT;
-  label.text = "Select a node.";
-  form.controls.add(label);
-
+  auto dircontrol = new DirControl();
+  auto filecontrol = new FileControl();
+  dircontrol.tree.afterSelect ~= &filecontrol.OnSelect_click;
+  form.clientSize = dfl.all.Size(1200, 900);
+  form.controls.add(dircontrol);
+  filecontrol.dock = DockStyle.RIGHT;
+  form.controls.add(filecontrol);
   Application.run(form);
 }

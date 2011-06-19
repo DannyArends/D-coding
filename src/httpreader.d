@@ -9,10 +9,10 @@ import std.stdio;
 import std.math;
 import std.conv;
 
-import core.web.httpclient;
+import core.web.httpreader;
 
 
 void main(string[] args){
-  HttpClient c = new HttpClient(args[1],to!ushort(args[2]));
+  HttpReader c = new HttpReader(args[1],to!ushort(args[2]));
   writeln(c.getRawURL(args[3]));
 }
