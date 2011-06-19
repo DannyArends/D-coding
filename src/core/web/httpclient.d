@@ -1,5 +1,5 @@
 /**
- * \file httpclient.D
+ * \file httpclient.d
  *
  * last modified Jun, 2011
  * first written Jun, 2011
@@ -19,37 +19,67 @@
  *     at http://www.r-project.org/Licenses/GPL-3
  *
  * Contains: HttpClient
+ * Loosly Based on: http://github.com/burjui/quarkHTTPd/
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **/
+
 module core.web.httpclient;
- 
- 
-import std.stdio;
-import std.math;
+
+import core.thread;
+import std.array;
 import std.conv;
-import core.web.socketclient;
+import std.file;
+import std.path;
+import std.socket;
+import std.stdio;
+import std.string;
+import std.uri;
 
-class HttpClient {
-  SocketClient server;
-  string host;
-  string protocol = "HTTP/1.0";
-  ushort port = 80;
+import core.web.httphandler;
+import core.typedefs.webtypes;
+import core.web.servlets.servlet;
+import core.web.servlets.fileservlet;
 
-  this(string h, ushort p = 80){
-    host = h;
-    port = p;
-    server = new SocketClient(h,p);
+class HttpClient : Thread{
+  private:
+  Socket socket;
+  RequestHandler handler;
+    
+  public:
+  this(string root_path, Socket client_socket){
+    socket = client_socket;
+    handler = new RequestHandler(root_path, client_socket);
+    super(&run);
   }
   
-  string getRawURL(string url = "/"){
-    if(server.connect()){
-      server.write("GET " ~ url ~ " " ~ protocol ~ "\r\nHost: " ~ host ~ "\r\n\r\n");
-      string r = server.read(1);
-      server.disconnect();
-      return r;
-    }else{
-      return null;
+  void run(){
+    try{
+      auto request = handler.getRequest();
+      if(request.method != RequestMethod.GET){
+        handler.sendErrorPage(STATUS_NOT_IMPLEMENTED, "Unknown request method");
+        return;
+      }
+
+      auto headers = handler.receiveHeaders();
+
+      if (!processRequest(request, headers, [new FileServlet()])){
+        handler.sendErrorPage(STATUS_PAGE_NOT_FOUND, "Page not found");
+        return;
+      }
+      return;
+    }catch (Throwable exception){
+      handler.sendErrorPage(STATUS_INTERNAL_ERROR, "Internal server error");
+      return;
+    }finally{
+      socket.close();
     }
   }
   
+  bool processRequest(Request request, Header[] headers, Servlet[] servlets){
+    foreach(servlet; servlets){
+      if(servlet.serve(handler, request, headers))
+        return true;
+      }
+    return false;
+  }
 }
