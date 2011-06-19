@@ -21,6 +21,7 @@
  * Contains: HttpReader
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **/
+
 module core.web.httpreader;
  
 import std.stdio;
