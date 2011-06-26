@@ -1,9 +1,9 @@
 Installation
 ------------
-- Download and install DMD for D language 2.0+
-- Download and install Ruby 1.9.1 (or higher)
+- Download and install DMD for D language 2.0+ (http://www.d-programming-language.org/)
+- Download and install Ruby 1.9.1 (or higher) (www.ruby-lang.org/)
 - Install Rake (http://rake.rubyforge.org/)
-- (Optional for GUI) Download and install DFL
+- (Optional for GUI) Download and install DFL (http://www.dprogramming.com/dfl.php)
 
 Compile with using rake, dmd (and dfl) on %PATH%:
 List all possible build and test options:
