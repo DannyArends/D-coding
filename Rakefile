@@ -11,7 +11,6 @@ TESTS = [ 'read_csv' ]
 
 CLEAN.include('*.o')
 CLEAN.include('*.obj')
-CLEAN.include('*.exe')
 CLEAN.include('*.map')
 CLEAN.include('*.lib')
 

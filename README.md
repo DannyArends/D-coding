@@ -1,9 +1,25 @@
 Installation
 ------------
 - Download and install DMD for D language 2.0+
+- Download and install Ruby 1.9.1 (or higher)
+- Install Rake
+
+    $ gem install --remote rake
+
 - (Optional for GUI) Download and install DFL
 
-Compile with using dmd (and dfl) on %PATH%:
+Compile with using rake, dmd (and dfl) on %PATH%:
+List all possible build and test options:
+
+    $ rake -T
+
+Build all examples and standalone LIB components:
+
+    $ rake build
+
+Building only the standalone LIB components for re-use:
+
+    $ rake libs
 
 Applications
 ------------
@@ -17,7 +33,7 @@ The applications itself are not that intresting, a short description:
 - Dfltreeexample: Directory browsing plugin for DFL
 - Dflopengl: OpenGL test application in D supporting 3DS model and TGA texture loading
 
-Re-usable components
+Building the re-usable components
 ------------
 Standalone LIB components for re-use
 
