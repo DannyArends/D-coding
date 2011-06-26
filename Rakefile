@@ -40,38 +40,38 @@ file "R" => :Core do
   sh "dmd -run cdc.d -lib deps/R Core.lib -ofR.lib -Ideps/ -Isrc/"
 end
 
-# ---- Applications Libs ----
+# ---- Applications ----
 
 file "fileloader" => :Core do
   sh "dmd -run cdc.d src/fileloader.d Core.lib -Isrc/"
 end
 
-file "correlation" => [:Core,:RegressionLib] do
-  sh "dmd -run cdc.d  src/correlation.d Core.lib Regression.lib -Isrc/"
+file "correlation" => [ :Core, :RegressionLib ] do
+  sh "dmd -run cdc.d src/correlation.d Core.lib Regression.lib -Isrc/"
 end
 
 file "plang" => :Core do
-  sh "dmd -run cdc.d  src/plang.d Core.lib -Isrc/"
+  sh "dmd -run cdc.d src/plang.d Core.lib -Isrc/"
 end
 
 file "httpreader" do
   sh "dmd -run cdc.d src/httpreader.d src/core"
 end
 
-file "regression" => [:Core, :RegressionLib, :R] do
+file "regression" => [ :Core, :RegressionLib, :R ] do
   sh "dmd -run cdc.d src/regression.d Core.lib Regression.lib R.lib -Isrc/ -Ideps/"
 end
 
-file "dfltree" => [:Core, :Gui] do
+file "dfltree" => [ :Core, :Gui ] do
   sh "dmd -run cdc.d -dfl src/dfltreeexample.d Gui.lib Core.lib -Isrc/"
 end
 
 file "httpserver" => :Core do
-  sh "dmd -run cdc.d  src/httpserver.d Core.lib -Isrc/"
+  sh "dmd -run cdc.d src/httpserver.d Core.lib -Isrc/"
 end
 
 file "dnacode" => :Core do
-  sh "dmd -run cdc.d  src/dnacode.d Core.lib -Isrc/"
+  sh "dmd -run cdc.d src/dnacode.d Core.lib -Isrc/"
 end
 
 file "dflopengl" => LIBS do
@@ -95,28 +95,55 @@ task :run => "#{ENV['p']}" do
   sh "./#{ENV['p']}" 
 end
 
-desc "Test #{BIN}"
-task :test => ":#{ENV['p']}" do
-end
-
-# ---- Utilities ----
-
-
-# ---- Unit tests
-
-desc "Test fileloader"
-task :test_fileloader => [ 'Core', 'fileloader' ] do 
-  print "Testing fileloader\n"
-  sh "./fileloader cdc.d" 
-end
-
-desc "Test httpreader"
-task :test_httpreader => [ 'httpreader' ] do 
-  print "Testing httpreader\n"
-  sh "./httpreader www.dannyarends.nl 80 /" 
+desc "Test single application use: rake test_single -p #{BIN}"
+task :test_single => "test_#{ENV['p']}" do
+  print "Test OK\n"
 end
 
 desc "Test all"
-task :test_all => [ :test_fileloader, :test_httpreader ] do
+task :test => [ :test_plang, :test_dnacode, :test_fileloader, :test_correlation, :test_httpreader ] do
+  print "All tests OK\n"
 end
 
+# ---- Unit tests ----
+
+desc "Test Plang"
+task :test_plang => [ :plang ] do 
+  print "Testing p'' language interpreter\n"
+  sh "./plang"
+  sh "./plang Rl(l) 010"
+end
+desc "Test DNAcode"
+task :test_dnacode => [ :dnacode ] do 
+  print "Testing DNA translation\n"
+  sh "./dnacode"
+  sh "./dnacode AAAATGATTGAGTAGGATGGATTCTATATCTCTACTCATTTTGTCGCTT"
+end
+
+desc "Test Fileloader"
+task :test_fileloader => [ :fileloader ] do 
+  print "Testing fileloader\n"
+  sh "./fileloader data/csv/test.csv"
+  sh "./fileloader data/csv/test.csv 2mb"
+  sh "./fileloader data/csv/test.csv 2mb 1 23"
+end
+
+desc "Test Regression"
+task :test_regression => [ :regression ] do 
+  print "Testing regression\n"
+  sh "./regression"
+end
+
+desc "Test Correlation"
+task :test_correlation => [ :correlation ] do 
+  print "Testing correlation\n"
+  sh "./correlation"
+  sh "./correlation data/csv/test.csv 2mb"
+end
+
+desc "Test HTTPreader"
+task :test_httpreader => [ 'httpreader' ] do 
+  print "Testing httpreader\n"
+  sh "./httpreader"
+  sh "./httpreader www.dannyarends.nl 80 /" 
+end

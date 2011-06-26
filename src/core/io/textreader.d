@@ -127,12 +127,12 @@ class TextReader{
       delete inputbuffer; inputbuffer = new ubyte[buffersize];
       auto t2 = Clock.currTime();
       buffercount++;
-      debug writef("buffer: %d in %d\n", buffercount, (t2-t0));
+      debug writef("   Buffer: %d in %d\n", buffercount, (t2-t0));
       stdout.flush();
     }
     auto t1 = Clock.currTime();
     f.close();
-    writef("Filesize %d: %d buffers in %d\n", filesize, buffercount, (t1-t0));
+    writef("   Filesize %d: %d buffers in %d\n", filesize, buffercount, (t1-t0));
     stdout.flush();
     return dataslice;
   }
@@ -170,7 +170,7 @@ class TextReader{
     }
     auto t1 = Clock.currTime();
     f.close();
-    writef("Filesize %d: %d buffers %d lines, %d tabs in %d\n", filesize, buffercount, linecount, tabscount, (t1-t0));
+    writef("   Filesize %d: %d buffers %d lines, %d tabs in %d\n", filesize, buffercount, linecount, tabscount, (t1-t0));
     return 1;
   }
     
