@@ -20,17 +20,20 @@ Building only the standalone LIB components for re-use:
 
 Applications
 ------------
-The applications itself are not that intresting, a short description:
+The provided applications are itself are not that intresting, and sometimes far from finished, 
+however here a short description on what they are supposed to do is provided:
 
+- Plang: implementation of a p'' interpreter
 - Regression: Multiple regression adapted from MQM routine
 - Fileloader: High speed big data file loading using the D language
 - Httpreader: Basic HTTP slurper
 - Httpserver: Basic try at a HTTP server
+- DNAcode: Translates an input sequence in DNA to Anti, mRNA and possible proteins
 - Dflapplication: First test in DFL
 - Dfltreeexample: Directory browsing plugin for DFL
 - Dflopengl: OpenGL test application in D supporting 3DS model and TGA texture loading
 
-Building the re-usable components
+Building without Rake
 ------------
 Standalone LIB components for re-use
 
