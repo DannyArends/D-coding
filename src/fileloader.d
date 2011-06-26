@@ -42,7 +42,7 @@ void main(string[] args){
       default     :reader.setBufferSize(BUFFERSIZE.BUFFER_16KB);break;
     }
   }
-  if(reader.describeFile(args[1])){
+  if(reader.describeFile(args[1]) && args.length > 5){
     stdout.flush();
     string[][] item = reader.applyTo!string(args[1],&singleItem!string,to!long(args[3]),to!long(args[4]));
     writef("single item: test: %s\n",item[0][0]);

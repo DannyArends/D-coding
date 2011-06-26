@@ -63,7 +63,7 @@ pure real doVariance(T)(real sumofsquares,uint n){ return (sumofsquares/(n-1)); 
 pure real doStandardDeviation(T)(T[] data){ return sqrt(doVariance!T(data)); }
 
 real doCorrelation(T)(T[] d1, T[] d2){
-  if(d1.length!=d2.length) throw new Exception("Error: Should have same length %d != %d", d1.length, d2.length);
+  if(d1.length!=d2.length) throw new Exception("Error: Should have same length "~ to!string(d1.length) ~ " !=" ~ to!string(d2.length));
   
   real sumofsquares = 0;
   T mean1 = doMean(d1);
@@ -74,6 +74,6 @@ real doCorrelation(T)(T[] d1, T[] d2){
     T delta2 = (d2[i] - mean2);
     sumofsquares += (delta1 * delta2);
   }
-  real variance = doVariance(sumofsquares,d1.length);
+  real variance = doVariance!real(sumofsquares,d1.length);
   return (variance / (doStandardDeviation(d1)*doStandardDeviation(d2)));
 }

@@ -29,7 +29,13 @@ import core.arrays.searching;
 import core.io.xbin.reader;
 import core.io.iofunctions;
 import core.io.textreader;
-import core.regression.statistics;
+import plugins.regression.statistics;
+
+void print_usage(){
+  writeln("Usage: correlation in.csv buffersize");
+  writeln("Supported buffersize: 2mb, 4mb, 16mb, 64mb, 256mb");
+  writeln("  e.g. correlation ./test/data.csvr 2mb");
+}
 
 void main(string[] args){
   TextReader reader = new TextReader();
@@ -42,13 +48,15 @@ void main(string[] args){
       case "256mb":reader.setBufferSize(BUFFERSIZE.BUFFER_256MB);break;
       default     :reader.setBufferSize(BUFFERSIZE.BUFFER_16KB);break;
     }
-  }
-  uint individuals[] = doRange(19,100);
-  auto data1 = reader.loadSubMatrix!double(args[1],individuals);
-  foreach(ref a; data1){
-    foreach(ref b; data1){ 
-      writef("%f\t", doCorrelation!double(a,b));
+    uint individuals[] = doRange(19,100);
+    auto data1 = reader.loadSubMatrix!double(args[1],individuals);
+    foreach(ref a; data1){
+      foreach(ref b; data1){ 
+        writef("%f\t", doCorrelation!double(a,b));
+      }
+      write("\n");
     }
-    write("\n");
+  }else{
+    print_usage();
   }
 }

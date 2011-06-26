@@ -34,8 +34,8 @@ import dfl.event, dfl.base;
 import core.io.iofunctions;
 import core.io.textreader;
 
-const string[] txt_ext = [".txt", ".csv",".d", ".di",".md"];
-const string[] img_ext = [".tga",".jpg",".gif"];
+string[] txt_ext = [".txt", ".csv",".d", ".di",".md"];
+string[] img_ext = [".tga",".jpg",".gif"];
 
 
 class FileControl: Panel{
