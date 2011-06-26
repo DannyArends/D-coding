@@ -2,10 +2,7 @@ Installation
 ------------
 - Download and install DMD for D language 2.0+
 - Download and install Ruby 1.9.1 (or higher)
-- Install Rake
-
-    $ gem install --remote rake
-
+- Install Rake (http://rake.rubyforge.org/)
 - (Optional for GUI) Download and install DFL
 
 Compile with using rake, dmd (and dfl) on %PATH%:
