@@ -62,7 +62,7 @@ src/gui files are allowed to include from the deps/ dir (and as such map externa
 Another example is a D application that uses OpenGL in the GUI context, basically we link versus many libraries (Gui.lib, 
 OpenGL.lib and Windows.lib). Compile the libraries first (see above) and the build the application,
 
-    $ dmd -run cdc.d -dfl src/dflopengl.d Gui.lib OpenGL.lib Windows.lib Core.lib -Ideps
+    $ dmd -run cdc.d -dfl src/dflopengl.d Gui.lib OpenGL.lib Windows.lib Core.lib -Ideps/ -Isrc/
     $ dflopengl.exe
 
 Or let the linker figure it out (Note: loads all needed DLLs at startup)
