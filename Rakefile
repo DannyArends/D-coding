@@ -33,9 +33,7 @@ file "core" do
   sh "dmd -run cdc.d -lib src/core -ofcore.#{libext}"
 end
 
-file "gui" => :core do
-#  sh "dmd -run cdc.d -dfl -lib src/gui core.#{libext} -ofgui.#{libext} -Ideps"
-end
+
 
 file "stats" => :core do
   sh "dmd -run cdc.d -lib src/plugins/regression src/core -ofstats.#{libext} -Ideps/"
@@ -51,6 +49,13 @@ end
 
 file "r" => :core do
   sh "dmd -run cdc.d -lib deps/r core.#{libext} -ofr.#{libext} -Ideps/ -Isrc/"
+end
+
+file "gui" => :core do
+  if windows? then
+    print "Windows DFL GUI\n"
+    sh "dmd -run cdc.d -dfl -lib src/gui core.#{libext} -ofgui.#{libext} -Ideps"
+  end
 end
 
 # ---- Applications ----
@@ -76,7 +81,9 @@ file "regression" => [ :core, :stats, :r ] do
 end
 
 file "dfltree" => [ :core, :gui ] do
-#  sh "dmd -run cdc.d -dfl src/dfltreeexample.d gui.#{libext} core.#{libext} -Isrc/ -L-ldl"
+  if windows? then
+    sh "dmd -run cdc.d -dfl src/dfltreeexample.d gui.#{libext} core.#{libext} -Isrc/ -L-ldl"
+  end
 end
 
 file "httpserver" => :core do
@@ -88,7 +95,9 @@ file "dnacode" => :core do
 end
 
 file "dflopengl" => LIBS do
-#  sh "dmd -run cdc.d -dfl src/dflopengl.d gui.#{libext} openGL.#{libext} windows.#{libext} core.#{libext} -Ideps/ -Isrc/ -L-ldl"
+  if windows? then
+    sh "dmd -run cdc.d -dfl src/dflopengl.d gui.#{libext} openGL.#{libext} windows.#{libext} core.#{libext} -Ideps/ -Isrc/ -L-ldl"
+  end
 end
 
 # ---- Standard tasks ----
@@ -136,9 +145,10 @@ end
 desc "Test Fileloader"
 task :test_fileloader => [ :fileloader ] do 
   print "Testing fileloader\n"
-  sh "./fileloader data/csv/test.csv"
-  sh "./fileloader data/csv/test.csv 2mb"
-  sh "./fileloader data/csv/test.csv 2mb 1 23"
+  sh "./fileloader"
+  #sh "./fileloader data/csv/test.csv"
+  #sh "./fileloader data/csv/test.csv 2mb"
+  #sh "./fileloader data/csv/test.csv 2mb 1 23"
 end
 
 desc "Test Regression"
@@ -151,7 +161,7 @@ desc "Test Correlation"
 task :test_correlation => [ :correlation ] do 
   print "Testing correlation\n"
   sh "./correlation"
-  sh "./correlation data/csv/test.csv 2mb"
+  #sh "./correlation data/csv/test.csv 2mb"
 end
 
 desc "Test HTTPreader"
