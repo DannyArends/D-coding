@@ -14,6 +14,7 @@ CLEAN.include('*.obj')
 CLEAN.include('*.map')
 CLEAN.include('*.lib')
 CLEAN.include('*.a')
+CLEAN.include(BIN)
 
 def windows?
   return RUBY_PLATFORM =~ /(:?mswin|mingw)/
@@ -71,11 +72,11 @@ file "httpreader" do
 end
 
 file "regression" => [ :core, :stats, :r ] do
-  sh "dmd -run cdc.d src/regression.d core.#{libext} stats.#{libext} r.#{libext} -Isrc/ -Ideps/"
+  sh "dmd -run cdc.d src/regression.d core.#{libext} stats.#{libext} r.#{libext} -Isrc/ -Ideps/ -L-ldl"
 end
 
 file "dfltree" => [ :core, :gui ] do
-#  sh "dmd -run cdc.d -dfl src/dfltreeexample.d gui.#{libext} core.#{libext} -Isrc/"
+#  sh "dmd -run cdc.d -dfl src/dfltreeexample.d gui.#{libext} core.#{libext} -Isrc/ -L-ldl"
 end
 
 file "httpserver" => :core do
@@ -87,7 +88,7 @@ file "dnacode" => :core do
 end
 
 file "dflopengl" => LIBS do
-#  sh "dmd -run cdc.d -dfl src/dflopengl.d gui.#{libext} openGL.#{libext} windows.#{libext} core.#{libext} -Ideps/ -Isrc/"
+#  sh "dmd -run cdc.d -dfl src/dflopengl.d gui.#{libext} openGL.#{libext} windows.#{libext} core.#{libext} -Ideps/ -Isrc/ -L-ldl"
 end
 
 # ---- Standard tasks ----
@@ -123,7 +124,7 @@ desc "Test Plang"
 task :test_plang => [ :plang ] do 
   print "Testing p'' language interpreter\n"
   sh "./plang"
-  sh "./plang Rl(l) 010"
+  sh "./plang 'Rl(l)' 010"
 end
 desc "Test DNAcode"
 task :test_dnacode => [ :dnacode ] do 
