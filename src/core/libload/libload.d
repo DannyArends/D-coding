@@ -46,7 +46,7 @@ protected HXModule load_library(string library_prefix){
 	version (Windows) {
 		shared_library = ExeModule_Load(library_prefix ~ ".dll");
 	} else version (linux) {
-		shared_library = ExeModule_Load(library_prefix ~ ".so");
+		shared_library = ExeModule_Load("lib" ~ library_prefix ~ ".so");
 	} else version (darwin) {
 		shared_library = ExeModule_Load("/usr/lib/"~ library_prefix ~".dylib");
 	}

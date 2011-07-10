@@ -5,7 +5,7 @@
 
 require 'rake/clean'
 
-LIBS = [ 'Core', 'Gui', 'RegressionLib', 'Windows', 'OpenGL', 'R' ]
+LIBS = [ 'core', 'gui', 'stats', 'windows', 'openGL', 'r' ]
 BIN = ['fileloader', 'correlation', 'plang', 'httpreader', 'regression', 'dfltree', 'httpserver', 'dnacode', 'dflopengl' ]
 TESTS = [ 'read_csv' ]
 
@@ -13,69 +13,81 @@ CLEAN.include('*.o')
 CLEAN.include('*.obj')
 CLEAN.include('*.map')
 CLEAN.include('*.lib')
+CLEAN.include('*.a')
 
+def windows?
+  return RUBY_PLATFORM =~ /(:?mswin|mingw)/
+end
+
+def libext
+  if windows? then
+    return "lib"
+  else
+    return "a"
+  end
+end
 # ---- Standard Libs ----
 
-file "Core" do
-  sh "dmd -run cdc.d -lib src/core -ofCore.lib"
+file "core" do
+  sh "dmd -run cdc.d -lib src/core -ofcore.#{libext}"
 end
 
-file "Gui" => :Core do
-  sh "dmd -run cdc.d -dfl -lib src/gui src/core -ofGui.lib -Ideps"
+file "gui" => :core do
+#  sh "dmd -run cdc.d -dfl -lib src/gui core.#{libext} -ofgui.#{libext} -Ideps"
 end
 
-file "RegressionLib" => :Core do
-  sh "dmd -run cdc.d -lib src/plugins/regression src/core -ofRegression.lib -Ideps/"
+file "stats" => :core do
+  sh "dmd -run cdc.d -lib src/plugins/regression src/core -ofstats.#{libext} -Ideps/"
 end
 
-file "Windows" => :Core do
-  sh "dmd -run cdc.d -lib deps/win Core.lib -ofWindows.lib -Isrc/"
+file "windows" => :core do
+  sh "dmd -run cdc.d -lib deps/win core.#{libext} -ofwindows.#{libext} -Isrc/"
 end
 
-file "OpenGL" => :Core do
-  sh "dmd -run cdc.d -lib deps/gl Core.lib -ofOpenGL.lib -Ideps/ -Isrc/"
+file "openGL" => :core do
+  sh "dmd -run cdc.d -lib deps/gl core.#{libext} -ofopenGL.#{libext} -Ideps/ -Isrc/"
 end
 
-file "R" => :Core do
-  sh "dmd -run cdc.d -lib deps/R Core.lib -ofR.lib -Ideps/ -Isrc/"
+file "r" => :core do
+  sh "dmd -run cdc.d -lib deps/r core.#{libext} -ofr.#{libext} -Ideps/ -Isrc/"
 end
 
 # ---- Applications ----
 
-file "fileloader" => :Core do
-  sh "dmd -run cdc.d src/fileloader.d Core.lib -Isrc/"
+file "fileloader" => :core do
+  sh "dmd -run cdc.d src/fileloader.d core.#{libext} -Isrc/"
 end
 
-file "correlation" => [ :Core, :RegressionLib ] do
-  sh "dmd -run cdc.d src/correlation.d Core.lib Regression.lib -Isrc/"
+file "correlation" => [ :core, :stats ] do
+  sh "dmd -run cdc.d src/correlation.d core.#{libext} stats.#{libext} -Isrc/"
 end
 
-file "plang" => :Core do
-  sh "dmd -run cdc.d src/plang.d Core.lib -Isrc/"
+file "plang" => :core do
+  sh "dmd -run cdc.d src/plang.d core.#{libext} -Isrc/"
 end
 
 file "httpreader" do
-  sh "dmd -run cdc.d src/httpreader.d src/core"
+  sh "dmd -run cdc.d src/httpreader.d core.#{libext} -Isrc/"
 end
 
-file "regression" => [ :Core, :RegressionLib, :R ] do
-  sh "dmd -run cdc.d src/regression.d Core.lib Regression.lib R.lib -Isrc/ -Ideps/"
+file "regression" => [ :core, :stats, :r ] do
+  sh "dmd -run cdc.d src/regression.d core.#{libext} stats.#{libext} r.#{libext} -Isrc/ -Ideps/"
 end
 
-file "dfltree" => [ :Core, :Gui ] do
-  sh "dmd -run cdc.d -dfl src/dfltreeexample.d Gui.lib Core.lib -Isrc/"
+file "dfltree" => [ :core, :gui ] do
+#  sh "dmd -run cdc.d -dfl src/dfltreeexample.d gui.#{libext} core.#{libext} -Isrc/"
 end
 
-file "httpserver" => :Core do
-  sh "dmd -run cdc.d src/httpserver.d Core.lib -Isrc/"
+file "httpserver" => :core do
+  sh "dmd -run cdc.d src/httpserver.d core.#{libext} -Isrc/"
 end
 
-file "dnacode" => :Core do
-  sh "dmd -run cdc.d src/dnacode.d Core.lib -Isrc/"
+file "dnacode" => :core do
+  sh "dmd -run cdc.d src/dnacode.d core.#{libext} -Isrc/"
 end
 
 file "dflopengl" => LIBS do
-  sh "dmd -run cdc.d -dfl src/dflopengl.d Gui.lib OpenGL.lib Windows.lib Core.lib -Ideps/ -Isrc/"
+#  sh "dmd -run cdc.d -dfl src/dflopengl.d gui.#{libext} openGL.#{libext} windows.#{libext} core.#{libext} -Ideps/ -Isrc/"
 end
 
 # ---- Standard tasks ----

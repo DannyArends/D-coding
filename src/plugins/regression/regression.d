@@ -64,7 +64,8 @@ double multipleregression(dmatrix designmatrix, dvector y, dvector weight, ivect
     }
     dvector estparams;
     dvector wcopy = copyvector!double(weight);
-    return (2*likelihoodbyem(designmatrix[0].length, designmatrix.length, designmatrix, wcopy, y, verbose) - 2 * nullmodel(designmatrix[0].length, designmatrix.length, designmatrix, wcopy, y, nullmodellayout, verbose)) / 4.60517;
+    return (2*likelihoodbyem(cast(uint)designmatrix[0].length,cast(uint) designmatrix.length, designmatrix, wcopy, y, verbose) - 
+            2*nullmodel(cast(uint)designmatrix[0].length,cast(uint) designmatrix.length, designmatrix, wcopy, y, nullmodellayout, verbose)) / 4.60517;
 }
 
 double likelihoodbyem(uint nvariables,uint nsamples, dmatrix x, dvector w, dvector y,int verbose){

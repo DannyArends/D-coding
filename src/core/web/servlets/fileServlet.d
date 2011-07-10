@@ -1,5 +1,5 @@
 /**
- * \file fileservlet.d
+ * \file fileServlet.d
  *
  * last modified Jun, 2011
  * first written Jun, 2011
@@ -22,7 +22,7 @@
   * Written in the D Programming Language (http://www.digitalmars.com/d)
  **/
  
-module core.web.servlets.fileservlet;
+module core.web.servlets.fileServlet;
 
 import std.file;
 import std.stdio;

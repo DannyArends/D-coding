@@ -661,7 +661,7 @@ struct FS
 		else
 		{	// Remove filename
 			string filename;
-			int index = rfind(rel_path, FS.sep);
+			int index = cast(int)rfind(rel_path, FS.sep);
 			if (index != -1)
 			{   filename = rel_path[index..$];
 				rel_path = replace(rel_path, filename, "");
@@ -869,7 +869,7 @@ struct String
 	static int rfind(T)(T[] haystack, T[] needle) /// ditto
 	{	if (needle.length > haystack.length)
 			return -1;
-		for (int i=haystack.length - needle.length-1; i>0; i--)
+		for (int i=cast(int)(haystack.length - needle.length-1); i>0; i--)
 			if (haystack[i..i+needle.length] == needle)
 				return i;
 		return -1;
@@ -879,6 +879,11 @@ struct String
 		assert(find("hello world world.", "world.") == 12);
 		assert(rfind("hello world world.", "wo") == 12);
 		assert(rfind("hello world world.", "world.") == 12);
+	}
+	
+	version(Tango) {
+	}else{
+		import core.vararg;
 	}
 
 	/**
