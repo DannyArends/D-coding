@@ -14,6 +14,7 @@ CLEAN.include('*.obj')
 CLEAN.include('*.map')
 CLEAN.include('*.lib')
 CLEAN.include('*.a')
+CLEAN.include('*.exe')
 CLEAN.include(BIN)
 
 core_files = (Dir.glob("./src/core/*/*.d") + Dir.glob("./src/core/*/*/*.d")).join(' ')
