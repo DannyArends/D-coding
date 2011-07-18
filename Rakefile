@@ -16,6 +16,13 @@ CLEAN.include('*.lib')
 CLEAN.include('*.a')
 CLEAN.include(BIN)
 
+core_files = (Dir.glob("./src/core/*/*.d") + Dir.glob("./src/core/*/*/*.d")).join(' ')
+gui_files = (Dir.glob("./src/gui/*.d") + Dir.glob("./src/gui/*/*.d")).join(' ')
+plugin_stats =  (Dir.glob("./src/plugins/regression/*.d")).join(' ')
+deps_win =  (Dir.glob("./deps/win/*.d")).join(' ')
+deps_opengl =  (Dir.glob("./deps/gl/*.d")).join(' ')
+deps_r =  (Dir.glob("./deps/r/*.d")).join(' ')
+
 def windows?
   return RUBY_PLATFORM =~ /(:?mswin|mingw)/
 end
@@ -30,75 +37,75 @@ end
 # ---- Standard Libs ----
 
 file "core" do
-  sh "dmd -run cdc.d -lib src/core -ofcore.#{libext}"
+  sh "dmd -lib #{core_files} -ofcore.#{libext}"
 end
 
 file "stats" => :core do
-  sh "dmd -run cdc.d -lib src/plugins/regression src/core -ofstats.#{libext} -Ideps/"
+  sh "dmd -lib #{plugin_stats} core.#{libext} -ofstats.#{libext} -Isrc/ -Ideps/"
 end
 
 file "windows" => :core do
-  sh "dmd -run cdc.d -lib deps/win core.#{libext} -ofwindows.#{libext} -Isrc/"
+  sh "dmd -lib #{deps_win} core.#{libext} -ofwindows.#{libext} -Isrc/"
 end
 
 file "openGL" => :core do
-  sh "dmd -run cdc.d -lib deps/gl core.#{libext} -ofopenGL.#{libext} -Ideps/ -Isrc/"
+  sh "dmd -lib #{deps_opengl} core.#{libext} -ofopenGL.#{libext} -Ideps/ -Isrc/"
 end
 
 file "rLib" => :core do
-  sh "dmd -run cdc.d -lib deps/r core.#{libext} -ofr.#{libext} -Ideps/ -Isrc/"
+  sh "dmd -lib #{deps_r} core.#{libext} -ofr.#{libext} -Ideps/ -Isrc/"
 end
 
 file "guiLib" => :core do
   if windows? then
     print "Windows DFL GUI\n"
-    sh "dmd -run cdc.d -dfl -lib src/gui core.#{libext} -ofgui.#{libext} -Ideps -Isrc/"
+    sh "dfl -lib #{gui_files} core.#{libext} -ofgui.#{libext} -Ideps -Isrc/"
   end
 end
 
 # ---- Applications ----
 
 file "fileloader" => :core do
-  sh "dmd -run cdc.d src/fileloader.d core.#{libext} -Isrc/"
+  sh "dmd src/fileloader.d core.#{libext} -Isrc/"
 end
 
 file "filesplitter" => :core do
-  sh "dmd -run cdc.d src/filesplitter.d core.#{libext} -Isrc/"
+  sh "dmd src/filesplitter.d core.#{libext} -Isrc/"
 end
 
 file "correlation" => [ :core, :stats ] do
-  sh "dmd -run cdc.d src/correlation.d core.#{libext} stats.#{libext} -Isrc/"
+  sh "dmd src/correlation.d core.#{libext} stats.#{libext} -Isrc/"
 end
 
 file "plang" => :core do
-  sh "dmd -run cdc.d src/plang.d core.#{libext} -Isrc/"
+  sh "dmd src/plang.d core.#{libext} -Isrc/"
 end
 
 file "httpreader" do
-  sh "dmd -run cdc.d src/httpreader.d core.#{libext} -Isrc/"
+  sh "dmd src/httpreader.d core.#{libext} -Isrc/"
 end
 
 file "regression" => [ :rLib ] do
-  sh "dmd -run cdc.d src/regression.d core.#{libext} stats.#{libext} r.#{libext} -Isrc/ -Ideps/ -L-ldl"
+  sh "dmd src/regression.d core.#{libext} stats.#{libext} r.#{libext} -Isrc/ -Ideps/ -L-ldl"
 end
 
 file "dfltree" => [ :guiLib ] do
   if windows? then
-    sh "dmd -run cdc.d -dfl src/dfltreeexample.d gui.#{libext} core.#{libext} -Isrc/ -L-ldl"
+    sh "dfl src/dfltreeexample.d gui.#{libext} core.#{libext} -Isrc/ -L-ldl"
   end
 end
 
 file "httpserver" => :core do
-  sh "dmd -run cdc.d src/httpserver.d core.#{libext} -Isrc/"
+  sh "dmd src/httpserver.d core.#{libext} -Isrc/"
 end
 
 file "dnacode" => :core do
-  sh "dmd -run cdc.d src/dnacode.d core.#{libext} -Isrc/"
+  sh "dmd src/dnacode.d core.#{libext} -Isrc/"
 end
 
 file "dflopengl" => LIBS do
   if windows? then
-    sh "dmd -run cdc.d -dfl src/dflopengl.d gui.#{libext} openGL.#{libext} windows.#{libext} core.#{libext} -Ideps/ -Isrc/ -L-ldl"
+    sh "dfl src/dflopengl.d gui.#{libext} openGL.#{libext} windows.#{libext} core.#{libext} -Ideps/ -Isrc/ -L-ldl"
   end
 end
 
@@ -172,3 +179,5 @@ task :test_httpreader => [ 'httpreader' ] do
   sh "./httpreader"
   sh "./httpreader www.dannyarends.nl 80 /" 
 end
+
+

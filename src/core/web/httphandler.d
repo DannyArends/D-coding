@@ -33,6 +33,7 @@ import std.path;
 import std.socket;
 import std.stdio;
 import std.string;
+import std.uni;
 import std.uri;
 import std.regex;
 import core.typedefs.webtypes;
@@ -117,7 +118,7 @@ class RequestHandler{
   Header[] receiveHeaders(){
     Header[] headers;
     for (string line = getLine(); !line.empty; line = getLine()){
-      if (iswhite(line[0])){
+      if (isWhite(line[0])){
         if (headers.empty) throw new Exception("Header starting from whitespace is invalid: `" ~ line ~ "'");
         headers.back.value ~= strip(line);
       }else{

@@ -44,7 +44,7 @@ class FileServlet : Servlet{
   bool sendDir(string path, string uri){
     if(path.exists && path.isDir){
       string page = "<html><body><ul>";
-      foreach (filename; path.listDir){
+      foreach(string filename; dirEntries(path, SpanMode.shallow)){
         string location = filename;
         if(uri != "/") location = uri ~ "/" ~ location;
         page ~= "<li><a href='"~location~"'>"~filename ~"</a></li>";

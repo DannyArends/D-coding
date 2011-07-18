@@ -23,7 +23,7 @@ bool is_valid_DNA(char base){
 
 DNAstrand DNA_from_string(string seq){
   DNAstrand sequence;
-  foreach(char c; seq.toupper){
+  foreach(char c; seq.toUpper){
     if(is_valid_DNA(c)) sequence ~= cast(DNA)(c);
   }
   return sequence;
