@@ -6,7 +6,7 @@
 require 'rake/clean'
 
 LIBS = [ 'core', 'guiLib', 'stats', 'windows', 'openGL', 'rLib' ]
-BIN = ['fileloader', 'correlation', 'plang', 'httpreader', 'regression', 'dfltree', 'httpserver', 'dnacode', 'dflopengl' ]
+BIN = ['fileloader', 'filesplitter', 'correlation', 'plang', 'httpreader', 'regression', 'dfltree', 'httpserver', 'dnacode', 'dflopengl' ]
 TESTS = [ 'read_csv' ]
 
 CLEAN.include('*.o')
@@ -60,6 +60,10 @@ end
 
 file "fileloader" => :core do
   sh "dmd -run cdc.d src/fileloader.d core.#{libext} -Isrc/"
+end
+
+file "filesplitter" => :core do
+  sh "dmd -run cdc.d src/filesplitter.d core.#{libext} -Isrc/"
 end
 
 file "correlation" => [ :core, :stats ] do

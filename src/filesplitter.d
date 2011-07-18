@@ -25,20 +25,11 @@
 import std.stdio;
 import std.conv;
 
-import core.xbinary.io.xbinaryreader;
-import core.xbinary.io.textreader;
+import core.io.textreader;
  
 void main(string[] args){
   TextReader reader = new TextReader();
-  if(args.length > 2){
-    switch(args[2]){
-      case "2mb"  :reader.setBufferSize(BUFFERSIZE.BUFFER_2MB);break;
-      case "4mb"  :reader.setBufferSize(BUFFERSIZE.BUFFER_4MB);break;
-      case "16mb" :reader.setBufferSize(BUFFERSIZE.BUFFER_16MB);break;
-      case "64mb" :reader.setBufferSize(BUFFERSIZE.BUFFER_64MB);break;
-      case "256mb":reader.setBufferSize(BUFFERSIZE.BUFFER_256MB);break;
-      default     :reader.setBufferSize(BUFFERSIZE.BUFFER_16KB);break;
-    }
+  if(args.length > 3){
+    reader.split(args[1],args[2],to!int(args[3]));
   }
-  reader.split(args[1],args[2]);
 }
