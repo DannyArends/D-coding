@@ -18,7 +18,9 @@ pure RNA RNA_from_DNA(DNA base){
     case DNA.C: return RNA.G; break;
     case DNA.A: return RNA.U; break;
     case DNA.G: return RNA.C; break;
+    default: break;
   }
+  assert(0);
 }
 
 pure RNAstrand RNAstrand_from_DNAstrand(DNAstrand sequence){

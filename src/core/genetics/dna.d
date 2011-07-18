@@ -35,7 +35,9 @@ pure DNA DNA_to_Anti(DNA base){
     case DNA.C: return DNA.G; break;
     case DNA.A: return DNA.T; break;
     case DNA.G: return DNA.C; break;
+    default: break;
   }
+  assert(0);
 }
 
 pure DNAstrand DNAstrand_to_Antisense(DNAstrand sequence){

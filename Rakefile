@@ -5,7 +5,7 @@
 
 require 'rake/clean'
 
-LIBS = [ 'core', 'gui', 'stats', 'windows', 'openGL', 'r' ]
+LIBS = [ 'core', 'guiLib', 'stats', 'windows', 'openGL', 'rLib' ]
 BIN = ['fileloader', 'correlation', 'plang', 'httpreader', 'regression', 'dfltree', 'httpserver', 'dnacode', 'dflopengl' ]
 TESTS = [ 'read_csv' ]
 
@@ -33,8 +33,6 @@ file "core" do
   sh "dmd -run cdc.d -lib src/core -ofcore.#{libext}"
 end
 
-
-
 file "stats" => :core do
   sh "dmd -run cdc.d -lib src/plugins/regression src/core -ofstats.#{libext} -Ideps/"
 end
@@ -47,14 +45,14 @@ file "openGL" => :core do
   sh "dmd -run cdc.d -lib deps/gl core.#{libext} -ofopenGL.#{libext} -Ideps/ -Isrc/"
 end
 
-file "r" => :core do
+file "rLib" => :core do
   sh "dmd -run cdc.d -lib deps/r core.#{libext} -ofr.#{libext} -Ideps/ -Isrc/"
 end
 
-file "gui" => :core do
+file "guiLib" => :core do
   if windows? then
     print "Windows DFL GUI\n"
-    sh "dmd -run cdc.d -dfl -lib src/gui core.#{libext} -ofgui.#{libext} -Ideps"
+    sh "dmd -run cdc.d -dfl -lib src/gui core.#{libext} -ofgui.#{libext} -Ideps -Isrc/"
   end
 end
 
@@ -76,11 +74,11 @@ file "httpreader" do
   sh "dmd -run cdc.d src/httpreader.d core.#{libext} -Isrc/"
 end
 
-file "regression" => [ :core, :stats, :r ] do
+file "regression" => [ :rLib ] do
   sh "dmd -run cdc.d src/regression.d core.#{libext} stats.#{libext} r.#{libext} -Isrc/ -Ideps/ -L-ldl"
 end
 
-file "dfltree" => [ :core, :gui ] do
+file "dfltree" => [ :guiLib ] do
   if windows? then
     sh "dmd -run cdc.d -dfl src/dfltreeexample.d gui.#{libext} core.#{libext} -Isrc/ -L-ldl"
   end
