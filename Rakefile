@@ -6,7 +6,7 @@
 require 'rake/clean'
 
 LIBS = [ 'core', 'guiLib', 'stats', 'windows', 'openGL', 'rLib' ]
-BIN = ['fileloader', 'filesplitter', 'correlation', 'plang', 'httpreader', 'regression', 'dfltree', 'httpserver', 'dnacode', 'dflopengl' ]
+BIN = ['fileloader', 'filesplitter', 'fastamaker', 'correlation', 'plang', 'httpreader', 'regression', 'dfltree', 'httpserver', 'dnacode', 'dflopengl' ]
 TESTS = [ 'read_csv' ]
 
 CLEAN.include('*.o')
@@ -60,7 +60,7 @@ end
 file "guiLib" => :core do
   if windows? then
     print "Windows DFL GUI\n"
-    sh "dfl -lib #{gui_files} core.#{libext} -ofgui.#{libext} -Ideps -Isrc/"
+    #sh "dfl -lib #{gui_files} core.#{libext} -ofgui.#{libext} -Ideps -Isrc/"
   end
 end
 
@@ -72,6 +72,10 @@ end
 
 file "filesplitter" => :core do
   sh "dmd src/filesplitter.d core.#{libext} -Isrc/"
+end
+
+file "fastamaker" => :core do
+  sh "dmd src/fastamaker.d core.#{libext} -Isrc/"
 end
 
 file "correlation" => [ :core, :stats ] do
@@ -92,7 +96,7 @@ end
 
 file "dfltree" => [ :guiLib ] do
   if windows? then
-    sh "dfl src/dfltreeexample.d gui.#{libext} core.#{libext} -Isrc/ -L-ldl"
+    #sh "dfl src/dfltreeexample.d gui.#{libext} core.#{libext} -Isrc/ -L-ldl"
   end
 end
 
@@ -106,7 +110,7 @@ end
 
 file "dflopengl" => LIBS do
   if windows? then
-    sh "dfl src/dflopengl.d gui.#{libext} openGL.#{libext} windows.#{libext} core.#{libext} -Ideps/ -Isrc/ -L-ldl"
+    #sh "dfl src/dflopengl.d gui.#{libext} openGL.#{libext} windows.#{libext} core.#{libext} -Ideps/ -Isrc/ -L-ldl"
   end
 end
 
