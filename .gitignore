@@ -5,5 +5,16 @@
 *.map
 *.lib
 *.h
+*.a
 old/
 data/
+correlation
+dnacode
+fileloader
+filesplitter
+httpreader
+httpserver
+plang
+regression
+.project
+*.o

@@ -38,7 +38,7 @@ import std.uri;
 import core.web.httphandler;
 import core.typedefs.webtypes;
 import core.web.servlets.servlet;
-import core.web.servlets.fileservlet;
+import core.web.servlets.fileServlet;
 
 class HttpClient : Thread{
   private:

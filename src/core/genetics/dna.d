@@ -23,7 +23,7 @@ bool is_valid_DNA(char base){
 
 DNAstrand DNA_from_string(string seq){
   DNAstrand sequence;
-  foreach(char c; seq.toupper){
+  foreach(char c; seq.toUpper){
     if(is_valid_DNA(c)) sequence ~= cast(DNA)(c);
   }
   return sequence;
@@ -35,7 +35,9 @@ pure DNA DNA_to_Anti(DNA base){
     case DNA.C: return DNA.G; break;
     case DNA.A: return DNA.T; break;
     case DNA.G: return DNA.C; break;
+    default: break;
   }
+  assert(0);
 }
 
 pure DNAstrand DNAstrand_to_Antisense(DNAstrand sequence){

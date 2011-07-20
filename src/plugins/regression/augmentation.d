@@ -40,7 +40,7 @@ enum : char{
 }
 
 dvector calcrf(cvector position, dvector mapdistance){
-  uint nmarkers = position.length;
+  uint nmarkers = cast(uint)position.length;
   dvector r = newvector!double(nmarkers);
   for(uint m=0; m<nmarkers; m++) {
     r[m]= RFUNKNOWN;
@@ -56,7 +56,7 @@ dvector calcrf(cvector position, dvector mapdistance){
 }
 
 cvector markerpos(ivector chr){
-  uint nmarkers = chr.length;
+  uint nmarkers = cast(uint)chr.length;
   cvector position = newvector!char(nmarkers);
   for(uint m=0; m<nmarkers; m++){
     if(m==0){

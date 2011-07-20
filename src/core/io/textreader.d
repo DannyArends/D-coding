@@ -259,6 +259,25 @@ class TextReader{
     return data;
   }
   
+  void split(string filename,string outname,int number){
+    auto f = new File(filename,"rb");
+    int outbase=0;
+    int cnt=0;
+    auto fout = new File(outname~to!string(outbase)~".txt","wb");
+    if(isfile(filename)){
+      while(f.readln(buffer)){
+        fout.write(buffer);
+        cnt++;
+        if(cnt==number){
+          fout.close();
+          outbase++;
+          fout = new File(outname~to!string(outbase)~".txt","wb");
+          cnt=0;
+        }
+      }
+    }
+  }
+  
  /*
   * Loads a single column from a any size tab separated file to memory.
   * DEPRECATION REMOVE TODO: Should load via the input buffer to improve performance

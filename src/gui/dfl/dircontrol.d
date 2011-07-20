@@ -48,7 +48,7 @@ class DirControl: Panel{
     tree = new TreeView();
     tree.name= "DirView";
     tree.bounds = Rect(0, 26, 296, 568);
-    attachNodes(path,tree);
+    attachNodes!TreeView(path,tree);
     tree.parent = this;
     
     selection = new ComboBox();

@@ -74,6 +74,7 @@ real doCorrelation(T)(T[] d1, T[] d2){
     T delta2 = (d2[i] - mean2);
     sumofsquares += (delta1 * delta2);
   }
-  real variance = doVariance!real(sumofsquares,d1.length);
+  real variance = doVariance!real(sumofsquares,cast(uint)d1.length);
   return (variance / (doStandardDeviation(d1)*doStandardDeviation(d2)));
 }
+

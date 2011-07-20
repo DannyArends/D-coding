@@ -1,5 +1,5 @@
 /**
- * \file fileservlet.d
+ * \file fileServlet.d
  *
  * last modified Jun, 2011
  * first written Jun, 2011
@@ -22,7 +22,7 @@
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **/
  
-module core.web.servlets.fileservlet;
+module core.web.servlets.fileServlet;
 
 import std.file;
 import std.random;
@@ -46,7 +46,7 @@ class FileServlet : Servlet{
   bool sendDir(string path, string uri){
     if(path.exists && path.isDir){
       string page = "<html><body><ul>";
-      foreach (filename; path.listDir){
+      foreach(string filename; dirEntries(path, SpanMode.shallow)){
         string location = filename;
         if(uri != "/") location = uri ~ "/" ~ location;
         page ~= "<li><a href='"~location~"'>"~filename ~"</a></li>";

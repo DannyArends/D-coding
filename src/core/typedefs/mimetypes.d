@@ -24,7 +24,7 @@ import std.string;
 import core.memory;
 
 string extensionToMime(string i){
-  switch(i.tolower){
+  switch(i.toLower){
     case "htm"  : return "text/html";
     case "html" : return "text/html";
     case "txt"  : return "text/plain";

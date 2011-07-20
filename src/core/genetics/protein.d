@@ -95,7 +95,8 @@ AA RNAcodon_to_AA(RNAcodon sequence){
           }
           if(sequence[2] == RNA.G) return AA.Trp;
           return AA.STOP;
-          break;        
+          break;
+          default: break;          
       }
     break;
     case RNA.C:
@@ -109,6 +110,7 @@ AA RNAcodon_to_AA(RNAcodon sequence){
           return AA.Gln;
           break;        
         case RNA.G: return AA.Arg; break;
+        default: break;
       }
     break;
     case RNA.A:
@@ -131,7 +133,8 @@ AA RNAcodon_to_AA(RNAcodon sequence){
             return AA.Ser;
           }
           return AA.Arg;
-          break;   
+          break;
+          default: break;          
       }
     break;
     case RNA.G:
@@ -145,7 +148,10 @@ AA RNAcodon_to_AA(RNAcodon sequence){
           return AA.Glu;
           break;           
         case RNA.G: return AA.Gly; break;
+        default: break;
       }
-    break;  
+    break;
+    default: break;
   }
+  assert(0);
 }
