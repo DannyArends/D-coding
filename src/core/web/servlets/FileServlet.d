@@ -19,16 +19,18 @@
  *     at http://www.r-project.org/Licenses/GPL-3
  *
  * Contains: FileServlet
-  * Written in the D Programming Language (http://www.digitalmars.com/d)
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
  **/
  
 module core.web.servlets.fileservlet;
 
 import std.file;
+import std.random;
 import std.stdio;
 import std.string;
 import std.regex;
 import std.socket;
+import std.conv;
 import std.process;
 
 import core.typedefs.webtypes;
@@ -56,29 +58,34 @@ class FileServlet : Servlet{
     return false;
   }
   
-  bool interpretFile(string path,string mime){
+  bool interpretFile(string root, string path, string mime, string params){
     string interpreter =mime[indexOf(mime,"/")+1 .. $];
-    string command = interpreter ~ path ~ " > out.txt\0";
-    auto filename = "out.txt";
+    string tempdir = root ~ "/" ~ to!string(uniform(0,100));
+    mkdir(tempdir);
+    string command = "cd " ~ root ~ " && ";
+    command ~= interpreter~ " -od"~tempdir~" cgibin/*.d -run " ~ path ~ " "~ params ~" > "~tempdir~"/out.txt\0";
+    auto filename = tempdir ~ "/out.txt";
     if(exists(filename)) remove(filename);
     int status = system(command.dup.ptr);
     string output = readText(filename);
+    if(exists(filename)) remove(filename);    
+    if(exists(tempdir)) rmdir(tempdir);    
     if(status != 0){
       string errortext = format("<html><head><title>500 CGI Error</title></head><h1>500 CGI Error</h1><h2>Interpreter: %s returned %d</h2>", interpreter[0 .. indexOf(interpreter," ")], status);
       output = replace(output,regex("\n", "g"),"<br>");
       handler.sendResponse(STATUS_INTERNAL_ERROR, errortext ~ STATUS_INTERNAL_ERROR.description ~ "<h2>Command</h2>" ~ command ~ "<h2>Output</h2>" ~ output, handler.getMIMEType(".html"));
+      return false;
     }else{
       handler.sendResponse(STATUS_OK, output, handler.getMIMEType(".html"));
     }
-    if(exists(filename)) remove(filename);
     return true;
   }
   
-  bool sendFile(string path){
+  bool sendFile(string path,string params){
     if(path.exists && path.isFile){
       string mime = handler.getMIMEType(path);
       if(indexOf(mime,"cgi") >= 0){
-        interpretFile(path,mime);
+        return interpretFile(path[0..path.lastIndexOf("/")], path[path.lastIndexOf("/")+1..$], mime, params);
       }
       if(indexOf(mime,"unknown") >= 0){
         writeln("Unknown file");
@@ -107,11 +114,13 @@ class FileServlet : Servlet{
     if(!found){
       rewritten_uri = request.uri;
     }
+    string parameters = "";
     if(indexOf(rewritten_uri,"?") >=0){
+      parameters = "'" ~ rewritten_uri[indexOf(rewritten_uri,"?")+1 .. $] ~ "'";      
       rewritten_uri = rewritten_uri[0 .. indexOf(rewritten_uri,"?")];
     }
     auto path = h.getPath() ~ rewritten_uri;
-    writef("requested path '%s' via '%s' ", path, rewritten_uri);
+    debug writef("requested path '%s' via '%s' ", path, rewritten_uri);
     if(!path.exists){
       return false;
     }
@@ -120,9 +129,12 @@ class FileServlet : Servlet{
     if(path.isDir){
       result = sendDir(path, rewritten_uri);
     }else{
-      result = sendFile(path);
+      result = sendFile(path,parameters);
     }
-    writefln(", %s found", result ? "is" : "is not");
+    debug writefln(", %s found", result ? "is" : "is not");
+    if(rewritten_uri.length < 4 || rewritten_uri[0..4] != "/etc"){
+       writefln("%s %s... %s",rewritten_uri, parameters, result ? "OK" : "FAIL");
+    }
     return result;
   }
 }

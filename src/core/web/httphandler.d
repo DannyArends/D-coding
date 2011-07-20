@@ -109,7 +109,7 @@ class RequestHandler{
     }
     auto method = stringToRequestMethod(format_match.captures[1]);
     auto uri = std.uri.decodeComponent(format_match.captures[2]);
-    writeln("Request: ", line);
+    debug writef("Request: %s", line);
     return Request(method, uri);
   }
   

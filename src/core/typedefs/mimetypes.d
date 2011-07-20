@@ -33,6 +33,7 @@ string extensionToMime(string i){
     case "css"  : return "text/css";
     
     case "gif"  : return "image/gif";
+    case "ico"  : return "image/x-icon";
     case "jpg"  : return "image/jpeg";
     case "png"  : return "image/png";
     case "tif"  : return "image/tiff";
@@ -71,7 +72,7 @@ string extensionToMime(string i){
     
     case "gitignore" : return "text/plain";
     
-    case "d"    : return "cgi/dmd -run ";
+    case "d"    : return "cgi/dmd ";
     case "pl"   : return "cgi/perl -X ";
     case "php"  : return "cgi/php -f ";
     case "py"   : return "cgi/pyton -u ";

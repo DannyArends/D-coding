@@ -55,7 +55,7 @@ class Server{
     }
     while(true){
       auto client_socket = socket.accept();
-      writeln("New client connecting");
+      debug writeln("New client connecting");
       auto client = new HttpClient(rel2abs(root_path), client_socket);
       try{
         client.start();
