@@ -35,5 +35,5 @@ static this(){
   HXModule lib = load_library("R");
   load_function(dnorm)(lib,"Rf_dnorm4");
   load_function(qf)(lib,"Rf_qf");
-  writeln("mapped R.dll");
+  writeln("Loaded R functionality");
 }

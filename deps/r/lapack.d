@@ -42,12 +42,12 @@ extern(C) {
 static this(){
   HXModule blaslib = load_library("Rblas","blas");
   load_function(dgemm_)(blaslib,"dgemm_");
-  writeln("mapped Rblas");
+  writeln("Loaded BLAS functionality");
   
   HXModule lapacklib = load_library("Rlapack","lapack");
   load_function(dgels_)(lapacklib,"dgels_");
   load_function(dgelss_)(lapacklib,"dgelss_");
   load_function(dpotrf_)(lapacklib,"dpotrf_");
   load_function(dpotrs_)(lapacklib,"dpotrs_");
-  writeln("mapped Rlapack");
+  writeln("Loaded LAPACK functionality");
 }

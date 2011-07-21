@@ -51,4 +51,5 @@ static this(){
   load_function(GetLastError)(lib,"GetLastError");
   load_function(FormatMessageA)(lib,"FormatMessageA");
   load_function(LocalFree)(lib,"LocalFree");
+  writeln("Loaded Win32 KERNEL functionality");
 }

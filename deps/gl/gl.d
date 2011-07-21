@@ -403,12 +403,12 @@ static this(){
   load_function(glDrawArrays)(lib, "glDrawArrays");
   load_function(glDrawElements)(lib, "glDrawElements");
   load_function(glInterleavedArrays)(lib, "glInterleavedArrays");
-  writeln("Mapped opengl32.dll");
+  writeln("Loaded OPENGL functionality");
 }
 
 
 void load_extensions(){
-  writeln("openGL extensions");
+  writeln("Discovering: OPENGL EXTENSIONS");
   // gl 1.2
   load_extension(glDrawRangeElements)("glDrawRangeElements");
   load_extension(glTexImage3D)("glTexImage3D");
@@ -529,5 +529,5 @@ void load_extensions(){
   load_extension(glUnmapBuffer)("glUnmapBuffer");
   load_extension(glGetBufferParameteriv)("glGetBufferParameteriv");
   load_extension(glGetBufferPointerv)("glGetBufferPointerv");
-  writeln("mapped openGL extensions");
+  writeln("Loaded OPENGL EXTENSIONS functionality");
 }
