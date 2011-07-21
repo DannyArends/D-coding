@@ -27,13 +27,15 @@ protected void* getFunctionThroughVoid(HXModule shared_library, string functionn
 }
 
 version(Windows){
-  const string extension = ".dll";
+  const string sh_lib_ext = ".dll";
+  const string st_lib_ext = ".lib";
 }else version(linux){
-  const string extension = ".so";
+  const string sh_lib_ext = ".so";
+  const string st_lib_ext = ".a";
 }else version(darwin){
-  const string extension = ".dylib";
+  const string sh_lib_ext = ".dylib";
+  const string st_lib_ext = ".a";
 }
-
 
 /*
  * Loads a single shared library (dll, so, dylib)
@@ -42,17 +44,17 @@ protected HXModule load_library(string win_name, string linux_name = "", string 
   HXModule shared_library = null;
   if(linux_name == "") linux_name = win_name;
   if(osx_name == "") osx_name = win_name;	
-	version(Windows){
-		shared_library = ExeModule_Load(win_name ~ extension);
-	}else version(linux){
-		shared_library = ExeModule_Load("lib" ~ linux_name ~ extension);
-	}else version(darwin){
-		shared_library = ExeModule_Load("/usr/lib/"~ osx_name ~ extension);
-	}
-  if(shared_library is null){
-	throw new Exception("Unable to find shared library: " ~ win_name ~ ", " ~ linux_name);
+  version(Windows){
+    string full_name = win_name ~ sh_lib_ext;
+  }else version(linux){
+    string full_name = "lib" ~ linux_name ~ sh_lib_ext;
+  }else version(darwin){
+    string full_name = "/usr/lib/"~ osx_name ~ sh_lib_ext;
   }
-  debug writeln("Loaded shared library: " ~ library_prefix);
+  if((shared_library = ExeModule_Load(full_name)) is null){
+	throw new Exception("Unable to find shared library: " ~ full_name);
+  }
+  debug writeln("Loaded shared library: " ~ full_name);
   return shared_library;
 }
 
@@ -63,6 +65,7 @@ package struct function_binding(T) {
   bool opCall(HXModule lib, string name) {
     try{
       *fptr = getFunctionThroughVoid(lib, name);
+	  debug writeln("Loaded shared function: " ~ name);
       return true;
     }catch(Exception e){
       writeln("Cannot bind function: " ~ name);
