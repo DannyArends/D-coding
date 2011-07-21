@@ -1,21 +1,8 @@
 /**
  * \file libLoad.d - Shared library loader
- * 
- * Description: 
- *   Shared c and cpp library loader for the D language
+ * Description: Shared c and cpp library loader for the D language
  *
  * Copyright (c) 2010 Danny Arends
- *     This program is free software; you can redistribute it and/or
- *     modify it under the terms of the GNU General Public License,
- *     version 3, as published by the Free Software Foundation.
- * 
- *     This program is distributed in the hope that it will be useful,
- *     but without any warranty; without even the implied warranty of
- *     merchantability or fitness for a particular purpose.  See the GNU
- *     General Public License, version 3, for more details.
- * 
- *     A copy of the GNU General Public License, version 3, is available
- *     at http://www.r-project.org/Licenses/GPL-3
  *
  * Contains: 
  * - pure: load_function, load_function
@@ -23,8 +10,9 @@
  *
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **/
+
 module core.libload.libload;
-//D 2.0 std imports
+
 private import std.loader;
 private import std.stdio;
 private import std.conv;
@@ -38,19 +26,32 @@ protected void* getFunctionThroughVoid(HXModule shared_library, string functionn
 	return symbol;
 }
 
+version(Windows){
+  const string extension = ".dll";
+}else version(linux){
+  const string extension = ".so";
+}else version(darwin){
+  const string extension = ".dylib";
+}
+
+
 /*
  * Loads a single shared library (dll, so, dylib)
  */
-protected HXModule load_library(string library_prefix){
+protected HXModule load_library(string win_name, string linux_name = "", string osx_name = ""){
   HXModule shared_library = null;
-	version (Windows) {
-		shared_library = ExeModule_Load(library_prefix ~ ".dll");
-	} else version (linux) {
-		shared_library = ExeModule_Load("lib" ~ library_prefix ~ ".so");
-	} else version (darwin) {
-		shared_library = ExeModule_Load("/usr/lib/"~ library_prefix ~".dylib");
+  if(linux_name == "") linux_name = win_name;
+  if(osx_name == "") osx_name = win_name;	
+	version(Windows){
+		shared_library = ExeModule_Load(win_name ~ extension);
+	}else version(linux){
+		shared_library = ExeModule_Load("lib" ~ linux_name ~ extension);
+	}else version(darwin){
+		shared_library = ExeModule_Load("/usr/lib/"~ osx_name ~ extension);
 	}
-  if(shared_library is null) throw new Exception("Unable to find shared library: " ~ library_prefix);
+  if(shared_library is null){
+	throw new Exception("Unable to find shared library: " ~ win_name ~ ", " ~ linux_name);
+  }
   debug writeln("Loaded shared library: " ~ library_prefix);
   return shared_library;
 }

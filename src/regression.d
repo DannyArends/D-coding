@@ -9,6 +9,7 @@ import std.stdio;
 import std.math;
 
 import r.r;
+import r.lapack;
 
 import core.typedefs.types;
 import plugins.regression.support;
