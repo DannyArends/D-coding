@@ -1,9 +1,6 @@
 /**
  * \file R.d - Wrapper for R.dll
- * 
- * Description: 
- *   Wrapper for R.dll
- *
+ * Description: Wrapper for R.dll
  * Copyright (c) 2010 Danny Arends
  *
  * Contains: 
@@ -14,16 +11,11 @@
  
 module r.r;
 
-//D 2.0 std imports
 private import std.loader;
 private import std.stdio;
 private import std.conv;
 
 import core.libload.libload;
-
-import std.c.stdlib;
-import std.c.stdio;
-import std.c.math;
 
 const HAVE_F77_UNDERSCORE = 1;
 
