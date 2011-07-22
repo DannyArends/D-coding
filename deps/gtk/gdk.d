@@ -1,7 +1,7 @@
 /**
  * \file gtk.d - Wrapper for gtk.dll
  * Description: Wrapper for gtk.dll
- * Copyright (c) 2010 Danny Arends
+ * Based on DFL gtk version, Copyright (c) 2011 Danny Arends
  *
  * Contains: 
  * - private: static this

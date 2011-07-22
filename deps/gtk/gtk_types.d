@@ -1,7 +1,7 @@
 /**
  * \file gtk.d - Wrapper for gtk.dll
  * Description: Wrapper for gtk.dll
- * Copyright (c) 2010 Danny Arends
+ * Based on DFL gtk version, Copyright (c) 2011 Danny Arends
  *
  * Contains: 
  * - private: static this
@@ -89,6 +89,9 @@ struct _GObject {
 
 alias _GtkWindowGeometryInfo GtkWindowGeometryInfo;
 alias void _GtkWindowGeometryInfo;
+
+alias _GtkLabelSelectionInfo GtkLabelSelectionInfo;
+alias void _GtkLabelSelectionInfo;
 
 alias _GtkWindowGroup GtkWindowGroup;
 struct _GtkWindowGroup {

@@ -1,7 +1,7 @@
 /**
  * \file gtk.d - Wrapper for gtk.dll
  * Description: Wrapper for gtk.dll
- * Copyright (c) 2010 Danny Arends
+ * Based on DFL gtk version, Copyright (c) 2011 Danny Arends
  *
  * Contains: 
  * - private: static this
@@ -52,6 +52,25 @@ struct _GtkWidget {
   GdkWindow* window;
   GtkWidget* parent;
 }
+
+alias _GtkLabel GtkLabel;
+struct _GtkLabel {
+  GtkMisc misc;
+  gchar *label;
+  guint jtype;
+  guint wrap;
+  guint use_underline;
+  guint use_markup;
+  guint mnemonic_keyval;
+  gchar *text;
+  PangoAttrList *attrs;
+  PangoAttrList *effective_attrs;
+  PangoLayout *layout;
+  GtkWidget *mnemonic_widget;
+  GtkWindow *mnemonic_window;
+  GtkLabelSelectionInfo *select_info;
+}
+
 
 alias _GtkWindow GtkWindow;
 struct _GtkWindow {
@@ -141,6 +160,15 @@ align(1)  struct _GtkStyle {
   GSList *icon_factories;
 }
 
+alias _GtkMisc GtkMisc;
+struct _GtkMisc {
+  GtkWidget widget;
+  gfloat xalign;
+  gfloat yalign;
+  guint16 xpad;
+  guint16 ypad;
+}
+
 alias _GtkBin GtkBin;
 struct _GtkBin {
   GtkContainer container;
@@ -178,13 +206,21 @@ extern(C){
   gchar* function(GtkWindow *window) gtk_window_get_title;
   void function(GtkWindow *window, gint width, gint height) gtk_window_set_default_size;
   
-  GType function() gtk_widget_get_type;
+  
   GtkWidget* function(GType type, gchar *first_property_name, ...) gtk_widget_new;
   void function(GtkWidget *widget, gint width, gint height) gtk_widget_set_size_request;
   void function(GtkWidget *widget) gtk_widget_realize;
   void function(GtkWidget *widget) gtk_widget_show;
   GtkWidget* function() gtk_fixed_new;
+  
+  GType function() gtk_widget_get_type;
   GType function() gtk_window_get_type;
+  GType function() gtk_label_get_type;
+
+  void function(GtkLabel *label, char *str) gtk_label_set_text;
+  char* function(GtkLabel *label) gtk_label_get_text;
+
+  void function(GtkMisc *misc, gfloat xalign, gfloat yalign) gtk_misc_set_alignment;
     
   void function(GtkContainer *container, GtkWidget *widget) gtk_container_add;
   void function(GtkContainer *container, GtkWidget *widget) gtk_container_remove;
@@ -202,14 +238,21 @@ static this(){
   load_function(gtk_window_get_title)(lib,"gtk_window_get_title");
   load_function(gtk_window_set_default_size)(lib,"gtk_window_set_default_size");
   
-  load_function(gtk_widget_get_type)(lib,"gtk_widget_get_type");
   load_function(gtk_widget_new)(lib,"gtk_widget_new");
   load_function(gtk_widget_set_size_request)(lib,"gtk_widget_set_size_request");
   load_function(gtk_widget_realize)(lib,"gtk_widget_realize");
   load_function(gtk_widget_show)(lib,"gtk_widget_show");
   load_function(gtk_fixed_new)(lib,"gtk_fixed_new");
+
+  load_function(gtk_widget_get_type)(lib,"gtk_widget_get_type");
   load_function(gtk_window_get_type)(lib,"gtk_window_get_type");
-  
+  load_function(gtk_label_get_type)(lib,"gtk_label_get_type");
+
+  load_function(gtk_label_set_text)(lib,"gtk_label_set_text");
+  load_function(gtk_label_get_text)(lib,"gtk_label_get_text");
+
+  load_function(gtk_misc_set_alignment)(lib,"gtk_misc_set_alignment");
+
   load_function(gtk_container_add)(lib,"gtk_container_add");
   load_function(gtk_container_remove)(lib,"gtk_container_remove");  
   
