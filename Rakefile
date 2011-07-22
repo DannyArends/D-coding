@@ -5,8 +5,8 @@
 
 require 'rake/clean'
 
-LIBS = [ 'core', 'guiLib', 'stats', 'windows', 'openGL', 'rLib' ]
-BIN = ['fileloader', 'filesplitter', 'fastamaker','singlemap', 'correlation', 'plang', 'httpreader', 'regression', 'dfltree', 'httpserver', 'dnacode', 'dflopengl' ]
+LIBS = [ 'core', 'guiLib', 'stats', 'windows', 'openGL', 'rLib', 'gtkLib' ]
+BIN = ['fileloader', 'filesplitter', 'fastamaker', 'singlemap', 'correlation', 'plang', 'httpreader', 'regression', 'gtktest', 'dfltree', 'httpserver', 'dnacode', 'dflopengl' ]
 TESTS = [ 'read_csv' ]
 
 CLEAN.include('*.o')
@@ -19,10 +19,12 @@ CLEAN.include(BIN)
 
 core_files = (Dir.glob("./src/core/*/*.d") + Dir.glob("./src/core/*/*/*.d")).join(' ')
 gui_files = (Dir.glob("./src/gui/*.d") + Dir.glob("./src/gui/*/*.d")).join(' ')
+gtk_files = (Dir.glob("./src/gui/gtk/*.d")).join(' ')
 plugin_stats =  (Dir.glob("./src/plugins/regression/*.d")).join(' ')
 deps_win =  (Dir.glob("./deps/win/*.d")).join(' ')
 deps_opengl =  (Dir.glob("./deps/gl/*.d")).join(' ')
 deps_r =  (Dir.glob("./deps/r/*.d")).join(' ')
+deps_gtk =  (Dir.glob("./deps/gtk/*.d")).join(' ')
 
 def windows?
   return RUBY_PLATFORM =~ /(:?mswin|mingw)/
@@ -55,6 +57,10 @@ end
 
 file "rLib" => :core do
   sh "dmd -lib #{deps_r} core.#{libext} -ofr.#{libext} -Ideps/ -Isrc/"
+end
+
+file "gtkLib" => :core do
+  sh "dmd -lib #{deps_gtk} #{gtk_files} core.#{libext} -ofgtk.#{libext} -Ideps/ -Isrc/"
 end
 
 file "guiLib" => :core do
@@ -96,6 +102,10 @@ end
 
 file "regression" => [ :rLib ] do
   sh "dmd src/regression.d core.#{libext} stats.#{libext} r.#{libext} -Isrc/ -Ideps/ -L-ldl"
+end
+
+file "gtktest" => [ :gtkLib ] do
+  sh "dmd src/gtktest.d core.#{libext} gtk.#{libext} -Isrc/ -Ideps/ -L-ldl"
 end
 
 file "dfltree" => [ :guiLib ] do
