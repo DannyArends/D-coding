@@ -11,12 +11,18 @@ import std.math;
 import gtk.gtk;
 import gtk.gtk_types;
 import gui.gtk.form;
+import gui.gtk.label;
 import gui.gtk.application;
 import core.typedefs.types;
 
 void main(string[] args){
   Form myForm = new Form;
-  myForm.text("DFL GTK".dup);
+  Label myLabel = new Label;
+
+  myLabel.text = "Hello, GTK+ World!";
+  myLabel.parent = myForm;
+
+  myForm.text("D 2.0 GTK+ Binding");
   Application.run(myForm);
 }
 
