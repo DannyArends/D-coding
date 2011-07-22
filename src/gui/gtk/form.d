@@ -1,7 +1,7 @@
 /**
  * \file form.d
  *
- * Copyright (c) 2010 Danny Arends
+ * Based on DFL gtk version, Copyright (c) 2011 Danny Arends
  * 
  **/
 
@@ -9,6 +9,7 @@ module gui.gtk.form;
  
 import std.stdio;
 import std.math;
+import std.conv;
 
 import gtk.gtk;
 import gtk.gtk_types;
@@ -31,11 +32,22 @@ class Form: Control{
     assert(!isHandleCreated);
     wid = gtk_window_new(GtkWindowType.GTK_WINDOW_TOPLEVEL);
     if(!wid){
-      throw new Exception("Form creation failure");
+      throw new Exception("Failed to create form");
     }
     auto win = cast(GtkWindow*)wid;
 
     gtk_window_set_default_size(win, 300, 300);
     postcreateinit(cp);
+  }
+
+  // Internal framework functions
+  protected override void coreSetText(string txt){
+    gtk_window_set_title(cast(GtkWindow*)wid, txt.dup.ptr);
+  }
+
+  protected override string coreGetText(){
+    string result = to!string(gtk_window_get_title(cast(GtkWindow*)wid));
+    if(!result.length) return "";
+    return result;
   }
 }

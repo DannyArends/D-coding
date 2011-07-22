@@ -1,7 +1,7 @@
 /**
  * \file application.d
  *
- * Copyright (c) 2010 Danny Arends
+ * Based on DFL gtk version, Copyright (c) 2011 Danny Arends
  * 
  **/
 
@@ -27,7 +27,7 @@ static:
     return run(null);
   }
 
-void exitThread(){
-  gtk_main_quit();
+  void exitThread(){
+    gtk_main_quit();
   }
 }

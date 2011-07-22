@@ -1,7 +1,7 @@
 /**
  * \file control.d
  *
- * Copyright (c) 2010 Danny Arends
+ * Based on DFL gtk version, Copyright (c) 2011 Danny Arends
  * 
  **/
 
@@ -9,6 +9,7 @@ module gui.gtk.control;
  
 import std.stdio;
 import std.math;
+import std.conv;
 
 import gtk.gtk;
 import gtk.gtk_types;
@@ -58,7 +59,7 @@ class Control{
       if(wparent){
         parent = wparent.gtkGetContainer();
       }
-      text = wtext;
+      text = wtext.dup;
     }
   }
 
@@ -82,7 +83,7 @@ class Control{
 
   void postcreateinit(ref CreateParams cp){
     if(!(ctrlStyle & ControlStyles.CACHE_TEXT)) wtext = null;
-    gtkSetTextCore(cp.text);
+    coreSetText(to!string(cp.text));
 
     if(cp.parent){
       gtk_container_add(cp.parent, wid);
@@ -91,27 +92,27 @@ class Control{
     gtk_widget_show(wid);
   }
 
-  protected void gtkSetTextCore(char[] txt){
+  protected void coreSetText(string txt){
     wtext = txt;
   }
 
-  protected char[] gtkGetTextCore(){
+  protected string coreGetText(){
     return wtext;
   }
 
-  void text(char[] txt){
+  void text(string txt){
     if(isHandleCreated){
-      gtkSetTextCore(txt);
+      coreSetText(txt);
       if(ctrlStyle & ControlStyles.CACHE_TEXT) wtext = txt;
     }else{
       wtext = txt;
     }
   }
 
-  char[] text(){
+  string text(){
     if(isHandleCreated){
       if(ctrlStyle & ControlStyles.CACHE_TEXT) return wtext;
-      return gtkGetTextCore();
+      return coreGetText();
     }else{
       return wtext;
     }
@@ -119,6 +120,7 @@ class Control{
 
   final void parent(Control c){
     wparent = c;
+    this.show();
   }
 
   final Control parent(){
@@ -147,6 +149,6 @@ class Control{
     GtkWidget* wid;
     GtkContainer* wcontainer;
     Control wparent;
-    char[] wtext;
+    string wtext;
     ControlStyles ctrlStyle = ControlStyles.STANDARD_CLICK | ControlStyles.STANDARD_DOUBLE_CLICK;
 }
