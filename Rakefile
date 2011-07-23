@@ -6,7 +6,7 @@
 require 'rake/clean'
 
 LIBS = [ 'core', 'guiLib', 'stats', 'windows', 'openGL', 'rLib', 'gtkLib' ]
-BIN = ['fileloader', 'filesplitter', 'fastamaker', 'singlemap', 'correlation', 'plang', 'httpreader', 'regression', 'gtktest', 'dfltree', 'httpserver', 'dnacode', 'dflopengl' ]
+BIN = ['fileloader', 'filesplitter', 'fastamaker', 'single_map_probes', 'correlation', 'plang', 'httpreader', 'regression', 'gtktest', 'dfltree', 'httpserver', 'dnacode', 'dflopengl' ]
 TESTS = [ 'read_csv' ]
 
 CLEAN.include('*.o')
@@ -84,7 +84,7 @@ file "fastamaker" => :core do
   sh "dmd src/fastamaker.d core.#{libext} -Isrc/"
 end
 
-file "singlemap" => :core do
+file "single_map_probes" => :core do
   sh "dmd src/single_map_probes.d core.#{libext} -Isrc/"
 end
 
