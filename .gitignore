@@ -16,5 +16,8 @@ httpreader
 httpserver
 plang
 regression
+fastamaker
+gtktest
+single_map_probes
 .project
 *.o
