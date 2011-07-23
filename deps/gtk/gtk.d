@@ -71,6 +71,30 @@ struct _GtkLabel {
   GtkLabelSelectionInfo *select_info;
 }
 
+alias _GtkBox GtkBox;
+struct _GtkBox{
+  GtkContainer container;
+  GList *children;
+  gint16 spacing;
+  guint homogeneous;
+}
+
+alias _GtkButton GtkButton;
+struct _GtkButton{
+  GtkBin bin;
+  GdkWindow *event_window;
+  gchar *label_text;
+  guint activate_timeout;
+  guint in_button;
+  guint button_down;
+  guint relief;
+  guint use_underline;
+  guint use_stock;
+  guint depressed;
+  guint depress_on_activate;
+  guint focus_on_click;
+}
+
 
 alias _GtkWindow GtkWindow;
 struct _GtkWindow {
@@ -217,9 +241,18 @@ extern(C){
   GType function() gtk_widget_get_type;
   GType function() gtk_window_get_type;
   GType function() gtk_label_get_type;
+  GType function() gtk_hbox_get_type;
+  GType function() gtk_button_get_type;
+
+  GtkWidget* function() gtk_button_new;
+  GtkWidget* function(gchar *label) gtk_button_new_with_label;
 
   void function(GtkLabel *label, char *str) gtk_label_set_text;
+  void function(GtkButton *button, char *label) gtk_button_set_label;
   char* function(GtkLabel *label) gtk_label_get_text;
+
+  void function(GtkBox *box, GtkWidget *child, gboolean expand, gboolean fill, guint padding) gtk_box_pack_start;
+  void function(GtkBox *box, GtkWidget *child, gboolean expand, gboolean fill, guint padding) gtk_box_pack_end;
 
   void function(GtkMisc *misc, gfloat xalign, gfloat yalign) gtk_misc_set_alignment;
     
@@ -249,9 +282,18 @@ static this(){
   load_function(gtk_widget_get_type)(lib,"gtk_widget_get_type");
   load_function(gtk_window_get_type)(lib,"gtk_window_get_type");
   load_function(gtk_label_get_type)(lib,"gtk_label_get_type");
+  load_function(gtk_hbox_get_type)(lib,"gtk_hbox_get_type");
+  load_function(gtk_button_get_type)(lib,"gtk_button_get_type");
+
+  load_function(gtk_button_new)(lib,"gtk_button_new");
+  load_function(gtk_button_new_with_label)(lib,"gtk_button_new_with_label");
 
   load_function(gtk_label_set_text)(lib,"gtk_label_set_text");
+  load_function(gtk_button_set_label)(lib,"gtk_button_set_label");
   load_function(gtk_label_get_text)(lib,"gtk_label_get_text");
+
+  load_function(gtk_box_pack_start)(lib,"gtk_box_pack_start");
+  load_function(gtk_box_pack_end)(lib,"gtk_box_pack_end");
 
   load_function(gtk_misc_set_alignment)(lib,"gtk_misc_set_alignment");
 

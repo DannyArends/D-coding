@@ -75,6 +75,13 @@ struct _GTypeClass {
   GType g_type;
 }
 
+alias _GList GList;
+struct _GList {
+  gpointer data;
+  GList *next;
+  GList *prev;
+}
+
 alias _GTypeInstance GTypeInstance;
 struct _GTypeInstance {
   GTypeClass *g_class;
