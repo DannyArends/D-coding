@@ -135,6 +135,7 @@ struct _GtkRequisition {
   gint height;
 }
 
+alias Size Location;
 struct Size{
   int width;
   int height;
