@@ -198,6 +198,7 @@ alias GdkRectangle GtkAllocation;
 extern(C){
   //These are the functions we map to D from Rmath.h
   void function(int *argc, char*** argv) gtk_init;
+  bool function(int *argc, char*** argv) gtk_init_check;
   void function() gtk_main;
   void function() gtk_main_quit;
   
@@ -228,8 +229,9 @@ extern(C){
 
 //Load the functions when the module is loaded
 static this(){
-  HXModule lib = load_library("libgtk-win32-2.0-0","gtk-x11-2.0");
+  HXModule lib = load_library("libgtk-win32-2.0-0","gtkgl-2.0");
   load_function(gtk_init)(lib,"gtk_init");
+  load_function(gtk_init_check)(lib,"gtk_init_check");
   load_function(gtk_main)(lib,"gtk_main");
   load_function(gtk_main_quit)(lib,"gtk_main_quit");
   
@@ -256,6 +258,9 @@ static this(){
   load_function(gtk_container_add)(lib,"gtk_container_add");
   load_function(gtk_container_remove)(lib,"gtk_container_remove");  
   
-  gtk_init(null, null);
-  writeln("Loaded GTK functionality");
+  if(gtk_init_check(null, null)){
+    writeln("Loaded GTK functionality");
+  }else{
+    writeln("Couldn't load GTK functionality");
+  }
 }
