@@ -16,6 +16,19 @@ import gtk.gtk_types;
 
 class Control{
 
+  this(){
+    this(Location(0, 0),Size(0, 0));
+  }
+
+  this(Location l){
+    this(l, Size(0, 0));
+  }
+
+  this(Location l, Size s){
+    loc = l;
+    size = s;
+  }
+
   final HWindow handle(){
     if(!isHandleCreated){
       printf("Control created due to handle request.\n");
@@ -25,7 +38,7 @@ class Control{
   }
 
   protected Size defaultSize(){
-    return Size(0, 0);
+    return size;
   }
 
   // Force creation of the window and its child controls.
@@ -147,6 +160,8 @@ class Control{
 
   protected:
     GtkWidget* wid;
+    Location loc;
+    Size size;
     GtkContainer* wcontainer;
     Control wparent;
     string wtext;

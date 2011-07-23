@@ -17,10 +17,14 @@ import gui.gtk.control;
 
 //version = GTK_LABEL_BOX;
 
-class Label: Control{
+class Label : Control{
+
+  this(Location l){
+    super(l, defaultSize());
+  }
 
   protected override Size defaultSize(){
-    return Size(100, 23);
+    return Size(150, 23);
   }
 
   protected override void createParams(ref CreateParams cp){
@@ -60,9 +64,6 @@ class Label: Control{
     }
   }
 	
-  version(GTK_LABEL_BOX){
-    GtkWidget* labelwid;
-  }else{
-    alias wid labelwid;
-  }
+  alias wid labelwid;
 }
+
