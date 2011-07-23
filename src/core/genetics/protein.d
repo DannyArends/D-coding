@@ -19,8 +19,12 @@ enum AA : string  {START = "START", STOP = "STOP",
 
 struct Protein{
   AA[] sequence;
-  int tss;
-  int end;
+  uint tss;
+  uint end;
+
+  this(uint start){
+    tss=start;
+  }
   
   string toString(){
     string ret;
@@ -37,41 +41,49 @@ struct Protein{
   }
 };
 
-Protein[] Proteins_from_RNAstrand(RNAstrand sequence){
-  Protein[] pArray;
-  bool tssfound;
-  int x = 1;
-  Protein p;
-  while(x < (sequence.length-2)){
-    RNAcodon c = sequence[(x-1)..(x+2)];
-    AA toElgonate = RNAcodon_to_AA(c);
-    if(!tssfound && toElgonate == AA.Met){
-      x = x+3;
-      p.tss = x;
-      tssfound = true;
-    }else{
-      if(tssfound){
-        if(toElgonate == AA.STOP){
-          tssfound = false;
-          pArray ~= p;
-          p.sequence.length = 0;
-        }else{
-          p.sequence ~= toElgonate;
-          p.end = x+2;
-          x+= 3;
-        }
-      }else{
-        x++;
-      }
+Protein ScanProtein(RNAstrand sequence, uint start, bool circular){
+  Protein p = Protein(start);
+  AA toElongate;
+  uint x = start;
+  int lapped = 0;
+  while(toElongate != AA.STOP && x <= (sequence.length-2)){
+    RNAcodon codon = sequence[(x-1)..(x+2)];
+    toElongate = RNAcodon_to_AA(codon);
+    p.sequence ~= toElongate;
+    x = x+3;
+    if(x > (sequence.length-2) && circular){
+      x = x-(cast(uint)(sequence.length)-2);
+      lapped++;
+    }
+    if(lapped == 3){
+      writeln("WARN: Infinitely long protein at: [" ~ to!string(start-1) ~":" ~ to!string(start+1) ~ "]");
+      break;
     }
   }
-  if(tssfound) pArray ~= p; //Save the currently elongating protein if we didn't find a stop
+  p.end = x;
+  return p;
+}
+
+/*
+ * Converts an RNA strand and searches for all possible proteins
+ */
+Protein[] Proteins_from_RNAstrand(RNAstrand sequence, bool circular = false){
+  Protein[] pArray;
+  bool tssfound;
+  uint x = 1;
+  while(x < (sequence.length-2)){
+    RNAcodon codon = sequence[(x-1)..(x+2)];
+    if(RNAcodon_to_AA(codon) == AA.Met){
+      pArray ~= ScanProtein(sequence, x, circular);
+    }
+    x++;
+  }
   return pArray;
 }
 
 /*
  * Converts an RNA codon to an AA
-*/
+ */
 AA RNAcodon_to_AA(RNAcodon sequence){
   switch(sequence[0]){
     case RNA.U:
