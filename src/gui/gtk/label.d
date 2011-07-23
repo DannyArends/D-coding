@@ -30,7 +30,7 @@ class Label : Control{
   protected override void createParams(ref CreateParams cp){
     super.createParams(cp);
     with(cp){
-      version(DFLGTK_LABEL_BOX){
+      version(GTK_LABEL_BOX){
         type = gtk_hbox_get_type();
       }else{
         type = gtk_label_get_type();
@@ -63,7 +63,11 @@ class Label : Control{
       gtk_widget_show(labelwid);
     }
   }
-	
+  
+  version(GTK_LABEL_BOX){
+  GtkWidget* labelwid;  
+  }else{
   alias wid labelwid;
+  }
 }
 

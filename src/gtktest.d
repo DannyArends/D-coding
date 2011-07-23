@@ -12,15 +12,22 @@ import gtk.gtk;
 import gtk.gtk_types;
 import gui.gtk.form;
 import gui.gtk.label;
+import gui.gtk.button;
 import gui.gtk.application;
 import core.typedefs.types;
 
 void main(string[] args){
   Form myForm = new Form;
-  Label myLabel = new Label(Location(100,10));
 
+  Label myLabel = new Label(Location(100,10));
   myLabel.text = "Hello, GTK+ World!";
   myLabel.parent = myForm;
+
+ // Button myButton = new Button(Location(100,10));
+ // myButton.text = "Click!";
+ // myButton.parent = myForm;
+
+
   myForm.text("D 2.0 GTK+ Binding");
   Application.run(myForm);
 }
