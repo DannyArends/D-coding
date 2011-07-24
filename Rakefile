@@ -9,12 +9,12 @@ LIBS = [ 'core', 'guiLib', 'gameLib', 'stats', 'windows', 'openGL', 'rLib', 'gtk
 BIN = ['fileloader', 'filesplitter', 'aligner', 'single_map_probes', 'correlation', 'plang', 'httpreader', 'regression', 'gtktest', 'dfltree', 'httpserver', 'dnacode', 'dflopengl' ]
 TESTS = [ 'read_csv' ]
 
-CLEAN.include('*.o')
-CLEAN.include('*.obj')
-CLEAN.include('*.map')
-CLEAN.include('*.lib')
-CLEAN.include('*.a')
-CLEAN.include('*.exe')
+def builddir
+  return "build/"
+end
+  
+CLEAN.include("#{builddir}*.*")
+CLEAN.include("*.exe")
 CLEAN.include(BIN)
 
 core_files = (Dir.glob("./src/core/*/*.d") + Dir.glob("./src/core/*/*/*.d")).join(' ')
@@ -31,6 +31,10 @@ def windows?
   return RUBY_PLATFORM =~ /(:?mswin|mingw)/
 end
 
+
+
+sh "mkdir -p build"
+
 def libext
   if windows? then
     return "lib"
@@ -41,31 +45,31 @@ end
 # ---- Standard Libs ----
 
 file "core" do
-  sh "dmd -lib #{core_files} -ofcore.#{libext}"
+  sh "dmd -lib #{core_files} -of#{builddir}core.#{libext}"
 end
 
 file "gameLib" do
-  sh "dmd -lib #{game_files} core.#{libext} -ofgame.#{libext} -Isrc/"
+  sh "dmd -lib #{game_files} #{builddir}core.#{libext} -of#{builddir}game.#{libext} -Isrc/"
 end
 
 file "stats" => :core do
-  sh "dmd -lib #{plugin_stats} core.#{libext} -ofstats.#{libext} -Isrc/ -Ideps/"
+  sh "dmd -lib #{plugin_stats} #{builddir}core.#{libext} -of#{builddir}stats.#{libext} -Isrc/ -Ideps/"
 end
 
 file "windows" => :core do
-  sh "dmd -lib #{deps_win} core.#{libext} -ofwindows.#{libext} -Isrc/"
+  sh "dmd -lib #{deps_win} #{builddir}core.#{libext} -of#{builddir}windows.#{libext} -Isrc/"
 end
 
 file "openGL" => :core do
-  sh "dmd -lib #{deps_opengl} core.#{libext} -ofopenGL.#{libext} -Ideps/ -Isrc/"
+  sh "dmd -lib #{deps_opengl} #{builddir}core.#{libext} -of#{builddir}openGL.#{libext} -Ideps/ -Isrc/"
 end
 
 file "rLib" => :core do
-  sh "dmd -lib #{deps_r} core.#{libext} -ofr.#{libext} -Ideps/ -Isrc/"
+  sh "dmd -lib #{deps_r} #{builddir}core.#{libext} -of#{builddir}r.#{libext} -Ideps/ -Isrc/"
 end
 
 file "gtkLib" => :core do
-  sh "dmd -lib #{deps_gtk} #{gtk_files} core.#{libext} -ofgtk.#{libext} -Ideps/ -Isrc/"
+  sh "dmd -lib #{deps_gtk} #{gtk_files} #{builddir}core.#{libext} -of#{builddir}gtk.#{libext} -Ideps/ -Isrc/"
 end
 
 file "guiLib" => :core do
@@ -78,39 +82,39 @@ end
 # ---- Applications ----
 
 file "fileloader" => :core do
-  sh "dmd src/fileloader.d core.#{libext} -Isrc/"
+  sh "dmd src/fileloader.d #{builddir}core.#{libext} -Isrc/ -od#{builddir}"
 end
 
 file "filesplitter" => :core do
-  sh "dmd src/filesplitter.d core.#{libext} -Isrc/"
+  sh "dmd src/filesplitter.d #{builddir}core.#{libext} -Isrc/ -od#{builddir}"
 end
 
 file "aligner" => :core do
-  sh "dmd src/aligner.d core.#{libext} -Isrc/"
+  sh "dmd src/aligner.d #{builddir}core.#{libext} -Isrc/ -od#{builddir}"
 end
 
 file "single_map_probes" => :core do
-  sh "dmd src/single_map_probes.d core.#{libext} -Isrc/"
+  sh "dmd src/single_map_probes.d #{builddir}core.#{libext} -Isrc/ -od#{builddir}"
 end
 
 file "correlation" => [ :core, :stats ] do
-  sh "dmd src/correlation.d core.#{libext} stats.#{libext} -Isrc/"
+  sh "dmd src/correlation.d #{builddir}core.#{libext} #{builddir}stats.#{libext} -Isrc/ -od#{builddir}"
 end
 
 file "plang" => :core do
-  sh "dmd src/plang.d core.#{libext} -Isrc/"
+  sh "dmd src/plang.d #{builddir}core.#{libext} -Isrc/ -od#{builddir}"
 end
 
 file "httpreader" do
-  sh "dmd src/httpreader.d core.#{libext} -Isrc/"
+  sh "dmd src/httpreader.d #{builddir}core.#{libext} -Isrc/ -od#{builddir}"
 end
 
 file "regression" => [ :rLib ] do
-  sh "dmd src/regression.d core.#{libext} stats.#{libext} r.#{libext} -Isrc/ -Ideps/ -L-ldl"
+  sh "dmd src/regression.d #{builddir}core.#{libext} #{builddir}stats.#{libext} #{builddir}r.#{libext} -Isrc/ -Ideps/ -L-ldl -od#{builddir}"
 end
 
 file "gtktest" => [ :gtkLib ] do
-  sh "dmd src/gtktest.d core.#{libext} gtk.#{libext} -Isrc/ -Ideps/ -L-ldl"
+  sh "dmd src/gtktest.d #{builddir}core.#{libext} #{builddir}gtk.#{libext} -Isrc/ -Ideps/ -L-ldl -od#{builddir}"
 end
 
 file "dfltree" => [ :guiLib ] do
@@ -120,11 +124,11 @@ file "dfltree" => [ :guiLib ] do
 end
 
 file "httpserver" => :core do
-  sh "dmd src/httpserver.d core.#{libext} -Isrc/"
+  sh "dmd src/httpserver.d #{builddir}core.#{libext} -Isrc/ -od#{builddir}"
 end
 
 file "dnacode" => :core do
-  sh "dmd src/dnacode.d core.#{libext} -Isrc/"
+  sh "dmd src/dnacode.d #{builddir}core.#{libext} -Isrc/ -od#{builddir}"
 end
 
 file "dflopengl" => LIBS do

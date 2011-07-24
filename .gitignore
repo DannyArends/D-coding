@@ -22,3 +22,5 @@ gtktest
 single_map_probes
 .project
 *.o
+.externalToolBuilders/
+
