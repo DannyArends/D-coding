@@ -23,6 +23,8 @@
  **/
 
 module core.arrays.searching;
+
+import std.random;
  
 pure uint[] doRange(int start,uint length){
   uint array[];
@@ -30,6 +32,20 @@ pure uint[] doRange(int start,uint length){
    array ~= start+i;
   }
   return array;
+}
+
+uint[] doRandomRange(int start, uint length, int number){
+  assert(number < length);
+  return doRandomRange(doRange(start,length),2);
+}
+
+uint[] doRandomRange(uint[] range, int number){
+  assert(number < range.length);
+  uint[] s;
+  foreach(e;randomSample(range,number)){
+    s ~= e;
+  }
+  return s;
 }
 
 pure bool searchArray(T)(T[] haystack, T needle){

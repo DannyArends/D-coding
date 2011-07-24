@@ -1,22 +1,54 @@
 /*
-* dna.d
-*/
+ * dna.d
+ * 
+ * Copyright (c) 2011 Danny Arends
+ */
+
 module core.genetics.dna;
 
 import std.stdio;
+import std.math;
+import std.conv;
 import std.string;
+import std.algorithm;
+import std.random;
 
-enum DNA : char {A = 'A', C = 'C', T = 'T', G = 'G' };
+import core.arrays.searching;
 
-alias DNA[]   DNAstrand;
-alias DNA[3]  DNAcodon;
+struct DNA{
+public:
+  this(char base){
+    this.base=base;
+  }
+  
+  pure char getBase(){
+    return base;
+  }
+  
+  string toString(){
+    return to!string(base);
+  }
+  
+  bool opCmp(DNA c){
+    return base==c.base;
+  }
+  
+private:
+  char base;
+};
+
+enum DNABASES : DNA {ANY = DNA('#'), A = DNA('A'), C = DNA('C'), T = DNA('T'), G = DNA('G') };
+
+alias DNA[]          DNAstrand;
+alias DNA[3]         DNAcodon;
 
 /* Check if base is valid DNA code */
 bool is_valid_DNA(char base){
-	if (base == DNA.A) return true;
-	if (base == DNA.C) return true;
-	if (base == DNA.T) return true;
-	if (base == DNA.G) return true;
+	if (base == DNABASES.A.getBase())   return true;
+	if (base == DNABASES.C.getBase())   return true;
+	if (base == DNABASES.T.getBase())   return true;
+	if (base == DNABASES.G.getBase())   return true;
+	if (base == DNABASES.ANY.getBase()) return true;
   writeln("Warning: invalid base: " ~ base);
 	return false;
 }
@@ -30,20 +62,84 @@ DNAstrand DNA_from_string(string seq){
 }
 
 pure DNA DNA_to_Anti(DNA base){
-  switch(base){
-    case DNA.T: return DNA.A; break;
-    case DNA.C: return DNA.G; break;
-    case DNA.A: return DNA.T; break;
-    case DNA.G: return DNA.C; break;
+  switch(base.getBase()){
+    case DNABASES.T.getBase(): return DNABASES.A; break;
+    case DNABASES.C.getBase(): return DNABASES.G; break;
+    case DNABASES.A.getBase(): return DNABASES.T; break;
+    case DNABASES.G.getBase(): return DNABASES.C; break;
+    case DNABASES.ANY.getBase(): return DNABASES.ANY; break;
     default: break;
   }
   assert(0);
 }
 
-pure DNAstrand DNAstrand_to_Antisense(DNAstrand sequence){
+DNA randomBase(DNA base){
+  ulong z;
+  switch(base.getBase()){
+    case DNABASES.A.getBase():   z = dice(1, 33, 33, 33); break;
+    case DNABASES.G.getBase():   z = dice(33, 1, 33, 33); break;
+    case DNABASES.T.getBase():   z = dice(33, 33, 1, 33); break;
+    case DNABASES.C.getBase():   z = dice(33, 33, 33, 1); break;
+    case DNABASES.ANY.getBase(): z = dice(25, 25, 25, 25); break;
+    default: z = dice(25, 25, 25, 25);
+  }
+  switch(z){
+    case 0: return DNABASES.A; break;
+    case 1: return DNABASES.G; break;
+    case 2: return DNABASES.T; break;
+    case 3: return DNABASES.C; break;
+    default: break;
+  }
+  assert(0);
+}
+
+DNAstrand Elongate_DNA(DNAstrand sequence, double elongation_rate = 0.01){
+  DNAstrand elongated_strand = sequence;
+  if(uniform(0.0, 1.0) < elongation_rate){
+    if(dice(50, 50) == 0){
+      elongated_strand = randomBase(DNABASES.ANY) ~ elongated_strand;
+    }else{
+      elongated_strand = elongated_strand ~ randomBase(DNABASES.ANY);
+    }
+  }
+  return elongated_strand;
+}
+
+DNAstrand Mutate_DNA(DNAstrand sequence, double mutation_rate = 0.0001){
+  DNAstrand mutated_strand;
+  foreach(DNA base; sequence){
+    if(uniform(0.0, 1.0) < mutation_rate){
+      mutated_strand ~= randomBase(base);
+    }else{
+      mutated_strand ~= base;
+    }
+  }
+  return mutated_strand;
+}
+
+DNAstrand[] CrossOver_DNA(DNAstrand[] strands, double crossover_rate = 0.7){
+  if(uniform(0.0, 1.0) < crossover_rate){
+    assert(strands.length >= 2);
+    uint[] s = doRandomRange(0,cast(uint)strands.length,2);
+    uint breakpoint = cast(uint)uniform(0, min(strands[s[0]].length,strands[s[1]].length));
+    strands[s[0]] = strands[s[0]][0..breakpoint-1] ~ strands[s[1]][breakpoint-1.. $];
+    strands[s[1]] = strands[s[1]][0..breakpoint-1] ~ strands[s[0]][breakpoint-1.. $];
+  }
+  return strands;
+}
+
+DNAstrand replicate_DNAstrand(DNAstrand templatestrand, double error_rate = 0.00000001){
+  return DNAstrand_to_Antisense(templatestrand, error_rate);
+}
+
+DNAstrand DNAstrand_to_Antisense(DNAstrand sequence, double error_rate = 0){
   DNAstrand antisense;
   foreach(DNA base; sequence){
-    antisense ~= DNA_to_Anti(base);
+    if(uniform(0.0, 1.0) < error_rate){
+      antisense ~= randomBase(DNA_to_Anti(base));
+    }else{
+      antisense ~= DNA_to_Anti(base);
+    }
   }
   return antisense;
 }

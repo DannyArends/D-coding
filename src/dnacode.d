@@ -20,6 +20,13 @@ void main(string[] args){
     RNAstrand rna = RNAstrand_from_DNAstrand(dna);
     Protein[] p = Proteins_from_RNAstrand(rna);
     writefln("%s\n%s\n%s",dna,rna,p);
+    for(int x=0;x<1000;x++){
+      dna = Elongate_DNA(dna);
+      dna = Mutate_DNA(dna);
+    }
+    rna = RNAstrand_from_DNAstrand(dna);
+    p = Proteins_from_RNAstrand(rna);
+    writefln("%s\n%s\n%s",dna,rna,p);
   }else{
     print_usage();
   }

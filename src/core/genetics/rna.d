@@ -13,17 +13,17 @@ alias RNA[]   RNAstrand;
 alias RNA[3]  RNAcodon; 
 
 pure RNA RNA_from_DNA(DNA base){
-  switch(base){
-    case DNA.T: return RNA.A; break;
-    case DNA.C: return RNA.G; break;
-    case DNA.A: return RNA.U; break;
-    case DNA.G: return RNA.C; break;
+  switch(base.getBase()){
+    case DNABASES.T.getBase(): return RNA.A; break;
+    case DNABASES.C.getBase(): return RNA.G; break;
+    case DNABASES.A.getBase(): return RNA.U; break;
+    case DNABASES.G.getBase(): return RNA.C; break;
     default: break;
   }
   assert(0);
 }
 
-pure RNAstrand RNAstrand_from_DNAstrand(DNAstrand sequence){
+RNAstrand RNAstrand_from_DNAstrand(DNAstrand sequence){
   RNAstrand mRNA;
   DNAstrand antisense = DNAstrand_to_Antisense(sequence);
   foreach(DNA base; antisense){
