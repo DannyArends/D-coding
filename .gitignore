@@ -16,7 +16,8 @@ httpreader
 httpserver
 plang
 regression
-fastamaker
+*.aligned
+aligner
 gtktest
 single_map_probes
 .project
