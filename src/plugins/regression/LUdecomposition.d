@@ -1,8 +1,9 @@
 /**
- * \file LUdecomposition.D
+ * \file LUdecomposition.d
  * \brief Code file, Implementation of: \ref LUdecompose, \ref LUsolve, \ref LUinvert
  *
- * Copyright (c) 2010 Danny Arends
+ * Copyright (c) 1991-2010 Ritsert C Jansen, Danny Arends, Pjotr Prins, Karl Broman
+ * 
  *     This program is free software; you can redistribute it and/or
  *     modify it under the terms of the GNU General Public License,
  *     version 3, as published by the Free Software Foundation.

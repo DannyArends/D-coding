@@ -1,5 +1,5 @@
 /**
- * \file statistics.D
+ * \file statistics.d
  *
  * last modified May, 2011
  * first written May, 2011

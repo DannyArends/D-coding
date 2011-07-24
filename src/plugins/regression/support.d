@@ -1,6 +1,7 @@
 /**
- * \file support.D
- * \brief Code file, Implementation of: \ref LUdecomposition, \ref LUsolve, \ref LUinvert
+ * \file support.d
+ * \brief Code file, Implementation of: \ref Lnormal, \ref calculateparameters, \ref translatematrix, 
+ * \ref calculatestatistics, \ref calculateloglikelihood and \ref inverseF.
  *
  * Copyright (c) 2010 Danny Arends
  *     This program is free software; you can redistribute it and/or
