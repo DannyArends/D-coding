@@ -1,11 +1,16 @@
 Installation
 ------------
 - Download and install DMD for D language 2.0+ (http://www.d-programming-language.org/)
-- Download and install Ruby 1.9.1 (or higher) (http://www.ruby-lang.org/)
+- Download and install Ruby 1.9.1 (or higher) preferably with GEM (http://www.ruby-lang.org/)
 - Install Rake (http://rake.rubyforge.org/)
-- (Optional for GUI) Download and install DFL (http://www.dprogramming.com/dfl.php)
 
-Compile with using rake, dmd (and dfl) on %PATH%:
+Some libraries and/or examples require external libraries:
+
+- (Optional for GUI) Download and install GTK for your platform (http://www.gtk.org/)
+- (R for Statistical) Download and install R for your platform (http://www.r-project.org/)
+- (Additional for Win32) Download and install DFL (http://www.dprogramming.com/dfl.php)
+
+Compile with using rake, dmd (and optionally dfl) on %PATH%:
 List all possible build and test options:
 
     $ rake -T
@@ -20,7 +25,7 @@ Building only the standalone LIB components for re-use:
 
 Applications
 ------------
-The provided applications are itself are not that intresting, and sometimes far from finished, 
+The provided applications are itself are not that interesting, and sometimes far from finished, 
 however here a short description on what they are supposed to do is provided:
 
 - Plang: implementation of a p'' interpreter
@@ -29,9 +34,12 @@ however here a short description on what they are supposed to do is provided:
 - Httpreader: Basic HTTP slurper
 - Httpserver: Basic try at a HTTP server
 - DNAcode: Translates an input sequence in DNA to Anti, mRNA and possible proteins
-Deprecated things, which I like to replace by the new direct GTK->GL bindings
+
+
+Deprecated things, which I like to replace by the new direct GTK->GL bindings:
+
 - Dflapplication: First test in DFL
-- Dfltreeexample: Directory browsing plugin for DFL
+- Dfltreeexample: Directory browsing plug-in for DFL
 - Dflopengl: OpenGL test application in D supporting 3DS model and TGA texture loading
 
 ------------
