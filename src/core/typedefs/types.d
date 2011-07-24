@@ -44,6 +44,18 @@ T[][] newmatrix(T)(uint nrow,uint ncol){
   return x;
 }
 
+T[][] newclassmatrix(T)(uint nrow,uint ncol){
+  T[][] x;
+  x.length=nrow;
+  for(uint i=0;i<nrow;i++){
+    x[i].length=ncol;
+    for(uint j=0;j<ncol;j++){
+      x[i][j]= new T();
+    }
+  }
+  return x;
+}
+
 T[][] vectortomatrix(T)(uint nrow, uint ncol, T[] invector){
   int c,r;
   T[][] outmatrix;
