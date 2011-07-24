@@ -1,8 +1,8 @@
 /*
  * lsystem.d - Interpreter for an L-system in D
  * 
- * See: http://en.wikipedia.org/wiki/P'' or http://www.cs.unibo.it/~martini/PP/bohm-jac.pdf
- * Copyright (c) 2010 Danny Arends
+ * See: http://en.wikipedia.org/wiki/Lsystem
+ * Copyright (c) 2011 Danny Arends
  * 
  */
 
