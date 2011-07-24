@@ -9,13 +9,21 @@ LIBS = [ 'core', 'guiLib', 'gameLib', 'stats', 'windows', 'openGL', 'rLib', 'gtk
 BIN = ['fileloader', 'filesplitter', 'aligner', 'single_map_probes', 'correlation', 'plang', 'httpreader', 'regression', 'gtktest', 'dfltree', 'httpserver', 'dnacode', 'dflopengl' ]
 TESTS = [ 'read_csv' ]
 
-def builddir
-  return "build/"
+def builddir;return "build/";end
+
+def windows?;return RUBY_PLATFORM =~ /(:?mswin|mingw)/;end
+
+def execext
+  if windows? then
+    return "exe"
+  else
+    return "bin"
+  end
 end
   
 CLEAN.include("#{builddir}*.*")
-CLEAN.include("*.exe")
-CLEAN.include(BIN)
+CLEAN.include("#{builddir}")
+CLEAN.include("*.#{execext}")
 
 core_files = (Dir.glob("./src/core/*/*.d") + Dir.glob("./src/core/*/*/*.d")).join(' ')
 gui_files = (Dir.glob("./src/gui/*.d") + Dir.glob("./src/gui/*/*.d")).join(' ')
@@ -27,12 +35,6 @@ deps_opengl =  (Dir.glob("./deps/gl/*.d")).join(' ')
 deps_r =  (Dir.glob("./deps/r/*.d")).join(' ')
 deps_gtk =  (Dir.glob("./deps/gtk/*.d")).join(' ')
 
-def windows?
-  return RUBY_PLATFORM =~ /(:?mswin|mingw)/
-end
-
-
-
 sh "mkdir -p build"
 
 def libext
@@ -42,6 +44,7 @@ def libext
     return "a"
   end
 end
+
 # ---- Standard Libs ----
 
 file "core" do
@@ -82,39 +85,39 @@ end
 # ---- Applications ----
 
 file "fileloader" => :core do
-  sh "dmd src/fileloader.d #{builddir}core.#{libext} -Isrc/ -od#{builddir}"
+  sh "dmd src/fileloader.d #{builddir}core.#{libext} -Isrc/ -od#{builddir} -offileloader.#{execext}"
 end
 
 file "filesplitter" => :core do
-  sh "dmd src/filesplitter.d #{builddir}core.#{libext} -Isrc/ -od#{builddir}"
+  sh "dmd src/filesplitter.d #{builddir}core.#{libext} -Isrc/ -od#{builddir} -offileloader.#{execext}"
 end
 
 file "aligner" => :core do
-  sh "dmd src/aligner.d #{builddir}core.#{libext} -Isrc/ -od#{builddir}"
+  sh "dmd src/aligner.d #{builddir}core.#{libext} -Isrc/ -od#{builddir} -ofaligner.#{execext}"
 end
 
 file "single_map_probes" => :core do
-  sh "dmd src/single_map_probes.d #{builddir}core.#{libext} -Isrc/ -od#{builddir}"
+  sh "dmd src/single_map_probes.d #{builddir}core.#{libext} -Isrc/ -od#{builddir} -ofmap_probes.#{execext}"
 end
 
 file "correlation" => [ :core, :stats ] do
-  sh "dmd src/correlation.d #{builddir}core.#{libext} #{builddir}stats.#{libext} -Isrc/ -od#{builddir}"
+  sh "dmd src/correlation.d #{builddir}core.#{libext} #{builddir}stats.#{libext} -Isrc/ -od#{builddir} -ofcorrelation.#{execext}"
 end
 
 file "plang" => :core do
-  sh "dmd src/plang.d #{builddir}core.#{libext} -Isrc/ -od#{builddir}"
+  sh "dmd src/plang.d #{builddir}core.#{libext} -Isrc/ -od#{builddir} -ofplang.#{execext}"
 end
 
 file "httpreader" do
-  sh "dmd src/httpreader.d #{builddir}core.#{libext} -Isrc/ -od#{builddir}"
+  sh "dmd src/httpreader.d #{builddir}core.#{libext} -Isrc/ -od#{builddir} -ofhttpreader.#{execext}"
 end
 
 file "regression" => [ :rLib ] do
-  sh "dmd src/regression.d #{builddir}core.#{libext} #{builddir}stats.#{libext} #{builddir}r.#{libext} -Isrc/ -Ideps/ -L-ldl -od#{builddir}"
+  sh "dmd src/regression.d #{builddir}core.#{libext} #{builddir}stats.#{libext} #{builddir}r.#{libext} -Isrc/ -Ideps/ -L-ldl -od#{builddir} -ofregression.#{execext}"
 end
 
 file "gtktest" => [ :gtkLib ] do
-  sh "dmd src/gtktest.d #{builddir}core.#{libext} #{builddir}gtk.#{libext} -Isrc/ -Ideps/ -L-ldl -od#{builddir}"
+  sh "dmd src/gtktest.d #{builddir}core.#{libext} #{builddir}gtk.#{libext} -Isrc/ -Ideps/ -L-ldl -od#{builddir} -ofgtktest.#{execext}"
 end
 
 file "dfltree" => [ :guiLib ] do
@@ -124,11 +127,11 @@ file "dfltree" => [ :guiLib ] do
 end
 
 file "httpserver" => :core do
-  sh "dmd src/httpserver.d #{builddir}core.#{libext} -Isrc/ -od#{builddir}"
+  sh "dmd src/httpserver.d #{builddir}core.#{libext} -Isrc/ -od#{builddir} -ofhttpserver.#{execext}"
 end
 
 file "dnacode" => :core do
-  sh "dmd src/dnacode.d #{builddir}core.#{libext} -Isrc/ -od#{builddir}"
+  sh "dmd src/dnacode.d #{builddir}core.#{libext} -Isrc/ -od#{builddir} -ofdnacode.#{execext}"
 end
 
 file "dflopengl" => LIBS do
@@ -169,20 +172,20 @@ end
 desc "Test Plang"
 task :test_plang => [ :plang ] do 
   print "Testing p'' language interpreter\n"
-  sh "./plang"
-  sh "./plang 'Rl(l)' 010"
+  sh "./plang.#{execext}"
+  sh "./plang.#{execext} 'Rl(l)' 010"
 end
 desc "Test DNAcode"
 task :test_dnacode => [ :dnacode ] do 
   print "Testing DNA translation\n"
-  sh "./dnacode"
-  sh "./dnacode AAAATGATTGAGTAGGATGGATTCTATATCTCTACTCATTTTGTCGCTT"
+  sh "./dnacode.#{execext}"
+  sh "./dnacode.#{execext} AAAATGATTGAGTAGGATGGATTCTATATCTCTACTCATTTTGTCGCTT"
 end
 
 desc "Test Fileloader"
 task :test_fileloader => [ :fileloader ] do 
   print "Testing fileloader\n"
-  sh "./fileloader"
+  sh "./fileloader.#{execext}"
   #sh "./fileloader data/csv/test.csv"
   #sh "./fileloader data/csv/test.csv 2mb"
   #sh "./fileloader data/csv/test.csv 2mb 1 23"
@@ -191,21 +194,21 @@ end
 desc "Test Regression"
 task :test_regression => [ :regression ] do 
   print "Testing regression\n"
-  sh "./regression"
+  sh "./regression.#{execext}"
 end
 
 desc "Test Correlation"
 task :test_correlation => [ :correlation ] do 
   print "Testing correlation\n"
-  sh "./correlation"
+  sh "./correlation.#{execext}"
   #sh "./correlation data/csv/test.csv 2mb"
 end
 
 desc "Test HTTPreader"
 task :test_httpreader => [ 'httpreader' ] do 
   print "Testing httpreader\n"
-  sh "./httpreader"
-  sh "./httpreader www.dannyarends.nl 80 /" 
+  sh "./httpreader.#{execext}"
+  sh "./httpreader.#{execext} www.dannyarends.nl 80 /" 
 end
 
 
