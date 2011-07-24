@@ -198,7 +198,7 @@ end
 # ---- Default task ----
 
 desc "Default is to build all applications"
-task :default => :applications do
+task :default => 'applications:all' do
   print "Build OK\n"
 end
 
