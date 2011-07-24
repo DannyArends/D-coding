@@ -5,7 +5,7 @@
 
 require 'rake/clean'
 
-LIBS = [ 'core', 'guiLib', 'stats', 'windows', 'openGL', 'rLib', 'gtkLib' ]
+LIBS = [ 'core', 'guiLib', 'gameLib', 'stats', 'windows', 'openGL', 'rLib', 'gtkLib' ]
 BIN = ['fileloader', 'filesplitter', 'fastamaker', 'single_map_probes', 'correlation', 'plang', 'httpreader', 'regression', 'gtktest', 'dfltree', 'httpserver', 'dnacode', 'dflopengl' ]
 TESTS = [ 'read_csv' ]
 
@@ -19,6 +19,7 @@ CLEAN.include(BIN)
 
 core_files = (Dir.glob("./src/core/*/*.d") + Dir.glob("./src/core/*/*/*.d")).join(' ')
 gui_files = (Dir.glob("./src/gui/*.d") + Dir.glob("./src/gui/*/*.d")).join(' ')
+game_files = (Dir.glob("./src/game/*.d") + Dir.glob("./src/game/*/*.d")).join(' ')
 gtk_files = (Dir.glob("./src/gui/gtk/*.d")).join(' ')
 plugin_stats =  (Dir.glob("./src/plugins/regression/*.d")).join(' ')
 deps_win =  (Dir.glob("./deps/win/*.d")).join(' ')
@@ -41,6 +42,10 @@ end
 
 file "core" do
   sh "dmd -lib #{core_files} -ofcore.#{libext}"
+end
+
+file "gameLib" do
+  sh "dmd -lib #{game_files} core.#{libext} -ofgame.#{libext} -Isrc/"
 end
 
 file "stats" => :core do
