@@ -74,42 +74,44 @@ namespace :libraries do
   desc "Build all libraries"
   task :all => LIBS
   
-  desc "Build the Core library"
+  desc "The library with core functionality"
   task "core" do
     sh "dmd -lib #{core_files} -of#{builddir}core.#{libext}"
   end
   
-  desc "Build the Game library"
-  task "game" do
+  desc "Library with game functionality (A* search)"
+  task "game" => :core do
     sh "dmd -lib #{game_files} #{builddir}core.#{libext} -of#{builddir}game.#{libext} -Isrc/"
   end
   
-  desc "Build the Statistics library"
+  desc "Libary with basic statistics functions"
   task "stats" => :core do
     sh "dmd -lib #{plugin_stats} #{builddir}core.#{libext} -of#{builddir}stats.#{libext} -Isrc/ -Ideps/"
   end
   
-  desc "Build the Win32 library"
+  desc "Bindings for core Win32 DLLs (Builds on Win32 only)"
   task "win" => :core do
-    sh "dmd -lib #{deps_win} #{builddir}core.#{libext} -of#{builddir}windows.#{libext} -Isrc/"
+    if windows? then
+      sh "dmd -lib #{deps_win} #{builddir}core.#{libext} -of#{builddir}windows.#{libext} -Isrc/"
+    end
   end
   
-  desc "Build the openGL library"
+  desc "Bindings for openGL"
   task "openGL" => :core do
     sh "dmd -lib #{deps_opengl} #{builddir}core.#{libext} -of#{builddir}openGL.#{libext} -Ideps/ -Isrc/"
   end
   
-  desc "Build the R library"
+  desc "Bindings for R"
   task "r" => :core do
     sh "dmd -lib #{deps_r} #{builddir}core.#{libext} -of#{builddir}r.#{libext} -Ideps/ -Isrc/"
   end
   
-  desc "Build the GTK library"
+  desc "Bindings for GTK"
   task "gtk" => :core do
     sh "dmd -lib #{deps_gtk} #{gtk_files} #{builddir}core.#{libext} -of#{builddir}gtk.#{libext} -Ideps/ -Isrc/"
   end
   
-  desc "Build the GUI library"
+  desc "Deprecated DFL testing libary"
   task "gui" => :core do
     if windows? then
       print "Windows DFL GUI\n"
@@ -148,7 +150,7 @@ namespace :applications do
     sh "dmd src/correlation.d #{builddir}core.#{libext} #{builddir}stats.#{libext} -Isrc/ -od#{builddir} -ofcorrelation.#{execext}"
   end
   
-  desc "P'' languagee interpreter"
+  desc "P'' language interpreter (see: http://en.wikipedia.org/wiki/P'')"
   task "plang" => 'libraries:core' do
     sh "dmd src/plang.d #{builddir}core.#{libext} -Isrc/ -od#{builddir} -ofplang.#{execext}"
   end

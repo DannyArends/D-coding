@@ -31,7 +31,7 @@ however here a short description on what they are supposed to do is provided:
 - Plang: implementation of a p'' interpreter
 - Regression: Multiple regression adapted from MQM routine
 - Fileloader: High speed big data file loading using the D language
-- Fastamaker: performs blastn on raw DNA sequences in a file to sequences in a fasta file (you'll need: ftp://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/)
+- Aligner: Performs blastn on raw DNA sequences to a whole genome sequences in a fasta file (you'll need: ftp://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/)
 - Httpreader: Basic HTTP slurper
 - Httpserver: Basic try at a HTTP server
 - Httpserver: Basic try at a HTTP server
