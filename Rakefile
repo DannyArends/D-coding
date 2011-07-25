@@ -76,39 +76,39 @@ namespace :libraries do
   
   desc "The library with core functionality"
   task "core" do
-    sh "dmd -lib #{core_files} -of#{builddir}core.#{libext}"
+    sh "dmd -lib #{core_files} -of#{builddir}/core.#{libext}"
   end
   
   desc "Library with game functionality (A* search)"
   task "game" => :core do
-    sh "dmd -lib #{game_files} #{builddir}core.#{libext} -of#{builddir}game.#{libext} -Isrc/"
+    sh "dmd -lib #{game_files} #{builddir}/core.#{libext} -of#{builddir}/game.#{libext} -Isrc/"
   end
   
   desc "Libary with basic statistics functions"
   task "stats" => :core do
-    sh "dmd -lib #{plugin_stats} #{builddir}core.#{libext} -of#{builddir}stats.#{libext} -Isrc/ -Ideps/"
+    sh "dmd -lib #{plugin_stats} #{builddir}/core.#{libext} -of#{builddir}/stats.#{libext} -Isrc/ -Ideps/"
   end
   
   desc "Bindings for core Win32 DLLs (Builds on Win32 only)"
   task "win" => :core do
     if windows? then
-      sh "dmd -lib #{deps_win} #{builddir}core.#{libext} -of#{builddir}windows.#{libext} -Isrc/"
+      sh "dmd -lib #{deps_win} #{builddir}/core.#{libext} -of#{builddir}/windows.#{libext} -Isrc/"
     end
   end
   
   desc "Bindings for openGL"
   task "openGL" => :core do
-    sh "dmd -lib #{deps_opengl} #{builddir}core.#{libext} -of#{builddir}openGL.#{libext} -Ideps/ -Isrc/"
+    sh "dmd -lib #{deps_opengl} #{builddir}/core.#{libext} -of#{builddir}/openGL.#{libext} -Ideps/ -Isrc/"
   end
   
   desc "Bindings for R"
   task "r" => :core do
-    sh "dmd -lib #{deps_r} #{builddir}core.#{libext} -of#{builddir}r.#{libext} -Ideps/ -Isrc/"
+    sh "dmd -lib #{deps_r} #{builddir}/core.#{libext} -of#{builddir}/r.#{libext} -Ideps/ -Isrc/"
   end
   
   desc "Bindings for GTK"
   task "gtk" => :core do
-    sh "dmd -lib #{deps_gtk} #{gtk_files} #{builddir}core.#{libext} -of#{builddir}gtk.#{libext} -Ideps/ -Isrc/"
+    sh "dmd -lib #{deps_gtk} #{gtk_files} #{builddir}/core.#{libext} -of#{builddir}/gtk.#{libext} -Ideps/ -Isrc/"
   end
   
   desc "Deprecated DFL testing libary"
@@ -127,47 +127,47 @@ namespace :applications do
   
   desc "Fileloader application"
   task "fileloader" => 'libraries:core' do
-    sh "dmd src/fileloader.d #{builddir}core.#{libext} -Isrc/ -od#{builddir} -offileloader.#{execext}"
+    sh "dmd src/fileloader.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -offileloader.#{execext}"
   end
 
   desc "Large file splitter"
   task "filesplitter" => 'libraries:core' do
-    sh "dmd src/filesplitter.d #{builddir}core.#{libext} -Isrc/ -od#{builddir} -offileloader.#{execext}"
+    sh "dmd src/filesplitter.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -offileloader.#{execext}"
   end
   
   desc "DNA sequence alignment using blastn"
   task "aligner" => 'libraries:core' do
-    sh "dmd src/aligner.d #{builddir}core.#{libext} -Isrc/ -od#{builddir} -ofaligner.#{execext}"
+    sh "dmd src/aligner.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofaligner.#{execext}"
   end
   
   desc "Extract probes mapping to a single genome location"
   task "single_map_probes" => 'libraries:core' do
-    sh "dmd src/single_map_probes.d #{builddir}core.#{libext} -Isrc/ -od#{builddir} -ofmap_probes.#{execext}"
+    sh "dmd src/single_map_probes.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofmap_probes.#{execext}"
   end
   
   desc "Correlation test using the Statistics library"
   task "correlation" => [ 'libraries:core', 'libraries:stats' ] do
-    sh "dmd src/correlation.d #{builddir}core.#{libext} #{builddir}stats.#{libext} -Isrc/ -od#{builddir} -ofcorrelation.#{execext}"
+    sh "dmd src/correlation.d #{builddir}/core.#{libext} #{builddir}/stats.#{libext} -Isrc/ -od#{builddir} -ofcorrelation.#{execext}"
   end
   
   desc "P'' language interpreter (see: http://en.wikipedia.org/wiki/P'')"
   task "plang" => 'libraries:core' do
-    sh "dmd src/plang.d #{builddir}core.#{libext} -Isrc/ -od#{builddir} -ofplang.#{execext}"
+    sh "dmd src/plang.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofplang.#{execext}"
   end
   
   desc "Basic HTTP response slurper"
   task "httpreader" => 'libraries:core' do
-    sh "dmd src/httpreader.d #{builddir}core.#{libext} -Isrc/ -od#{builddir} -ofhttpreader.#{execext}"
+    sh "dmd src/httpreader.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofhttpreader.#{execext}"
   end
   
   desc "Multiple lineair regression"
   task "regression" => [ 'libraries:core',  'libraries:r' ] do
-    sh "dmd src/regression.d #{builddir}core.#{libext} #{builddir}stats.#{libext} #{builddir}r.#{libext} -Isrc/ -Ideps/ -L-ldl -od#{builddir} -ofregression.#{execext}"
+    sh "dmd src/regression.d #{builddir}/core.#{libext} #{builddir}/stats.#{libext} #{builddir}/r.#{libext} -Isrc/ -Ideps/ -L-ldl -od#{builddir} -ofregression.#{execext}"
   end
   
   desc "Test for the old DFL <-> GTK bindings"
   task "gtktest" => [ 'libraries:core', 'libraries:gtk' ] do
-    sh "dmd src/gtktest.d #{builddir}core.#{libext} #{builddir}gtk.#{libext} -Isrc/ -Ideps/ -L-ldl -od#{builddir} -ofgtktest.#{execext}"
+    sh "dmd src/gtktest.d #{builddir}/core.#{libext} #{builddir}/gtk.#{libext} -Isrc/ -Ideps/ -L-ldl -od#{builddir} -ofgtktest.#{execext}"
   end
   
   desc "Directory tree control in Win32 DFL"
@@ -179,12 +179,12 @@ namespace :applications do
   
   desc "HTPPserver supporting D as CGI"
   task "httpserver" => 'libraries:core' do
-    sh "dmd src/httpserver.d #{builddir}core.#{libext} -Isrc/ -od#{builddir} -ofhttpserver.#{execext}"
+    sh "dmd src/httpserver.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofhttpserver.#{execext}"
   end
   
   desc "Scan for proteins in DNA code"
   task "dnacode" => 'libraries:core' do
-    sh "dmd src/dnacode.d #{builddir}core.#{libext} -Isrc/ -od#{builddir} -ofdnacode.#{execext}"
+    sh "dmd src/dnacode.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofdnacode.#{execext}"
   end
   
   desc "OpenGL control in Win32 DFL"
