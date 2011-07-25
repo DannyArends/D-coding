@@ -33,7 +33,7 @@ TESTS = ['tests:plang',
          'tests:correlation', 
          'tests:httpreader' ]
 
-def builddir;return "build/";end
+def builddir;return "build";end
 
 def windows?;return RUBY_PLATFORM =~ /(:?mswin|mingw)/;end
 
@@ -59,7 +59,7 @@ deps_opengl =  (Dir.glob("./deps/gl/*.d")).join(' ')
 deps_r =  (Dir.glob("./deps/r/*.d")).join(' ')
 deps_gtk =  (Dir.glob("./deps/gtk/*.d")).join(' ')
 
-sh "mkdir -p build"
+directory builddir
 
 def libext
   if windows? then
