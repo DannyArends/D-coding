@@ -42,16 +42,29 @@ import core.web.servlets.fileServlet;
 
 class HttpClient : Thread{
   private:
-  Socket socket;
+  Socket sock;
   RequestHandler handler;
   bool verbose;
     
   public:
-  this(string root_path, Socket client_socket,bool verbose = false){
-    socket = client_socket;
-    handler = new RequestHandler(root_path, client_socket);
+  this(Socket socket, uint id, string root_path = "./", bool verbose = false){
+    sock = socket;
+    handler = new RequestHandler(root_path, socket);
     this.verbose=verbose;
     super(&run);
+  }
+  
+  public void close() {
+    sock.close();
+  }
+  
+  @property
+  public Socket socket() {
+    return sock;
+  }
+  
+  void offline(){
+
   }
   
   void run(){

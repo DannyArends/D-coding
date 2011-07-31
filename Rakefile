@@ -24,7 +24,9 @@ BIN =   ['applications:fileloader',
          'applications:regression', 
          'applications:gtktest', 
          'applications:dfltree', 
-         'applications:httpserver', 
+         'applications:httpserver',
+         'applications:gameserver',
+         'applications:gameclient',   
          'applications:dnacode', 
          'applications:dflopengl' ]
 TESTS = ['tests:plang', 
@@ -182,6 +184,16 @@ namespace :applications do
     sh "dmd src/httpserver.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofhttpserver.#{execext}"
   end
   
+  desc "Server for a multiplayer network mud"
+  task "gameserver" => 'libraries:game' do
+    sh "dmd src/server.d #{builddir}/core.#{libext}  #{builddir}/game.#{libext} -Isrc/ -od#{builddir} -ofserver.#{execext}"
+  end
+  
+  desc "Client for a multiplayer network mud"
+  task "gameclient" => 'libraries:game' do
+    sh "dmd src/client.d #{builddir}/core.#{libext}  #{builddir}/game.#{libext} -Isrc/ -od#{builddir} -ofclient.#{execext}"
+  end
+  
   desc "Scan for proteins in DNA code"
   task "dnacode" => 'libraries:core' do
     sh "dmd src/dnacode.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofdnacode.#{execext}"
@@ -200,6 +212,11 @@ end
 desc "Default is to build all applications"
 task :default => 'applications:all' do
   print "Build OK\n"
+end
+
+desc "Build all game-executables"
+task :game => ['applications:gameserver', 'applications:gameclient' ] do
+  print "Game OK\n"
 end
 
 # ---- Unit tests ----

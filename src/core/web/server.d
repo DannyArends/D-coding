@@ -25,45 +25,92 @@
 
 module core.web.server;
 
+import core.thread;
 import std.file;
 import std.path;
+import std.conv;
 import std.socket;
 import std.stdio;
 
-class Server(Client){
+class Server(Client) : Thread{
   private:
-  TcpSocket socket;
+  Socket serverSocket;
+  SocketSet set;
+  string hostname;
   ushort port;
   Client[] clients;
+  uint max_clients;
+  ubyte[1024] buffer;
   bool verbose = true;
   
   public:
   
-  this(ushort port = 8080){
-    socket = new TcpSocket;
-    this.port=port;
+  this(string hostname = "0.0.0.0", ushort port = 3000, uint max_clients=2000){
+    super(&run);
+    writeln("Constructor");
+    serverSocket = new Socket(AddressFamily.INET, SocketType.STREAM, ProtocolType.TCP);
+    this.port = port;
+    this.hostname = hostname;
+    this.max_clients = max_clients;
+    with(serverSocket){
+      bind(new InternetAddress(hostname,port));
+      listen(20);
+    }
+    clients = new Client[max_clients];
+    writeln("Constructed");
   }
 
-  ~this(){
-    delete socket;
+  void run(){
+    runLoop();
   }
   
-  void start(string root_path = "."){
-    with(socket){
-      setOption(SocketOptionLevel.SOCKET, SocketOption.REUSEADDR, 1);
-      bind(new InternetAddress(port));
-      listen(1);
-    }
+  void runLoop(string root_path = "."){
+    writeln("Started");
+    set = new SocketSet();
     while(true){
-      auto client_socket = socket.accept();
-      if(verbose) writeln("New client connecting");
-      auto client = new Client(rel2abs(root_path), client_socket, verbose);
-      try{
-        client.start();
-      }catch (Throwable exception){
-        writeln("Got an error: ", exception.toString());
+      assert(set !is null);
+      set.reset();
+      set.add(serverSocket);
+      foreach(Client c; clients){
+        if(c !is null){
+          set.add(c.socket);
+        }
       }
-      clients ~= client;
+      int result = Socket.select(set, null, null, 50000);
+      writeln("running ",result);
+      if(result > 0) {
+        if(set.isSet(serverSocket)) {
+          Socket sock = serverSocket.accept();
+          writeln("Accepted connection");
+          assert(sock !is null);
+          uint index;
+          for(index = 0; index < clients.length; index++) {
+            if(clients[index] is null) {
+              clients[index] = new Client(sock, cast(uint)index);
+              clients[index].start();
+              break;
+            }
+          }
+          if(index == clients.length) {
+            sock.close();
+          }
+          if(result == 1) continue;
+        }
+        foreach(uint index, ref Client fib; clients) {
+          if(fib is null) continue;
+          if(set.isSet(fib.socket)){
+            auto received = fib.socket.receive(buffer);
+            if(received <= 0) {
+              clients[index].close();
+              clients[index].offline();
+              clients[index] = null;
+              writefln("Dropped connection %d",index);
+              continue;
+            }
+            writefln("Got data from %d: %s",index, to!string(buffer[0..received]));
+          }
+        }
+      }
     }
   }
 }

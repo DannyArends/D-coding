@@ -10,9 +10,9 @@ import std.math;
 import std.conv;
 
 import core.web.server;
-import core.web.httpclient;
+import game.server.clienthandler;
 
 void main(string[] args){
-  auto http = new Server!HttpClient();
-  http.start();
+  auto gameserver = new Server!ClientHandler();
+  gameserver.start();
 }
