@@ -8,7 +8,8 @@ require 'rake/clean'
 LIBS =  ['libraries:core', 
          'libraries:gui', 
          'libraries:game', 
-         'libraries:stats', 
+         'libraries:stats',
+         'libraries:options',  
          'libraries:win', 
          'libraries:openGL', 
          'libraries:r', 
@@ -56,6 +57,7 @@ gui_files = (Dir.glob("./src/gui/*.d") + Dir.glob("./src/gui/*/*.d")).join(' ')
 game_files = (Dir.glob("./src/game/*.d") + Dir.glob("./src/game/*/*.d")).join(' ')
 gtk_files = (Dir.glob("./src/gui/gtk/*.d")).join(' ')
 plugin_stats =  (Dir.glob("./src/plugins/regression/*.d")).join(' ')
+plugin_opts =  (Dir.glob("./src/plugins/optionsparser/*.d")).join(' ')
 deps_win =  (Dir.glob("./deps/win/*.d")).join(' ')
 deps_opengl =  (Dir.glob("./deps/gl/*.d")).join(' ')
 deps_r =  (Dir.glob("./deps/r/*.d")).join(' ')
@@ -89,6 +91,11 @@ namespace :libraries do
   desc "Libary with basic statistics functions"
   task "stats" => :core do
     sh "dmd -lib #{plugin_stats} #{builddir}/core.#{libext} -of#{builddir}/stats.#{libext} -Isrc/ -Ideps/"
+  end
+  
+  desc "Libary with basic option parsing functions"
+  task "options" => :core do
+    sh "dmd -lib #{plugin_opts} #{builddir}/core.#{libext} -of#{builddir}/options.#{libext} -Isrc/ -Ideps/"
   end
   
   desc "Bindings for core Win32 DLLs (Builds on Win32 only)"
