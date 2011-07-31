@@ -31,6 +31,7 @@ import std.path;
 import std.conv;
 import std.socket;
 import std.stdio;
+import core.typedefs.types;
 
 class Server(Client) : Thread{
   private:
@@ -47,7 +48,6 @@ class Server(Client) : Thread{
   
   this(string hostname = "0.0.0.0", ushort port = 3000, uint max_clients=2000){
     super(&run);
-    writeln("Constructor");
     serverSocket = new Socket(AddressFamily.INET, SocketType.STREAM, ProtocolType.TCP);
     this.port = port;
     this.hostname = hostname;
@@ -57,7 +57,7 @@ class Server(Client) : Thread{
       listen(20);
     }
     clients = new Client[max_clients];
-    writeln("Constructed");
+    writeln("Server Constructed");
   }
 
   void run(){
@@ -65,7 +65,7 @@ class Server(Client) : Thread{
   }
   
   void runLoop(string root_path = "."){
-    writeln("Started");
+    writeln("Server: Start listening for clients");
     set = new SocketSet();
     while(true){
       assert(set !is null);
@@ -77,17 +77,16 @@ class Server(Client) : Thread{
         }
       }
       int result = Socket.select(set, null, null, 50000);
-      writeln("running ",result);
       if(result > 0) {
         if(set.isSet(serverSocket)) {
           Socket sock = serverSocket.accept();
-          writeln("Accepted connection");
           assert(sock !is null);
           uint index;
           for(index = 0; index < clients.length; index++) {
             if(clients[index] is null) {
               clients[index] = new Client(sock, cast(uint)index);
               clients[index].start();
+              writefln("Server: Accepted connection on %d",index);
               break;
             }
           }
@@ -104,10 +103,11 @@ class Server(Client) : Thread{
               clients[index].close();
               clients[index].offline();
               clients[index] = null;
-              writefln("Dropped connection %d",index);
+              writefln("Server: Dropped connection %d",index);
               continue;
             }
-            writefln("Got data from %d: %s",index, to!string(buffer[0..received]));
+            clients[index].addToBuffer(buffer[0..received]);
+            writefln("Server: Received from %d: %s",index, to!string(toType!char(buffer[0..received])));
           }
         }
       }

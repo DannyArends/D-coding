@@ -58,6 +58,8 @@ class HttpClient : Thread{
     sock.close();
   }
   
+  void addToBuffer(ubyte[] buffer){ }
+  
   @property
   public Socket socket() {
     return sock;

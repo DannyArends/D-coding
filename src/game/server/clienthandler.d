@@ -24,21 +24,27 @@ import std.string;
 import std.uri;
 
 import core.typedefs.webtypes;
+import game.server.clientcommand;
 
 class ClientHandler : Thread {
-  private Socket sock;
-  private uint id;
-  private bool online;
-  
-  public this(Socket sock, uint id) {
+  public:
+  this(Socket sock, uint id) {
     super(&payload);
     this.sock = sock;
     this.id = id;
     this.online = true;
   }
 	
-  public void close() {
+  void close() {
     sock.close();
+  }
+  
+  void addToBuffer(ubyte[] buffer){
+    if(inBuffer.length + buffer.length <= 1_048_576 ){
+      inBuffer ~= buffer;
+    }else{
+      writeln("Client",id,": Buffer full");
+    }
   }
   
   @property
@@ -49,12 +55,29 @@ class ClientHandler : Thread {
   void offline(){
     online = false;
   }
+
+private:
+  void processCommandFromClient(){
+    //TODO processing
+  }
   
-  private void payload() {
-    writeln("Client",id," starts up");
+  void sendCommandToClient(){
+    //TODO Get first command from list and send
+  }
+
+  void payload() {
+    writeln("Client",id,": Starting");
     while(online){
-      writeln("Client",id," still here up");
+      //writeln("Client",id,": Still here");
       Thread.sleep( dur!("seconds")( 2 ) );
+      processCommandFromClient();
+      sendCommandToClient();
     }
   }
+  
+  ClientCommand[] toClient;
+  Socket sock;
+  uint id;
+  bool online;
+  byte[] inBuffer;
 }

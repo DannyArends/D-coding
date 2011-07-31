@@ -18,32 +18,33 @@ import game.mover;
 
 class TileMap{
 public:
-  int x;
-  int y;
+  uint mapuid;
+  uint x;
+  uint y;
   
-  this(int x, int y){
+  this(uint x, uint y){
   	this.x=x;
   	this.y=y;
   	tiles = newmatrix!TileType(x, y);
   }
   
-  double getMovementCost(Mover mover, int x, int y, int xp, int yp){
+  double getMovementCost(Mover mover, uint x, uint y, uint xp, uint yp){
     return 1.0;
   }
   
-  bool isValidLocation(Mover mover, int x,int y, int xp,int yp){
+  bool isValidLocation(Mover mover, uint x,uint y, uint xp, uint yp){
     return false;
   }
   
-  TileType getTileType(int x, int y){
+  TileType getTileType(uint x, uint y){
     return BLOCKEDTILE; 
   }
   
-  void pathFinderVisited(int x, int y){
+  void pathFinderVisited(uint x, uint y){
   
   }
   
-  bool isBlocked(Mover mover, int x, int y){
+  bool isBlocked(Mover mover, uint x, uint y){
     return true;
   }
   

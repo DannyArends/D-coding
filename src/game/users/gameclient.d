@@ -30,7 +30,7 @@ class GameClient : Thread{
   SocketClient network;
   bool   verbose;
   bool   online;
-    
+   
   public:
   this(ushort port, bool verbose = false){
     this.network = new SocketClient("localhost",port);
@@ -48,7 +48,7 @@ class GameClient : Thread{
       network.connect();
       network.write("Test");
       while(online){
-        network.write("Test");
+        //network.write("Test");
         Thread.sleep( dur!("msecs")( 50 ) );
       }
     }catch (Throwable exception){

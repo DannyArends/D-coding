@@ -32,6 +32,14 @@ alias double[] dvector;
 alias char[] cvector;
 alias int[] ivector;
 
+T[] toType(T)(ubyte[] buffer){
+  T[] returnbuffer;
+  foreach(int i, byte b ; buffer){
+    returnbuffer ~= to!T(b);
+  }
+  return returnbuffer;
+}
+
 T[][] newmatrix(T)(uint nrow,uint ncol){
   T[][] x;
   x.length=nrow;
