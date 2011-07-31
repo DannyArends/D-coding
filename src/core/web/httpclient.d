@@ -44,11 +44,13 @@ class HttpClient : Thread{
   private:
   Socket socket;
   RequestHandler handler;
+  bool verbose;
     
   public:
-  this(string root_path, Socket client_socket){
+  this(string root_path, Socket client_socket,bool verbose = false){
     socket = client_socket;
     handler = new RequestHandler(root_path, client_socket);
+    this.verbose=verbose;
     super(&run);
   }
   
@@ -57,6 +59,7 @@ class HttpClient : Thread{
       auto request = handler.getRequest();
       if(request.method != RequestMethod.GET){
         handler.sendErrorPage(STATUS_NOT_IMPLEMENTED, "Unknown request method");
+        if(verbose) writeln("300: Unknown request method");
         return;
       }
 
@@ -64,11 +67,15 @@ class HttpClient : Thread{
 
       if (!processRequest(request, headers, [new FileServlet()])){
         handler.sendErrorPage(STATUS_PAGE_NOT_FOUND, "Page not found");
+        if(verbose) writeln("404: Page not found");
         return;
+      }else{
+        if(verbose) writeln("200: Processed");
       }
       return;
     }catch (Throwable exception){
       handler.sendErrorPage(STATUS_INTERNAL_ERROR, "Internal server error");
+      if(verbose) writeln("500: Internal server error");
       return;
     }finally{
       socket.close();
@@ -77,9 +84,8 @@ class HttpClient : Thread{
   
   bool processRequest(Request request, Header[] headers, Servlet[] servlets){
     foreach(servlet; servlets){
-      if(servlet.serve(handler, request, headers))
-        return true;
-      }
+      if(servlet.serve(handler, request, headers)) return true;
+    }
     return false;
   }
 }

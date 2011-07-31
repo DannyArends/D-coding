@@ -10,8 +10,9 @@ import std.math;
 import std.conv;
 
 import core.web.server;
+import core.web.httpclient;
 
 void main(string[] args){
-  Server http = new Server();
-  http.start("data/websites/DCGI");
+  auto http = new Server!HttpClient();
+  http.start("data");
 }

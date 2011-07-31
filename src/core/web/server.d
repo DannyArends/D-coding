@@ -30,17 +30,18 @@ import std.path;
 import std.socket;
 import std.stdio;
 
-import core.web.httpclient;
-
-class Server{
+class Server(Client){
   private:
   TcpSocket socket;
-  ushort port = 80;
+  ushort port;
+  Client[] clients;
+  bool verbose = true;
   
   public:
   
-  this(){
+  this(ushort port = 8080){
     socket = new TcpSocket;
+    this.port=port;
   }
 
   ~this(){
@@ -55,13 +56,14 @@ class Server{
     }
     while(true){
       auto client_socket = socket.accept();
-      debug writeln("New client connecting");
-      auto client = new HttpClient(rel2abs(root_path), client_socket);
+      if(verbose) writeln("New client connecting");
+      auto client = new Client(rel2abs(root_path), client_socket, verbose);
       try{
         client.start();
       }catch (Throwable exception){
         writeln("Got an error: ", exception.toString());
       }
+      clients ~= client;
     }
   }
 }
