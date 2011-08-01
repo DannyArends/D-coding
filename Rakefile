@@ -10,7 +10,8 @@ LIBS =  ['libraries:core',
          'libraries:game', 
          'libraries:stats',
          'libraries:options',  
-         'libraries:win', 
+         'libraries:win',
+         'libraries:x11',  
          'libraries:openGL', 
          'libraries:r', 
          'libraries:gtk' ]
@@ -59,6 +60,7 @@ gtk_files = (Dir.glob("./src/gui/gtk/*.d")).join(' ')
 plugin_stats =  (Dir.glob("./src/plugins/regression/*.d")).join(' ')
 plugin_opts =  (Dir.glob("./src/plugins/optionsparser/*.d")).join(' ')
 deps_win =  (Dir.glob("./deps/win/*.d")).join(' ')
+deps_x11 =  (Dir.glob("./deps/X11/*.d")).join(' ')
 deps_opengl =  (Dir.glob("./deps/gl/*.d")).join(' ')
 deps_r =  (Dir.glob("./deps/r/*.d")).join(' ')
 deps_gtk =  (Dir.glob("./deps/gtk/*.d")).join(' ')
@@ -102,6 +104,13 @@ namespace :libraries do
   task "win" => :core do
     if windows? then
       sh "dmd -lib #{deps_win} #{builddir}/core.#{libext} -of#{builddir}/windows.#{libext} -Isrc/"
+    end
+  end
+  
+  desc "Bindings for core X11 (Builds on Non Win32 only)"
+  task "x11" => :core do
+    if !windows? then
+      sh "dmd -lib #{deps_x11} #{builddir}/core.#{libext} -of#{builddir}/x11.#{libext} -Isrc/"
     end
   end
   
