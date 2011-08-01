@@ -14,6 +14,11 @@ version(Windows)
 version(SUPPORTED){
   pragma(lib, "X11");
   
+  import std.exception;
+  import core.thread;
+  import std.string;
+  import std.stdio;
+  
   import X11.x11structs;
   import X11.x11events;
   
@@ -45,6 +50,29 @@ version(SUPPORTED){
   uint WhitePixel(Display *dpy,int scr) {
     return ScreenOfDisplay(dpy,scr).white_pixel;
   }
+  
+  class XDisplayConnection {
+    private static Display* display;
+
+    static Display* get() {
+      if(display is null){
+        display = enforce(XOpenDisplay(null));
+      }
+      return display;
+    }
+
+    static void close() {
+      XCloseDisplay(display);
+      display = null;
+    }
+  }
+  
+  extern(C):
+  
+  Display* XOpenDisplay(const char*);
+  int XCloseDisplay(Display*);
+  void XSetWMName(Display*, Window, XTextProperty*);
+  
   Window  XCreateSimpleWindow(Display*, Window, int, int, uint, uint, uint, uint, uint);
   XImage* XCreateImage(Display*, Visual*, uint, int, int, byte*, uint, uint, int, int);
   Atom    XInternAtom(Display*,const char*, Bool);

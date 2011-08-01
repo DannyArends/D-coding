@@ -17,13 +17,12 @@ private import std.loader;
 private import std.stdio;
 private import std.conv;
 
-import core.sys.windows.windows;
 import core.libload.libload;
-//import win.wintypes;
+import core.sys.windows.windows;
 
  
 extern(Windows){
-  /* HDC functions */
+   /* HDC functions */
   int  function(HDC,PIXELFORMATDESCRIPTOR*) ChoosePixelFormat;
   BOOL function(HDC) SwapBuffers;
   bool function(HWND) DestroyWindow;
@@ -39,6 +38,9 @@ extern(Windows){
   HBITMAP function(HDC, int, int) CreateCompatibleBitmap;
   uint function(HWND, uint, uint, void*) SetTimer;
   bool function(HWND, uint) KillTimer;
+
+  alias CreateWindowA CreateWindow;
+  alias DrawTextA DrawText;
 }
 
 static this(){
@@ -59,5 +61,6 @@ static this(){
   load_function(CreateCompatibleBitmap)(lib,"CreateCompatibleBitmap");
   load_function(SetTimer)(lib,"SetTimer");
   load_function(KillTimer)(lib,"KillTimer");
+
   writeln("Loaded Win32 GDI functionality");
 }

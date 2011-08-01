@@ -20,6 +20,7 @@ typedef XID Colormap;
 typedef XID KeySym;
 alias uint KeyCode;
 typedef int Status;
+enum Atom XA_STRING = 31;
 
 enum MappingType : int{MappingModifier=0, MappingKeyboard=1, MappingPointer=2}
 enum ImageFormat : int{XYBitmap=0, XYPixmap=1, ZPixmap=2 }

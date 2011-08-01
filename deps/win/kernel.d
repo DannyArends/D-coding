@@ -32,10 +32,15 @@ private import std.stdio;
 private import std.conv;
 
 import core.libload.libload;
-import win.wintypes;
+import core.sys.windows.windows;
 
 extern(Windows){
+  
+  struct VA_LIST{
+  }
+  
   HMODULE function(char* name) LoadLibraryA;
+  HMODULE function(LPCTSTR lpModuleName)GetModuleHandle;
   FARPROC function(HMODULE hm, char* name) GetProcAddress;
   void function(HMODULE hm) FreeLibrary;
   DWORD function() GetLastError;

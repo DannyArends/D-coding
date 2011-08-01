@@ -21,7 +21,9 @@ alias float FLOAT;
 alias int BOOL;
 alias DWORD COLORREF;
 alias char* LPCSTR;
+alias char* LPCTSTR;
 alias void* LPCVOID;
+alias void* LPVOID;
 
 alias void* HANDLE;
 alias HANDLE HDC;
@@ -32,8 +34,51 @@ alias HANDLE HLOCAL;
 
 alias UINT WPARAM;
 alias LONG LPARAM;
+alias LONG* LONG_PTR;
+
+alias HANDLE HBITMAP;
+alias HANDLE HBRUSH;
+alias HANDLE HICON;
+alias HANDLE HMENU;
+alias HANDLE HCOLORSPACE;
+alias HANDLE HGDIOBJ;
+
+alias WORD ATOM;
+alias LONG_PTR LRESULT;
+alias HANDLE HINSTANCE;
+alias HICON HCURSOR;
 
 alias int function() FARPROC;
+alias LRESULT function(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) WNDPROC;
+alias LRESULT function(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) WndProc;
+
+struct WNDCLASS {
+  UINT      style;
+  WNDPROC   lpfnWndProc;
+  int       cbClsExtra;
+  int       cbWndExtra;
+  HINSTANCE hInstance;
+  HICON     hIcon;
+  HCURSOR   hCursor;
+  HBRUSH    hbrBackground;
+  LPCTSTR   lpszMenuName;
+  LPCTSTR   lpszClassName;
+}
+
+alias WNDCLASS* PWNDCLASS;
+struct RECT{
+  LONG left;
+  LONG top;
+  LONG right;
+  LONG bottom;
+}
+
+alias RECT* LPRECT;
+
+struct POINT {
+  LONG x;
+  LONG y;
+}
 
 struct LAYERPLANEDESCRIPTOR{
   WORD nSize;
@@ -104,8 +149,6 @@ struct PIXELFORMATDESCRIPTOR{
   DWORD dwDamageMask;
 }
 
-struct VA_LIST{
-}
 
 /* pixel types */
 enum{
@@ -118,6 +161,23 @@ enum{
   PFD_MAIN_PLANE                  = 0,
   PFD_OVERLAY_PLANE               = 1,
   PFD_UNDERLAY_PLANE              = -1
+}
+
+enum{
+  SW_SHOWNORMAL = 1,
+  SW_SHOWMINIMIZED = 2,
+  SW_SHOWMAXIMIZED = 3,    
+  SW_SHOWDEFAULT = 10,
+}
+
+enum{
+  CS_VREDRAW    =1,
+  CS_HREDRAW    =2
+}
+
+enum{
+  IDC_ARROW = 32512,
+  IDC_CROSS = 32515
 }
 
 enum{
