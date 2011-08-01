@@ -54,7 +54,7 @@ CLEAN.include("#{builddir}")
 CLEAN.include("*.#{execext}")
 
 core_files = (Dir.glob("./src/core/*/*.d") + Dir.glob("./src/core/*/*/*.d")).join(' ')
-gui_files = (Dir.glob("./src/gui/*.d") + Dir.glob("./src/gui/*/*.d")).join(' ')
+gui_files = (Dir.glob("./src/gui/*.d")).join(' ')
 game_files = (Dir.glob("./src/game/*.d") + Dir.glob("./src/game/*/*.d")).join(' ')
 gtk_files = (Dir.glob("./src/gui/gtk/*.d")).join(' ')
 plugin_stats =  (Dir.glob("./src/plugins/regression/*.d")).join(' ')
@@ -130,10 +130,13 @@ namespace :libraries do
   end
   
   desc "Deprecated DFL testing libary"
-  task "gui" => :core do
+  task "gui" => :win do
     if windows? then
-      print "Windows DFL GUI\n"
-      #sh "dfl -lib #{gui_files} core.#{libext} -ofgui.#{libext} -Ideps -Isrc/"
+      print "GUI for windows\n"
+      sh "dmd -lib #{gui_files} #{builddir}/windows.#{libext} -of#{builddir}/gui.#{libext} -Ideps -Isrc/"
+    else
+      print "X11 GUI\n"
+      sh "dmd -lib #{gui_files} #{builddir}/core.#{libext}  #{builddir}/x11.#{libext} -of#{builddir}/gui.#{libext} -Ideps -Isrc/"
     end
   end
 end

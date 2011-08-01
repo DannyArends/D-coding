@@ -1,4 +1,4 @@
-module x11.x11;
+module X11.x11;
 
 version(linux)
   version = SUPPORTED;
@@ -8,13 +8,14 @@ version(FreeBSD)
   version = SUPPORTED;
 version(Solaris)
   version = SUPPORTED;
-
+version(Windows)
+  version = NOTSUPPORTED;
 
 version(SUPPORTED){
   pragma(lib, "X11");
   
-  import x11.x11structs;
-  import x11.x11events;
+  import X11.x11structs;
+  import X11.x11events;
   
   /*D translation of CPP function calls for screen ands display manipulation*/
   Screen* ScreenOfDisplay(Display* dpy, int scr) {

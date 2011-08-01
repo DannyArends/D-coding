@@ -1,4 +1,4 @@
-module x11.x11structs;
+module X11.x11structs;
 
 struct _XPrivate {}
 struct _XrmHashBucketRec {}

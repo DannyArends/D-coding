@@ -1,6 +1,6 @@
-module x11.x11events;
+module X11.x11events;
 
-import x11.x11structs;
+import X11.x11structs;
 
 enum EventMask:int{
   NoEventMask=0, KeyPressMask=1<<0, KeyReleaseMask=1<<1, ButtonPressMask=1<<2, ButtonReleaseMask=1<<3,

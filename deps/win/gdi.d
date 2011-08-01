@@ -17,8 +17,10 @@ private import std.loader;
 private import std.stdio;
 private import std.conv;
 
+import core.sys.windows.windows;
 import core.libload.libload;
-import win.wintypes;
+//import win.wintypes;
+
  
 extern(Windows){
   /* HDC functions */
