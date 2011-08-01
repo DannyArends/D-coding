@@ -128,13 +128,15 @@ namespace :libraries do
   task "gtk" => :core do
     sh "dmd -lib #{deps_gtk} #{gtk_files} #{builddir}/core.#{libext} -of#{builddir}/gtk.#{libext} -Ideps/ -Isrc/"
   end
-  
-  desc "Deprecated DFL testing libary"
-  task "gui" => :win do
-    if windows? then
+  if windows? then  
+    desc "Windows GUI library"
+    task "gui" => :win do
       print "GUI for windows\n"
       sh "dmd -lib #{gui_files} #{builddir}/windows.#{libext} -of#{builddir}/gui.#{libext} -Ideps -Isrc/"
-    else
+    end
+  else
+    desc "X11 GUI libary"
+    task "gui" => :x11 do
       print "X11 GUI\n"
       sh "dmd -lib #{gui_files} #{builddir}/core.#{libext}  #{builddir}/x11.#{libext} -of#{builddir}/gui.#{libext} -Ideps -Isrc/"
     end
