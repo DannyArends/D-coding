@@ -52,7 +52,7 @@ package struct ext_binding(T) {
 
 //Load the functions when the module is loaded
 static this(){
-  HXModule lib = load_library("opengl32","openGL");
+  HXModule lib = load_library("opengl32","GL","");
   /*
   load_function(wglCopyContext)(lib, "wglCopyContext");
   load_function(wglCreateContext)(lib, "wglCreateContext");

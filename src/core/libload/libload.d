@@ -40,16 +40,18 @@ version(Windows){
 /*
  * Loads a single shared library (dll, so, dylib)
  */
-protected HXModule load_library(string win_name, string linux_name = "", string osx_name = ""){
+protected HXModule load_library(string win_name, string linux_name = "", string osx_name = "", bool extension=true){
   HXModule shared_library = null;
   if(linux_name == "") linux_name = win_name;
   if(osx_name == "") osx_name = win_name;	
   version(Windows){
     string full_name = win_name ~ sh_lib_ext;
   }else version(linux){
-    string full_name = "lib" ~ linux_name ~ sh_lib_ext;
+    string full_name = "lib" ~ linux_name;
+    if(extension) full_name = full_name ~ sh_lib_ext;
   }else version(darwin){
-    string full_name = "/usr/lib/"~ osx_name ~ sh_lib_ext;
+    string full_name = "/usr/lib/"~ osx_name;
+    if(extension) full_name = full_name ~ sh_lib_ext;
   }
   if((shared_library = ExeModule_Load(full_name)) is null){
 	throw new Exception("Unable to find shared library: " ~ full_name);

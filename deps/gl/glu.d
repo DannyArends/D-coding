@@ -12,7 +12,7 @@ private import gl.gl_1_1;
 import core.libload.libload;
 
 static this(){
-  HXModule lib = load_library("glu32");
+  HXModule lib = load_library("glu32","GLU","");
   load_function(gluGetString)(lib,"gluGetString");
   load_function(gluLookAt)(lib,"gluLookAt");
   load_function(gluOrtho2D)(lib,"gluOrtho2D");
@@ -20,7 +20,7 @@ static this(){
   load_function(gluPickMatrix)(lib,"gluPickMatrix");
   load_function(gluProject)(lib,"gluProject");
   load_function(gluUnProject)(lib,"gluUnProject");
-  writeln("Mapped glu32.dll");
+  writeln("Mapped GLU functionality");
 }
 
 //==============================================================================

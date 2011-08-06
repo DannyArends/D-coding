@@ -10,7 +10,8 @@ LIBS =  ['libraries:core',
          'libraries:stats',
          'libraries:options',  
          'libraries:openGL', 
-         'libraries:r']
+         'libraries:r',
+         'libraries:sdl']
          
 BIN =   ['applications:fileloader', 
          'applications:filesplitter', 
@@ -23,7 +24,8 @@ BIN =   ['applications:fileloader',
          'applications:httpserver',
          'applications:gameserver',
          'applications:gameclient',   
-         'applications:dnacode' ]
+         'applications:dnacode',
+         'applications:sdltest']
 TESTS = ['tests:plang', 
          'tests:dnacode', 
          'tests:fileloader', 
@@ -52,6 +54,7 @@ plugin_stats =  (Dir.glob("./src/plugins/regression/*.d")).join(' ')
 plugin_opts =  (Dir.glob("./src/plugins/optionsparser/*.d")).join(' ')
 deps_opengl =  (Dir.glob("./deps/gl/*.d")).join(' ')
 deps_r =  (Dir.glob("./deps/r/*.d")).join(' ')
+deps_sdl =  (Dir.glob("./deps/sdl/*.d")).join(' ')
 
 directory builddir
 
@@ -96,6 +99,11 @@ namespace :libraries do
   desc "Bindings for R"
   task "r" => :core do
     sh "dmd -lib #{deps_r} #{builddir}/core.#{libext} -of#{builddir}/r.#{libext} -Ideps/ -Isrc/"
+  end
+  
+  desc "Bindings for SDL"
+  task "sdl" => :core do
+    sh "dmd -lib #{deps_sdl} #{builddir}/core.#{libext} -of#{builddir}/sdl.#{libext} -Ideps/ -Isrc/"
   end
 end
 # ---- Applications ----
@@ -162,6 +170,11 @@ namespace :applications do
   desc "Scan for proteins in DNA code"
   task "dnacode" => 'libraries:core' do
     sh "dmd src/dnacode.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofdnacode.#{execext}"
+  end
+  
+  desc "SDL test"
+  task "sdltest" => ['libraries:sdl','libraries:openGL'] do
+    sh "dmd src/sdltest.d #{builddir}/sdl.#{libext} #{builddir}/openGL.#{libext} -Isrc/ -Ideps/ -od#{builddir} -ofsdltest.#{execext} -L-ldl"
   end
 end
 
