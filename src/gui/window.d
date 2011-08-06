@@ -4,8 +4,11 @@
 
 module gui.window;
 
+import std.stdio;
+
 import core.typedefs.basictypes;
 import gui.image;
+import gui.painter;
 import gui.nativeimage;
 import gui.nativepainter;
 import gui.nativewindow;
@@ -27,13 +30,12 @@ public:
   }
 
   this(int width, int height, string title = null) {
+    impl = new OSWindow();
+    writefln("Creating abstract window");
     this.width = width;
     this.height = height;
     impl.createWindow(width, height, title is null ? "D Application" : title);
-  }
-
-  ~this() {
-    impl.dispose();
+    writefln("native window done");
   }
 
   /// Closes the window and terminates it's event loop.
@@ -55,11 +57,30 @@ public:
     }
     return impl.eventLoop(pulseTimeout);
   }
+  
+  ScreenPainter draw() {
+    return ScreenPainter(this, impl.getWindow());
+  }
 
   @property void image(Image i) {
     backingImage = i;
     impl.setBackImage(i);
   }
   
+  int getWidth(){
+    return width;
+  }
+  
+  int getHeight(){
+    return height;
+  }
+  
+  void delegate(int key) handleKeyEvent;
+  void delegate(dchar c) handleCharEvent;
+  void delegate() handlePulse;
+  void delegate(MouseEvent) handleMouseEvent;
+
+  OSEventHandler handleNativeEvent;
+  ScreenPainterImplementation* activeScreenPainter;
   OSWindow impl;
 }

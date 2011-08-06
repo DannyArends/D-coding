@@ -20,6 +20,8 @@ version(Windows)
 
 version(VX11){
   import X11.x11;
+  import X11.x11events;
+  import X11.x11structs;
   
   class OSImage{
     void setPixel(uint x, uint y, Color c) {
@@ -33,7 +35,9 @@ version(VX11){
     void dispose(){
       
     }
-        
+    
+    XImage* handle;
+    byte* rawData;    
   }
   
 }version(VWIN){

@@ -8,9 +8,19 @@ import std.exception;
 import core.thread;
 import std.string;
 import std.stdio;
+import std.stdio;
+import std.conv;
 
 import core.typedefs.basictypes;
 import gui.image;
+import gui.painter;
+
+struct MouseEvent {
+  int type;
+  int x,y;
+  int button;
+  int buttonFlags;
+}
 
 version(linux)
   version = VX11;
@@ -29,31 +39,45 @@ version(VX11){
   import X11.x11events;
   import X11.x11structs;
   
+  alias void delegate(XEvent) OSEventHandler;
+  alias Window OSWindowHandle;
+  
   class OSWindow{
     void createWindow(int width, int height, string title){
+      writefln("Creating Native X11 window");
       display = XDisplayConnection.get();
+      writefln("Display: %s v%d.%d",to!string(display),display.proto_major_version,display.proto_minor_version);
       auto screen = DefaultScreen(display);
+      writefln("screen: %s", to!string(screen));
       auto rootwindow = RootWindow(display, screen);
+      writefln("defaultscreen: %d / %d", display.default_screen, display.nscreens);
       auto bp = BlackPixel(display, screen);
       auto wp = WhitePixel(display, screen);
       window = XCreateSimpleWindow(display, rootwindow, 0, 0,width, height, 1, bp, wp);
+      writefln("window creates");
       setTitle(display,window,title);
+      writefln("window title");
       buffer = XCreatePixmap(display, cast(Drawable) window, width, height, 24);
+      writefln("window buffer");
       gc = DefaultGC(display, screen);
+      writefln("window GC");
       
-      addCloseBtn(display,window);
-      
+      //addCloseBtn(display,window);
+      writefln("window CloseBtn");
       XMapWindow(display, window);
+      writefln("window Map");
       XSelectInput(display, window, EventMask.ExposureMask
               | EventMask.KeyPressMask
               | EventMask.StructureNotifyMask
               | EventMask.PointerMotionMask
               | EventMask.ButtonPressMask
               | EventMask.ButtonReleaseMask);
+      writefln("input Selected");
+      XRaiseWindow(display, window); //show the window
     }
     
     void addCloseBtn(Display* display, Window window){
-      Atom atom = XInternAtom(display, "WM_DELETE_WINDOW".ptr, true);
+      Atom atom = XInternAtom(display, "WM_DELETE_WINDOW".dup.ptr, true);
       XSetWMProtocols(display, window, &atom, 1);
     }
     
@@ -72,7 +96,15 @@ version(VX11){
     }
     
     void dispose(){
-      
+      writefln("Disposing none in X");
+    }
+    
+    Pixmap getBuffer(){
+      return buffer;
+    }
+    
+    Window getWindow(){
+      return window;
     }
     
     void setBackImage(Image i){
@@ -80,6 +112,58 @@ version(VX11){
     }
     
     int eventLoop(long pulseTimeout) {
+      XEvent e;
+      bool done = false;
+
+      while (!done) {
+        while(!done && (pulseTimeout == 0 || (XPending(display) > 0))){
+          XNextEvent(display, &e);
+          switch(e.type) {
+            case EventType.Expose:
+              XCopyArea(display, cast(Drawable) buffer, cast(Drawable) window, gc, 0, 0, width, height, 0, 0);
+            break;
+            case EventType.ClientMessage: // User clicked the close button
+            case EventType.DestroyNotify:
+              done = true;
+              destroyed = true;
+            break;
+
+            case EventType.MotionNotify:
+              MouseEvent mouse;
+              auto event = e.xmotion;
+
+              mouse.type = 0;
+              mouse.x = event.x;
+              mouse.y = event.y;
+              mouse.buttonFlags = event.state;
+
+              if(handleMouseEvent) handleMouseEvent(mouse);
+            break;
+            case EventType.ButtonPress:
+            case EventType.ButtonRelease:
+              MouseEvent mouse;
+              auto event = e.xbutton;
+
+              mouse.type = e.type == EventType.ButtonPress ? 1 : 2;
+              mouse.x = event.x;
+              mouse.y = event.y;
+              mouse.button = event.button;
+              if(handleMouseEvent) handleMouseEvent(mouse);
+            break;
+
+            case EventType.KeyPress:
+              if(handleCharEvent)
+                handleCharEvent(XKeycodeToKeysym(XDisplayConnection.get(), e.xkey.keycode, 0));
+                if(handleKeyEvent) handleKeyEvent(e.xkey.keycode);
+              break;
+            default:
+          }
+        }
+        if(!done && pulseTimeout !=0) {
+          if(handlePulse !is null) handlePulse();
+            Thread.sleep(pulseTimeout * 10000);
+          }
+        }
       return 0;
     }
     
@@ -96,6 +180,9 @@ version(VX11){
   import win.gdi;
   import win.user;
   import gui.window;
+  
+  alias void delegate(UINT, WPARAM, LPARAM) OSEventHandler;
+  alias HWND OSWindowHandle;
   
   class OSWindow{
     public:
@@ -146,6 +233,7 @@ version(VX11){
     }
     
     void dispose(){
+      writefln("Disposing buffer");
       DeleteObject(buffer);
     }
     

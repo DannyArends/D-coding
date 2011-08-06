@@ -9,7 +9,7 @@ import gui.nativeimage;
 import gui.nativepainter;
 import gui.nativewindow;
 
-class Image {
+class Image : OSImage{
   this(int width, int height) {
     _width = width;
     _height = height;

@@ -21,7 +21,8 @@ BIN =   ['applications:fileloader',
          'applications:aligner', 
          'applications:single_map_probes', 
          'applications:correlation', 
-         'applications:plang', 
+         'applications:plang',
+         'applications:guitest',  
          'applications:httpreader', 
          'applications:regression', 
          'applications:gtktest', 
@@ -138,7 +139,7 @@ namespace :libraries do
     desc "X11 GUI libary"
     task "gui" => :x11 do
       print "X11 GUI\n"
-      sh "dmd -lib #{gui_files} #{builddir}/core.#{libext}  #{builddir}/x11.#{libext} -of#{builddir}/gui.#{libext} -Ideps -Isrc/"
+      sh "dmd -lib #{gui_files} #{builddir}/core.#{libext} #{builddir}/x11.#{libext} -of#{builddir}/gui.#{libext} -Ideps -Isrc/"
     end
   end
 end
@@ -157,7 +158,17 @@ namespace :applications do
   task "filesplitter" => 'libraries:core' do
     sh "dmd src/filesplitter.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -offileloader.#{execext}"
   end
-  
+  if windows? then  
+    desc "GUItest"
+    task "guitest" => 'libraries:gui' do
+      sh "dmd src/guitest.d #{builddir}/gui.#{libext} #{builddir}/windows.#{libext} -Isrc/ -Ideps/ -od#{builddir} -ofguitest.#{execext}"
+    end
+  else
+    desc "GUItest"
+    task "guitest" => 'libraries:gui' do
+      sh "dmd src/guitest.d #{deps_x11} #{builddir}/gui.#{libext} -od#{builddir} -ofguitest.#{execext} -Isrc/ -Ideps/"
+    end
+  end
   desc "DNA sequence alignment using blastn"
   task "aligner" => 'libraries:core' do
     sh "dmd src/aligner.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofaligner.#{execext}"

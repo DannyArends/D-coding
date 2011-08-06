@@ -141,7 +141,7 @@ struct Display {
   int private2;
   int proto_major_version;              /* major version of server's X protocol */
   int proto_minor_version;              /* minor version of servers X protocol */
-  byte *vendor;                         /* vendor of the server hardware */
+  char* vendor;                         /* vendor of the server hardware */
   XID private3;
   XID private4;
   XID private5;
@@ -158,8 +158,8 @@ struct Display {
   _XPrivate *private9;
   _XPrivate *private10;
   int qlen;                             /* Length of input event queue */
-  uint last_request_read;               /* seq number of last event read */
-  uint request;                         /* sequence number of last request. */
+  long last_request_read;               /* seq number of last event read */
+  long request;                         /* sequence number of last request. */
   XPointer private11;
   XPointer private12;
   XPointer private13;
@@ -171,8 +171,8 @@ struct Display {
   int default_screen;                   /* default screen for operations */
   int nscreens;                         /* number of screens on this server*/
   Screen *screens;                      /* pointer to list of screens */
-  uint motion_buffer;                   /* size of motion buffer */
-  uint private16;
+  long motion_buffer;                   /* size of motion buffer */
+  long private16;
   int min_keycode;                      /* minimum defined keycode */
   int max_keycode;                      /* maximum defined keycode */
   XPointer private17;

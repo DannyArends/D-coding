@@ -23,12 +23,16 @@ version(SUPPORTED){
   import X11.x11events;
   
   /*D translation of CPP function calls for screen ands display manipulation*/
-  Screen* ScreenOfDisplay(Display* dpy, int scr) {
-    return &((*dpy).screens[scr]);
+  Screen* ScreenOfDisplay(Display *dpy,int scr) {
+    return &dpy.screens[scr];
   }
 
   Window RootWindow(Display *dpy,int scr) {
     return ScreenOfDisplay(dpy,scr).root;
+  }
+  
+  Window  DefaultRootWindow(Display *dpy){
+    return ScreenOfDisplay(dpy,DefaultScreen(dpy)).root;
   }
 
   int DefaultScreen(Display *dpy) {
@@ -79,6 +83,7 @@ version(SUPPORTED){
   
   int    XPutImage(Display*, Drawable, GC, XImage*, int, int, int, int, uint, uint);
   int    XDestroyWindow(Display*, Window);
+  int    XRaiseWindow(Display*, Window);
   int    XDestroyImage(XImage*);
   int    XSelectInput(Display*, Window, EventMask);
   int    XMapWindow(Display*, Window);
