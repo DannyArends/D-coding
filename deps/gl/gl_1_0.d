@@ -3,8 +3,6 @@ module gl.gl_1_0;
 import std.c.stdio;
 import std.c.stdarg;
 
-import win.wintypes;
-
 const GL_VERSION_1_1 = 1;
 
 extern (C):
@@ -585,7 +583,7 @@ const GL_ALL_ATTRIB_BITS = 0x000FFFFF;
 
 
 extern (System){
-  /* Wgl functions */
+  /* Wgl functions 
   BOOL function(void*,void*) wglCopyContext;
   void* function(void*) wglCreateContext;
   void* function(void*,int) wglCreateLayerContext;
@@ -606,6 +604,7 @@ extern (System){
   BOOL function(void*,DWORD,DWORD,DWORD,FLOAT,FLOAT,int,GLYPHMETRICSFLOAT*) wglUseFontOutlinesW;
   alias wglUseFontBitmapsA    wglUseFontBitmaps;
   alias wglUseFontOutlinesA   wglUseFontOutlines;
+  */
 
   /* 1.0 functions */
   void function(GLfloat c) glClearIndex;

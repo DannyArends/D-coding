@@ -6,15 +6,11 @@
 require 'rake/clean'
 
 LIBS =  ['libraries:core', 
-         'libraries:gui', 
          'libraries:game', 
          'libraries:stats',
          'libraries:options',  
-         'libraries:win',
-         'libraries:x11',  
          'libraries:openGL', 
-         'libraries:r', 
-         'libraries:gtk' ]
+         'libraries:r']
          
 BIN =   ['applications:fileloader', 
          'applications:filesplitter', 
@@ -22,16 +18,12 @@ BIN =   ['applications:fileloader',
          'applications:single_map_probes', 
          'applications:correlation', 
          'applications:plang',
-         'applications:guitest',  
          'applications:httpreader', 
          'applications:regression', 
-         'applications:gtktest', 
-         'applications:dfltree', 
          'applications:httpserver',
          'applications:gameserver',
          'applications:gameclient',   
-         'applications:dnacode', 
-         'applications:dflopengl' ]
+         'applications:dnacode' ]
 TESTS = ['tests:plang', 
          'tests:dnacode', 
          'tests:fileloader', 
@@ -55,16 +47,11 @@ CLEAN.include("#{builddir}")
 CLEAN.include("*.#{execext}")
 
 core_files = (Dir.glob("./src/core/*/*.d") + Dir.glob("./src/core/*/*/*.d")).join(' ')
-gui_files = (Dir.glob("./src/gui/*.d")).join(' ')
 game_files = (Dir.glob("./src/game/*.d") + Dir.glob("./src/game/*/*.d")).join(' ')
-gtk_files = (Dir.glob("./src/gui/gtk/*.d")).join(' ')
 plugin_stats =  (Dir.glob("./src/plugins/regression/*.d")).join(' ')
 plugin_opts =  (Dir.glob("./src/plugins/optionsparser/*.d")).join(' ')
-deps_win =  (Dir.glob("./deps/win/*.d")).join(' ')
-deps_x11 =  (Dir.glob("./deps/X11/*.d")).join(' ')
 deps_opengl =  (Dir.glob("./deps/gl/*.d")).join(' ')
 deps_r =  (Dir.glob("./deps/r/*.d")).join(' ')
-deps_gtk =  (Dir.glob("./deps/gtk/*.d")).join(' ')
 
 directory builddir
 
@@ -100,21 +87,7 @@ namespace :libraries do
   task "options" => :core do
     sh "dmd -lib #{plugin_opts} #{builddir}/core.#{libext} -of#{builddir}/options.#{libext} -Isrc/ -Ideps/"
   end
-  
-  desc "Bindings for core Win32 DLLs (Builds on Win32 only)"
-  task "win" => :core do
-    if windows? then
-      sh "dmd -lib #{deps_win} #{builddir}/core.#{libext} -of#{builddir}/windows.#{libext} -Isrc/"
-    end
-  end
-  
-  desc "Bindings for core X11 (Builds on Non Win32 only)"
-  task "x11" => :core do
-    if !windows? then
-      sh "dmd -lib #{deps_x11} #{builddir}/core.#{libext} -of#{builddir}/x11.#{libext} -Isrc/"
-    end
-  end
-  
+ 
   desc "Bindings for openGL"
   task "openGL" => :core do
     sh "dmd -lib #{deps_opengl} #{builddir}/core.#{libext} -of#{builddir}/openGL.#{libext} -Ideps/ -Isrc/"
@@ -123,24 +96,6 @@ namespace :libraries do
   desc "Bindings for R"
   task "r" => :core do
     sh "dmd -lib #{deps_r} #{builddir}/core.#{libext} -of#{builddir}/r.#{libext} -Ideps/ -Isrc/"
-  end
-  
-  desc "Bindings for GTK"
-  task "gtk" => :core do
-    sh "dmd -lib #{deps_gtk} #{gtk_files} #{builddir}/core.#{libext} -of#{builddir}/gtk.#{libext} -Ideps/ -Isrc/"
-  end
-  if windows? then  
-    desc "Windows GUI library"
-    task "gui" => :win do
-      print "GUI for windows\n"
-      sh "dmd -lib #{gui_files} #{builddir}/windows.#{libext} -of#{builddir}/gui.#{libext} -Ideps -Isrc/"
-    end
-  else
-    desc "X11 GUI libary"
-    task "gui" => :x11 do
-      print "X11 GUI\n"
-      sh "dmd -lib #{gui_files} #{builddir}/core.#{libext} #{builddir}/x11.#{libext} -of#{builddir}/gui.#{libext} -Ideps -Isrc/"
-    end
   end
 end
 # ---- Applications ----
@@ -158,17 +113,7 @@ namespace :applications do
   task "filesplitter" => 'libraries:core' do
     sh "dmd src/filesplitter.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -offileloader.#{execext}"
   end
-  if windows? then  
-    desc "GUItest"
-    task "guitest" => 'libraries:gui' do
-      sh "dmd src/guitest.d #{builddir}/gui.#{libext} #{builddir}/windows.#{libext} -Isrc/ -Ideps/ -od#{builddir} -ofguitest.#{execext}"
-    end
-  else
-    desc "GUItest"
-    task "guitest" => 'libraries:gui' do
-      sh "dmd src/guitest.d #{deps_x11} #{builddir}/gui.#{libext} -od#{builddir} -ofguitest.#{execext} -Isrc/ -Ideps/"
-    end
-  end
+
   desc "DNA sequence alignment using blastn"
   task "aligner" => 'libraries:core' do
     sh "dmd src/aligner.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofaligner.#{execext}"
@@ -199,18 +144,6 @@ namespace :applications do
     sh "dmd src/regression.d #{builddir}/core.#{libext} #{builddir}/stats.#{libext} #{builddir}/r.#{libext} -Isrc/ -Ideps/ -L-ldl -od#{builddir} -ofregression.#{execext}"
   end
   
-  desc "Test for the old DFL <-> GTK bindings"
-  task "gtktest" => [ 'libraries:core', 'libraries:gtk' ] do
-    sh "dmd src/gtktest.d #{builddir}/core.#{libext} #{builddir}/gtk.#{libext} -Isrc/ -Ideps/ -L-ldl -od#{builddir} -ofgtktest.#{execext}"
-  end
-  
-  desc "Directory tree control in Win32 DFL"
-  task "dfltree" => [ 'libraries:core', 'libraries:gui' ] do
-    if windows? then
-      #sh "dfl src/dfltreeexample.d gui.#{libext} core.#{libext} -Isrc/ -L-ldl"
-    end
-  end
-  
   desc "HTPPserver supporting D as CGI"
   task "httpserver" => 'libraries:core' do
     sh "dmd src/httpserver.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofhttpserver.#{execext}"
@@ -229,13 +162,6 @@ namespace :applications do
   desc "Scan for proteins in DNA code"
   task "dnacode" => 'libraries:core' do
     sh "dmd src/dnacode.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofdnacode.#{execext}"
-  end
-  
-  desc "OpenGL control in Win32 DFL"
-  task "dflopengl" => LIBS do
-    if windows? then
-      #sh "dfl src/dflopengl.d gui.#{libext} openGL.#{libext} windows.#{libext} core.#{libext} -Ideps/ -Isrc/ -L-ldl"
-    end
   end
 end
 

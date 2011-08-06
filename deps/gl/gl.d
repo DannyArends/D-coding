@@ -26,12 +26,15 @@ template load_extension(T){
   }
 }
 
+
+void* function(char*) wglGetProcAddress;
+
 /*
  * binding of a single extension
  */
 package struct ext_binding(T) {
   bool opCall(string name,bool verbose = false, string msg = "Bound extension"){
-    void *func = wglGetProcAddress(&name.dup[0]);
+    void* func = wglGetProcAddress(&name.dup[0]);
     if(!func){
       writeln("Cannot bind extension: " ~ name);
       return false;
@@ -50,7 +53,7 @@ package struct ext_binding(T) {
 //Load the functions when the module is loaded
 static this(){
   HXModule lib = load_library("opengl32","openGL");
-  //wgl
+  /*
   load_function(wglCopyContext)(lib, "wglCopyContext");
   load_function(wglCreateContext)(lib, "wglCreateContext");
   load_function(wglCreateLayerContext)(lib, "wglCreateLayerContext");
@@ -69,7 +72,7 @@ static this(){
   load_function(wglUseFontOutlinesA)(lib, "wglUseFontOutlinesA");
   load_function(wglUseFontBitmapsW)(lib, "wglUseFontBitmapsW");
   load_function(wglUseFontOutlinesW)(lib,"wglUseFontOutlinesW");
-  // gl 1.0
+  */
   load_function(glClearIndex)(lib, "glClearIndex");
   load_function(glClearColor)(lib, "glClearColor");
   load_function(glClear)(lib, "glClear");
