@@ -9,8 +9,9 @@ import sdl.sdlstructs;
 import sdl.sdlfunctions;
 
 import gui.engine;
+import gui.enginefunctions;
 
-class EventHandler : Thread{
+class EventHandler : Fiber{
 public:
   this(Engine engine){
     parent=engine;
@@ -29,9 +30,9 @@ public:
           }
           break;          
         case SDL_VIDEORESIZE:
-          parent.setSurface(event.resize.w,event.resize.h,SDL_SetVideoMode(event.resize.w, event.resize.h, parent.screen_bpp, parent.getVideoFlags()));
+          parent.setSurface(event.resize.w,event.resize.h);
           if(parent.getSurface() is null){
-            writefln("Video surface resize failed: %s", SDL_GetError());
+            writefln("Video surface resize failed: %s", to!string(SDL_GetError()));
             return;
           }
           resizeWindow(event.resize.w, event.resize.h);
@@ -46,7 +47,7 @@ public:
           break;
         }
       }
-      SDL_Delay(10);
+      yield();
     }
   }
   

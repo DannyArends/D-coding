@@ -15,56 +15,7 @@ import gl.gl_1_5;
 import gl.gl_ext;
 
 import gui.eventhandler;
-
-bool resizeWindow(int width, int height){
-  if(height == 0) height = 1;
-  GLfloat ratio = cast(GLfloat)height / cast(GLfloat)width;
-  glViewport(0, 0, cast(GLsizei)width, cast(GLsizei)height);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  glFrustum(-1.0, 1.0, -ratio, ratio, 1.0, 1000.0);
-  glMatrixMode(GL_MODELVIEW);
-  glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-  glLoadIdentity();
-  return true;
-}
-
-bool initGL(){
-  glShadeModel(GL_SMOOTH);
-  glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-  glClearDepth(1.0f);
-  glEnable(GL_DEPTH_TEST);
-  glDepthFunc(GL_LEQUAL);
-  glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-  return true;
-}
-
-void printOpenGlInfo(){
-  writefln("Renderer = %s", to!string(glGetString(GL_RENDERER)));
-  writefln("OpenGL   = %s", to!string(glGetString(GL_VERSION)));
-  writefln("Vendor   = %s", to!string(glGetString(GL_VENDOR)));
-}
-
-int initVideoFlags(SDL_VideoInfo* videoInfo){
-  int videoFlags  = SDL_OPENGL;      /* Enable OpenGL in SDL */
-  videoFlags |= SDL_GL_DOUBLEBUFFER; /* Enable double buffering */
-  videoFlags |= SDL_HWPALETTE;       /* Store the palette in hardware */
-  videoFlags |= SDL_RESIZABLE;       /* Enable window resizing */
-
-  if(videoInfo.hw_available){
-    writefln("Video info reports hardware surface available");
-    videoFlags |= SDL_HWSURFACE;
-  }else{
-    writefln("Video info fallback to software surface");
-    videoFlags |= SDL_SWSURFACE;
-  }
-  
-  if(videoInfo.blit_hw){
-    writefln("Video info reports hardware acceleration available");
-    videoFlags |= SDL_HWACCEL;
-  }
-  return videoFlags;
-}
+import gui.enginefunctions;
 
 class Engine{
 public:
@@ -91,15 +42,16 @@ public:
     initGL();
     printOpenGlInfo();
     resizeWindow(screen_width, screen_height);
-    writefln("Engine initialization done");
+    writefln("Initializing our own classes");
     eventhandler = new EventHandler(this);
+    fpsmonitor = new FPSmonitor();
+    writefln("Engine initialization done");
   }
   
   void start(){
-    eventhandler.start();
-    writefln("Eventhandler started in new thread.");
     while(!done){
       if(active)drawGLScene();
+      eventhandler.call();
       SDL_Delay(10);
     }
     writefln("Engine shutdown received.");
@@ -132,50 +84,37 @@ public:
     glEnd( );                            /* Done Drawing The Quad    */
 
     /* Draw it to the screen */
-    SDL_GL_SwapBuffers( );
-    Frames++;
-    GLint t = SDL_GetTicks();
-    if (t - T0 >= 5000) {
-      GLfloat seconds = (t - T0) / 1000.0;
-      GLfloat fps = Frames / seconds;
-      printf("%d frames in %g seconds = %g FPS\n", Frames, seconds, fps);
-      T0 = t;
-      Frames = 0;
-    }
+    SDL_GL_SwapBuffers();
+    fpsmonitor.update();
     return true;
   }
   
   bool isDone(){ return done; }
   bool isDone(bool d){ done = d; return done; }
   
-  int getVideoFlags(){
-    return videoFlags;
-  }
-  
   bool isActive(){ return active; }
   bool isActive(bool a){ active=a; return active; }
+  
+  int getVideoFlags(){ return videoFlags; }
+  SDL_Surface* getSurface(){ return surface; }
 
-  void setSurface(int w, int h, SDL_Surface* s){
+  void setSurface(int w, int h){
+    active=false;
     screen_width=w;
-    screen_width=h;
-    surface = s;
+    screen_height=h;
+    surface = SDL_SetVideoMode(screen_width, screen_height, screen_bpp, videoFlags);
   }
-  
-  SDL_Surface* getSurface(){
-    return surface;
-  }
-  
+    
   int screen_width  = 640;
   int screen_height = 480;
   int screen_bpp    = 16;
     
 private:  
   EventHandler     eventhandler;
+  FPSmonitor       fpsmonitor;
   SDL_Surface*     surface;
   SDL_VideoInfo*   videoInfo;           /* This holds some info about our display */
   int videoFlags;                       /* Flags to pass to SDL_SetVideoMode */
-  GLint T0          = 0;                /* T0 for fmaerate determination */
-  GLint Frames      = 0;                /* Number of frames rendered */
   bool done         = false;            /* Main loop variable */
   bool active       = true;             /* Is the window active? */
 }
