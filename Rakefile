@@ -11,6 +11,7 @@ LIBS =  ['libraries:core',
          'libraries:options',  
          'libraries:openGL', 
          'libraries:r',
+         'libraries:gui',
          'libraries:sdl']
          
 BIN =   ['applications:fileloader', 
@@ -50,6 +51,7 @@ CLEAN.include("*.#{execext}")
 
 core_files = (Dir.glob("./src/core/*/*.d") + Dir.glob("./src/core/*/*/*.d")).join(' ')
 game_files = (Dir.glob("./src/game/*.d") + Dir.glob("./src/game/*/*.d")).join(' ')
+plugin_gui = (Dir.glob("./src/gui/*.d") + Dir.glob("./src/gui/*/*.d")).join(' ')
 plugin_stats =  (Dir.glob("./src/plugins/regression/*.d")).join(' ')
 plugin_opts =  (Dir.glob("./src/plugins/optionsparser/*.d")).join(' ')
 deps_opengl =  (Dir.glob("./deps/gl/*.d")).join(' ')
@@ -104,6 +106,11 @@ namespace :libraries do
   desc "Bindings for SDL"
   task "sdl" => :core do
     sh "dmd -lib #{deps_sdl} #{builddir}/core.#{libext} -of#{builddir}/sdl.#{libext} -Ideps/ -Isrc/"
+  end
+  
+  desc "SDL GUI libary"
+  task "gui" => :sdl do
+    sh "dmd -lib #{plugin_gui} #{builddir}/sdl.#{libext} -of#{builddir}/gui.#{libext} -Ideps/ -Isrc/"
   end
 end
 # ---- Applications ----
@@ -173,8 +180,8 @@ namespace :applications do
   end
   
   desc "SDL test"
-  task "sdltest" => ['libraries:sdl','libraries:openGL'] do
-    sh "dmd src/sdltest.d #{builddir}/sdl.#{libext} #{builddir}/openGL.#{libext} -Isrc/ -Ideps/ -od#{builddir} -ofsdltest.#{execext} -L-ldl"
+  task "sdltest" => ['libraries:sdl','libraries:openGL','libraries:gui'] do
+    sh "dmd src/sdltest.d #{builddir}/sdl.#{libext} #{builddir}/gui.#{libext} #{builddir}/openGL.#{libext} -Isrc/ -Ideps/ -od#{builddir} -ofsdltest.#{execext} -L-ldl"
   end
 end
 

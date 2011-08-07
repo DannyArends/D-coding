@@ -106,7 +106,7 @@ class TGA{
     info = new tgaInfo();
     ubyte aux;
     GLuint type=GL_RGBA;
-    auto fp = new File(filename,"rb");
+    auto fp = new std.stdio.File(filename,"rb");
     auto f = fp.getFP();
     
     fread(&cGarbage, ubyte.sizeof, 1, f);
@@ -171,7 +171,7 @@ class TGA{
     uint mode;
     ubyte aux;
     GLuint type=GL_RGBA;
-    auto fp = new File(filename,"wb");
+    auto fp = new std.stdio.File(filename,"wb");
     auto f = fp.getFP();
 
     // compute image type: 2 for RGB(A), 3 for greyscale

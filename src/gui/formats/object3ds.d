@@ -87,8 +87,8 @@ class model3ds{
   
   void buffer(){
     // Generate And Bind The Vertex Buffer
-    glGenBuffersARB(objects.length, &vertexbuffer); // Objects
-    glGenBuffersARB(objects.length, &colorbuffer); // Colors
+    glGenBuffersARB(cast(int)objects.length, &vertexbuffer); // Objects
+    glGenBuffersARB(cast(int)objects.length, &colorbuffer); // Colors
     writefln("Generated buffers: %d %d",vertexbuffer,colorbuffer);
     GLfloat verticesunpacked[];
     ubyte[] colorunpacked;
@@ -215,7 +215,7 @@ class model3ds{
     ushort l_qty, temp;
     ushort l_face_flags;
     bool is_diffuse, is_specular, is_ambient;
-    auto fp = new File(filename,"rb");
+    auto fp = new std.stdio.File(filename,"rb");
     auto f = fp.getFP();
     while (fp.tell() < getSize(filename)){    //Loop to scan the whole file 
       fread(&l_chunk_id, 2, 1, f);            //Read the chunk header
