@@ -56,13 +56,31 @@ public:
     case SDLK_ESCAPE:
       break;
       case SDLK_F1:
-      SDL_WM_ToggleFullScreen(parent.getSurface());
+        SDL_WM_ToggleFullScreen(parent.getSurface());
       break;
+      case SDLK_UP:
+        parent.getCamera().move(0,0,2);
+        break;
+      case SDLK_DOWN:
+        parent.getCamera().move(0,0,-2);
+        break;
+      case SDLK_PAGEUP:
+        parent.getCamera().move(0,2,0);
+        break;
+      case SDLK_PAGEDOWN:
+        parent.getCamera().move(0,-2,0);
+        break;           
+      case SDLK_LEFT:
+        parent.getCamera().move(-2,0,0);
+        break; 
+      case SDLK_RIGHT:
+        parent.getCamera().move(2,0,0);
+        break; 
       default:
       break;
     }
   }
 private:
   SDL_Event event;                      /* Used to collect events */
-  Engine    parent;
+  Engine    parent;                     /* Engine to report to */
 }

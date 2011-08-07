@@ -16,6 +16,10 @@ import gl.gl_ext;
 
 import gui.eventhandler;
 import gui.enginefunctions;
+import gui.objects.location;
+import gui.objects.camera;
+import gui.objects.triangle;
+import gui.objects.quad;
 
 class Engine{
 public:
@@ -45,6 +49,16 @@ public:
     writefln("Initializing our own classes");
     eventhandler = new EventHandler(this);
     fpsmonitor = new FPSmonitor();
+    camera = new Camera();
+    for(double x=0;x<10;x++){
+      for(double y=0;y<10;y++){
+        Triangle t = new Triangle(x,1.0,y);
+        t.adjustSize(x/5.0);
+        t.rotate(x,y*2,x*3);
+        objects ~= t;
+      }
+    }
+    objects ~= new Quad(1.0,-1.0,0);
     writefln("Engine initialization done");
   }
   
@@ -61,28 +75,9 @@ public:
   
   int drawGLScene(){
     resizeWindow(screen_width, screen_height);
-    glTranslatef(-1.5f, 0.0f, -6.0f);
-
-    glBegin( GL_TRIANGLES );             /* Drawing Using Triangles       */
-      glColor3f(   1.0f,  0.0f,  0.0f ); /* Red                           */
-      glVertex3f(  0.0f,  1.0f,  0.0f ); /* Top Of Triangle               */
-      glColor3f(   0.0f,  1.0f,  0.0f ); /* Green                         */
-      glVertex3f( -1.0f, -1.0f,  0.0f ); /* Left Of Triangle              */
-      glColor3f(   0.0f,  0.0f,  1.0f ); /* Blue                          */
-      glVertex3f(  1.0f, -1.0f,  0.0f ); /* Right Of Triangle             */
-    glEnd( );                            /* Finished Drawing The Triangle */
-
-    glLoadIdentity( );
-    glTranslatef( 1.5f, 0.0f, -6.0f );
-    glColor3f( 0.5f, 0.5f, 1.0f);
-    glBegin( GL_QUADS );                 /* Draw A Quad              */
-      glVertex3f(  1.0f,  1.0f,  0.0f ); /* Top Right Of The Quad    */
-      glVertex3f( -1.0f,  1.0f,  0.0f ); /* Top Left Of The Quad     */
-      glVertex3f( -1.0f, -1.0f,  0.0f ); /* Bottom Left Of The Quad  */
-      glColor3f( 0.5f, 0.1f, 1.0f);
-      glVertex3f(  1.0f, -1.0f,  0.0f ); /* Bottom Right Of The Quad */
-    glEnd( );                            /* Done Drawing The Quad    */
-
+    foreach(Object3D o; objects){
+     o.render(camera);
+    }
     /* Draw it to the screen */
     SDL_GL_SwapBuffers();
     fpsmonitor.update();
@@ -96,6 +91,7 @@ public:
   bool isActive(bool a){ active=a; return active; }
   
   int getVideoFlags(){ return videoFlags; }
+  Camera getCamera(){ return camera; }
   SDL_Surface* getSurface(){ return surface; }
 
   void setSurface(int w, int h){
@@ -112,6 +108,8 @@ public:
 private:  
   EventHandler     eventhandler;
   FPSmonitor       fpsmonitor;
+  Camera           camera;
+  Object3D[]       objects;
   SDL_Surface*     surface;
   SDL_VideoInfo*   videoInfo;           /* This holds some info about our display */
   int videoFlags;                       /* Flags to pass to SDL_SetVideoMode */
