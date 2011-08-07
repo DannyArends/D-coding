@@ -6,9 +6,8 @@ Installation
 
 Some libraries and/or examples require external libraries:
 
-- (Optional for GUI) Download and install GTK for your platform (http://www.gtk.org/)
+- (Optional for GUI) Download and install SDL for your platform (http://www.libsdl.org/)
 - (R for Statistical) Download and install R for your platform (http://www.r-project.org/)
-- (Additional for Win32) Download and install DFL (http://www.dprogramming.com/dfl.php)
 
 Compile with using rake, dmd (and optionally dfl) on %PATH%:
 List all possible build and test options:
@@ -28,6 +27,7 @@ Applications
 The provided applications are itself are not that interesting, and sometimes far from finished, 
 however here a short description on what they are supposed to do is provided:
 
+- sdltest: OS independent SDL OpenGL platform for testing D <-> SDL <-> OpenGL bindings
 - Plang: implementation of a p'' interpreter
 - Regression: Multiple regression adapted from MQM routine
 - Fileloader: High speed big data file loading using the D language
@@ -36,14 +36,7 @@ however here a short description on what they are supposed to do is provided:
 - Httpserver: Basic try at a HTTP server
 - Httpserver: Basic try at a HTTP server
 - DNAcode: Translates an input sequence in DNA to Anti, mRNA and possible proteins
-
-
-Deprecated things, which I like to replace by the new direct GTK->GL bindings:
-
-- Dflapplication: First test in DFL
-- Dfltreeexample: Directory browsing plug-in for DFL
-- Dflopengl: OpenGL test application in D supporting 3DS model and TGA texture loading
-
+ 
 ------------
 
 Want to contribute? Great!
