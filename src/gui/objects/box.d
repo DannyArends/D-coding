@@ -7,7 +7,7 @@ import std.conv;
 import gl.gl_1_0;
 
 import gui.objects.camera;
-import gui.objects.location;
+import gui.objects.object3d;
 
 class Box : Object3D{
   

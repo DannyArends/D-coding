@@ -16,7 +16,7 @@ import gl.gl_ext;
 
 import gui.eventhandler;
 import gui.enginefunctions;
-import gui.objects.location;
+import gui.objects.object3d;
 import gui.objects.camera;
 import gui.objects.triangle;
 import gui.objects.quad;

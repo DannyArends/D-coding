@@ -8,7 +8,7 @@ import std.math;
 import gl.gl_1_0;
 
 import gui.objects.camera;
-import gui.objects.location;
+import gui.objects.object3d;
 
 class Sphere : Object3D{
   
@@ -26,18 +26,18 @@ class Sphere : Object3D{
     glColor4f(r(), g(),  b(), alpha());
     for(uint i = 0; i <= subdivisions; i++ ){
       glBegin(GL_TRIANGLE_STRIP);
-      ssum++;
-      theta[0] = i/2.0 * twopi / subdivisions - PI_2;
-      theta[1] = ((i/2.0) + 1) * twopi / subdivisions - PI_2;
+      double si = i/2.0;
+      double dip = 2*(i+1);
+      theta[0] = ((si * twopi) / subdivisions) - PI_2;
+      theta[1] = (((si + 1) * twopi) / subdivisions) - PI_2;
       for(uint j = 0; j <= subdivisions; j++ ){
-        tsum++;
         theta[2] = (subdivisions-j) * twopi / subdivisions;
         e[0] = cos(theta[1]) * cos(theta[2]);
         e[1] = sin(theta[1]);
         e[2] = cos(theta[1]) * sin(theta[2]);
         
         glNormal3f(e[0], e[1], e[2]);
-        glTexCoord2f( -(j/cast(float)subdivisions) , 2*(i+1)/cast(float)subdivisions );
+        glTexCoord2f( -(j/subdivisions) , dip/subdivisions );
         glVertex3f(e[0]*sx(), e[1]*sy(), e[2]*sz());
         
         e[0] = cos(theta[0]) * cos(theta[2]);
@@ -45,7 +45,7 @@ class Sphere : Object3D{
         e[2] = cos(theta[0]) * sin(theta[2]);
         
         glNormal3f(e[0], e[1], e[2]);
-        glTexCoord2f( -(j/cast(float)subdivisions) , 2*(i+1)/cast(float)subdivisions );
+        glTexCoord2f( -(j/subdivisions) , dip/subdivisions );
         glVertex3f(e[0]*sx(), e[1]*sy(), e[2]*sz());
       }
       glEnd();
@@ -54,8 +54,6 @@ class Sphere : Object3D{
 
 private:
   uint subdivisions = 20;
-  uint tsum = 0;
-  uint ssum = 0;
   double theta[3];
   double e[3];
   double twopi      = 2.0*PI;
