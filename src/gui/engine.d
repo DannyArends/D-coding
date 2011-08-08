@@ -16,13 +16,15 @@ import gl.gl_ext;
 
 import gui.eventhandler;
 import gui.enginefunctions;
-import gui.objects.object3d;
-import gui.objects.camera;
-import gui.objects.triangle;
-import gui.objects.quad;
+
 import gui.objects.box;
+import gui.objects.camera;
 import gui.objects.line;
+import gui.objects.object3d;
+import gui.objects.quad;
 import gui.objects.sphere;
+import gui.objects.surface;
+import gui.objects.triangle;
 
 class Engine{
 public:
@@ -63,7 +65,7 @@ public:
       }
     }
     //objects ~= new Quad(1.0,-1.0,0);
-    objects ~= new Box(5.0,-5.0,0);
+    objects ~= new Surface(5.0,-5.0,0);
     objects ~= new Line(1.0,-1.0,0);
     writefln("Engine initialization done");
   }

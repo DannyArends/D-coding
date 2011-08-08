@@ -6,6 +6,7 @@ import std.conv;
 
 import gl.gl_1_0;
 import gui.objects.camera;
+import gui.objects.color;
 import gui.objects.location;
 
 abstract class Object3D : Location{
@@ -50,10 +51,11 @@ abstract class Object3D : Location{
   }
   
   void setColor(double r, double g, double b, double a = 1.0){
-    if(r >=0 && r <= 1) color[0]=r;
-    if(g >=0 && g <= 1) color[1]=g;
-    if(b >=0 && b <= 1) color[2]=b;
-    if(a >=0 && a <= 1) color[3]=a;  
+    if(color is null){
+      color = new Color(r,g,b,a);
+    }else{
+      color.setColor(r,g,b,a);
+    }
   }
   
   void rotate(double rx, double ry, double rz){
@@ -74,16 +76,16 @@ abstract class Object3D : Location{
   GLfloat ry(){ return rot[1]; }
   GLfloat rz(){ return rot[2]; }
   
-  GLfloat r(){ return color[0]; }
-  GLfloat g(){ return color[1]; }
-  GLfloat b(){ return color[2]; }
-  GLfloat alpha(){ return color[3]; }
+  GLfloat r(){ return color.r(); }
+  GLfloat g(){ return color.g(); }
+  GLfloat b(){ return color.b(); }
+  GLfloat alpha(){ return color.alpha(); }
   
   GLfloat sx(){ return size[0]; }
   GLfloat sy(){ return size[1]; }
   GLfloat sz(){ return size[2]; }
 private:
-  double[4] color;
+  Color     color;
   double[3] rot;
   double[3] size;
 };
