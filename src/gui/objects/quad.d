@@ -16,18 +16,18 @@ class Quad : Object3D{
   }
   
   void render(Camera camera){
-    glLoadIdentity( );
+    glLoadIdentity();
     glTranslatef(camera.x+x(),camera.y-y(),camera.z-z());
-        
+
     glRotatef(camera.rx+rx(), 1.0, 0.0, 0.0);
     glRotatef(camera.ry+ry(), 0.0, 1.0, 0.0);
     glRotatef(camera.rz+rz(), 0.0, 0.0, 1.0);
-            
+    glColor4f(r(), g(),  b(), alpha());
     glBegin(GL_QUADS);
-      glVertex3f(  sx(),  sx(),  0.0f ); /* Top Right Of The Quad    */
-      glVertex3f( -sx(),  sx(),  0.0f ); /* Top Left Of The Quad     */
-      glVertex3f( -sx(), -sx(),  0.0f ); /* Bottom Left Of The Quad  */
-      glVertex3f(  sx(), -sx(),  0.0f ); /* Bottom Right Of The Quad */
+      glVertex3f(  sx(),  sx(),  0.0f );
+      glVertex3f( -sx(),  sx(),  0.0f );
+      glVertex3f( -sx(), -sx(),  0.0f );
+      glVertex3f(  sx(), -sx(),  0.0f );
     glEnd();
   }
 

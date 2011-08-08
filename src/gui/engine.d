@@ -55,6 +55,7 @@ public:
         Triangle t = new Triangle(x,1.0,y);
         t.adjustSize(x/5.0);
         t.rotate(x,y*2,x*3);
+        t.setColor(x/10,y/20,0);
         objects ~= t;
       }
     }
