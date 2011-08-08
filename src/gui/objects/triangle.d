@@ -28,8 +28,4 @@ class Triangle : Object3D{
       glVertex3f(  sx(), -sx(),  0.0f );
     glEnd();
   }
-
-private:
-  double[3] rot;
-  double[3] size;
 };

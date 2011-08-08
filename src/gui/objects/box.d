@@ -55,8 +55,4 @@ class Box : Object3D{
       glVertex3f(sx() ,-sy(),-sz());       // Bottom Right Of The Quad (Right)
     glEnd();
   }
-
-private:
-  double[3] rot;
-  double[3] size;
 };
