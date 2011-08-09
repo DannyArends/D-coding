@@ -55,18 +55,17 @@ public:
     eventhandler = new EventHandler(this);
     fpsmonitor = new FPSmonitor();
     camera = new Camera();
-    for(double x=0;x<10;x++){
-      for(double y=0;y<10;y++){
-        Triangle t = new Triangle(x,1.0,y);
-        t.adjustSize(x/5.0);
+    Surface s = new Surface(0.0,-0.2,0);
+    for(int x=0;x<10;x++){
+      for(int y=0;y<10;y++){
+        Triangle t = new Triangle();
+        t.adjustSize(0.5);
         t.rotate(x,y*2,x*3);
-        t.setColor(x/10,y/20,0);
-        objects ~= t;
+        t.setColor(cast(float)(x)/10.0,cast(float)(y)/20.0,0);
+        s.addObject(x+7,y*2,t);
       }
     }
-    //objects ~= new Quad(1.0,-1.0,0);
-    objects ~= new Surface(5.0,-5.0,0);
-    objects ~= new Line(1.0,-1.0,0);
+    objects ~= s;
     writefln("Engine initialization done");
   }
   
@@ -84,7 +83,7 @@ public:
   int drawGLScene(){
     resizeWindow(screen_width, screen_height);
     foreach(Object3D o; objects){
-     o.render(camera);
+     o.render(camera, o.getFaceType());
     }
     /* Draw it to the screen */
     SDL_GL_SwapBuffers();

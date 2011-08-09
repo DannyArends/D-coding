@@ -15,15 +15,15 @@ class Box : Object3D{
     super(x,y,z);
   }
   
-  void render(Camera camera){
+  void render(Camera camera, int faceType = GL_QUADS){
     glLoadIdentity();
-    glTranslatef(camera.x+x(),camera.y-y(),camera.z-z());
+    glTranslatef(camera.x+x(),camera.y+y(),camera.z+z());
 
     glRotatef(camera.rx+rx(), 1.0, 0.0, 0.0);
     glRotatef(camera.ry+ry(), 0.0, 1.0, 0.0);
     glRotatef(camera.rz+rz(), 0.0, 0.0, 1.0);
     glColor4f(r(), g(),  b(), alpha());
-    glBegin(GL_QUADS);
+    glBegin(faceType);
       glVertex3f(sx() ,sy(),-sz());        // Top Right Of The Quad (Top)
       glVertex3f(-sx(),sy(),-sz());        // Top Left Of The Quad (Top)
       glVertex3f(-sx(),sy(),sz());         // Bottom Left Of The Quad (Top)
@@ -55,4 +55,6 @@ class Box : Object3D{
       glVertex3f(sx() ,-sy(),-sz());       // Bottom Right Of The Quad (Right)
     glEnd();
   }
+  
+  int getFaceType(){ return GL_QUADS; }
 };

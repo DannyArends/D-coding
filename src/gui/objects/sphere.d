@@ -16,16 +16,16 @@ class Sphere : Object3D{
     super(x,y,z);
   }
   
-  void render(Camera camera){
+  void render(Camera camera, int faceType = GL_TRIANGLE_STRIP){
     glLoadIdentity();
-    glTranslatef(camera.x+x(),camera.y-y(),camera.z-z());
+    glTranslatef(camera.x+x(),camera.y+y(),camera.z+z());
 
     glRotatef(camera.rx+rx(), 1.0, 0.0, 0.0);
     glRotatef(camera.ry+ry(), 0.0, 1.0, 0.0);
     glRotatef(camera.rz+rz(), 0.0, 0.0, 1.0);
     glColor4f(r(), g(),  b(), alpha());
     for(uint i = 0; i <= subdivisions; i++ ){
-      glBegin(GL_TRIANGLE_STRIP);
+      glBegin(faceType);
       double si = i/2.0;
       double dip = 2*(i+1);
       theta[0] = ((si * twopi) / subdivisions) - PI_2;
@@ -51,6 +51,8 @@ class Sphere : Object3D{
       glEnd();
     }
   }
+  
+  int getFaceType(){ return GL_TRIANGLE_STRIP; }
 
 private:
   uint subdivisions = 20;

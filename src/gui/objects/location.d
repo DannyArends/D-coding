@@ -25,6 +25,12 @@ public:
     loc[2]+=z;
   }
   
+  void setLocation(double x, double y, double z){
+    loc[0]=x;
+    loc[1]=y;
+    loc[2]=z;
+  }
+  
   GLfloat x(){ return loc[0]; }
   GLfloat y(){ return loc[1]; }
   GLfloat z(){ return loc[2]; }

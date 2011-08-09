@@ -20,32 +20,42 @@ class Surface : Object3D{
     colormap = newclassmatrix!Color(size_x,size_z);
     this.size_x = size_x;
     this.size_z = size_z;
-    setSize(0.5,0.0,0.5);
   }
   
-  void render(Camera camera){
+  void addObject(int x, int z, Object3D object){
+    object.setLocation(x,heightmap[x][z],z);
+    objects ~= object;
+  }
+  
+  void render(Camera camera, int faceType = GL_TRIANGLE_STRIP) {
     glLoadIdentity();
-    glTranslatef(camera.x+x(),camera.y-y(),camera.z-z());
+    glTranslatef(camera.x+x(),camera.y+y(),camera.z+z());
 
     glRotatef(camera.rx+rx(), 1.0, 0.0, 0.0);
     glRotatef(camera.ry+ry(), 0.0, 1.0, 0.0);
     glRotatef(camera.rz+rz(), 0.0, 0.0, 1.0);
-    glBegin(GL_QUADS);
-    for(uint x=0; x < size_x;x++){
-      for(uint z=0; z < size_z;z++){
-        glColor4f(colormap[x][z].r(),colormap[x][z].g(),colormap[x][z].b(),colormap[x][z].alpha());
-        glVertex3f(x+sx(), heightmap[x][z],z+sz() );
-        glVertex3f(x-sx(), heightmap[x][z],z+sz() );
-        glVertex3f(x-sx(), heightmap[x][z],z-sz() );
-        glVertex3f(x+sx(), heightmap[x][z],z-sz() );
+    
+    for(int i = 0 ; i < size_x-1; i++) {
+      glBegin(faceType);
+      for(int j=0; j < size_z; j++) {
+        glColor4f(colormap[i][j].r(),colormap[i][j].g(),colormap[i][j].b(),colormap[i][j].alpha());
+        glVertex3f(i*sx(),heightmap[i][j],j*sz());
+        glColor4f(colormap[i+1][j].r(),colormap[i+1][j].g(),colormap[i+1][j].b(),colormap[i+1][j].alpha());
+        glVertex3f((i+1)*sx(),heightmap[i+1][j],j*sz());
       }
+      glEnd();
     }
-    glEnd();
+    foreach(Object3D o; objects){
+      o.render(camera);
+    }
   }
   
+  int getFaceType(){ return GL_TRIANGLE_STRIP; }
+  
 private:
-  uint size_x;
-  uint size_z;
-  dmatrix  heightmap;
-  Color[][] colormap;
+  int size_x;
+  int size_z;
+  dmatrix      heightmap;
+  Color[][]    colormap;
+  Object3D[]   objects;
 };

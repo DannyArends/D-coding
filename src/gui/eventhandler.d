@@ -53,8 +53,6 @@ public:
   
   void handleKeyPress(SDL_keysym *keysym){
     switch(keysym.sym){
-    case SDLK_ESCAPE:
-      break;
       case SDLK_F1:
         SDL_WM_ToggleFullScreen(parent.getSurface());
       break;
@@ -75,7 +73,10 @@ public:
         break; 
       case SDLK_RIGHT:
         parent.getCamera().move(2,0,0);
-        break; 
+        break;
+      case SDLK_ESCAPE:
+        parent.isDone(true);
+      break;         
       default:
       break;
     }

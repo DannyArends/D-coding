@@ -70,7 +70,8 @@ abstract class Object3D : Location{
     size[2]*=factor;
   }
   
-  abstract void render(Camera c);
+  abstract void render(Camera c, int faceType = GL_TRIANGLES);
+  abstract int getFaceType();
 
   GLfloat rx(){ return rot[0]; }
   GLfloat ry(){ return rot[1]; }
