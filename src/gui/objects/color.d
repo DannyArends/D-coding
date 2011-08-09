@@ -42,4 +42,4 @@ public:
   
 private:
   double[4] color;
-};
+}

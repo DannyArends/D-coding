@@ -10,7 +10,7 @@ import gui.objects.camera;
 import gui.objects.object3d;
 
 class Box : Object3D{
-  
+public:
   this(double x, double y, double z){
     super(x,y,z);
   }
@@ -57,4 +57,4 @@ class Box : Object3D{
   }
   
   int getFaceType(){ return GL_QUADS; }
-};
+}

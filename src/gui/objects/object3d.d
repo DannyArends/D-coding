@@ -10,6 +10,7 @@ import gui.objects.color;
 import gui.objects.location;
 
 abstract class Object3D : Location{
+public:  
   this(){
     super(0.0, 0.0, 0.0);
     setRotation(0.0, 0.0, 0.0);
@@ -89,4 +90,4 @@ private:
   Color     color;
   double[3] rot;
   double[3] size;
-};
+}

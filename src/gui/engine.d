@@ -21,6 +21,7 @@ import gui.enginefunctions;
 import gui.objects.box;
 import gui.objects.camera;
 import gui.objects.line;
+import gui.objects.model3ds;
 import gui.objects.object3d;
 import gui.objects.quad;
 import gui.objects.sphere;
@@ -67,6 +68,7 @@ public:
         s.addObject(x+7,y*2,t);
       }
     }
+    s.addObject(2,2,new Model3DS("data/objects/object_4.3ds"));
     objects ~= s;
     writefln("Engine initialization done");
   }

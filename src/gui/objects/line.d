@@ -10,7 +10,7 @@ import gui.objects.camera;
 import gui.objects.object3d;
 
 class Line : Object3D{
-  
+public:
   this(double x, double y, double z){
     super(x,y,z);
   }
@@ -28,4 +28,4 @@ class Line : Object3D{
       glVertex3f(sx(),sy(),sz());
     glEnd();
   }
-};
+}

@@ -9,7 +9,7 @@ import gl.gl_1_0;
 import gui.widgets.object2d;
 
 class Square : Object2D{
-  
+public:
   this(double x, double y, double sx, double sy){
     super(x,y,sx,sy);
   }
@@ -25,4 +25,4 @@ class Square : Object2D{
       glVertex3f(  sx(), -sx(),  0.0f );
     glEnd();
   }
-};
+}

@@ -37,4 +37,4 @@ public:
   
 private:
   double[3] loc;
-};
+}

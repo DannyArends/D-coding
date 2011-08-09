@@ -10,6 +10,7 @@ import gui.objects.camera;
 import gui.objects.object3d;
 
 class Triangle : Object3D{
+public:  
   this(){
     super();
   }
@@ -34,4 +35,4 @@ class Triangle : Object3D{
   }
   
   int getFaceType(){ return GL_TRIANGLES; }
-};
+}

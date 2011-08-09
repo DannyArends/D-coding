@@ -11,7 +11,7 @@ import gui.objects.camera;
 import gui.objects.object3d;
 
 class Sphere : Object3D{
-  
+public:
   this(double x, double y, double z){
     super(x,y,z);
   }
@@ -59,4 +59,4 @@ private:
   double theta[3];
   double e[3];
   double twopi      = 2.0*PI;
-};
+}

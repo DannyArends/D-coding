@@ -9,6 +9,7 @@ import gui.objects.camera;
 import gui.objects.location;
 
 class Force : Location{
+public:  
   this(int timespan = -1){
     super(0.0, 0.0, 0.0);
     setDirection(0.0, 0.0, 0.0);
@@ -43,4 +44,4 @@ class Force : Location{
 private:
   double[3] direction;
   int       timespan, age;
-};
+}
