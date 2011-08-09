@@ -15,6 +15,7 @@ import gl.gl_1_5;
 import gl.gl_ext;
 
 import gui.eventhandler;
+import gui.hud;
 import gui.enginefunctions;
 
 import gui.objects.box;
@@ -52,6 +53,7 @@ public:
     printOpenGlInfo();
     resizeWindow(screen_width, screen_height);
     writefln("Initializing our own classes");
+    hud = new Hud(this);
     eventhandler = new EventHandler(this);
     fpsmonitor = new FPSmonitor();
     camera = new Camera();
@@ -81,6 +83,7 @@ public:
   }
   
   int drawGLScene(){
+    hud.render();
     resizeWindow(screen_width, screen_height);
     foreach(Object3D o; objects){
      o.render(camera, o.getFaceType());
@@ -116,6 +119,7 @@ private:
   EventHandler     eventhandler;
   FPSmonitor       fpsmonitor;
   Camera           camera;
+  Hud              hud;
   Object3D[]       objects;
   SDL_Surface*     surface;
   SDL_VideoInfo*   videoInfo;           /* This holds some info about our display */
