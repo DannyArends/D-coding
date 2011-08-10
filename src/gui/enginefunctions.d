@@ -1,6 +1,5 @@
 module gui.enginefunctions;
 
-import core.thread;
 import std.array;
 import std.stdio;
 import std.conv;
@@ -11,8 +10,7 @@ import sdl.sdlfunctions;
 
 import gl.gl_1_0;
 import gl.gl_1_1;
-import gl.gl_1_5;
-import gl.gl_ext;
+import gl.glu;
 
 bool resizeWindow(int width, int height){
   if(height == 0) height = 1;
@@ -34,6 +32,24 @@ bool initGL(){
   glDepthFunc(GL_LEQUAL);
   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
   return true;
+}
+
+void getUnproject(int x, int y){
+  GLint viewport[4];
+  GLdouble modelview[16];
+  GLdouble projection[16];
+  GLfloat  winZ;
+  GLdouble posX, posY, posZ;
+
+  glGetDoublev(GL_MODELVIEW_MATRIX, modelview.ptr);
+  glGetDoublev(GL_PROJECTION_MATRIX, projection.ptr);
+  glGetIntegerv(GL_VIEWPORT, viewport.ptr);
+
+  GLfloat winX = x;
+  GLfloat winY = viewport[3] - y;
+  glReadPixels(x, cast(int)winY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ );
+  gluUnProject( winX, winY, winZ, modelview.ptr, projection.ptr, viewport.ptr, &posX, &posY, &posZ);
+  writefln("World location: [%s, %s, %s]",to!string(posX), to!string(posY), to!string(posZ));
 }
 
 void printOpenGlInfo(){
@@ -78,4 +94,4 @@ class FPSmonitor{
   GLint t           = 0;               /* t */
   GLint T0          = 0;               /* T0 for famerate determination */
   GLint Frames      = 0;               /* Number of frames rendered */
-};
+}

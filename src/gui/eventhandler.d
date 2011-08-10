@@ -11,15 +11,15 @@ import sdl.sdlfunctions;
 import gui.engine;
 import gui.enginefunctions;
 
-class EventHandler : Fiber{
+class EventHandler{
 public:
   this(Engine engine){
     parent=engine;
-    super(&run);
+    
   }
   
-  void run(){
-    while(!parent.isDone()){
+  void call(){
+    //while(!parent.isDone()){
       while(SDL_PollEvent(&event)){
         switch(event.type){
         case SDL_ACTIVEEVENT:
@@ -43,12 +43,19 @@ public:
         case SDL_QUIT:
           parent.isDone(true);
           break;
+        case SDL_MOUSEMOTION:
+          debug writefln("Mouse moved by %d,%d to (%d,%d)", event.motion.xrel, event.motion.yrel, event.motion.x, event.motion.y);
+        break;
+        case SDL_MOUSEBUTTONDOWN:
+          debug writefln("Mouse button %d pressed at (%d,%d)", event.button.button, event.button.x, event.button.y);  
+          getUnproject(event.button.x, event.button.y);
+        break;  
         default:
           break;
         }
       }
-      yield();
-    }
+    //  yield();
+    //}
   }
   
   void handleKeyPress(SDL_keysym *keysym){
