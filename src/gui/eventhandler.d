@@ -85,6 +85,11 @@ public:
         parent.isDone(true);
       break;         
       default:
+        char ch;
+        if((keysym.sym & 0xFF80) == 0 ){
+          ch = keysym.sym & 0x7F;
+          writeln(ch);
+        }
       break;
     }
   }
