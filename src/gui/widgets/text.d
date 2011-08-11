@@ -43,13 +43,16 @@ public:
   
   void removeLine(){ if(lines !is null) lines = lines[1..$]; }
     
-  void setScale(double scale){
-    this.scale = scale;
+  void setScale(double scale){ this.scale = scale; }
+
+  void setMaxLines(int maxlines){ 
+    this.maxlines = maxlines;
+    if(maxlines < 0) this.maxlines = -1;
   }
   
 private:
   int      maxlines = -1;
-  double   scale = 0.7f;
+  double   scale = 0.8f;
   Hud      hud;
   int      type=0;
   string[] lines;
