@@ -41,7 +41,7 @@ public:
     }
   }
   
-  void removeLine(){ if(lines != null) lines = lines[1..$]; }
+  void removeLine(){ if(lines !is null) lines = lines[1..$]; }
     
   void setScale(double scale){
     this.scale = scale;
