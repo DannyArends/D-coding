@@ -14,16 +14,24 @@ import gl.gl_1_5;
 import gl.gl_ext;
 
 import gui.engine;
+import gui.formats.tga;
 import gui.widgets.object2d;
 
 class Hud{
 public:
   this(Engine engine){
     this.parent = engine;
+    initfont();
   }
   
   void addObject(Object2D object){
     objects ~= object;
+  }
+  
+  void initfont(){
+    tgaInfo* t = loadTexture("data/textures/font.tga");
+    textureid = t.textureID[0];
+    base = loadAsFont(t);
   }
   
   void render(){
@@ -37,7 +45,12 @@ public:
     }
   }
   
+  GLuint getFontBase(){ return base; }
+  GLuint getFontId(){ return textureid; }
+  
 private:
   Engine parent;
   Object2D[] objects;
+  GLuint     textureid;
+  GLuint     base;
 }

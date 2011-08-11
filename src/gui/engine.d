@@ -28,6 +28,8 @@ import gui.objects.sphere;
 import gui.objects.surface;
 import gui.objects.triangle;
 
+import gui.widgets.text;
+
 class Engine{
 public:
   this(){
@@ -71,6 +73,7 @@ public:
     s.addObject(2,2,new Model3DS("data/objects/object_4.3ds"));
     objects ~= s;
     writefln("Engine initialization done");
+    hud.addObject(new Text(hud,100,100,"Test Text"));
   }
   
   void start(){
