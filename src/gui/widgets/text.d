@@ -21,18 +21,35 @@ public:
   void render(){
     glLoadIdentity();
     glTranslatef(x(),y(),0.0f);
+    glScalef(scale,scale,scale);
     glColor4f(r(), g(),  b(), alpha());
+    int plength = 0;
     foreach(int cnt, string line; lines){
       glEnable(GL_TEXTURE_2D);
       glBindTexture(GL_TEXTURE_2D, hud.getFontId());
-      glTranslated(cnt*16, 0.0f, 0.0f);
+      glTranslated(-(plength*14), cnt*16, 0.0f);
       glListBase(hud.getFontBase()-32+(128*type));
       glCallLists(to!int(line.length),GL_UNSIGNED_BYTE, line.dup.ptr);
       glDisable(GL_TEXTURE_2D);
+      plength = to!int(line.length);
     }
   }
   
+  void addLine(string line){ 
+    if(lines.length < maxlines || maxlines == -1){
+      lines ~= line; 
+    }
+  }
+  
+  void removeLine(){ if(lines != null) lines = lines[1..$]; }
+    
+  void setScale(double scale){
+    this.scale = scale;
+  }
+  
 private:
+  int      maxlines = -1;
+  double   scale = 0.7f;
   Hud      hud;
   int      type=0;
   string[] lines;

@@ -73,7 +73,13 @@ public:
     s.addObject(2,2,new Model3DS("data/objects/object_4.3ds"));
     objects ~= s;
     writefln("Engine initialization done");
-    hud.addObject(new Text(hud,100,100,"Test Text"));
+    Text tex = new Text(hud,100,100,"Test Text");
+    tex.removeLine();
+    tex.removeLine();
+    tex.removeLine();
+    tex.addLine("Hoi Hoi");
+    tex.addLine("So So");
+    hud.addObject(tex);
   }
   
   void start(){
