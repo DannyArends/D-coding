@@ -40,15 +40,29 @@ class ClientHandler : Thread {
   }
   
   void processCommand(ubyte[] command){
-    if(to!char(command[0]) == 'S') sock.send("Sync request");
-    if(to!char(command[0]) == 'I') sock.send("Identification");
-    if(to!char(command[0]) == 'M') sock.send("Movement");
-    if(to!char(command[0]) == 'H') sock.send("Harvest");
-    if(to!char(command[0]) == 'A') sock.send("Attack");
-    if(to!char(command[0]) == 'U') sock.send("Use");
-    if(to!char(command[0]) == 'C') sock.send("Combine");
-    if(to!char(command[0]) == 'L') sock.send("Look at");
-    if(to!char(command[0]) == 'T') sock.send("Transfer");
+    if(command.length > 0){
+      try{
+      switch(to!char(command[0])){
+        case 'S':
+          processSync(sock, command[1..$]);
+        break;
+        case 'I':
+          processIdentification(sock, command[1..$]);
+        break;
+        case 'M':
+          processMovement(sock, command[1..$]);
+        break;
+        case 'C':
+          processChat(sock, command[1..$]);
+        break;
+        default:
+          writeln("Unknown command type");
+        break;
+      }
+      }catch(Throwable exception){
+        writeln("Command couldn't be handled");
+      }
+    }
   }
   
   @property
@@ -70,7 +84,6 @@ private:
     }
   }
   
-  ClientCommand[] toClient;
   Socket sock;
   uint id;
   bool online;
