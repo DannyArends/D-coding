@@ -9,22 +9,33 @@ import gui.objects.color;
 import gui.objects.location;
 
 abstract class Object2D : Location{
-  this(){
+  this(Object2D parent = null){
     super(0.0, 0.0, 0.0);
     setSize(1.0, 1.0);
     setColor(1.0, 1.0, 1.0);
+    setParent(parent);
   }
   
-  this(double x, double y){
+  this(double x, double y, Object2D parent = null){
     super(x, y, 0.0);
     setSize(1.0, 1.0);
     setColor(1.0, 1.0, 1.0);
+    setParent(parent);
   }
   
-  this(double x, double y, double sx, double sy){
+  this(double x, double y, double sx, double sy, Object2D parent = null){
     super(x, y, 0.0);
     setSize(sx, sy);
     setColor(1.0, 1.0, 1.0);
+    setParent(parent);
+  }
+  
+  void setParent(Object2D parent){
+    this.parent = parent;
+  }
+  
+  Object2D getParent(){
+    return this.parent;
   }
     
   void setSize(double sx, double sy){
@@ -41,15 +52,41 @@ abstract class Object2D : Location{
   }
   
   abstract void render();
+  
+  
+  GLuint getFontBase(){ return getParent().getFontBase(); }
+  GLuint getFontId(){ return getParent().getFontId(); }
+  
+  bool isVisible(){ return visible; }
+  bool isHud(){ return false; }
+  void setVisible(bool v){ visible = v; }
 
   GLfloat r(){ return color.r(); }
   GLfloat g(){ return color.g(); }
   GLfloat b(){ return color.b(); }
   GLfloat alpha(){ return color.alpha(); }
   
+  GLfloat x(){ 
+    if(getParent().isHud()){
+      return super.x(); 
+    }else{
+      return super.x() + getParent.x();
+    }
+  }
+  
+  GLfloat y(){ 
+    if(getParent().isHud()){
+      return super.y(); 
+    }else{
+      return super.y() + getParent.y();
+    }
+  }
+  
   GLfloat sx(){ return size[0]; }
   GLfloat sy(){ return size[1]; }
 private:
-  Color     color;
-  double[2] size;
+  Object2D   parent;
+  Color      color;
+  double[2]  size;
+  bool       visible;
 };

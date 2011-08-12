@@ -29,6 +29,7 @@ import gui.objects.surface;
 import gui.objects.triangle;
 
 import gui.widgets.text;
+import gui.widgets.window;
 
 class Engine{
 public:
@@ -73,13 +74,15 @@ public:
     s.addObject(2,2,new Model3DS("data/objects/object_4.3ds"));
     objects ~= s;
     writefln("Engine initialization done");
-    Text tex = new Text(hud,100,100,"Test Text");
+    Window win = new Window(100,100,hud);  
+    Text tex = new Text(0,0,"Test Text",win);
     tex.removeLine();
     tex.removeLine();
     tex.removeLine();
     tex.addLine("Hoi Hoi");
     tex.addLine("So So");
-    hud.addObject(tex);
+    win.addContent(tex);
+    hud.addObject(win);
   }
   
   void start(){

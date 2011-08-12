@@ -17,14 +17,16 @@ import gui.engine;
 import gui.formats.tga;
 import gui.widgets.object2d;
 
-class Hud{
+class Hud : Object2D{
 public:
   this(Engine engine){
+    super();
     this.parent = engine;
     initfont();
   }
   
   void addObject(Object2D object){
+    object.setParent(this);
     objects ~= object;
   }
   
@@ -45,11 +47,12 @@ public:
     }
   }
   
+  bool isHud(){ return true; }
   GLuint getFontBase(){ return base; }
   GLuint getFontId(){ return textureid; }
   
 private:
-  Engine parent;
+  Engine     parent;
   Object2D[] objects;
   GLuint     textureid;
   GLuint     base;
