@@ -20,14 +20,9 @@ import gui.widgets.object2d;
 class Hud : Object2D{
 public:
   this(Engine engine){
-    super();
+    super(0,0,engine.screen_width,engine.screen_height);
     this.parent = engine;
     initfont();
-  }
-  
-  void addObject(Object2D object){
-    object.setParent(this);
-    objects ~= object;
   }
   
   void initfont(){
@@ -42,18 +37,18 @@ public:
     glOrtho(0.0f, cast(GLfloat)parent.screen_width,cast(GLfloat)parent.screen_height, 0.0f, -1.0f, 1.0f);
     glMatrixMode(GL_MODELVIEW);
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-    foreach(Object2D object;objects){
+    foreach(Object2D object;getObjects()){
       object.render();
     }
   }
   
   bool isHud(){ return true; }
+  Object2DType getType(){ return Object2DType.HUD; }
   GLuint getFontBase(){ return base; }
   GLuint getFontId(){ return textureid; }
   
 private:
   Engine     parent;
-  Object2D[] objects;
   GLuint     textureid;
   GLuint     base;
 }

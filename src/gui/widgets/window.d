@@ -17,38 +17,38 @@ class Window : Object2D{
 public:
   this(double x, double y, Hud hud){
     super(x,y,125,60,hud);
-    top = new Square(0,0,125,18,this);
-    top.setColor(0.0,0.0,0.5);
-    bg = new Square(0,18,125,50,this);
-    bg.setColor(0.25,0.25,0.25);
-    topbuttons[0] = new Button(84,2,10,10,"-",this);
-    topbuttons[1] = new Button(98,2,10,10,"[]",this);
-    topbuttons[2] = new Button(112,2,10,10,"X",this);
+    init();
   }
   
-  void addContent(Object2D object){
-    object.setParent(this);
-    object.move(0,20+20*content.length,0);
-    content ~= object;
+  this(double x, double y, double sx, double sy, Hud hud){
+    super(x,y,sx,sy,hud);
+    init();
+  }
+  
+  void init(){
+    bg = new Square(0,20,sx(),sy()-20,this);
+    bg.setColor(0.75,0.75,0.75);
+    DragBar top = new DragBar(this);
+    top.setColor(0.0,0.0,0.5);
+    top.addObject(new MinMaxButton(this));
+    top.addObject(new CloseButton(this));
+    addObject(top);
   }
   
   void render(){
     glLoadIdentity();
     glTranslatef(x(),y(),0.0f);
     glColor4f(r(), g(),  b(), alpha());
-    top.render();
-    bg.render();
-    foreach(Button btn; topbuttons){
-      btn.render();
-    }
-    foreach(Object2D contentelement; content){
-      contentelement.render();
+    if(!isMinimized()){
+      bg.render();
+      foreach(Object2D contentelement; getObjects()){
+        contentelement.render();
+      }
     }
   }
-
+  
+  Object2DType getType(){ return Object2DType.WINDOW; }
+  
 private:
   Square      bg;
-  Square      top;
-  Button[3]   topbuttons;
-  Object2D[]  content;
 }

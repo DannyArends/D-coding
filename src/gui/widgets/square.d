@@ -25,4 +25,6 @@ public:
       glVertex3f(  sx(), 0,  0.0f );
     glEnd();
   }
+  
+  Object2DType getType(){ return Object2DType.SQUARE; }
 }

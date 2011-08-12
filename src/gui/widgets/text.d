@@ -34,6 +34,8 @@ public:
     }
   }
   
+  Object2DType getType(){ return Object2DType.TEXT; }
+  
   void addLine(string line){ 
     if(lines.length < maxlines || maxlines == -1){
       lines ~= line; 

@@ -117,6 +117,7 @@ public:
   int getVideoFlags(){ return videoFlags; }
   Camera getCamera(){ return camera; }
   SDL_Surface* getSurface(){ return surface; }
+  Hud getHud(){ return hud; }
 
   void setSurface(int w, int h){
     active=false;

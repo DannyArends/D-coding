@@ -11,6 +11,8 @@ import sdl.sdlfunctions;
 import gui.engine;
 import gui.enginefunctions;
 
+import gui.widgets.object2d;
+
 class EventHandler{
 public:
   this(Engine engine){
@@ -47,8 +49,13 @@ public:
           debug writefln("Mouse moved by %d,%d to (%d,%d)", event.motion.xrel, event.motion.yrel, event.motion.x, event.motion.y);
         break;
         case SDL_MOUSEBUTTONDOWN:
-          debug writefln("Mouse button %d pressed at (%d,%d)", event.button.button, event.button.x, event.button.y);  
-          getUnproject(event.button.x, event.button.y);
+          debug writefln("Mouse button %d pressed at (%d,%d)", event.button.button, event.button.x, event.button.y);
+          Object2D hit = parent.getHud().getObjectAt(event.button.x, event.button.y);
+          if(hit !is null && !hit.isHud()){
+            writefln("You hit: %d [%d,%d]",hit.getType, to!int(hit.x()), to!int(hit.y()));
+          }else{
+            getUnproject(event.button.x, event.button.y);
+          }
         break;  
         default:
           break;
