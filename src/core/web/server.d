@@ -106,7 +106,7 @@ class Server(Client) : Thread{
               writefln("Server: Dropped connection %d",index);
               continue;
             }
-            clients[index].addToBuffer(buffer[0..received]);
+            clients[index].processCommand(buffer[0..received]);
             writefln("Server: Received from %d: %s",index, to!string(toType!char(buffer[0..received])));
           }
         }

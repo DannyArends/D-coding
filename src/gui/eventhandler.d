@@ -54,7 +54,8 @@ public:
           if(hit !is null && !hit.isHud()){
             writefln("You hit: %d [%d,%d]",hit.getType, to!int(hit.x()), to!int(hit.y()));
           }else{
-            getUnproject(event.button.x, event.button.y);
+            double[3] loc = getUnproject(event.button.x, event.button.y);
+            parent.getNetworkclient().send("M:" ~ to!string(loc));
           }
         break;  
         default:

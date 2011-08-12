@@ -46,14 +46,17 @@ class GameClient : Thread{
   
   void run(){
     try{
-      network.connect();
-      network.write("Test");
+      online = network.connect();
+      online = network.write("I");
       while(online){
-        //network.write("Test");
+        string s = network.read(25);
+        if(s !is null){
+          writeln(s);
+        }
         Thread.sleep( dur!("msecs")( 10 ) );
       }
       writeln("Network Bye...");
-    }catch (Throwable exception){
+    }catch(Throwable exception){
       if(verbose) writeln("Client threw an error");
       return;
     }finally{
@@ -62,6 +65,6 @@ class GameClient : Thread{
   }
   
   void sendHeartbeat(int checks){
-    this.send("T");
+    this.send("S:"~to!string(checks));
   }
 }

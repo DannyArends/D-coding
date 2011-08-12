@@ -39,12 +39,16 @@ class ClientHandler : Thread {
     sock.close();
   }
   
-  void addToBuffer(ubyte[] buffer){
-    if(inBuffer.length + buffer.length <= 1_048_576 ){
-      inBuffer ~= buffer;
-    }else{
-      writeln("Client",id,": Buffer full");
-    }
+  void processCommand(ubyte[] command){
+    if(to!char(command[0]) == 'S') sock.send("Sync request");
+    if(to!char(command[0]) == 'I') sock.send("Identification");
+    if(to!char(command[0]) == 'M') sock.send("Movement");
+    if(to!char(command[0]) == 'H') sock.send("Harvest");
+    if(to!char(command[0]) == 'A') sock.send("Attack");
+    if(to!char(command[0]) == 'U') sock.send("Use");
+    if(to!char(command[0]) == 'C') sock.send("Combine");
+    if(to!char(command[0]) == 'L') sock.send("Look at");
+    if(to!char(command[0]) == 'T') sock.send("Transfer");
   }
   
   @property
@@ -57,21 +61,12 @@ class ClientHandler : Thread {
   }
 
 private:
-  void processCommandFromClient(){
-    //TODO processing
-  }
-  
-  void sendCommandToClient(){
-    //TODO Get first command from list and send
-  }
 
   void payload() {
     writeln("Client",id,": Starting");
     while(online){
       //writeln("Client",id,": Still here");
       Thread.sleep( dur!("seconds")( 2 ) );
-      processCommandFromClient();
-      sendCommandToClient();
     }
   }
   
@@ -79,5 +74,4 @@ private:
   Socket sock;
   uint id;
   bool online;
-  byte[] inBuffer;
 }

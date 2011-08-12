@@ -127,6 +127,7 @@ public:
   Camera getCamera(){ return camera; }
   SDL_Surface* getSurface(){ return surface; }
   Hud getHud(){ return hud; }
+  GameClient getNetworkclient(){ return networkclient; }
 
   void setSurface(int w, int h){
     active=false;

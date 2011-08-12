@@ -58,7 +58,7 @@ class SocketClient{
     assert(handle.isAlive);
     try{
       handle.connect( new InternetAddress( host, cast(int)port ) );
-      handle.blocking(true);
+      handle.blocking(false);
     }catch(SocketException ex){
       writefln("Failed to connect to %s:%d - %s", host, port, ex.toString());
       delete handle;
@@ -106,6 +106,7 @@ class SocketClient{
       buf = new char[bufferSize];
       ret = handle.receive( buf );
       if( !ret ) return cast(string)data;
+      if(ret == -1) return cast(string)data;
       data ~= buf[0 .. ret];
     }
     return cast(string)data;
