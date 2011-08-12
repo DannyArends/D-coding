@@ -14,8 +14,11 @@ import gl.gl_1_1;
 import gl.gl_1_5;
 import gl.gl_ext;
 
+import game.users.gameclient;
+
 import gui.eventhandler;
 import gui.hud;
+import gui.mytimer;
 import gui.enginefunctions;
 
 import gui.objects.box;
@@ -57,6 +60,8 @@ public:
     printOpenGlInfo();
     resizeWindow(screen_width, screen_height);
     writefln("Initializing our own classes");
+    networkclient = new GameClient();
+    mytimer = new MyTimer();
     hud = new Hud(this);
     eventhandler = new EventHandler(this);
     fpsmonitor = new FPSmonitor();
@@ -86,11 +91,15 @@ public:
   }
   
   void start(){
+    networkclient.start();
+    mytimer.addTimedEvent(TimedEvent(&networkclient.sendHeartbeat,5000));
     while(!done){
       if(active)drawGLScene();
       eventhandler.call();
       SDL_Delay(10);
+      mytimer.update();
     }
+    networkclient.shutdown();
     writefln("Engine shutdown received.");
     SDL_Quit();
     writefln("Bye...");
@@ -132,6 +141,8 @@ public:
     
 private:  
   EventHandler     eventhandler;
+  MyTimer          mytimer;
+  GameClient       networkclient;
   FPSmonitor       fpsmonitor;
   Camera           camera;
   Hud              hud;

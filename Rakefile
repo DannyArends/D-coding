@@ -180,8 +180,8 @@ namespace :applications do
   end
   
   desc "SDL test"
-  task "sdltest" => ['libraries:sdl','libraries:openGL','libraries:gui'] do
-    sh "dmd src/sdltest.d #{builddir}/sdl.#{libext} #{builddir}/gui.#{libext} #{builddir}/openGL.#{libext} -Isrc/ -Ideps/ -od#{builddir} -ofsdltest.#{execext} -L-ldl"
+  task "sdltest" => ['libraries:sdl','libraries:openGL','libraries:gui','libraries:game'] do
+    sh "dmd src/sdltest.d #{builddir}/sdl.#{libext} #{builddir}/gui.#{libext} #{builddir}/openGL.#{libext} #{builddir}/game.#{libext}  -Isrc/ -Ideps/ -od#{builddir} -ofsdltest.#{execext} -L-ldl"
   end
 end
 

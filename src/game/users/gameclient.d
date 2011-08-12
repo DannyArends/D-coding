@@ -10,7 +10,7 @@
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **/
 
-module core.game.users.gameclient;
+module game.users.gameclient;
 
 import core.thread;
 import std.array;
@@ -28,20 +28,21 @@ import core.web.socketclient;
 class GameClient : Thread{
   private:
   SocketClient network;
-  bool   verbose;
-  bool   online;
+  bool         verbose;
+  bool         online;
    
   public:
-  this(ushort port, bool verbose = false){
-    this.network = new SocketClient("localhost",port);
+  this(string host = "localhost", ushort port = 3000, bool verbose = false){
+    this.network = new SocketClient(host,port);
     this.verbose = verbose;
     this.online  = true;
     super(&run);
   }
   
-  ~this(){
-    network.disconnect();
-  }
+  ~this(){ network.disconnect(); }
+  
+  void send(string rawtext){ network.write(rawtext); }
+  void shutdown(){this.online = false;}
   
   void run(){
     try{
@@ -49,13 +50,18 @@ class GameClient : Thread{
       network.write("Test");
       while(online){
         //network.write("Test");
-        Thread.sleep( dur!("msecs")( 50 ) );
+        Thread.sleep( dur!("msecs")( 10 ) );
       }
+      writeln("Network Bye...");
     }catch (Throwable exception){
       if(verbose) writeln("Client threw an error");
       return;
     }finally{
       network.disconnect();
     }
+  }
+  
+  void sendHeartbeat(int checks){
+    this.send("T");
   }
 }
