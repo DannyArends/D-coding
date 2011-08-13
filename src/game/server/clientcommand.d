@@ -5,8 +5,9 @@ import std.conv;
 import std.socket;
 import core.memory;
 
+import game.server.gameserver;
 
-void processSync(Socket sock, ubyte[] command){
+void processSync(GameServer server, Socket sock, ubyte[] command){
   
 }
 
@@ -20,7 +21,7 @@ bool doCreation(string creationstring){
   return false;
 }
 
-void processIdentification(Socket sock, ubyte[] command){
+void processIdentification(GameServer server, Socket sock, ubyte[] command){
   if(command.length > 0){
     switch(to!char(command[0])){
       case 'L':
@@ -56,13 +57,14 @@ void processIdentification(Socket sock, ubyte[] command){
   }else{
     sock.send("C:Welcome to the server please login, or create a new account");
     sock.send("S:W:CHOOSE");
+    server.usermngr.createUser("Danny","Arends");
   }
 }
 
-void processMovement(Socket sock, ubyte[] command){
+void processMovement(GameServer server, Socket sock, ubyte[] command){
   
 }
 
-void processChat(Socket sock, ubyte[] command){
+void processChat(GameServer server, Socket sock, ubyte[] command){
     
 }

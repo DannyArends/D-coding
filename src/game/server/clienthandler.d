@@ -1,16 +1,4 @@
-/**
- * \file gameclient.d
- *
- * last modified Juli, 2011
- * first written Juli, 2011
- *
- * Copyright (c) 2010 Danny Arends
- *
- * Contains: GameClient
- * Written in the D Programming Language (http://www.digitalmars.com/d)
- **/
-
-module core.game.server.clienthandler;
+module game.server.clienthandler;
 
 import core.thread;
 import std.concurrency;
@@ -25,11 +13,14 @@ import std.uri;
 
 import core.typedefs.webtypes;
 import game.server.clientcommand;
+import game.server.gameserver;
+import core.web.server;
 
 class ClientHandler : Thread {
   public:
-  this(Socket sock, uint id) {
+  this(Server!ClientHandler s, Socket sock, uint id) {
     super(&payload);
+    server = cast(GameServer)s;
     this.sock = sock;
     this.id = id;
     this.online = true;
@@ -44,19 +35,19 @@ class ClientHandler : Thread {
       try{
       switch(to!char(command[0])){
         case 'S':
-          processSync(sock, command[1..$]);
+          processSync(server, sock, command[1..$]);
         break;
         case 'I':
-          processIdentification(sock, command[1..$]);
+          processIdentification(server, sock, command[1..$]);
         break;
         case 'M':
-          processMovement(sock, command[1..$]);
+          processMovement(server, sock, command[1..$]);
         break;
         case 'C':
-          processChat(sock, command[1..$]);
+          processChat(server, sock, command[1..$]);
         break;
         default:
-          writeln("Unknown command type");
+          writeln("Unknown command type:" ~ to!char(command[0]));
         break;
       }
       }catch(Throwable exception){
@@ -84,6 +75,7 @@ private:
     }
   }
   
+  GameServer server;
   Socket sock;
   uint id;
   bool online;

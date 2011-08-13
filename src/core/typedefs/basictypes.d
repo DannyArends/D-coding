@@ -3,6 +3,7 @@ module core.typedefs.basictypes;
 import std.stdio;
 import std.conv;
 import std.math;
+import std.array;
 import core.memory;
 
 struct Color {
@@ -17,6 +18,13 @@ struct Color {
     this.b = cast(ubyte) blue;
     this.a = cast(ubyte) alpha;
   }
+  
+  this(int[] color){
+    this.r = cast(ubyte) color[0];
+    this.g = cast(ubyte) color[1];
+    this.b = cast(ubyte) color[2];
+    this.a = cast(ubyte) color[3];
+  }
 
   static Color transparent() {
     return Color(0, 0, 0, 0);
@@ -28,6 +36,10 @@ struct Color {
 
   static Color black() {
     return Color(0, 0, 0);
+  }
+  
+  string toString(){
+    return to!string(r) ~ "," ~ to!string(g) ~"," ~ to!string(b) ~"," ~ to!string(a) ~ "\t";
   }
 }
 
@@ -70,6 +82,16 @@ Color fromHsl(real h, real s, real l) {
   g += m;
   b += m;
   return Color(cast(ubyte)(r * 255),cast(ubyte)(g * 255),cast(ubyte)(b * 255),255);
+}
+
+
+T[] stringToArray(T)(string s, string sep= ","){
+  string[] entities = s.split(sep);
+  T[] marray;
+  foreach(string e;entities){
+    marray ~= to!T(entities[0]);
+  }
+  return marray;
 }
 
 struct Point {

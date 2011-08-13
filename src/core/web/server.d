@@ -84,7 +84,7 @@ class Server(Client) : Thread{
           uint index;
           for(index = 0; index < clients.length; index++) {
             if(clients[index] is null) {
-              clients[index] = new Client(sock, cast(uint)index);
+              clients[index] = new Client(this, sock, cast(uint)index);
               clients[index].start();
               writefln("Server: Accepted connection on %d",index);
               break;

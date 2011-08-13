@@ -9,10 +9,10 @@ import std.stdio;
 import std.math;
 import std.conv;
 
-import core.web.server;
-import game.server.clienthandler;
+//import core.web.server;
+import game.server.gameserver;
 
 void main(string[] args){
-  auto gameserver = new Server!ClientHandler();
+  auto gameserver = new GameServer();
   gameserver.start();
 }
