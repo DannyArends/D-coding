@@ -33,6 +33,7 @@ public:
   
   abstract void onClick();
   abstract void onDrag(int x, int y);
+  abstract void handleKeyPress(char c);
   
   void render(){
     glLoadIdentity();
@@ -43,6 +44,10 @@ public:
     foreach(Object2D obj; getObjects()){
       obj.render();
     }
+  }
+  
+  void setBgColor(double r,double g,double b){
+    bg.setColor(r,g,b);
   }
   
   Object2DType getType(){ return Object2DType.BUTTON; }
@@ -58,10 +63,12 @@ class CloseButton : Button{
     super(window.sx()-18,2,15,15,"X",window);
   }
   void onClick(){
-    getParent().setVisible(false);
+    writeln("OnClick of the CloseBtn");
+    getWindow().setVisible(false);
   }
   
   void onDrag(int x, int y){ }
+  void handleKeyPress(char c){ }
 }
 
 class MinMaxButton : Button{
@@ -70,10 +77,12 @@ class MinMaxButton : Button{
   }
   
   void onClick(){
-    getParent().setMinimized(!getParent().isMinimized());
+    writeln("OnClick of the MinMaxBtn");
+    getWindow().setMinimized(!getWindow().isMinimized());
   }
   
   void onDrag(int x, int y){ }
+  void handleKeyPress(char c){ }
 }
 
 class DragBar : Button{
@@ -83,12 +92,15 @@ class DragBar : Button{
   }
   
   void onClick(){
-    getParent().setDragging(true);
+    writeln("OnClick of the DragBar");
+    getWindow().setDragging(!getWindow().isDragging());
   }
   
   void onDrag(int x, int y){ 
-    getParent().move(x,y,0);
+    if(getWindow().isDragging())getWindow().move(x,y,0);
   }
+  
+  void handleKeyPress(char c){ }
   
   Object2DType getType(){ return Object2DType.DRAGBAR; }
 }

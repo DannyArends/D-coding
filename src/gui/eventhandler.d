@@ -12,6 +12,8 @@ import gui.engine;
 import gui.enginefunctions;
 
 import gui.widgets.object2d;
+import gui.widgets.button;
+import gui.widgets.textinput;
 
 class EventHandler{
 public:
@@ -47,12 +49,29 @@ public:
           break;
         case SDL_MOUSEMOTION:
           debug writefln("Mouse moved by %d,%d to (%d,%d)", event.motion.xrel, event.motion.yrel, event.motion.x, event.motion.y);
+          if(monitoring_drag !is null) monitoring_drag.onDrag(event.motion.xrel, event.motion.yrel);
         break;
         case SDL_MOUSEBUTTONDOWN:
           debug writefln("Mouse button %d pressed at (%d,%d)", event.button.button, event.button.x, event.button.y);
           Object2D hit = parent.getHud().getObjectAt(event.button.x, event.button.y);
           if(hit !is null && !hit.isHud()){
-            writefln("You hit: %d [%d,%d]",hit.getType, to!int(hit.x()), to!int(hit.y()));
+            switch(hit.getType){
+              case Object2DType.TEXTINPUT:
+                monitoring_keys = cast(TextInput)(hit);
+              break;
+              case Object2DType.BUTTON:
+                (cast(Button)(hit)).onClick();
+              break;
+              case Object2DType.DRAGBAR:
+                monitoring_drag = cast(DragBar)(hit);
+                monitoring_drag.onClick();
+              break;
+              default:
+                monitoring_keys = null;
+                monitoring_drag = null;
+                writefln("You hit: %d [%d,%d]",hit.getType, to!int(hit.x()), to!int(hit.y()));  
+              break;
+            }
           }else{
             double[3] loc = getUnproject(event.button.x, event.button.y);
             parent.getNetworkclient().send("M:" ~ to!string(loc));
@@ -96,12 +115,17 @@ public:
         char ch;
         if((keysym.sym & 0xFF80) == 0 ){
           ch = keysym.sym & 0x7F;
+          if(monitoring_keys !is null){
+            monitoring_keys.handleKeyPress(ch);
+          }
           writeln(ch);
         }
       break;
     }
   }
 private:
+  TextInput monitoring_keys;
+  DragBar   monitoring_drag;
   SDL_Event event;                      /* Used to collect events */
   Engine    parent;                     /* Engine to report to */
 }

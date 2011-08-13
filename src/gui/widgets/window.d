@@ -36,13 +36,17 @@ public:
   }
   
   void render(){
-    glLoadIdentity();
-    glTranslatef(x(),y(),0.0f);
-    glColor4f(r(), g(),  b(), alpha());
-    if(!isMinimized()){
-      bg.render();
-      foreach(Object2D contentelement; getObjects()){
-        contentelement.render();
+    if(isVisible()){
+      glLoadIdentity();
+      glTranslatef(x(),y(),0.0f);
+      glColor4f(r(), g(),  b(), alpha());
+      if(isMinimized()){
+        getObjects()[0].render();
+      }else{
+        bg.render();
+        foreach(Object2D contentelement; getObjects()){
+          contentelement.render();
+        }
       }
     }
   }

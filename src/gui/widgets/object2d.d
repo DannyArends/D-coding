@@ -7,8 +7,9 @@ import std.conv;
 import gl.gl_1_0;
 import gui.objects.color;
 import gui.objects.location;
+import gui.widgets.window;
 
-enum Object2DType{SQUARE, WINDOW, BUTTON, DRAGBAR, TEXT, HUD};
+enum Object2DType{SQUARE, WINDOW, BUTTON, DRAGBAR, TEXTINPUT, TEXT, HUD};
 
 abstract class Object2D : Location{
   this(Object2D parent = null){
@@ -39,6 +40,17 @@ abstract class Object2D : Location{
   Object2D getParent(){
     return this.parent;
   }
+  
+  Window getWindow(){
+    if(parent !is null){
+      if(parent.getType()==Object2DType.WINDOW){
+        return cast(Window)parent;
+      }else{
+        return parent.getWindow();
+      }
+    }
+    return null;
+  }
     
   void setSize(double sx, double sy){
     size[0]=sx;
@@ -65,6 +77,7 @@ abstract class Object2D : Location{
   bool isMinimized(){ return minimized; }
   void setMinimized(bool m){ this.minimized = m; }
   void setDragging(bool d){ this.dragging = d; }
+  bool isDragging(){return this.dragging; }
   Object2D[] getObjects(){return objects;}
 
   GLfloat r(){ return color.r(); }
@@ -102,7 +115,7 @@ abstract class Object2D : Location{
   }
   
   Object2D getObjectAt(int cx, int cy){
-    if(x() < cx && y() < cy && x()+sx() > cx && y()+sy() > cy){
+    if(visible && x() < cx && y() < cy && x()+sx() > cx && y()+sy() > cy){
       if(objects != null){
         foreach(Object2D obj; objects){
           if(obj.x() < cx && obj.y() < cy){
