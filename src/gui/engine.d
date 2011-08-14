@@ -33,6 +33,7 @@ import gui.objects.triangle;
 
 import gui.widgets.text;
 import gui.widgets.textinput;
+import gui.widgets.slider;
 import gui.widgets.window;
 
 class Engine{
@@ -88,8 +89,11 @@ public:
     tex.addLine("Hoi Hoi");
     tex.addLine("So So");
     TextInput input = new TextInput(win);
+    Slider slide = new Slider(win);
+    slide.setRange(10,300);
     win.addContent(tex);
-    win.addContent(input);
+    //win.addContent(input);
+    win.addContent(slide);
     hud.addObject(win);
   }
   

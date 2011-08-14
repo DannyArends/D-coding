@@ -32,7 +32,7 @@ public:
     bg.setColor(0.50,0.50,0.50);
   }
   
-  abstract void onClick();
+  abstract void onClick(int x, int y);
   abstract void onDrag(int x, int y);
   abstract void handleKeyPress(SDLKey key, bool shift);
   
@@ -51,8 +51,16 @@ public:
     bg.setColor(r,g,b);
   }
   
+  Square getBackGround(){
+    return bg;
+  }
+  
   Text getName(){
     return name;
+  }
+  
+  void setName(string btnname){
+    name.setText(btnname);
   }
   
   void setSize(double sx, double sy, bool children = true){
@@ -72,7 +80,7 @@ class CloseButton : Button{
   this(Window window){
     super(window.sx()-18,2,15,15,"X",window);
   }
-  void onClick(){
+  void onClick(int x, int y){
     writeln("OnClick of the CloseBtn");
     getWindow().setVisible(false);
   }
@@ -86,7 +94,7 @@ class MinMaxButton : Button{
     super(window.sx()-36,2,15,15,"-",window);
   }
   
-  void onClick(){
+  void onClick(int x, int y){
     writeln("OnClick of the MinMaxBtn");
     getWindow().setMinimized(!getWindow().isMinimized());
   }
@@ -101,7 +109,12 @@ class DragBar : Button{
     bg.setColor(0.0,0.0,0.5);
   }
   
-  void onClick(){
+  this(double x, double y, double sx, double sy, string btnname, Window window){
+    super(x,y,sx,sy,"",window);
+    bg.setColor(0.0,0.0,0.5);
+  }
+  
+  void onClick(int x, int y){
     writeln("OnClick of the DragBar");
     getWindow().setDragging(!getWindow().isDragging());
   }

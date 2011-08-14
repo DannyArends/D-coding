@@ -28,14 +28,14 @@ class TextInput : Button{
     setBgColor(0.3,0.3,0.3);
   }
   
-  void onClick(){ }
+  void onClick(int x, int y){ }
   
   void onDrag(int x, int y){ }
   
   void handleKeyPress(SDLKey key, bool shift){
     switch(key){
       case SDLK_RETURN:
-        onClick();
+        onClick(0,0);
         input = "";
       break;
       case SDLK_BACKSPACE:

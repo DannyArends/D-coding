@@ -9,7 +9,7 @@ import gui.objects.color;
 import gui.objects.location;
 import gui.widgets.window;
 
-enum Object2DType{SQUARE, WINDOW, BUTTON, DRAGBAR, TEXTINPUT, TEXT, HUD};
+enum Object2DType{SQUARE, WINDOW, BUTTON, DRAGBAR, TEXTINPUT, SLIDER, TEXT, HUD};
 
 abstract class Object2D : Location{
   this(Object2D parent = null){
@@ -112,7 +112,11 @@ abstract class Object2D : Location{
   
   void addContent(Object2D object){
     object.setParent(this);
-    object.setSize(this.sx()-2,object.sy());
+    if((this.sx()-2) <= object.sx()){
+      object.setSize(this.sx()-2,object.sy());
+    }else{
+      object.setSize(object.sx(),object.sy());
+    }
     double toshift=1;
     foreach(Object2D o;objects){
       toshift+=o.sy();

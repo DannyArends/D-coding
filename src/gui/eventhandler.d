@@ -64,11 +64,15 @@ public:
                 monitoring_keys = cast(TextInput)(hit);
               break;
               case Object2DType.BUTTON:
-                (cast(Button)(hit)).onClick();
+                (cast(Button)(hit)).onClick(event.button.x, event.button.y);
               break;
               case Object2DType.DRAGBAR:
                 monitoring_drag = cast(DragBar)(hit);
-                monitoring_drag.onClick();
+                monitoring_drag.onClick(event.button.x, event.button.y);
+              break;
+              case Object2DType.SLIDER:
+                monitoring_drag = cast(DragBar)(hit);
+                monitoring_drag.onClick(event.button.x, event.button.y);
               break;
               default:
                 monitoring_keys = parent.getHud().getHudText();
