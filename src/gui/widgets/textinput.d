@@ -8,6 +8,8 @@ import gl.gl_1_0;
 import gl.gl_1_1;
 import sdl.sdlstructs;
 
+import core.typedefs.basictypes;
+
 import gui.hud;
 import gui.widgets.object2d;
 import gui.widgets.window;
@@ -30,7 +32,7 @@ class TextInput : Button{
   
   void onDrag(int x, int y){ }
   
-  void handleKeyPress(SDLKey key){
+  void handleKeyPress(SDLKey key, bool shift){
     switch(key){
       case SDLK_RETURN:
         onClick();
@@ -41,7 +43,9 @@ class TextInput : Button{
       break;
       default:
         if((key & 0xFF80) == 0 ){
-          input ~= to!char(key & 0x7F);
+          char c = to!char(key & 0x7F);
+          if(shift) c = toShiftChar(c);
+          input ~= c;
         }
       break;
     }

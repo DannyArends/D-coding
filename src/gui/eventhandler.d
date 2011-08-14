@@ -45,6 +45,9 @@ public:
         case SDL_KEYDOWN:
           handleKeyPress(&event.key.keysym);
           break;
+        case SDL_KEYUP:
+          handleKeyUp(&event.key.keysym);
+          break;          
         case SDL_QUIT:
           parent.isDone(true);
           break;
@@ -88,6 +91,19 @@ public:
     //}
   }
   
+  void handleKeyUp(SDL_keysym *keysym){
+    switch(keysym.sym){
+      case SDLK_RSHIFT:
+        shift_on = false;
+        break;
+      case SDLK_LSHIFT:
+        shift_on = false;
+        break;
+      default:
+        break;
+    }
+  }
+  
   void handleKeyPress(SDL_keysym *keysym){
     switch(keysym.sym){
       case SDLK_F1:
@@ -104,12 +120,18 @@ public:
         break;
       case SDLK_PAGEDOWN:
         parent.getCamera().move(0,-2,0);
-        break;           
+        break;
       case SDLK_LEFT:
         parent.getCamera().move(-2,0,0);
-        break; 
+        break;
       case SDLK_RIGHT:
         parent.getCamera().move(2,0,0);
+        break;
+      case SDLK_RSHIFT:
+        shift_on = true;
+        break;
+      case SDLK_LSHIFT:
+        shift_on = true;
         break;
       case SDLK_ESCAPE:
         parent.isDone(true);
@@ -119,7 +141,7 @@ public:
         if((keysym.sym & 0xFF80) == 0 ){
           ch = keysym.sym & 0x7F;
           if(monitoring_keys !is null){
-            monitoring_keys.handleKeyPress(keysym.sym);
+            monitoring_keys.handleKeyPress(keysym.sym, shift_on);
           }
           writeln(ch);
         }
@@ -129,6 +151,7 @@ public:
 private:
   TextInput monitoring_keys;
   DragBar   monitoring_drag;
+  bool      shift_on;
   SDL_Event event;                      /* Used to collect events */
   Engine    parent;                     /* Engine to report to */
 }

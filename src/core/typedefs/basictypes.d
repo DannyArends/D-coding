@@ -3,6 +3,7 @@ module core.typedefs.basictypes;
 import std.stdio;
 import std.conv;
 import std.math;
+import std.string;
 import std.array;
 import core.memory;
 
@@ -84,6 +85,45 @@ Color fromHsl(real h, real s, real l) {
   return Color(cast(ubyte)(r * 255),cast(ubyte)(g * 255),cast(ubyte)(b * 255),255);
 }
 
+char toShiftChar(char c){
+  if(isNumeric(c)){
+    switch(to!int(to!string(c))){
+      case 0:
+        return ')';
+      break;
+      case 1:
+        return '!';
+      break;
+      case 2:
+        return '@';
+      break;
+      case 3:
+        return '#';
+      break;      
+      case 4:
+        return '$';
+      break;
+      case 5:
+        return '%';
+      break;
+      case 6:
+        return '^';
+      break;
+      case 7:
+        return '&';
+      break;
+      case 8:
+        return '*';
+      break;
+      case 9:
+        return '(';
+      break;
+      default:
+      break;
+    }
+  }
+  return to!char(toUpper(to!string(c)));
+}
 
 T[] stringToArray(T)(string s, string sep= ","){
   string[] entities = s.split(sep);

@@ -34,7 +34,7 @@ public:
   
   abstract void onClick();
   abstract void onDrag(int x, int y);
-  abstract void handleKeyPress(SDLKey key);
+  abstract void handleKeyPress(SDLKey key, bool shift);
   
   void render(){
     glLoadIdentity();
@@ -78,7 +78,7 @@ class CloseButton : Button{
   }
   
   void onDrag(int x, int y){ }
-  void handleKeyPress(SDLKey key){ }
+  void handleKeyPress(SDLKey key, bool shift){ }
 }
 
 class MinMaxButton : Button{
@@ -92,7 +92,7 @@ class MinMaxButton : Button{
   }
   
   void onDrag(int x, int y){ }
-  void handleKeyPress(SDLKey key){ }
+  void handleKeyPress(SDLKey key, bool shift){ }
 }
 
 class DragBar : Button{
@@ -110,7 +110,7 @@ class DragBar : Button{
     if(getWindow().isDragging())getWindow().move(x,y,0);
   }
   
-  void handleKeyPress(SDLKey key){ }
+  void handleKeyPress(SDLKey key, bool shift){ }
   
   Object2DType getType(){ return Object2DType.DRAGBAR; }
 }
