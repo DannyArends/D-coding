@@ -22,7 +22,7 @@ import gui.widgets.textinput;
 class Hud : Window{
 public:
   this(Engine engine){
-    super(0,0,engine.screen_width,engine.screen_height);
+    super(0,0,engine.screen_width,engine.screen_height,null,false);
     this.parent = engine;
     initfont();
     hudtext = new TextInput(0,engine.screen_height-16,this);
@@ -48,6 +48,7 @@ public:
   
   void resize(int width, int height){
     super.resize(width, height);
+    setMySize(width,height);
     hudtext.setLocation(0,height-16,0);
     hudtext.setSize(width,16);
   }

@@ -53,7 +53,7 @@ public:
           if(monitoring_drag !is null) monitoring_drag.onDrag(event.motion.xrel, event.motion.yrel);
         break;
         case SDL_MOUSEBUTTONDOWN:
-          debug writefln("Mouse button %d pressed at (%d,%d)", event.button.button, event.button.x, event.button.y);
+          writefln("Mouse button %d pressed at (%d,%d)", event.button.button, event.button.x, event.button.y);
           Object2D hit = parent.getHud().getObjectAt(event.button.x, event.button.y);
           if(hit !is null && !hit.isHud()){
             switch(hit.getType){

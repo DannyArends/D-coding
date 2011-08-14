@@ -55,8 +55,8 @@ public:
     return name;
   }
   
-  void setSize(double sx, double sy){
-    super.setSize(sx,sy);
+  void setSize(double sx, double sy, bool children = true){
+    super.setSize(sx,sy,children);
     if(bg !is null) bg.setSize(sx,sy);
   }
   

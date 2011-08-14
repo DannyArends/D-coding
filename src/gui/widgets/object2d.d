@@ -52,12 +52,16 @@ abstract class Object2D : Location{
     return null;
   }
     
-  void setSize(double sx, double sy){
+  void setSize(double sx, double sy, bool children = true){
     size[0]=sx;
     size[1]=sy;
-    foreach(Object2D o; objects){
-      o.setSize(sx,sy);
+    if(children){
+      foreach(Object2D o; objects){ o.setSize(sx,sy); }
     }
+  }
+  
+  void setMySize(double sx, double sy){
+    setSize(sx,sy,false);
   }
   
   void setColor(double r, double g, double b, double a = 1.0){
@@ -123,6 +127,7 @@ abstract class Object2D : Location{
   }
   
   Object2D getObjectAt(int cx, int cy){
+    writefln("x: %f %f",x()+sx(),y()+sy());
     if(visible && x() < cx && y() < cy && x()+sx() > cx && y()+sy() > cy){
       if(objects != null){
         foreach(Object2D obj; objects){

@@ -15,18 +15,16 @@ import gui.widgets.button;
 
 class Window : Object2D{
 public:
-  this(double x, double y, Hud hud){
+  this(double x, double y, Hud hud, bool menuBar = true){
     super(x,y,125,60,hud);
-    init();
+    hasTop=menuBar;
+    if(hasTop) init();
   }
   
-  this(double x, double y, double sx, double sy, Hud hud){
+  this(double x, double y, double sx, double sy, Hud hud, bool menuBar = true){
     super(x,y,sx,sy,hud);
-    init();
-  }
-  
-  this(double x, double y, double sx, double sy){
-    super(x,y,sx,sy);
+    hasTop=menuBar;
+    if(hasTop) init();
   }
   
   void init(){
@@ -45,7 +43,7 @@ public:
       glTranslatef(x(),y(),0.0f);
       glColor4f(r(), g(),  b(), alpha());
       if(isMinimized()){
-        getObjects()[0].render();
+        if(hasTop) getObjects()[0].render();
       }else{
         bg.render();
         foreach(Object2D contentelement; getObjects()){
@@ -59,4 +57,5 @@ public:
   
 private:
   Square      bg;
+  bool        hasTop = true;
 }
