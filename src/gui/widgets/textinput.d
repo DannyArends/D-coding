@@ -52,6 +52,8 @@ class TextInput : Button{
     getName().setText(input);
   }
   
+  string getInput(){ return input; }
+  
   Object2DType getType(){ return Object2DType.TEXTINPUT; }
 private:
   string input;
