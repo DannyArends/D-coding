@@ -85,6 +85,10 @@ Color fromHsl(real h, real s, real l) {
   return Color(cast(ubyte)(r * 255),cast(ubyte)(g * 255),cast(ubyte)(b * 255),255);
 }
 
+/*
+ * Transforms a character to its value when SHIFT is pressed
+ * Based on US-101 keyboard
+ */
 char toShiftChar(char c){
   if(isNumeric(c)){
     switch(to!int(to!string(c))){
@@ -125,11 +129,14 @@ char toShiftChar(char c){
   return to!char(toUpper(to!string(c)));
 }
 
+/*
+ * Splits a string by sep, and transforms each element to types of T
+ */
 T[] stringToArray(T)(string s, string sep= ","){
   string[] entities = s.split(sep);
   T[] marray;
   foreach(string e;entities){
-    marray ~= to!T(entities[0]);
+    marray ~= to!T(e);
   }
   return marray;
 }
