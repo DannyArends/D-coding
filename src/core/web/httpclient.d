@@ -36,6 +36,7 @@ import std.string;
 import std.uri;
 
 import core.web.httphandler;
+import core.web.server;
 import core.typedefs.webtypes;
 import core.web.servlets.servlet;
 import core.web.servlets.fileServlet;
@@ -47,7 +48,7 @@ class HttpClient : Thread{
   bool verbose;
     
   public:
-  this(Socket socket, uint id, string root_path = "./", bool verbose = false){
+  this(Server!HttpClient s,Socket socket, uint id, string root_path = "./", bool verbose = false){
     sock = socket;
     handler = new RequestHandler(root_path, socket);
     this.verbose=verbose;
@@ -58,7 +59,7 @@ class HttpClient : Thread{
     sock.close();
   }
   
-  void addToBuffer(ubyte[] buffer){ }
+  void processCommand(ubyte[] buffer){ }
   
   @property
   public Socket socket() {

@@ -16,13 +16,16 @@ import gl.gl_ext;
 import gui.engine;
 import gui.formats.tga;
 import gui.widgets.object2d;
+import gui.widgets.window;
+import gui.widgets.textinput;
 
-class Hud : Object2D{
+class Hud : Window{
 public:
   this(Engine engine){
     super(0,0,engine.screen_width,engine.screen_height);
     this.parent = engine;
     initfont();
+    hudtext = new TextInput(0,engine.screen_height-16,this);
   }
   
   void initfont(){
@@ -34,15 +37,23 @@ public:
   void render(){
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0.0f, cast(GLfloat)parent.screen_width,cast(GLfloat)parent.screen_height, 0.0f, -1.0f, 1.0f);
+    glOrtho(0.0f, cast(GLfloat)parent.screen_width,cast(GLfloat)parent.screen_height, 0.0f, 0.0f, 1.0f);
     glMatrixMode(GL_MODELVIEW);
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    glDisable(GL_DEPTH_TEST);
     foreach(Object2D object;getObjects()){
       object.render();
     }
+    hudtext.render();
+  }
+  
+  void resize(int width, int height){
+    super.resize(width, height);
+    hudtext.setLocation(0,height-16,0);
+    hudtext.setSize(width,16);
   }
   
   bool isHud(){ return true; }
+  TextInput getHudText(){ return hudtext; }
   Object2DType getType(){ return Object2DType.HUD; }
   GLuint getFontBase(){ return base; }
   GLuint getFontId(){ return textureid; }
@@ -51,4 +62,5 @@ private:
   Engine     parent;
   GLuint     textureid;
   GLuint     base;
+  TextInput  hudtext;
 }

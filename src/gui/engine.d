@@ -32,6 +32,7 @@ import gui.objects.surface;
 import gui.objects.triangle;
 
 import gui.widgets.text;
+import gui.widgets.textinput;
 import gui.widgets.window;
 
 class Engine{
@@ -79,14 +80,16 @@ public:
     s.addObject(2,2,new Model3DS("data/objects/object_4.3ds"));
     objects ~= s;
     writefln("Engine initialization done");
-    Window win = new Window(100,100,hud);  
+    Window win = new Window(100,100,150,250,hud);  
     Text tex = new Text(0,0,"Test Text",win);
     tex.removeLine();
     tex.removeLine();
     tex.removeLine();
     tex.addLine("Hoi Hoi");
     tex.addLine("So So");
+    TextInput input = new TextInput(win);
     win.addContent(tex);
+    win.addContent(input);
     hud.addObject(win);
   }
   
@@ -106,11 +109,11 @@ public:
   }
   
   int drawGLScene(){
-    hud.render();
     resizeWindow(screen_width, screen_height);
     foreach(Object3D o; objects){
      o.render(camera, o.getFaceType());
     }
+    hud.render();
     /* Draw it to the screen */
     SDL_GL_SwapBuffers();
     fpsmonitor.update();

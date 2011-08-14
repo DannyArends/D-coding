@@ -6,6 +6,7 @@ import std.conv;
 
 import gl.gl_1_0;
 import gl.gl_1_1;
+import sdl.sdlstructs;
 
 import gui.hud;
 import gui.widgets.object2d;
@@ -16,7 +17,12 @@ import gui.widgets.button;
 
 class TextInput : Button{
   this(Window window){
-    super(0, 0, 200, 20,"",window);
+    super(0, 0, 200, 16,"",window);
+    setBgColor(0.3,0.3,0.3);
+  }
+  
+  this(int x, int y, Window window){
+    super(x, y, window.sx(), 16,"",window);
     setBgColor(0.3,0.3,0.3);
   }
   
@@ -24,8 +30,22 @@ class TextInput : Button{
   
   void onDrag(int x, int y){ }
   
-  void handleKeyPress(char c){
-    
+  void handleKeyPress(SDLKey key){
+    switch(key){
+      case SDLK_RETURN:
+        onClick();
+        input = "";
+      break;
+      case SDLK_BACKSPACE:
+        if(input.length > 0) input = input[0..($-1)];
+      break;
+      default:
+        if((key & 0xFF80) == 0 ){
+          input ~= to!char(key & 0x7F);
+        }
+      break;
+    }
+    getName().setText(input);
   }
   
   Object2DType getType(){ return Object2DType.TEXTINPUT; }

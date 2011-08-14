@@ -42,6 +42,10 @@ public:
     }
   }
   
+  void setText(string text){
+    lines = [text];
+  }
+  
   void removeLine(){ if(lines != null) lines = lines[1..$]; }
     
   void setScale(double scale){ this.scale = scale; }
@@ -51,6 +55,7 @@ public:
     if(maxlines < 0) this.maxlines = -1;
   }
   
+  GLfloat sy(){ return 16*lines.length; }
 private:
   int      maxlines = -1;
   double   scale = 0.8f;

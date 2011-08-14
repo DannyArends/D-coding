@@ -25,6 +25,10 @@ public:
     init();
   }
   
+  this(double x, double y, double sx, double sy){
+    super(x,y,sx,sy);
+  }
+  
   void init(){
     bg = new Square(0,20,sx(),sy()-20,this);
     bg.setColor(0.75,0.75,0.75);

@@ -54,7 +54,10 @@ abstract class Object2D : Location{
     
   void setSize(double sx, double sy){
     size[0]=sx;
-    size[1]=sy; 
+    size[1]=sy;
+    foreach(Object2D o; objects){
+      o.setSize(sx,sy);
+    }
   }
   
   void setColor(double r, double g, double b, double a = 1.0){
@@ -105,7 +108,12 @@ abstract class Object2D : Location{
   
   void addContent(Object2D object){
     object.setParent(this);
-    object.move(0,22+20*(objects.length-1),0);
+    object.setSize(this.sx()-2,object.sy());
+    double toshift=1;
+    foreach(Object2D o;objects){
+      toshift+=o.sy();
+    }
+    object.setLocation(1,toshift,0);
     objects ~= object;
   }
   
@@ -131,6 +139,8 @@ abstract class Object2D : Location{
     }
     return null;
   }
+  
+  void resize(int width, int height){ }
   
   GLfloat sx(){ return size[0]; }
   GLfloat sy(){ return size[1]; }

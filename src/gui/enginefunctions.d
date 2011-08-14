@@ -20,6 +20,8 @@ bool resizeWindow(int width, int height){
   glLoadIdentity();
   glFrustum(-1.0, 1.0, -ratio, ratio, 1.0, 1000.0);
   glMatrixMode(GL_MODELVIEW);
+  glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+  glEnable(GL_DEPTH_TEST);
   glLoadIdentity();
   return true;
 }

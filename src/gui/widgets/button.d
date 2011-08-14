@@ -4,6 +4,7 @@ import std.array;
 import std.stdio;
 import std.conv;
 
+import sdl.sdlstructs;
 import gl.gl_1_0;
 import gl.gl_1_1;
 
@@ -33,7 +34,7 @@ public:
   
   abstract void onClick();
   abstract void onDrag(int x, int y);
-  abstract void handleKeyPress(char c);
+  abstract void handleKeyPress(SDLKey key);
   
   void render(){
     glLoadIdentity();
@@ -48,6 +49,15 @@ public:
   
   void setBgColor(double r,double g,double b){
     bg.setColor(r,g,b);
+  }
+  
+  Text getName(){
+    return name;
+  }
+  
+  void setSize(double sx, double sy){
+    super.setSize(sx,sy);
+    if(bg !is null) bg.setSize(sx,sy);
   }
   
   Object2DType getType(){ return Object2DType.BUTTON; }
@@ -68,7 +78,7 @@ class CloseButton : Button{
   }
   
   void onDrag(int x, int y){ }
-  void handleKeyPress(char c){ }
+  void handleKeyPress(SDLKey key){ }
 }
 
 class MinMaxButton : Button{
@@ -82,7 +92,7 @@ class MinMaxButton : Button{
   }
   
   void onDrag(int x, int y){ }
-  void handleKeyPress(char c){ }
+  void handleKeyPress(SDLKey key){ }
 }
 
 class DragBar : Button{
@@ -100,7 +110,7 @@ class DragBar : Button{
     if(getWindow().isDragging())getWindow().move(x,y,0);
   }
   
-  void handleKeyPress(char c){ }
+  void handleKeyPress(SDLKey key){ }
   
   Object2DType getType(){ return Object2DType.DRAGBAR; }
 }

@@ -40,6 +40,7 @@ public:
             return;
           }
           resizeWindow(event.resize.w, event.resize.h);
+          parent.getHud().resize(event.resize.w, event.resize.h);
           break;
         case SDL_KEYDOWN:
           handleKeyPress(&event.key.keysym);
@@ -67,12 +68,14 @@ public:
                 monitoring_drag.onClick();
               break;
               default:
-                monitoring_keys = null;
+                monitoring_keys = parent.getHud().getHudText();
                 monitoring_drag = null;
                 writefln("You hit: %d [%d,%d]",hit.getType, to!int(hit.x()), to!int(hit.y()));  
               break;
             }
           }else{
+            monitoring_keys = parent.getHud().getHudText();
+            monitoring_drag = null;
             double[3] loc = getUnproject(event.button.x, event.button.y);
             parent.getNetworkclient().send("M:" ~ to!string(loc));
           }
@@ -116,7 +119,7 @@ public:
         if((keysym.sym & 0xFF80) == 0 ){
           ch = keysym.sym & 0x7F;
           if(monitoring_keys !is null){
-            monitoring_keys.handleKeyPress(ch);
+            monitoring_keys.handleKeyPress(keysym.sym);
           }
           writeln(ch);
         }
