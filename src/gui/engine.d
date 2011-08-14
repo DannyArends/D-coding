@@ -103,6 +103,7 @@ public:
     while(!done){
       if(active)drawGLScene();
       eventhandler.call();
+      hud.render();
       SDL_Delay(10);
       mytimer.update();
     }
@@ -117,9 +118,7 @@ public:
     foreach(Object3D o; objects){
      o.render(camera, o.getFaceType());
     }
-    hud.render();
     /* Draw it to the screen */
-    SDL_GL_SwapBuffers();
     fpsmonitor.update();
     return true;
   }

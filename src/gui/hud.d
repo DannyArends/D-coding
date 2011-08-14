@@ -44,6 +44,7 @@ public:
       object.render();
     }
     hudtext.render();
+    SDL_GL_SwapBuffers();
   }
   
   void resize(int width, int height){

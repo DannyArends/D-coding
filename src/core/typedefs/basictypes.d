@@ -90,7 +90,7 @@ Color fromHsl(real h, real s, real l) {
  * Based on US-101 keyboard
  */
 char toShiftChar(char c){
-  if(isNumeric(c)){
+  try{
     switch(to!int(to!string(c))){
       case 0:
         return ')';
@@ -125,8 +125,10 @@ char toShiftChar(char c){
       default:
       break;
     }
+    return to!char(toUpper(to!string(c)));
+  }catch{
+    return to!char(toUpper(to!string(c)));
   }
-  return to!char(toUpper(to!string(c)));
 }
 
 /*
