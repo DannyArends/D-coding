@@ -35,6 +35,8 @@ import gui.widgets.text;
 import gui.widgets.textinput;
 import gui.widgets.slider;
 import gui.widgets.window;
+import gui.widgets.serverbutton;
+import gui.widgets.windowbutton;
 
 class Engine{
 public:
@@ -62,10 +64,11 @@ public:
     printOpenGlInfo();
     resizeWindow(screen_width, screen_height);
     writefln("Initializing our own classes");
-    networkclient = new GameClient();
+    
     mytimer = new MyTimer();
     hud = new Hud(this);
-    eventhandler = new EventHandler(this);
+    eventhandler = new EngineEventHandler(this);
+    networkclient = new GameClient(eventhandler);
     fpsmonitor = new FPSmonitor();
     camera = new Camera();
     Surface s = new Surface(0.0,-0.2,0);
@@ -81,19 +84,21 @@ public:
     s.addObject(2,2,new Model3DS("data/objects/object_4.3ds"));
     objects ~= s;
     writefln("Engine initialization done");
-    Window win = new Window(100,100,150,250,hud);  
-    Text tex = new Text(0,0,"Test Text",win);
-    tex.removeLine();
-    tex.removeLine();
-    tex.removeLine();
-    tex.addLine("Hoi Hoi");
-    tex.addLine("So So");
-    TextInput input = new TextInput(win);
-    Slider slide = new Slider(win);
-    slide.setRange(10,300);
-    win.addContent(tex);
-    //win.addContent(input);
-    win.addContent(slide);
+    Window win = new Window(screen_width/2 -110, screen_height/2 -125,210,250,hud);  
+
+    ServerButton login_btn = new ServerButton("Login",win, getNetwork(),"IA");
+    WindowButton create_btn = new WindowButton("New Character",win);
+    WindowButton recover_btn = new WindowButton("Lost Password",win);
+    
+    TextInput name_input = new TextInput(win,"Name","...");
+    name_input.setInputLength(12);
+    TextInput pass_input = new TextInput(win,"Pass","...");
+    pass_input.setInputLength(12);
+    win.addContent(name_input);
+    win.addContent(pass_input);
+    win.addContent(login_btn);
+    win.addContent(create_btn);
+    win.addContent(recover_btn);
     hud.addObject(win);
   }
   
@@ -147,15 +152,15 @@ public:
   int screen_bpp    = 16;
     
 private:  
-  EventHandler     eventhandler;
-  MyTimer          mytimer;
-  GameClient       networkclient;
-  FPSmonitor       fpsmonitor;
-  Camera           camera;
-  Hud              hud;
-  Object3D[]       objects;
-  SDL_Surface*     surface;
-  SDL_VideoInfo*   videoInfo;           /* This holds some info about our display */
+  EngineEventHandler  eventhandler;
+  MyTimer             mytimer;
+  GameClient          networkclient;
+  FPSmonitor          fpsmonitor;
+  Camera              camera;
+  Hud                 hud;
+  Object3D[]          objects;
+  SDL_Surface*        surface;
+  SDL_VideoInfo*      videoInfo;           /* This holds some info about our display */
   int videoFlags;                       /* Flags to pass to SDL_SetVideoMode */
   bool done         = false;            /* Main loop variable */
   bool active       = true;             /* Is the window active? */

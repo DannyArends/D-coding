@@ -18,7 +18,7 @@ import gui.widgets.object2d;
 import gui.widgets.button;
 import gui.widgets.textinput;
 
-class EventHandler{
+class EngineEventHandler : EventHandler{
 public:
   this(Engine engine){
     parent=engine;
@@ -27,6 +27,8 @@ public:
   }
   
   void call(){
+    if(hud is null) hud = parent.getHud();
+    if(network is null) network = parent.getNetwork();
     //while(!parent.isDone()){
       while(SDL_PollEvent(&event)){
         switch(event.type){
@@ -65,6 +67,7 @@ public:
           if(hit !is null && !hit.isHud()){
             switch(hit.getType){
               case Object2DType.TEXTINPUT:
+                (cast(TextInput)(hit)).onClick(event.button.x, event.button.y);
                 monitoring_keys = cast(TextInput)(hit);
               break;
               case Object2DType.BUTTON:
@@ -158,6 +161,13 @@ public:
           writeln(ch);
         }
       break;
+    }
+  }
+  
+  void handleNetworkEvent(string s){
+    writeln("Handle network:" ~ s);
+    if(s[0] == 'C'){
+      hud.getServerText().addLine(s[2..$]);
     }
   }
 private:

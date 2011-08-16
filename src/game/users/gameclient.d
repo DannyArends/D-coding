@@ -25,17 +25,23 @@ import std.uri;
 import core.typedefs.webtypes;
 import core.web.socketclient;
 
+class EventHandler{
+  abstract void handleNetworkEvent(string s);
+};
+
 class GameClient : Thread{
   private:
+  EventHandler handler;
   SocketClient network;
   bool         verbose;
   bool         online;
    
   public:
-  this(string host = "localhost", ushort port = 3000, bool verbose = false){
+  this(EventHandler handler, string host = "localhost", ushort port = 3000, bool verbose = false){
     this.network = new SocketClient(host,port);
     this.verbose = verbose;
     this.online  = true;
+    this.handler = handler;
     super(&run);
   }
   
@@ -49,9 +55,9 @@ class GameClient : Thread{
       online = network.connect();
       online = network.write("I");
       while(online){
-        string s = network.read(25);
+        string s = network.read(1);
         if(s !is null){
-          writeln(s);
+          handler.handleNetworkEvent(s);
         }
         Thread.sleep( dur!("msecs")( 10 ) );
       }

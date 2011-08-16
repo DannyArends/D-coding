@@ -27,6 +27,7 @@ public:
   }
   
   void init(string btnname){
+    this.buttonname = btnname;
     this.name = new Text(1,1,btnname,this);
     bg = new Square(0,0,sx(),sy(),this);
     bg.setColor(0.50,0.50,0.50);
@@ -35,6 +36,14 @@ public:
   abstract void onClick(int x, int y);
   abstract void onDrag(int x, int y);
   abstract void handleKeyPress(SDLKey key, bool shift);
+  
+  void renderOnlyMe(){
+    glLoadIdentity();
+    glTranslatef(x(),y(),0.0f);
+    glColor4f(r(), g(),  b(), alpha());
+    bg.render();
+    name.render();
+  }
   
   void render(){
     glLoadIdentity();
@@ -55,8 +64,12 @@ public:
     return bg;
   }
   
-  Text getName(){
+  Text getNameObject(){
     return name;
+  }
+  
+  string getName(){
+    return buttonname;
   }
   
   void setName(string btnname){
@@ -71,6 +84,7 @@ public:
   Object2DType getType(){ return Object2DType.BUTTON; }
 
 private:
+  string   buttonname;
   Square   bg;
   Text     name;
 }

@@ -18,17 +18,23 @@ import gui.widgets.square;
 import gui.widgets.button;
 
 class TextInput : Button{
-  this(Window window){
-    super(0, 0, 200, 16,"",window);
+  this(Window window, string label = "", string value = ""){
+    super(0, 0, 200, 16,label,window);
     setBgColor(0.3,0.3,0.3);
+    inputtext = new Text(1+label.length*15,1,value,this);
   }
   
-  this(int x, int y, Window window){
-    super(x, y, window.sx(), 16,"",window);
+  this(int x, int y, Window window, string label = "", string value = ""){
+    super(x, y, window.sx(), 16,label,window);
     setBgColor(0.3,0.3,0.3);
+    inputtext = new Text(1+label.length*15,1,value,this);
+
   }
   
-  void onClick(int x, int y){ }
+  void onClick(int x, int y){
+    input="";
+    inputtext.setText(input);
+  }
   
   void onDrag(int x, int y){ }
   
@@ -45,11 +51,20 @@ class TextInput : Button{
         if((key & 0xFF80) == 0 ){
           char c = to!char(key & 0x7F);
           if(shift) c = toShiftChar(c);
-          input ~= c;
+          if(input.length < max_chars) input ~= c;
         }
       break;
     }
-    getName().setText(input);
+    inputtext.setText(input);
+  }
+  
+  void render(){
+    super.render();
+    inputtext.render();
+  }
+  
+  void setInputLength(int length){
+    max_chars=length;
   }
   
   string getInput(){ return input; }
@@ -57,4 +72,6 @@ class TextInput : Button{
   Object2DType getType(){ return Object2DType.TEXTINPUT; }
 private:
   string input;
+  Text inputtext;
+  int max_chars=255;
 }

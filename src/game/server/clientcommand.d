@@ -13,7 +13,11 @@ void processSync(GameServer server, Socket sock, ubyte[] command){
 
 //This should be a Server Object function
 bool doLogin(string loginstring){
-  return false;
+  if(loginstring[0]== '[' && loginstring[$-1]== ']'){
+    return true;
+  }else{
+    return false;
+  }
 }
 
 //This should be a Server Object function

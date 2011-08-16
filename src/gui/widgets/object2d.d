@@ -33,12 +33,12 @@ abstract class Object2D : Location{
     setParent(parent);
   }
   
-  void setParent(Object2D parent){
-    this.parent = parent;
+  void setParent(Object2D p){
+    parent = p;
   }
   
   Object2D getParent(){
-    return this.parent;
+    return parent;
   }
   
   Window getWindow(){
@@ -119,25 +119,24 @@ abstract class Object2D : Location{
     }
     double toshift=1;
     foreach(Object2D o;objects){
-      toshift+=o.sy();
+      toshift+=o.sy()+1;
     }
     object.setLocation(1,toshift,0);
     objects ~= object;
   }
   
   void addObject(Object2D object){
-    object.setParent(this);
     objects ~= object;
   }
   
   Object2D getObjectAt(int cx, int cy){
-    writefln("x: %f %f",x()+sx(),y()+sy());
+    //writefln("x: %f %f",x()+sx(),y()+sy());
     if(visible && x() < cx && y() < cy && x()+sx() > cx && y()+sy() > cy){
       if(objects != null){
         foreach(Object2D obj; objects){
           if(obj.x() < cx && obj.y() < cy){
-            writefln("x: %f %f %d",obj.x(),obj.sx(), cx);
-            writefln("y: %f %f %d",obj.y(),obj.sy(), cy);
+            //writefln("x: %f %f %d",obj.x(),obj.sx(), cx);
+            //writefln("y: %f %f %d",obj.y(),obj.sy(), cy);
             if((obj.x()+obj.sx()) > cx && (obj.y()+obj.sy()) > cy){
               return obj.getObjectAt(cx,cy);
             }

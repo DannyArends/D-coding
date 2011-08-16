@@ -14,23 +14,21 @@ class Text : Object2D{
 public:
   this(double x, double y, string text, Object2D parent){
     super(x,y,8*text.length,16,parent);
-    this.lines ~= text;
+    if(text != "") this.lines ~= text;
   }
   
   void render(){
-    glLoadIdentity();
-    glTranslatef(x(),y(),0.0f);
-    glScalef(scale,scale,scale);
-    glColor4f(r(), g(),  b(), alpha());
-    int plength = 0;
     foreach(int cnt, string line; lines){
+      glLoadIdentity();
+      glTranslatef(x(),y()+cnt*16,0.0f);
+      glScalef(scale,scale,scale);
+      glColor4f(r(), g(),  b(), alpha());
+
       glEnable(GL_TEXTURE_2D);
       glBindTexture(GL_TEXTURE_2D, getParent().getFontId());
-      glTranslated(-(plength*14), cnt*16, 0.0f);
       glListBase(getParent().getFontBase()-32+(128*type));
       glCallLists(to!int(line.length),GL_UNSIGNED_BYTE, line.dup.ptr);
       glDisable(GL_TEXTURE_2D);
-      plength = to!int(line.length);
     }
   }
   
@@ -38,6 +36,10 @@ public:
   
   void addLine(string line){ 
     if(lines.length < maxlines || maxlines == -1){
+      lines ~= line; 
+    }
+    if(lines.length == maxlines){
+      removeLine();
       lines ~= line; 
     }
   }

@@ -51,7 +51,7 @@ class ClientHandler : Thread {
         break;
       }
       }catch(Throwable exception){
-        writeln("Command couldn't be handled");
+        writeln("Command couldn't be handled" ~ to!string(exception));
       }
     }
   }

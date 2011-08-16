@@ -27,7 +27,7 @@ class Slider : DragBar{
     setBgColor(0.3,0.3,0.3);
     setRange(0,100);
     value = 0;
-    this.getName().setLocation(100,0,0);
+    this.getNameObject().setLocation(100,0,0);
     slider = new Square(0,0,16,16,this);
   }
   
