@@ -39,10 +39,6 @@ class ServerButton : Button{
     network.send(sendprefix ~ attached);
   }
   
-  void render(){
-    renderOnlyMe();
-  }
-  
   void onDrag(int x, int y){ }
   void handleKeyPress(SDLKey key, bool shift){ }
 private:

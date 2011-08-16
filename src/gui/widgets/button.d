@@ -37,14 +37,6 @@ public:
   abstract void onDrag(int x, int y);
   abstract void handleKeyPress(SDLKey key, bool shift);
   
-  void renderOnlyMe(){
-    glLoadIdentity();
-    glTranslatef(x(),y(),0.0f);
-    glColor4f(r(), g(),  b(), alpha());
-    bg.render();
-    name.render();
-  }
-  
   void render(){
     glLoadIdentity();
     glTranslatef(x(),y(),0.0f);
