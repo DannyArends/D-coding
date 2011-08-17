@@ -74,18 +74,18 @@ public:
   abstract void render(Camera c, int faceType = GL_TRIANGLES);
   abstract int getFaceType();
 
-  GLfloat rx(){ return rot[0]; }
-  GLfloat ry(){ return rot[1]; }
-  GLfloat rz(){ return rot[2]; }
+  @property GLfloat rx(){ return rot[0]; }
+  @property GLfloat ry(){ return rot[1]; }
+  @property GLfloat rz(){ return rot[2]; }
   
-  GLfloat r(){ return color.r(); }
-  GLfloat g(){ return color.g(); }
-  GLfloat b(){ return color.b(); }
-  GLfloat alpha(){ return color.alpha(); }
+  @property GLfloat r(){ return color.r(); }
+  @property GLfloat g(){ return color.g(); }
+  @property GLfloat b(){ return color.b(); }
+  @property GLfloat alpha(){ return color.alpha(); }
   
-  GLfloat sx(){ return size[0]; }
-  GLfloat sy(){ return size[1]; }
-  GLfloat sz(){ return size[2]; }
+  @property GLfloat sx(){ return size[0]; }
+  @property GLfloat sy(){ return size[1]; }
+  @property GLfloat sz(){ return size[2]; }
 private:
   Color     color;
   double[3] rot;

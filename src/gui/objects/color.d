@@ -35,10 +35,10 @@ public:
     color[3]=alpha;
   }
   
-  GLfloat r(){ return color[0]; }
-  GLfloat g(){ return color[1]; }
-  GLfloat b(){ return color[2]; }
-  GLfloat alpha(){ return color[3]; }
+  @property GLfloat r(){ return color[0]; }
+  @property GLfloat g(){ return color[1]; }
+  @property GLfloat b(){ return color[2]; }
+  @property GLfloat alpha(){ return color[3]; }
   
 private:
   double[4] color;

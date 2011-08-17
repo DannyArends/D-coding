@@ -31,9 +31,9 @@ public:
     loc[2]=z;
   }
   
-  GLfloat x(){ return loc[0]; }
-  GLfloat y(){ return loc[1]; }
-  GLfloat z(){ return loc[2]; }
+  @property GLfloat x(){ return loc[0]; }
+  @property GLfloat y(){ return loc[1]; }
+  @property GLfloat z(){ return loc[2]; }
   
 private:
   double[3] loc;
