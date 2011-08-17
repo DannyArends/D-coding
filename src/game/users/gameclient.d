@@ -47,8 +47,9 @@ class GameClient : Thread{
   
   ~this(){ network.disconnect(); }
   
-  void send(string rawtext){ network.write(rawtext); }
-  void shutdown(){this.online = false;}
+  void send(string rawtext){online = network.write(rawtext);writeln("online:",online); }
+  void shutdown(){online = false;}
+  bool isOnline(){return online;}
   
   void run(){
     try{

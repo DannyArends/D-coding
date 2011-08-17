@@ -116,6 +116,11 @@ public:
   }
   
   void handleKeyPress(SDL_keysym *keysym){
+    if(!network.isOnline()){
+      network = new GameClient(this);
+      network.start();
+      parent.setNetwork(network);
+    }
     switch(keysym.sym){
       case SDLK_F1:
         SDL_WM_ToggleFullScreen(parent.getSurface());
@@ -164,12 +169,15 @@ public:
     }
   }
   
-  void handleNetworkEvent(string s){
-    writeln("Handle network:" ~ s);
-    if(s[0] == 'C'){
-      hud.getServerText().addLine(s[2..$]);
+  void handleNetworkEvent(string input){
+    foreach(string s; input.split(to!string('\0'))){
+      if(s !is null && s.length >= 3 && s[0] == 'C'){
+        writeln("Handle network:" ~ s);
+        hud.getServerText().addLine(s[2..$]);
+      }
     }
   }
+  
 private:
   TextInput  monitoring_keys;
   DragBar    monitoring_drag;

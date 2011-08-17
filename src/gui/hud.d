@@ -63,6 +63,7 @@ public:
   Text getServerText(){ return servertext; }
   Object2DType getType(){ return Object2DType.HUD; }
   GLuint getFontBase(){ return base; }
+  Engine getEngine(){ return parent; }
   GLuint getFontId(){ return textureid; }
   
 private:

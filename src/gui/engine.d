@@ -38,6 +38,8 @@ import gui.widgets.window;
 import gui.widgets.serverbutton;
 import gui.widgets.windowbutton;
 
+import gui.windows.loginwindow;
+
 class Engine{
 public:
   this(){
@@ -71,6 +73,7 @@ public:
     networkclient = new GameClient(eventhandler);
     fpsmonitor = new FPSmonitor();
     camera = new Camera();
+    /*
     Surface s = new Surface(0.0,-0.2,0);
     for(int x=0;x<10;x++){
       for(int y=0;y<10;y++){
@@ -82,24 +85,10 @@ public:
       }
     }
     s.addObject(2,2,new Model3DS("data/objects/object_4.3ds"));
-    objects ~= s;
+    objects ~= s; */
     writefln("Engine initialization done");
-    Window win = new Window(screen_width/2 -110, screen_height/2 -125,210,250,hud);  
-
-    ServerButton login_btn = new ServerButton("Login",win, getNetwork(),"IA");
-    WindowButton create_btn = new WindowButton("New Character",win);
-    WindowButton recover_btn = new WindowButton("Lost Password",win);
-    
-    TextInput name_input = new TextInput(win,"Name","...");
-    name_input.setInputLength(12);
-    TextInput pass_input = new TextInput(win,"Pass","...");
-    pass_input.setInputLength(12);
-    win.addContent(name_input);
-    win.addContent(pass_input);
-    win.addContent(login_btn);
-    win.addContent(create_btn);
-    win.addContent(recover_btn);
-    hud.addObject(win);
+    /*LoginWindow w = new LoginWindow(this);
+    hud.addObject(w);*/
   }
   
   void start(){
@@ -139,7 +128,8 @@ public:
   SDL_Surface* getSurface(){ return surface; }
   Hud getHud(){ return hud; }
   GameClient getNetwork(){ return networkclient; }
-
+  void setNetwork(GameClient gc){ networkclient=gc; }
+  
   void setSurface(int w, int h){
     active=false;
     screen_width=w;

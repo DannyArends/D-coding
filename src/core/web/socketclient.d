@@ -87,6 +87,7 @@ class SocketClient{
     debug writefln("Sending: %s", msg );
     auto ret = handle.send( msg );
     if(!ret) return false;
+    if(ret == -1) return false;
     return true;
   }
 
