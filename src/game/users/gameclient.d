@@ -23,11 +23,8 @@ import std.string;
 import std.uri;
 
 import core.typedefs.webtypes;
+import core.typedefs.eventhandling;
 import core.web.socketclient;
-
-class EventHandler{
-  abstract void handleNetworkEvent(string s);
-};
 
 class GameClient : Thread{
   private:

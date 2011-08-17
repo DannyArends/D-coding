@@ -8,6 +8,7 @@ import std.conv;
 import sdl.sdlstructs;
 import sdl.sdlfunctions;
 
+import core.typedefs.eventhandling;
 import game.users.gameclient;
 
 import gui.engine;
@@ -173,11 +174,11 @@ public:
   
   void handleNetworkEvent(string input){
     foreach(string s; input.split(to!string('\0'))){
-      if(s !is null && s.length >= 3){
+      if(s !is null && s.length >= 1){
         writeln("Handle network:" ~ s);
         switch(s[0]){
          case 'C':
-           hud.getServerText().addLine(s[2..$]); 
+           if(s.length >= 3) hud.getServerText().addLine(s[2..$]); 
          break;
          case 'S':
            if(loginwindow is null){
