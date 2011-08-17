@@ -37,9 +37,13 @@ however here a short description on what they are supposed to do is provided:
 - Httpserver: Basic try at a HTTP server
 - DNAcode: Translates an input sequence in DNA to Anti, mRNA and possible proteins
  
-------------
+To build an application simply run:
+
+    $ rake applications:sdltest
+    $ rake applications:dnacode
 
 Want to contribute? Great!
+------------
 
 1. Clone it.
 2. Compile it.
