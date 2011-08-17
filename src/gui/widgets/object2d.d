@@ -8,6 +8,7 @@ import gl.gl_1_0;
 import gui.objects.color;
 import gui.objects.location;
 import gui.widgets.window;
+import gui.hud;
 
 enum Object2DType{SQUARE, WINDOW, BUTTON, DRAGBAR, TEXTINPUT, SLIDER, TEXT, HUD};
 
@@ -47,6 +48,17 @@ abstract class Object2D : Location{
         return cast(Window)parent;
       }else{
         return parent.getWindow();
+      }
+    }
+    return null;
+  }
+  
+  Hud getHud(){
+    if(parent !is null){
+      if(parent.getType()==Object2DType.HUD){
+        return cast(Hud)parent;
+      }else{
+        return parent.getHud();
       }
     }
     return null;
@@ -138,7 +150,8 @@ abstract class Object2D : Location{
             //writefln("x: %f %f %d",obj.x(),obj.sx(), cx);
             //writefln("y: %f %f %d",obj.y(),obj.sy(), cy);
             if((obj.x()+obj.sx()) > cx && (obj.y()+obj.sy()) > cy){
-              return obj.getObjectAt(cx,cy);
+              Object2D subobj = obj.getObjectAt(cx,cy);
+              if(subobj !is null) return subobj;
             }
           }
         }

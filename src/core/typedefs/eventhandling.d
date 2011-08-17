@@ -7,6 +7,6 @@ import std.string;
 import std.array;
 import core.memory;
 
-class EventHandler{
+interface EventHandler{
   abstract void handleNetworkEvent(string s);
 }

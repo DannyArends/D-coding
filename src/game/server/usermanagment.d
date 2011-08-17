@@ -13,7 +13,7 @@ enum Race { RBC, WBC, FUNGUS, YEAST, BACTERIUM };
 
 class UserManagment{
   
-  bool      userExists(string name){
+  bool userExists(string name){
     string buffer;
     if(!exists(userManagmentFile) || !isfile(userManagmentFile)) return false;
     auto   f  = new File(userManagmentFile,"rb");

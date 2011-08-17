@@ -28,7 +28,6 @@ class TextInput : Button{
     super(x, y, window.sx(), 16,label,window);
     setBgColor(0.3,0.3,0.3);
     inputtext = new Text(1+label.length*15,1,value,this);
-
   }
   
   void onClick(int x, int y){
@@ -68,8 +67,8 @@ class TextInput : Button{
   }
   
   string getInput(){ return input; }
-  
   Object2DType getType(){ return Object2DType.TEXTINPUT; }
+
 private:
   string input;
   Text inputtext;

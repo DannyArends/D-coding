@@ -14,6 +14,8 @@ import gl.gl_1_1;
 import gl.gl_1_5;
 import gl.gl_ext;
 
+import core.typedefs.eventhandling;
+
 import game.users.gameclient;
 
 import gui.eventhandler;
@@ -39,7 +41,7 @@ import gui.widgets.window;
 import gui.widgets.serverbutton;
 import gui.widgets.windowbutton;
 
-class Engine{
+class Engine : EventHandler{
 public:
   this(){
     writeln("Starting the Engine");
@@ -67,13 +69,15 @@ public:
     writefln("Initializing our own classes");
     
     mytimer = new MyTimer();
-    hud = new Hud(this);
-    eventhandler = new EngineEventHandler(this);
-    networkclient = new GameClient(eventhandler);
-    fpsmonitor = new FPSmonitor();
     camera = new Camera();
+    fpsmonitor = new FPSmonitor();
+    
+    hud = new Hud(this);
+    networkclient = new GameClient(this);
+    
+    eventhandler = new EngineEventHandler(this, hud, networkclient);
     scene = new Scene(this,camera);
-    scene.createNewChar();
+    
     writefln("Engine initialization done");
   }
   
@@ -119,6 +123,10 @@ public:
     screen_height=h;
     surface = SDL_SetVideoMode(screen_width, screen_height, screen_bpp, videoFlags);
   }
+  
+  void handleNetworkEvent(string input){
+    eventhandler.handleNetworkEvent(input);
+  }
     
   int screen_width  = 640;
   int screen_height = 480;
@@ -133,7 +141,7 @@ private:
   Hud                 hud;
   Scene               scene;
   SDL_Surface*        surface;
-  SDL_VideoInfo*      videoInfo;           /* This holds some info about our display */
+  SDL_VideoInfo*      videoInfo;        /* This holds some info about our display */
   int videoFlags;                       /* Flags to pass to SDL_SetVideoMode */
   bool done         = false;            /* Main loop variable */
   bool active       = true;             /* Is the window active? */

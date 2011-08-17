@@ -16,13 +16,13 @@ public:
   
   void render(){
     glLoadIdentity();
-    glTranslatef(x(),y(),0.0f);
-    glColor4f(r(), g(),  b(), alpha());
+    glTranslatef(x, y,0.0f);
+    glColor4f(r, g,  b, alpha);
     glBegin(GL_QUADS);
-      glVertex3f(  sx(),  sy(),  0.0f );
-      glVertex3f( 0,  sy(),  0.0f );
-      glVertex3f( 0, 0,  0.0f );
-      glVertex3f(  sx(), 0,  0.0f );
+      glVertex3f(sx, sy, 0.0f );
+      glVertex3f(0,  sy, 0.0f );
+      glVertex3f(0,  0,  0.0f );
+      glVertex3f(sx, 0,  0.0f );
     glEnd();
   }
   

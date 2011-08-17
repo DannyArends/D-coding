@@ -18,6 +18,8 @@ import gui.widgets.textinput;
 import gui.widgets.square;
 import gui.widgets.button;
 
+import gui.windows.newcharwindow;
+
 class WindowButton : Button{
   this(string btnname, Window window){
     super(0,0, btnname.length*12+2, 16, btnname, window);
@@ -25,6 +27,8 @@ class WindowButton : Button{
   
   void onClick(int x, int y){
     writeln("OnClick of a window button");
+    getHud().addObject(new NewCharWindow(getHud().getEngine()));
+    getWindow().setVisible(false);
   }
   
   void onDrag(int x, int y){ }
