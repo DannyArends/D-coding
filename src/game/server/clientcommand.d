@@ -28,10 +28,6 @@ bool doCreation(string creationstring){
 void processIdentification(GameServer server, Socket sock, ubyte[] command){
   if(command.length > 0){
     switch(to!char(command[0])){
-      case 'L':
-        sock.send("C:Starting login process"~ to!string('\0'));
-        sock.send("S:W:LOGIN"~ to!string('\0'));
-      break;
       case 'C':
         sock.send("C:Starting new character creation"~ to!string('\0'));
         sock.send("S:W:CREATE"~ to!string('\0'));
@@ -60,7 +56,7 @@ void processIdentification(GameServer server, Socket sock, ubyte[] command){
     }
   }else{
     sock.send("C:Welcome please login, or create a new account" ~ to!string('\0'));
-    sock.send("S:W:CHOOSE"~ to!string('\0'));
+    sock.send("S:W:LOGIN"~ to!string('\0'));
     server.usermngr.createUser("Danny","Arends");
   }
 }

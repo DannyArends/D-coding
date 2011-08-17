@@ -18,6 +18,8 @@ import gui.widgets.object2d;
 import gui.widgets.button;
 import gui.widgets.textinput;
 
+import gui.windows.loginwindow;
+
 class EngineEventHandler : EventHandler{
 public:
   this(Engine engine){
@@ -171,19 +173,33 @@ public:
   
   void handleNetworkEvent(string input){
     foreach(string s; input.split(to!string('\0'))){
-      if(s !is null && s.length >= 3 && s[0] == 'C'){
+      if(s !is null && s.length >= 3){
         writeln("Handle network:" ~ s);
-        hud.getServerText().addLine(s[2..$]);
+        switch(s[0]){
+         case 'C':
+           hud.getServerText().addLine(s[2..$]); 
+         break;
+         case 'S':
+           if(loginwindow is null){
+             loginwindow = new LoginWindow(parent);
+             hud.addObject(loginwindow);
+           }
+         case 'O':           
+         break;
+         default:
+         break;
+        }
       }
     }
   }
   
 private:
-  TextInput  monitoring_keys;
-  DragBar    monitoring_drag;
-  bool       shift_on;
-  SDL_Event  event;                      /* Used to collect events */
-  Engine     parent;                     /* Engine to report to */
-  GameClient network;
-  Hud        hud;
+  LoginWindow loginwindow;
+  TextInput   monitoring_keys;
+  DragBar     monitoring_drag;
+  bool        shift_on;
+  SDL_Event   event;                      /* Used to collect events */
+  Engine      parent;                     /* Engine to report to */
+  GameClient  network;
+  Hud         hud;
 }

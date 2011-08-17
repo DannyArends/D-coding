@@ -18,6 +18,7 @@ import game.users.gameclient;
 
 import gui.eventhandler;
 import gui.hud;
+import gui.scene;
 import gui.mytimer;
 import gui.enginefunctions;
 
@@ -37,8 +38,6 @@ import gui.widgets.slider;
 import gui.widgets.window;
 import gui.widgets.serverbutton;
 import gui.widgets.windowbutton;
-
-import gui.windows.loginwindow;
 
 class Engine{
 public:
@@ -73,22 +72,9 @@ public:
     networkclient = new GameClient(eventhandler);
     fpsmonitor = new FPSmonitor();
     camera = new Camera();
-    /*
-    Surface s = new Surface(0.0,-0.2,0);
-    for(int x=0;x<10;x++){
-      for(int y=0;y<10;y++){
-        Triangle t = new Triangle();
-        t.adjustSize(0.5);
-        t.rotate(x,y*2,x*3);
-        t.setColor(cast(float)(x)/10.0,cast(float)(y)/20.0,0);
-        s.addObject(x+7,y*2,t);
-      }
-    }
-    s.addObject(2,2,new Model3DS("data/objects/object_4.3ds"));
-    objects ~= s; */
+    scene = new Scene(this,camera);
+    scene.createNewChar();
     writefln("Engine initialization done");
-    /*LoginWindow w = new LoginWindow(this);
-    hud.addObject(w);*/
   }
   
   void start(){
@@ -109,10 +95,7 @@ public:
   
   int drawGLScene(){
     resizeWindow(screen_width, screen_height);
-    foreach(Object3D o; objects){
-     o.render(camera, o.getFaceType());
-    }
-    /* Draw it to the screen */
+    scene.render();
     fpsmonitor.update();
     return true;
   }
@@ -148,7 +131,7 @@ private:
   FPSmonitor          fpsmonitor;
   Camera              camera;
   Hud                 hud;
-  Object3D[]          objects;
+  Scene               scene;
   SDL_Surface*        surface;
   SDL_VideoInfo*      videoInfo;           /* This holds some info about our display */
   int videoFlags;                       /* Flags to pass to SDL_SetVideoMode */
