@@ -57,7 +57,15 @@ public:
     if(maxlines < 0) this.maxlines = -1;
   }
   
-  GLfloat sy(){ return 16*lines.length; }
+  @property GLfloat sy(){ return 16*lines.length; }
+  @property GLfloat sx(){
+    int size = 0;
+    foreach(string l;lines){
+      if(to!int(l.length)*to!int(16*scale) > size) size = to!int(l.length)*to!int(16*scale);
+    }
+    return size; 
+  }
+  
 private:
   int      maxlines = -1;
   double   scale = 0.8f;

@@ -87,12 +87,12 @@ abstract class Object2D : Location{
   bool isDragging(){return this.dragging; }
   Object2D[] getObjects(){return objects;}
 
-  GLfloat r(){ return color.r(); }
-  GLfloat g(){ return color.g(); }
-  GLfloat b(){ return color.b(); }
-  GLfloat alpha(){ return color.alpha(); }
+  @property GLfloat r(){ return color.r(); }
+  @property GLfloat g(){ return color.g(); }
+  @property GLfloat b(){ return color.b(); }
+  @property GLfloat alpha(){ return color.alpha(); }
   
-  GLfloat x(){
+  @property GLfloat x(){
     if(isHud()) return 0.0;
     if(getParent().isHud()){
       return super.x(); 
@@ -101,7 +101,7 @@ abstract class Object2D : Location{
     }
   }
   
-  GLfloat y(){ 
+  @property GLfloat y(){ 
     if(isHud()) return 0.0;
     if(getParent().isHud()){
       return super.y(); 
@@ -150,8 +150,8 @@ abstract class Object2D : Location{
   
   void resize(int width, int height){ }
   
-  GLfloat sx(){ return size[0]; }
-  GLfloat sy(){ return size[1]; }
+  @property GLfloat sx(){ return size[0]; }
+  @property GLfloat sy(){ return size[1]; }
 private:
   Object2D    parent;
   Object2D[]  objects;
