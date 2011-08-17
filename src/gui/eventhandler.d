@@ -33,9 +33,9 @@ public:
       switch(event.type){
       case SDL_ACTIVEEVENT:
         if(event.active.gain == 0){
-          engine.isActive(false);
+          engine.active(false);
         }else{
-          engine.isActive(true);
+          engine.active(true);
         }
         break;          
       case SDL_VIDEORESIZE:

@@ -26,7 +26,7 @@ class MyTimer{
     for(auto x = 0; x < monitored.length;x++){
       monitored[x].checks++;
       if(t - monitored[x].t0 >= monitored[x].period) {
-        writeln("Executing", monitored[x].toexecute, " after ", monitored[x].checks);
+        writeln("Executing ", monitored[x].toexecute, " after ", monitored[x].checks);
         monitored[x].toexecute(monitored[x].checks);
         monitored[x].t0 = t;
         monitored[x].checks = 0;

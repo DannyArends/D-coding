@@ -17,19 +17,14 @@ import gui.widgets.square;
 class Button : Object2D{
 public:
   this(double x, double y, string btnname, Object2D parent){
-    super(x, y, 125, 16, parent);
-    init(btnname);
+    this(x, y, 125, 16, btnname, parent);
   }
   
   this(double x, double y, double sx, double sy, string btnname, Object2D parent){
     super(x, y, sx, sy, parent);
-    init(btnname);
-  }
-  
-  void init(string btnname){
-    this.buttonname = btnname;
-    this.name = new Text(1,1,btnname,this);
-    bg = new Square(0,0,sx(),sy(),this);
+    buttonname = btnname;
+    name = new Text(1,1,btnname,this);
+    bg = new Square(0,0,sx,sy,this);
     bg.setColor(0.50,0.50,0.50);
   }
   
@@ -65,6 +60,7 @@ public:
   }
   
   void setName(string btnname){
+    buttonname = btnname;
     name.setText(btnname);
   }
   

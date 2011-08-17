@@ -14,17 +14,11 @@ enum Object2DType{SQUARE, WINDOW, BUTTON, DRAGBAR, TEXTINPUT, SLIDER, TEXT, HUD}
 
 abstract class Object2D : Location{
   this(Object2D parent = null){
-    super(0.0, 0.0, 0.0);
-    setSize(1.0, 1.0);
-    setColor(1.0, 1.0, 1.0);
-    setParent(parent);
+    this(0.0, 0.0, 1.0, 1.0, parent);
   }
   
   this(double x, double y, Object2D parent = null){
-    super(x, y, 0.0);
-    setSize(1.0, 1.0);
-    setColor(1.0, 1.0, 1.0);
-    setParent(parent);
+    this(x, y, 1.0, 1.0, parent);
   }
   
   this(double x, double y, double sx, double sy, Object2D parent = null){

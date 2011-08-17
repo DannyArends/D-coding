@@ -19,13 +19,15 @@ import gui.widgets.button;
 
 class TextInput : Button{
   this(Window window, string label = "", string value = ""){
-    super(0, 0, 200, 16,label,window);
-    setBgColor(0.3,0.3,0.3);
-    inputtext = new Text(1+label.length*15,1,value,this);
+    this(0, 0, 200, 16,window,label,value);
   }
   
   this(int x, int y, Window window, string label = "", string value = ""){
-    super(x, y, window.sx(), 16,label,window);
+    this(x, y, to!int(window.sx), 16,window,label,value);
+  }
+  
+  this(int x, int y, int sx, int sy, Window window, string label = "", string value = ""){
+    super(x, y, sx, sy,label,window);
     setBgColor(0.3,0.3,0.3);
     inputtext = new Text(1+label.length*15,1,value,this);
   }
@@ -71,6 +73,6 @@ class TextInput : Button{
 
 private:
   string input;
-  Text inputtext;
-  int max_chars=255;
+  Text   inputtext;
+  int    max_chars=255;
 }

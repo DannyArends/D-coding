@@ -107,8 +107,8 @@ public:
   bool isDone(){ return done; }
   bool isDone(bool d){ done = d; return done; }
   
-  bool isActive(){ return active; }
-  bool isActive(bool a){ active=a; return active; }
+  @property bool active(){ return m_active; }
+  @property bool active(bool a){ m_active=a; return m_active; }
   
   int getVideoFlags(){ return videoFlags; }
   Camera getCamera(){ return camera; }
@@ -128,8 +128,8 @@ public:
     eventhandler.handleNetworkEvent(input);
   }
     
-  int screen_width  = 640;
-  int screen_height = 480;
+  int screen_width  = 800;
+  int screen_height = 600;
   int screen_bpp    = 16;
     
 private:  
@@ -144,5 +144,5 @@ private:
   SDL_VideoInfo*      videoInfo;        /* This holds some info about our display */
   int videoFlags;                       /* Flags to pass to SDL_SetVideoMode */
   bool done         = false;            /* Main loop variable */
-  bool active       = true;             /* Is the window active? */
+  bool m_active     = true;             /* Is the window active? */
 }
