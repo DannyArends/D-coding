@@ -17,6 +17,7 @@ LIBS =  ['libraries:core',
 BIN =   ['applications:fileloader', 
          'applications:filesplitter', 
          'applications:aligner', 
+         'applications:actor', 
          'applications:single_map_probes', 
          'applications:correlation', 
          'applications:plang',
@@ -131,6 +132,11 @@ namespace :applications do
   desc "DNA sequence alignment using blastn"
   task "aligner" => 'libraries:core' do
     sh "dmd src/aligner.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofaligner.#{execext}"
+  end
+  
+  desc "Actor example from D"
+  task "actor" => 'libraries:core' do
+    sh "dmd src/actor.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofactor.#{execext}"
   end
   
   desc "Extract probes mapping to a single genome location"
