@@ -26,6 +26,7 @@ BIN =   ['applications:fileloader',
          'applications:regression', 
          'applications:httpserver',
          'applications:gameserver',
+         'applications:voynich',  
          'applications:dnacode',
          'applications:sdltest']
 TESTS = ['tests:plang', 
@@ -178,6 +179,11 @@ namespace :applications do
   desc "Server for a multiplayer network mud"
   task "gameserver" => 'libraries:game' do
     sh "dmd src/server.d #{builddir}/core.#{libext}  #{builddir}/game.#{libext} -Isrc/ -od#{builddir} -ofserver.#{execext}"
+  end
+
+  desc "Decode voynich"
+  task "voynich" => 'libraries:core' do
+    sh "dmd src/voynich.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofvoynich.#{execext}"
   end
   
   desc "Scan for proteins in DNA code"
