@@ -19,7 +19,8 @@ BIN =   ['applications:fileloader',
          'applications:aligner', 
          'applications:actor', 
          'applications:single_map_probes', 
-         'applications:correlation', 
+         'applications:correlation',
+         'applications:ostest',         
          'applications:plang',
          'applications:httpreader', 
          'applications:regression', 
@@ -137,6 +138,11 @@ namespace :applications do
   desc "Actor example from D"
   task "actor" => 'libraries:core' do
     sh "dmd src/actor.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofactor.#{execext}"
+  end
+
+  desc "os test"
+  task "ostest" => 'libraries:core' do
+    sh "dmd src/ostest.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofostest.#{execext}"
   end
   
   desc "Extract probes mapping to a single genome location"

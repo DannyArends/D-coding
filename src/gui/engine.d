@@ -85,7 +85,7 @@ public:
     networkclient.start();
     mytimer.addTimedEvent(TimedEvent(&networkclient.sendHeartbeat,5000));
     while(!done){
-      if(active)drawGLScene();
+      drawGLScene();
       eventhandler.call();
       hud.render();
       SDL_Delay(10);
@@ -130,8 +130,8 @@ public:
     
   int screen_width  = 800;
   int screen_height = 600;
-  int screen_bpp    = 16;
-    
+  int screen_bpp    = 32;
+
 private:  
   EngineEventHandler  eventhandler;
   MyTimer             mytimer;

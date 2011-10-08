@@ -16,9 +16,11 @@ int main(){
   foreach(j; 0 .. 700){
     auto tid1 = spawn(&worker,id,verbose);
     id++;
-    foreach(i; 0 .. 101){
+    foreach(i; 0 .. 1001){
       tid1.send(Message(0,cast(shared)thisTid(),i));   // send some integers
-    }
+      //tid1.send(1);
+	  //tid1.send(1.5);
+	}
   }
   
   bool active = true; 
@@ -26,7 +28,7 @@ int main(){
     receive(
       (Message m){
         if(verbose)writefln("Main received a msg %d: %d", m.senderid, m.payload);
-        if(m.payload==100){
+        if(m.payload==1000){
           writefln("Thread with id %d handled all messages",m.senderid);
           active = false;  
         }
@@ -44,15 +46,18 @@ void worker(int id, bool verbose){
   while(active){
     receive(
       (Message m){
-        if(verbose) writeln("Unpacking shared reference to main");
+        //writeln("Unpacking shared reference to main");
         Tid s = cast(Tid)m.sender;
-        if(verbose) writeln("Sending a msg to main");  
+        //riteln("Sending a msg to main");  
         s.send(Message(id,cast(shared)thisTid(),m.payload));
-        if(m.payload==100){
+        if(m.payload==1000){
           active = false;
         }
         Thread.sleep(uniform(0, 70000));
       },
+	  (int m){
+	    //writefln("Received an int", m);
+	  },
       (Variant v){ 
         writefln("Unsupported message %s",v); 
       }

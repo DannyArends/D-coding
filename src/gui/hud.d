@@ -32,9 +32,9 @@ public:
   }
   
   void initfont(){
-    tgaInfo* t = loadTexture("data/textures/font.tga");
-    textureid = t.textureID[0];
-    base = loadAsFont(t);
+    font_texture = loadTexture("data/textures/font.tga");
+    textureid = font_texture.textureID[0];
+    base = loadAsFont(font_texture);
   }
   
   void render(){
@@ -53,6 +53,7 @@ public:
   
   void resize(int width, int height){
     super.resize(width, height);
+    initfont();
     setMySize(width,height);
     hudtext.setLocation(0,height-16,0);
     hudtext.setSize(width,16);
@@ -70,6 +71,7 @@ private:
   Engine     parent;
   GLuint     textureid;
   GLuint     base;
+  tgaInfo*   font_texture;
   Text       servertext;
   TextInput  hudtext;
 }
