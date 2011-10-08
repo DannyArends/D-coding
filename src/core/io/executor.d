@@ -61,9 +61,25 @@ class ExecEnvironment{
 
     progs ~= ExecProg("qsub - PBS job submission","qsub","-v");
     progs ~= ExecProg("qstat - PBS job monitoring","qstat","");
+
+    progs ~= ExecProg("find - Find command line tool","find","/?");
+    progs ~= ExecProg("ping - Ping command line tool","ping","");
+    progs ~= ExecProg("grep - Grep commandline toolset","grep","");
+    
+    version(Windows){
+      progs ~= ExecProg("tasklist - Win32 process monitoring","tasklist","");
+      progs ~= ExecProg("taskkill - Kill a Win32 process","taskkill","");
+      progs ~= ExecProg("fc - File comparison tool","fc","");
+      progs ~= ExecProg("type - Open text files","type","/?");
+    }else{
+      progs ~= ExecProg("ps - Unix process monitoring","ps","");    
+      progs ~= ExecProg("kill - Kill a Unix process","kill","");
+      progs ~= ExecProg("diff - File comparison tool","diff","");
+      progs ~= ExecProg("cat - Open text files","cat","");
+    }
   }
   
-  void detectEnvironment(bool verbose = true){
+  void detectEnvironment(bool verbose = false){
     Executor detector = new Executor(1);
     int detect = detector.execute("aaaa").std_err.length - 4;
     for(auto x=0;x < progs.length;x++){
@@ -104,7 +120,7 @@ class Executor{
   int      status;
   
   public:
-  this(int id, bool verbose = true){
+  this(int id, bool verbose = false){
     this.stdoutfile = "tmp_" ~ to!string(id) ~ ".out";
     this.stderrfile = "tmp_" ~ to!string(id) ~ ".err";
     this.verbose = verbose;
