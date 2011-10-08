@@ -46,7 +46,7 @@ class ExecEnvironment{
     progs ~= ExecProg("Javac compiler for Java","javac","");
     progs ~= ExecProg("Java ANT builder","ant","");
     progs ~= ExecProg("Perl interpreter","perl","-v");
-    progs ~= ExecProg("Python interpreter","python","-v");
+    progs ~= ExecProg("Python interpreter","python","-h");
     progs ~= ExecProg("Ruby programming language","ruby","-v");
         
     progs ~= ExecProg("SVN repository support","svn","");
@@ -63,7 +63,7 @@ class ExecEnvironment{
     progs ~= ExecProg("qstat - PBS job monitoring","qstat","");
   }
   
-  void detectEnvironment(bool verbose = false){
+  void detectEnvironment(bool verbose = true){
     Executor detector = new Executor(1);
     int detect = detector.execute("aaaa").std_err.length - 4;
     for(auto x=0;x < progs.length;x++){
@@ -104,7 +104,7 @@ class Executor{
   int      status;
   
   public:
-  this(int id, bool verbose = false){
+  this(int id, bool verbose = true){
     this.stdoutfile = "tmp_" ~ to!string(id) ~ ".out";
     this.stderrfile = "tmp_" ~ to!string(id) ~ ".err";
     this.verbose = verbose;
