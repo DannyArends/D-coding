@@ -28,6 +28,7 @@ BIN =   ['applications:fileloader',
          'applications:gameserver',
          'applications:voynich',  
          'applications:dnacode',
+         'applications:sdlconcept',
          'applications:sdltest']
 TESTS = ['tests:plang', 
          'tests:dnacode', 
@@ -189,6 +190,11 @@ namespace :applications do
   desc "Scan for proteins in DNA code"
   task "dnacode" => 'libraries:core' do
     sh "dmd src/dnacode.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofdnacode.#{execext}"
+  end
+  
+  desc "SDLconcept engine"
+  task "sdlconcept" => ['libraries:sdl','libraries:openGL','libraries:gui','libraries:game'] do
+    sh "dmd src/sdlconcept.d #{builddir}/sdl.#{libext} #{builddir}/gui.#{libext} #{builddir}/openGL.#{libext} #{builddir}/game.#{libext}  -Isrc/ -Ideps/ -od#{builddir} -ofsdltest.#{execext} -L-ldl"
   end
   
   desc "SDL test"

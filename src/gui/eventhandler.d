@@ -20,7 +20,7 @@ import gui.widgets.textinput;
 
 import gui.windows.loginwindow;
 
-class EngineEventHandler{
+class MyEngineEventHandler{
 public:
   this(Engine engine, Hud hud, GameClient network){
     this.engine  = engine;

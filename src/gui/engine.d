@@ -75,7 +75,7 @@ public:
     hud = new Hud(this);
     networkclient = new GameClient(this);
     
-    eventhandler = new EngineEventHandler(this, hud, networkclient);
+    eventhandler = new MyEngineEventHandler(this, hud, networkclient);
     scene = new Scene(this,camera);
     
     writefln("Engine initialization done");
@@ -133,7 +133,7 @@ public:
   int screen_bpp    = 32;
 
 private:  
-  EngineEventHandler  eventhandler;
+  MyEngineEventHandler  eventhandler;
   MyTimer             mytimer;
   GameClient          networkclient;
   FPSmonitor          fpsmonitor;
