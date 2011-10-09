@@ -16,18 +16,15 @@ import gl.gl_ext;
 
 import core.typedefs.eventhandling;
 import gui.concepthandlers;
+import gui.conceptloader;
 import gui.formats.tga;
 
 class HudHandler : EngineEventHandler{
   
-  this(){
-    initfont();
-  }
-
-  void initfont(){
-    font_texture = loadTexture("data/textures/font.tga");
-    textureid = font_texture.textureID[0];
-    base = loadAsFont(font_texture);
+  this(EngineLoader[] loaders){
+    foreach(loader; loaders){
+      if(loader.type==LoaderType.TEXTURE) textureloader = cast(TextureLoader) loader;
+    }
   }
   
   EngineEvent[] handle(EngineEvent e){
@@ -38,7 +35,6 @@ class HudHandler : EngineEventHandler{
         case SDL_VIDEORESIZE:
           screen_width= sdl.resize.w;
           screen_height= sdl.resize.h;
-          initfont();
         break;
         default:
         break;
@@ -57,9 +53,7 @@ class HudHandler : EngineEventHandler{
   }
   
   private:
-  int screen_width  = 900;
-  int screen_height = 480;
-  GLuint     textureid;
-  GLuint     base;
-  tgaInfo*   font_texture;  
+  int            screen_width  = 900;
+  int            screen_height = 480;
+  TextureLoader  textureloader;
 }

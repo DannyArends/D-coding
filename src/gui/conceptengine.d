@@ -18,11 +18,13 @@ import gui.handlers.screenhandler;
 import gui.handlers.timehandler;
 import gui.handlers.mousehandler;
 import gui.enginefunctions;
+import gui.conceptloader;
 
 enum Stage{LOADING, PLAYING, SHUTDOWN};
 
 class ConceptEngine : EngineEventHandler{
   EngineEventHandler[]  handlers;
+  EngineLoader[]        loaders;
   EngineEvent[]         eventQueue;
   bool                  running;
   Stage                 stage = Stage.LOADING;
@@ -35,10 +37,12 @@ class ConceptEngine : EngineEventHandler{
   void start(){
     //Register handlers, and start then up
     handlers ~= this;
-    handlers ~= new ScreenHandler();
+    ScreenHandler screen = new ScreenHandler();
+    handlers ~= screen;
+    loaders ~= screen.getLoaders();
     handlers ~= new KeyHandler();
     handlers ~= new MouseHandler();
-    handlers ~= new HudHandler();
+    handlers ~= new HudHandler(loaders);
     handlers ~= new TimeHandler();
     ENG_Event payload = ENG_Event(ENG_Time(5000),&changeStage,EngineEventType.MOUSE,EngineEventType.PERIODIC);
     eventQueue ~= new EngineEvent(payload);

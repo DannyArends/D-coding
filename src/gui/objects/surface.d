@@ -11,6 +11,7 @@ import core.typedefs.types;
 import gui.objects.camera;
 import gui.objects.color;
 import gui.objects.object3d;
+import gui.formats.tga;
 
 class Surface : Object3D{
   
@@ -22,10 +23,21 @@ class Surface : Object3D{
     this.size_z = size_z;
   }
   
+  this(double x, double y, double z, tgaInfo texture){
+    super(x,y,z);
+    heightmap = newmatrix!double(texture.width,texture.height);
+    colormap = asColorMap(texture);
+    this.size_x = texture.width;
+    this.size_z = texture.height;
+    auto my = 0;
+    auto mx = 0;
+  }
+  
   void addObject(int x, int z, Object3D object){
     object.setLocation(x,heightmap[x][z],z);
     objects ~= object;
   }
+    
   
   void render(Camera camera, int faceType = GL_TRIANGLE_STRIP) {
     glLoadIdentity();
@@ -58,4 +70,6 @@ private:
   dmatrix      heightmap;
   Color[][]    colormap;
   Object3D[]   objects;
+  private:  
+  int textureid = -1;
 };

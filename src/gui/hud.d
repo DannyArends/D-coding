@@ -71,7 +71,7 @@ private:
   Engine     parent;
   GLuint     textureid;
   GLuint     base;
-  tgaInfo*   font_texture;
+  tgaInfo    font_texture;
   Text       servertext;
   TextInput  hudtext;
 }

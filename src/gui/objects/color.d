@@ -21,6 +21,13 @@ public:
     color[3]=alpha;
   }
   
+  this(ubyte c[], double alpha = 1.0){
+    color[0]=c[0]/255.0;
+    color[1]=c[1]/255.0;
+    color[2]=c[2]/255.0;
+    color[3]=alpha;
+  }
+  
   void random(){
     color[0]= uniform(0.0, 1.0);
     color[1]= uniform(0.0, 1.0);
