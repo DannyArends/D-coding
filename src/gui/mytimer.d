@@ -10,14 +10,14 @@ import gl.gl_1_0;
 alias void delegate(int) TimeFunc;
 
 struct TimedEvent{
-  this(TimeFunc toexecute, GLint period = 1000){
+  this(TimeFunc toexecute, int period = 1000){
     this.period = period;
     this.toexecute = toexecute;
   }
-  GLint period = 1000;         /* 1 second */
+  int period = 1000;         /* 1 second */
   TimeFunc toexecute;          /* what do we execute */
-  GLint checks = 0;            /* Number of times we check */
-  GLint t0     = 0;            /* T0 for time determination */
+  int checks = 0;            /* Number of times we check */
+  int t0     = 0;            /* T0 for time determination */
 }
 
 class MyTimer{

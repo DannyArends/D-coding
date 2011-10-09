@@ -15,23 +15,28 @@ import gui.concepthandlers;
 
 class MouseHandler : EngineEventHandler{
   
-  void handleEngineEvent(EngineEvent e){
+  EngineEvent[] handle(EngineEvent e){
+    EngineEvent[] events;
     if(e.type==EngineEventType.SDLEVENT){
-      switch(e.event.type){         
+      SDL_Event sdl = e.sdl_event; 
+      switch(sdl.type){         
         case SDL_MOUSEMOTION:
-          writefln("Mouse moved by %d,%d to (%d,%d)", e.event.motion.xrel, e.event.motion.yrel, e.event.motion.x, e.event.motion.y);
+          writefln("Mouse moved by %d,%d to (%d,%d)", sdl.motion.xrel, sdl.motion.yrel, sdl.motion.x, sdl.motion.y);
         break;
         case SDL_MOUSEBUTTONDOWN:
-        writefln("Mouse button %d pressed at (%d,%d)", e.event.button.button, e.event.button.x, e.event.button.y);
+          //Add an periodic event for the TimeHandler
+          //ENG_Event payload = ENG_Event(ENG_Time(5000),&sayHello,EngineEventType.MOUSE,EngineEventType.PERIODIC);
+          //events ~= new EngineEvent(payload);
+          writefln("Mouse button %d pressed at (%d,%d)", sdl.button.button, sdl.button.x, sdl.button.y);
         break;
         default:
         break;
       }
     }
+    return events;
   }
-
-  EngineEvent getEngineEvent(){
-    // Nothing here yet
-    return new EngineEvent();
+  
+  void sayHello(int id,string data){
+    writeln(to!string(id) ~ ":" ~ data);
   }
 }

@@ -14,9 +14,11 @@ import core.typedefs.eventhandling;
 import gui.concepthandlers;
 
 class KeyHandler : EngineEventHandler{
-  void handleEngineEvent(EngineEvent e){
+  EngineEvent[] handle(EngineEvent e){
+    EngineEvent[] events;
     if(e.type==EngineEventType.SDLEVENT){
-      switch(e.event.type){         
+      SDL_Event sdl = e.sdl_event; 
+      switch(sdl.type){         
         case SDL_KEYDOWN:
           writefln("Key down");
         break;
@@ -27,7 +29,6 @@ class KeyHandler : EngineEventHandler{
         break;
       }
     }
+    return events;
   }
-
-  EngineEvent getEngineEvent(){ return new EngineEvent(); }
 }

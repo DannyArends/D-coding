@@ -13,16 +13,19 @@ import sdl.sdlfunctions;
 import core.typedefs.eventhandling;
 import gui.enginefunctions;
 import gui.concepthandlers;
+import gui.formats.tga;
 
-class ScreenHandler : EngineEventHandler{
-  int screen_width  = 800;
-  int screen_height = 600;
-  int screen_bpp    = 32;
-  SDL_Surface*        surface;
-  SDL_VideoInfo*      videoInfo;        /* This holds some info about our display */
-  int videoFlags;                       /* Flags to pass to SDL_SetVideoMode */
+import gui.objects.box;
+import gui.objects.camera;
+import gui.objects.line;
+import gui.objects.model3ds;
+import gui.objects.object3d;
+import gui.objects.quad;
+import gui.objects.sphere;
+import gui.objects.surface;
+import gui.objects.triangle;
 
-  
+class ScreenHandler : EngineEventHandler{  
   this(){
     if(SDL_Init(SDL_INIT_VIDEO) < 0){ writefln("Video initialization failed: %s", SDL_GetError()); return; }
     videoInfo = SDL_GetVideoInfo();
@@ -35,16 +38,24 @@ class ScreenHandler : EngineEventHandler{
     SDL_WM_SetCaption("SDL OpenGL using D", "Danny Arends");
     initGL();
     printOpenGlInfo();
+    camera = new Camera();
+    auto font_texture = loadTexture("data/textures/DGE.tga");
+    Quad q = new Quad(0.1,-0.2,0);
+    q.setTexture(font_texture.textureID[0]);
+    q.setSize(2.0, 1.0, 1.0);
+    objects ~= q;
     resizeWindow(screen_width, screen_height);
   }
 
-  void handleEngineEvent(EngineEvent e){
-    // Nothing here yet
+  EngineEvent[] handle(EngineEvent e){
+    EngineEvent[] events;
     if(e.type==EngineEventType.SDLEVENT){
-      switch(e.event.type){         
+      SDL_Event sdl = e.sdl_event; 
+      switch(sdl.type){         
         case SDL_VIDEORESIZE:
-          screen_width= e.event.resize.w;
-          screen_height= e.event.resize.h;
+          writeln("resize: " ~  to!string(sdl.resize.h) ~ to!string(sdl.resize.w));
+          screen_width= sdl.resize.w;
+          screen_height= sdl.resize.h;
           surface = SDL_SetVideoMode(screen_width, screen_height, screen_bpp, videoFlags);
           resizeWindow(screen_width, screen_height);
         break;
@@ -52,11 +63,23 @@ class ScreenHandler : EngineEventHandler{
         break;
       }
     }
+    return events;
   }
 
-  EngineEvent getEngineEvent(){
+  EngineEvent update(){
     resizeWindow(screen_width, screen_height);
-    // Nothing here yet
+    foreach(Object3D o; objects){
+     o.render(camera, o.getFaceType());
+    }
     return new EngineEvent();
   }
+  
+  int screen_width  = 900;
+  int screen_height = 480;
+  int screen_bpp    = 32;
+  SDL_Surface*        surface;
+  SDL_VideoInfo*      videoInfo;        /* This holds some info about our display */
+  int videoFlags;                       /* Flags to pass to SDL_SetVideoMode */
+  Object3D[]          objects;
+  Camera              camera;
 }
