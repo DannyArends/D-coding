@@ -47,7 +47,7 @@ class ScreenHandler : EngineEventHandler{
     q.setTexture(textureloader.getTextureID("DGE"));
     q.setSize(2.0, 1.0, 1.0);
     objects ~= q;
-    Surface s = new Surface(-32,-2,-32,textureloader.getTexture("Grass_1"));
+    Surface s = new Surface(-10,-2,-10,textureloader.getTexture("Grass_0"));
     objects ~= s;
     resizeWindow(screen_width, screen_height);
   }

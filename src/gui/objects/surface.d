@@ -37,7 +37,6 @@ class Surface : Object3D{
     object.setLocation(x,heightmap[x][z],z);
     objects ~= object;
   }
-    
   
   void render(Camera camera, int faceType = GL_TRIANGLE_STRIP) {
     glLoadIdentity();
@@ -70,6 +69,4 @@ private:
   dmatrix      heightmap;
   Color[][]    colormap;
   Object3D[]   objects;
-  private:  
-  int textureid = -1;
-};
+}

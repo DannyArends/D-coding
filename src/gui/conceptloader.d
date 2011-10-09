@@ -12,7 +12,7 @@ import core.typedefs.eventhandling;
 import gui.enginefunctions;
 import gui.formats.tga;
 
-enum LoaderType {TEXTURE, OBJECT3DS, WINDOW };
+enum LoaderType {TEXTURE, MAP, OBJECT3DS, HUDWINDOW };
 
 abstract class EngineLoader{
   LoaderType type;
@@ -22,6 +22,18 @@ abstract class EngineLoader{
 class Object3DSLoader : EngineLoader{
   this(){
     type = LoaderType.OBJECT3DS;
+  }
+}
+
+class MapLoader : EngineLoader{
+  this(){
+    type = LoaderType.OBJECT3DS;
+  }
+}
+
+class HudWindowLoader : EngineLoader{
+  this(){
+    type = LoaderType.HUDWINDOW;
   }
 }
 
@@ -68,6 +80,5 @@ class TextureLoader : EngineLoader{
   }
   
 private:
-  string          rootpath;
   tgaInfo[]       textures;  
 }

@@ -41,6 +41,7 @@ import gl.gl_1_0;
 import gl.gl_1_1;
 
 enum TgaType{ 
+  TGA_ERROR_NO_SUCH_FILE = -6, 
   TGA_ERROR_FILE_OPEN = -5, 
   TGA_ERROR_READING_FILE = -4, 
   TGA_ERROR_INDEXED_COLOR = -3, 
@@ -105,6 +106,7 @@ tgaInfo loadTexture(string filename){
   tgaInfo texture = tgaInfo(filename);
   if(!exists(filename) || !isfile(filename)){
     writefln("No such file: %s",filename);
+    texture.status = TgaType.TGA_ERROR_NO_SUCH_FILE;
     return texture;
   }
   writefln("Opening tga-file: %s",filename);
@@ -169,17 +171,19 @@ tgaInfo loadTexture(string filename){
 
 Color[][] asColorMap(tgaInfo texture){
   Color[][] colormap = newclassmatrix!Color(texture.width,texture.height+1);
-  int x=0;
-  int z=0;
-  uint total = texture.height * texture.width * texture.mode;
-  for(uint i=0; i < total; i+= texture.mode) {
-    if(x < texture.height-1){
-      x++;
-    }else{
-      x=0;
-      z++;
+  if(texture.status == TgaType.TGA_OK){
+    int x=0;
+    int z=0;
+    uint total = texture.height * texture.width * texture.mode;
+    for(uint i=0; i < total; i+= texture.mode) {
+      if(x < texture.height-1){
+        x++;
+      }else{
+        x=0;
+        z++;
+      }
+      colormap[x][z] = new Color(texture.imageData[i..i+3]);
     }
-    colormap[x][z] = new Color(texture.imageData[i..i+3]);
   }
   return colormap;
 }
