@@ -14,6 +14,7 @@ import core.typedefs.eventhandling;
 import gui.enginefunctions;
 import gui.concepthandlers;
 import gui.conceptloader;
+import gui.loaders.textureloader;
 import gui.formats.tga;
 
 import gui.objects.box;
