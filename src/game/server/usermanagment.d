@@ -15,7 +15,7 @@ class UserManagment{
   
   bool userExists(string name){
     string buffer;
-    if(!exists(userManagmentFile) || !isfile(userManagmentFile)) return false;
+    if(!exists(userManagmentFile) || !userManagmentFile.isFile) return false;
     auto   f  = new File(userManagmentFile,"rb");
     uint cnt = 0;
     while(f.readln(buffer)){
@@ -99,7 +99,7 @@ private:
   
   uint       getUniqueId(){
     string buffer;
-    if(!exists(userManagmentFile) || !isfile(userManagmentFile)) return 0;
+    if(!exists(userManagmentFile) || !userManagmentFile.isFile) return 0;
     auto   f  = new File(userManagmentFile,"rb");
     uint   cnt = 0;
     while(f.readln(buffer)){
@@ -138,7 +138,7 @@ private:
   }
   
   bool      saveNewUser(UserInfo* user){
-    if(!exists(userManagmentFile) || !isfile(userManagmentFile)){
+    if(!exists(userManagmentFile) || !userManagmentFile.isFile){
       std.file.write(userManagmentFile,user.userIDString());
     }else{
       append(userManagmentFile,user.userIDString());

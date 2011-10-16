@@ -104,7 +104,7 @@ int loadFileAsFont(string filename){
 
 tgaInfo loadTexture(string filename){
   tgaInfo texture = tgaInfo(filename);
-  if(!exists(filename) || !isfile(filename)){
+  if(!exists(filename) || !filename.isFile){
     writefln("No such file: %s",filename);
     texture.status = TgaType.TGA_ERROR_NO_SUCH_FILE;
     return texture;

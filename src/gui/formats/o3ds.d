@@ -146,7 +146,7 @@ int findMaterial(string name, Material3DS[] materials){
 
 
 ModelInfo3DS* loadModelInfo3DS(string filename){
-  if(!exists(filename) || !isfile(filename)){
+  if(!exists(filename) || !filename.isFile){
     writefln("No such file: %s",filename);
     return null;
   }

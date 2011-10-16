@@ -20,7 +20,7 @@ public:
   
   bool load(){
     string linebuffer;
-    if(isfile(filename)){
+    if(filename.isFile){
       auto fin = new File(filename,"rb");
       while(fin.readln(linebuffer)){
         options ~= Option.parse(linebuffer);
