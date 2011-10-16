@@ -22,7 +22,7 @@ class SingleMap{
   void readInNames(string filename){
     auto f = new File(filename,"rb");
     long cnt=0;
-    if(isfile(filename)){
+    if(filename.isFile){
       while(f.readln(buffer)){
         buffers ~= strip(buffer);
         names ~= buffer.split(" ")[0];
@@ -38,7 +38,7 @@ class SingleMap{
     long cnt = 0;
     uint id=1;
     auto fout = new File(outfile,"wb");
-    if(isfile(infile)){
+    if(infile.isFile){
       while(f.readln(buffer)){
         if(cnt == to!long(strip(names[id]))){
           if(id%1000==0)writefln("%d %d %s",cnt,id,names[id]);
@@ -50,5 +50,4 @@ class SingleMap{
     }
     fout.close();
   }
-  
 }

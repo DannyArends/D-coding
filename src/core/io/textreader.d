@@ -79,7 +79,7 @@ class TextReader{
     long rowindex=0;
     long colindex=0;
   
-    if(!exists(filename) || !isfile(filename)) return null;
+    if(!exists(filename) || !filename.isFile) return null;
     uint filesize = cast(uint)getSize(filename);
     long linecount=0;
     ubyte[] inputbuffer = new ubyte[buffersize];
@@ -144,7 +144,7 @@ class TextReader{
   * @return Number of buffers needed to read in the entire file
   */
   int describeFile(string filename){
-    if(!exists(filename) || !isfile(filename)) return -1;
+    if(!exists(filename) || !filename.isFile) return -1;
     uint filesize = cast(uint)getSize(filename);
     long linecount=0;
     ubyte[] inputbuffer = new ubyte[buffersize];
@@ -183,7 +183,7 @@ class TextReader{
   string loadToMemory(string filename, long row, long col){
     long rowindex=0;
     long colindex=0;
-    if(!exists(filename) || !isfile(filename)) return "No such file";
+    if(!exists(filename) || !filename.isFile) return "No such file";
     uint filesize = cast(uint)getSize(filename);
     long linecount=0;
     ubyte[] inputbuffer = new ubyte[buffersize];
@@ -240,7 +240,7 @@ class TextReader{
     auto f = new File(filename,"rb");
     auto data = new T[][columns.length-1];
     ulong linecount = 0;
-    if(isfile(filename)){
+    if(filename.isFile){
       debug writefln("Filesize: %d", getSize(filename));
       while(f.readln(buffer)){
         entities = buffer.split("\t");
@@ -264,7 +264,7 @@ class TextReader{
     int outbase=0;
     int cnt=0;
     auto fout = new File(outname~to!string(outbase)~".txt","wb");
-    if(isfile(filename)){
+    if(filename.isFile){
       while(f.readln(buffer)){
         fout.write(buffer);
         cnt++;
@@ -290,7 +290,7 @@ class TextReader{
     T[] data;
     ulong linecount = 0;
     
-    if(isfile(filename)){
+    if(filename.isFile){
       writefln("Filesize: %d", getSize(filename));
       while(f.readln(buffer)){
         entities = buffer.split("\t");
@@ -320,7 +320,7 @@ class TextReader{
     ulong linecount = 0;
     ulong entitycount = 0;
     
-    if(isfile(filename)){
+    if(filename.isFile){
       writefln("filesize: %d", getSize(filename));
       while(f.readln(buffer)){
         entities = buffer.split("\t");

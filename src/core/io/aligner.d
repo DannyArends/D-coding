@@ -30,7 +30,7 @@ public:
   
   long nlines(string filename, bool header = true){
     string buffer;
-    if(isfile(input_filename)){
+    if(input_filename.isFile){
       auto f = new File(filename,"rb");
       long cnt=0;
       while(f.readln(buffer)){
@@ -47,8 +47,8 @@ public:
     string buffer;
     long counter = 0;
     auto t0 = Clock.currTime();
-    if(exists(input_filename) && isfile(input_filename)){
-      if(exists(outfile) && isfile(outfile)){
+    if(exists(input_filename) && input_filename.isFile){
+      if(exists(outfile) && outfile.isFile){
         writefln("Aligner: Overwriting previous output file '%s'",outfile);
         remove(outfile);
       }
@@ -87,12 +87,12 @@ public:
   }
   
   void cleanup(){
-    if(exists(temp_filename) && isfile(temp_filename)) remove(temp_filename);
-    if(exists(temp_filename ~ ".out") && isfile(temp_filename ~ ".out")) remove(temp_filename ~ ".out");
+    if(exists(temp_filename) && temp_filename.isFile) remove(temp_filename);
+    if(exists(temp_filename ~ ".out") && (temp_filename ~ ".out").isFile) remove(temp_filename ~ ".out");
   }
   
   bool setGenome(string filename){
-    if(exists(filename) && isfile(filename)){
+    if(exists(filename) && filename.isFile){
       writefln("Aligner: Using genome file '%s'",filename);
       genome_name=filename;
       return true;

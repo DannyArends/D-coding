@@ -74,7 +74,7 @@ class ManuscriptReader{
     string buffer;
     Paragraph paragraph = Paragraph();
     paragraph.page_start=1;
-    if(isfile(filename)){
+    if(filename.isFile){
       while(inputfile.readln(buffer)){
       if(buffer[0] != comment_char && buffer.length > 2){
          buffer = chomp(buffer);  

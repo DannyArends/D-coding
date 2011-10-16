@@ -60,7 +60,7 @@ class BinaryReader{
   * @return Number of buffers needed to read in the entire file
   */
   long loadToMemory(string filename){
-    if(!exists(filename) || !isfile(filename)) return -1;
+    if(!exists(filename) || !filename.isFile) return -1;
     uint filesize = cast(uint)getSize(filename);
     long linecount=0;
     ubyte[] inputbuffer = new ubyte[buffersize];
