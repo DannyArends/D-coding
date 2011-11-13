@@ -44,7 +44,7 @@ package struct ext_binding(T) {
 }
 
 static this(){
-  HXModule lib = load_library("openal32","al","");
+  HXModule lib = load_library("openal32","openal","");
   
   load_function(alEnable)(lib, "alEnable");
   load_function(alEnable)(lib, "alEnable");

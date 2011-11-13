@@ -81,7 +81,7 @@ void main(string[] args){
 
 	ALubyte c = ' ';
 	char[] buf;
-  while(stdin.readln(buf) && c != 'q'){
+  while(c != 'q' && stdin.readln(buf)){
     write(buf);
 		c = buf[0];
 		switch(c){
