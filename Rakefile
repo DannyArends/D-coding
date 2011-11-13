@@ -11,6 +11,7 @@ LIBS =  ['libraries:core',
          'libraries:options',  
          'libraries:openGL', 
          'libraries:r',
+         'libraries:jni',
          'libraries:gui',
          'libraries:sdl']
          
@@ -22,6 +23,7 @@ BIN =   ['applications:fileloader',
          'applications:correlation',
          'applications:ostest',         
          'applications:plang',
+         'applications:startJVM',
          'applications:httpreader', 
          'applications:regression', 
          'applications:httpserver',
@@ -59,6 +61,7 @@ plugin_stats =  (Dir.glob("./src/plugins/regression/*.d")).join(' ')
 plugin_opts =  (Dir.glob("./src/plugins/optionsparser/*.d")).join(' ')
 deps_opengl =  (Dir.glob("./deps/gl/*.d")).join(' ')
 deps_r =  (Dir.glob("./deps/r/*.d")).join(' ')
+deps_jni =  (Dir.glob("./deps/jni/*.d")).join(' ')
 deps_sdl =  (Dir.glob("./deps/sdl/*.d")).join(' ')
 
 directory builddir
@@ -104,6 +107,11 @@ namespace :libraries do
   desc "Bindings for R"
   task "r" => :core do
     sh "dmd -lib #{deps_r} #{builddir}/core.#{libext} -of#{builddir}/r.#{libext} -Ideps/ -Isrc/"
+  end
+
+  desc "Bindings for JNI"
+  task "jni" => :core do
+    sh "dmd -lib #{deps_jni} #{builddir}/core.#{libext} -of#{builddir}/jni.#{libext} -Ideps/ -Isrc/"
   end
   
   desc "Bindings for SDL"
@@ -160,6 +168,11 @@ namespace :applications do
   desc "P'' language interpreter (see: http://en.wikipedia.org/wiki/P'')"
   task "plang" => 'libraries:core' do
     sh "dmd src/plang.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofplang.#{execext}"
+  end
+
+  desc "Start the JVM"
+  task "startJVM" => 'libraries:jni' do
+    sh "dmd src/startJVM.d #{builddir}/core.#{libext} #{builddir}/jni.#{libext} -Isrc/ -Ideps/ -od#{builddir} -ofstartJVM.#{execext}"
   end
   
   desc "Basic HTTP response slurper"
