@@ -9,7 +9,8 @@ LIBS =  ['libraries:core',
          'libraries:game', 
          'libraries:stats',
          'libraries:options',  
-         'libraries:openGL', 
+         'libraries:openGL',
+         'libraries:openAL',         
          'libraries:r',
          'libraries:jni',
          'libraries:gui',
@@ -30,6 +31,7 @@ BIN =   ['applications:fileloader',
          'applications:gameserver',
          'applications:voynich',  
          'applications:dnacode',
+         'applications:testal',
          'applications:sdlconcept',
          'applications:sdltest']
 TESTS = ['tests:plang', 
@@ -60,6 +62,7 @@ plugin_gui = (Dir.glob("./src/gui/*.d") + Dir.glob("./src/gui/*/*.d")).join(' ')
 plugin_stats =  (Dir.glob("./src/plugins/regression/*.d")).join(' ')
 plugin_opts =  (Dir.glob("./src/plugins/optionsparser/*.d")).join(' ')
 deps_opengl =  (Dir.glob("./deps/gl/*.d")).join(' ')
+deps_openal =  (Dir.glob("./deps/openal/*.d")).join(' ')
 deps_r =  (Dir.glob("./deps/r/*.d")).join(' ')
 deps_jni =  (Dir.glob("./deps/jni/*.d")).join(' ')
 deps_sdl =  (Dir.glob("./deps/sdl/*.d")).join(' ')
@@ -98,10 +101,15 @@ namespace :libraries do
   task "options" => :core do
     sh "dmd -lib #{plugin_opts} #{builddir}/core.#{libext} -of#{builddir}/options.#{libext} -Isrc/ -Ideps/"
   end
- 
+
   desc "Bindings for openGL"
   task "openGL" => :core do
     sh "dmd -lib #{deps_opengl} #{builddir}/core.#{libext} -of#{builddir}/openGL.#{libext} -Ideps/ -Isrc/"
+  end
+  
+  desc "Bindings for openAL"
+  task "openAL" => :core do
+    sh "dmd -lib #{deps_openal} #{builddir}/core.#{libext} -of#{builddir}/openAL.#{libext} -Ideps/ -Isrc/"
   end
   
   desc "Bindings for R"
@@ -204,6 +212,12 @@ namespace :applications do
   task "dnacode" => 'libraries:core' do
     sh "dmd src/dnacode.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofdnacode.#{execext}"
   end
+
+  desc "Test openAL bindings"
+  task "testal" => 'libraries:openAL' do
+    sh "dmd src/testal.d #{builddir}/core.#{libext} #{builddir}/openAL.#{libext} -Isrc/ -Ideps/ -od#{builddir} -oftestal.#{execext}"
+  end
+
   
   desc "SDLconcept engine"
   task "sdlconcept" => ['libraries:sdl','libraries:openGL','libraries:gui','libraries:game'] do
