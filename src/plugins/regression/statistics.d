@@ -56,13 +56,13 @@ pure real doSumOfSquares(T)(T[] data){
   return sumofsquares;
 }
 
-pure real doVariance(T)(T[] data){ return (doSumOfSquares!T(data)/(data.length-1)); }
+pure real doVariance(T)(T[] data){ return (doSumOfSquares!T(data)/data.length); }
 
-pure real doVariance(T)(real sumofsquares,uint n){ return (sumofsquares/(n-1)); }
+pure real doVariance(T)(real sumofsquares,uint n){ return (sumofsquares/n); }
 
 pure real doStandardDeviation(T)(T[] data){ return sqrt(doVariance!T(data)); }
 
-real doCorrelation(T)(T[] d1, T[] d2){
+real doSlowCorrelation(T)(T[] d1, T[] d2){
   if(d1.length!=d2.length) throw new Exception("Error: Should have same length "~ to!string(d1.length) ~ " !=" ~ to!string(d2.length));
   
   real sumofsquares = 0;

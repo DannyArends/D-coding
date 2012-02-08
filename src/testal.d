@@ -28,7 +28,7 @@ ALboolean LoadALData(){
 		return AL_FALSE;
   }
 
-	alutLoadWAVFile("data/FancyPants.wav\0".dup.ptr, &format, &data, &size, &freq, &loop);
+	alutLoadWAVFile("data/wav/cow.wav\0".dup.ptr, &format, &data, &size, &freq, &loop);
 	alBufferData(Buffer, format, data, size, freq);
 	alutUnloadWAV(format, data, size, freq);
   alGenSources(1, &Source);

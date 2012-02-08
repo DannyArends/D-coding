@@ -24,6 +24,8 @@
 
 import std.stdio;
 import std.conv;
+import core.time;
+import std.datetime;
 
 import core.arrays.searching;
 import core.io.xbin.reader;
@@ -50,12 +52,26 @@ void main(string[] args){
     }
     uint individuals[] = doRange(1,15);
     auto data1 = reader.loadSubMatrix!double(args[1],individuals);
+    writeln("Correlation algorithm 1");
+    auto t1 = Clock.currTime();
     foreach(ref a; data1){
       foreach(ref b; data1){ 
-        writef("%f\t", doCorrelation!double(a,b));
+        writef("%f ", doCorrelation!double(a,b));
       }
-      write("\n");
+      writeln("");
     }
+    auto t2 = Clock.currTime();
+    writef("Fast %d\n", (t2-t1));
+    writeln("Correlation algorithm 2");
+    auto t3 = Clock.currTime();
+    foreach(ref a; data1){
+      foreach(ref b; data1){ 
+        writef("%f ", doSlowCorrelation!double(a,b));
+      }
+      writeln("");
+    }
+    auto t4 = Clock.currTime();
+    writef("Slow %d\n", (t4-t3));
   }else{
     print_usage();
   }

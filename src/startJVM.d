@@ -16,7 +16,7 @@ JNIEnv* create_vm(){
 	
 	args.jvm_version = JNI_VERSION_1_2;
 	args.nOptions = 1;
-	options[0].optionString = "-Djava.class.path=c:\\github\\D-Coding".dup.ptr;
+	options[0].optionString = "-Djava.class.path=e\\github\\D-Coding".dup.ptr;
 	args.options = options.ptr;
 	args.ignoreUnrecognized = JNI_FALSE;
   

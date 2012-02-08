@@ -120,7 +120,7 @@ class Executor{
   int      status;
   
   public:
-  this(int id, bool verbose = false){
+  this(int id, bool verbose = true){
     this.stdoutfile = "tmp_" ~ to!string(id) ~ ".out";
     this.stderrfile = "tmp_" ~ to!string(id) ~ ".err";
     this.verbose = verbose;
