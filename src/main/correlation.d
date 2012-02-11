@@ -1,33 +1,17 @@
-/**
- * \file correlation.d
+/**********************************************************************
+ * \file src/main/correlation.d
  *
- * last modified May, 2011
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
  * first written May, 2011
- *
- * Copyright (c) 2010 Danny Arends
- * 
- *     This program is free software; you can redistribute it and/or
- *     modify it under the terms of the GNU General Public License,
- *     version 3, as published by the Free Software Foundation.
- * 
- *     This program is distributed in the hope that it will be useful,
- *     but without any warranty; without even the implied warranty of
- *     merchantability or fitness for a particular purpose.  See the GNU
- *     General Public License, version 3, for more details.
- * 
- *     A copy of the GNU General Public License, version 3, is available
- *     at http://www.r-project.org/Licenses/GPL-3
- *
- * Contains: main
- * 
- **/
-
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 import std.stdio;
 import std.conv;
 import core.time;
 import std.datetime;
 
-import core.arrays.searching;
+import core.arrays.search;
 import core.io.xbin.reader;
 import core.io.iofunctions;
 import core.io.textreader;
@@ -50,28 +34,28 @@ void main(string[] args){
       case "256mb":reader.setBufferSize(BUFFERSIZE.BUFFER_256MB);break;
       default     :reader.setBufferSize(BUFFERSIZE.BUFFER_16KB);break;
     }
-    uint individuals[] = doRange(1,15);
+    uint individuals[] = range(1,15);
     auto data1 = reader.loadSubMatrix!double(args[1],individuals);
     writeln("Correlation algorithm 1");
     auto t1 = Clock.currTime();
     foreach(ref a; data1){
       foreach(ref b; data1){ 
-        writef("%f ", correlation_v2!double(a,b));
+        correlation_v2!double(a,b);
       }
-      writeln("");
+      writeln(".");
     }
     auto t2 = Clock.currTime();
-    writef("Fast %d\n", (t2-t1));
+    writef("\nFast %d\n", (t2-t1));
     writeln("Correlation algorithm 2");
     auto t3 = Clock.currTime();
     foreach(ref a; data1){
       foreach(ref b; data1){ 
-        writef("%f ", correlation_v2!double(a,b));
+        correlation_v2!double(a,b);
       }
-      writeln("");
+      writeln(".");
     }
     auto t4 = Clock.currTime();
-    writef("Slow %d\n", (t4-t3));
+    writef("\nSlow %d\n", (t4-t3));
   }else{
     print_usage();
   }

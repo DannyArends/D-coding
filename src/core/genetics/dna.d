@@ -1,9 +1,11 @@
-/*
- * dna.d
- * 
- * Copyright (c) 2011 Danny Arends
- */
-
+/**********************************************************************
+ * \file src/core/genetics/dna.d
+ *
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written May, 2011
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module core.genetics.dna;
 
 import std.stdio;
@@ -13,7 +15,7 @@ import std.string;
 import std.algorithm;
 import std.random;
 
-import core.arrays.searching;
+import core.arrays.search;
 
 struct DNA{
 public:
@@ -120,7 +122,7 @@ DNAstrand Mutate_DNA(DNAstrand sequence, double mutation_rate = 0.0001){
 DNAstrand[] CrossOver_DNA(DNAstrand[] strands, double crossover_rate = 0.7){
   if(uniform(0.0, 1.0) < crossover_rate){
     assert(strands.length >= 2);
-    uint[] s = doRandomRange(0,cast(uint)strands.length,2);
+    uint[] s = randomrange(0,cast(uint)strands.length,2);
     uint breakpoint = cast(uint)uniform(0, min(strands[s[0]].length,strands[s[1]].length));
     strands[s[0]] = strands[s[0]][0..breakpoint-1] ~ strands[s[1]][breakpoint-1.. $];
     strands[s[1]] = strands[s[1]][0..breakpoint-1] ~ strands[s[0]][breakpoint-1.. $];
