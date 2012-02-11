@@ -1,15 +1,11 @@
-/**
- * \file executor.d
+/**********************************************************************
+ * \file src/core/io/executor.d
  *
- * last modified Jun, 2011
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
  * first written Jun, 2011
- *
- * Copyright (c) 2011 Danny Arends
- * 
- * Contains: Executor
  * Written in the D Programming Language (http://www.digitalmars.com/d)
- **/
-
+ **********************************************************************/
 module core.io.executor;
 
 import core.thread;

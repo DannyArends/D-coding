@@ -1,16 +1,11 @@
-/**
- * \file libLoad.d - Shared library loader
- * Description: Shared c and cpp library loader for the D language
+/**********************************************************************
+ * \file src/core/libload/libload.d - Shared library loader
  *
- * Copyright (c) 2010 Danny Arends
- *
- * Contains: 
- * - pure: load_function, load_function
- * - private: getFunctionThroughVoid, load_library
- *
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written 2010
  * Written in the D Programming Language (http://www.digitalmars.com/d)
- **/
-
+ **********************************************************************/
 module core.libload.libload;
 
 private import std.loader;
@@ -21,9 +16,9 @@ private import std.conv;
  * Gets a function void* from a HXModule and functionname 
  */
 protected void* getFunctionThroughVoid(HXModule shared_library, string functionname){
-	void* symbol = ExeModule_GetSymbol(shared_library, functionname);
-	if (symbol is null) throw new Exception("Failed to load function address " ~ functionname);
-	return symbol;
+  void* symbol = ExeModule_GetSymbol(shared_library, functionname);
+  if (symbol is null) throw new Exception("Failed to load function address " ~ functionname);
+  return symbol;
 }
 
 version(Windows){
@@ -67,7 +62,7 @@ package struct function_binding(T) {
   bool opCall(HXModule lib, string name) {
     try{
       *fptr = getFunctionThroughVoid(lib, name);
-	  debug writeln("Loaded shared function: " ~ name);
+      debug writeln("Loaded shared function: " ~ name);
       return true;
     }catch(Exception e){
       writeln("Cannot bind function: " ~ name);
@@ -75,9 +70,8 @@ package struct function_binding(T) {
     }
   }
 
-  private{
+  private:
     void** fptr;
-  }
 }
 
 /*
