@@ -5,7 +5,7 @@
 
 require 'rake/clean'
 
-LIBS =  ['lib:core', 'lib:game', 'lib:stats', 'lib:options', 'lib:openGL', 
+LIBS =  ['lib:libload', 'lib:core', 'lib:game', 'lib:stats', 'lib:options', 'lib:openGL', 
          'lib:openAL', 'lib:r', 'lib:jni', 'lib:gui', 'lib:sdl']
          
 BIN =   ['app:fileloader', 'app:filesplitter', 'app:aligner', 'app:actor', 
@@ -32,8 +32,9 @@ CLEAN.include("#{builddir}*.*")
 CLEAN.include("#{builddir}")
 CLEAN.include("*.#{execext}")
 
-core_files = (Dir.glob("./src/core/*/*.d") + Dir.glob("./src/core/*/*/*.d")).join(' ')
-game_files = (Dir.glob("./src/game/*.d") + Dir.glob("./src/game/*/*.d")).join(' ')
+core_files = Dir.glob("./src/core/**/*.d").join(' ')
+libload_files = Dir.glob("./src/libload/*.d").join(' ')
+game_files = Dir.glob("./src/game/**/*.d").join(' ')
 plugin_gui = (Dir.glob("./src/gui/*.d") + Dir.glob("./src/gui/*/*.d")).join(' ')
 plugin_stats =  (Dir.glob("./src/plugins/regression/*.d")).join(' ')
 plugin_opts =  (Dir.glob("./src/plugins/optionsparser/*.d")).join(' ')
@@ -63,6 +64,11 @@ namespace :lib do
     sh "dmd -lib #{core_files} -of#{builddir}/core.#{libext}"
   end
   
+  desc "The library with libload functionality"
+  task "libload" do
+    sh "dmd -lib #{libload_files} -of#{builddir}/libload.#{libext}"
+  end
+  
   desc "Library with game functionality (A* search)"
   task "game" => :core do
     sh "dmd -lib #{game_files} #{builddir}/core.#{libext} -of#{builddir}/game.#{libext} -Isrc/"
@@ -79,28 +85,28 @@ namespace :lib do
   end
 
   desc "Bindings for openGL"
-  task "openGL" => :core do
-    sh "dmd -lib #{deps_opengl} #{builddir}/core.#{libext} -of#{builddir}/openGL.#{libext} -Ideps/ -Isrc/"
+  task "openGL" => :libload do
+    sh "dmd -lib #{deps_opengl} #{builddir}/libload.#{libext} -of#{builddir}/openGL.#{libext} -Ideps/ -Isrc/"
   end
   
   desc "Bindings for openAL"
-  task "openAL" => :core do
-    sh "dmd -lib #{deps_openal} #{builddir}/core.#{libext} -of#{builddir}/openAL.#{libext} -Ideps/ -Isrc/"
+  task "openAL" => :libload do
+    sh "dmd -lib #{deps_openal} #{builddir}/libload.#{libext} -of#{builddir}/openAL.#{libext} -Ideps/ -Isrc/"
   end
   
   desc "Bindings for R"
-  task "r" => :core do
-    sh "dmd -lib #{deps_r} #{builddir}/core.#{libext} -of#{builddir}/r.#{libext} -Ideps/ -Isrc/"
+  task "r" => :libload do
+    sh "dmd -lib #{deps_r} #{builddir}/libload.#{libext} -of#{builddir}/r.#{libext} -Ideps/ -Isrc/"
   end
 
   desc "Bindings for JNI"
-  task "jni" => :core do
-    sh "dmd -lib #{deps_jni} #{builddir}/core.#{libext} -of#{builddir}/jni.#{libext} -Ideps/ -Isrc/"
+  task "jni" => :libload do
+    sh "dmd -lib #{deps_jni} #{builddir}/libload.#{libext} -of#{builddir}/jni.#{libext} -Ideps/ -Isrc/"
   end
   
   desc "Bindings for SDL"
-  task "sdl" => :core do
-    sh "dmd -lib #{deps_sdl} #{builddir}/core.#{libext} -of#{builddir}/sdl.#{libext} -Ideps/ -Isrc/"
+  task "sdl" => :libload do
+    sh "dmd -lib #{deps_sdl} #{builddir}/libload.#{libext} -of#{builddir}/sdl.#{libext} -Ideps/ -Isrc/"
   end
   
   desc "SDL GUI libary"
