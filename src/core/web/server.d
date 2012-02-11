@@ -105,9 +105,10 @@ class Server(Client) : Thread{
               clients[index] = null;
               writefln("Server: Dropped connection %d",index);
               continue;
+            }else{
+              clients[index].processCommand(buffer[0..received]);
+              writefln("Server: Received from %d: %s",index, to!string(toType!char(buffer[0..received])));
             }
-            clients[index].processCommand(buffer[0..received]);
-            writefln("Server: Received from %d: %s",index, to!string(toType!char(buffer[0..received])));
           }
         }
       }

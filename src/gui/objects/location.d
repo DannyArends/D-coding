@@ -7,12 +7,7 @@ import std.conv;
 import gl.gl_1_0;
 import gui.objects.camera;
 
-class Location{
-public:
-  this(){
-    this(0.0, 0.0, 0.0);
-  }
-  
+struct Location{  
   this(double x, double y, double z){
     loc[0]=x;
     loc[1]=y;
@@ -36,5 +31,5 @@ public:
   @property GLfloat z(){ return loc[2]; }
   
 private:
-  double[3] loc;
+  double loc[3];
 }
