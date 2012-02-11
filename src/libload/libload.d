@@ -6,7 +6,7 @@
  * first written 2010
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module core.libload.libload;
+module libload.libload;
 
 private import std.loader;
 private import std.stdio;
