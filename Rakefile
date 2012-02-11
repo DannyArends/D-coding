@@ -5,40 +5,16 @@
 
 require 'rake/clean'
 
-LIBS =  ['libraries:core', 
-         'libraries:game', 
-         'libraries:stats',
-         'libraries:options',  
-         'libraries:openGL',
-         'libraries:openAL',         
-         'libraries:r',
-         'libraries:jni',
-         'libraries:gui',
-         'libraries:sdl']
+LIBS =  ['lib:core', 'lib:game', 'lib:stats', 'lib:options', 'lib:openGL', 
+         'lib:openAL', 'lib:r', 'lib:jni', 'lib:gui', 'lib:sdl']
          
-BIN =   ['applications:fileloader', 
-         'applications:filesplitter', 
-         'applications:aligner', 
-         'applications:actor', 
-         'applications:single_map_probes', 
-         'applications:correlation',
-         'applications:ostest',         
-         'applications:plang',
-         'applications:startJVM',
-         'applications:httpreader', 
-         'applications:regression', 
-         'applications:httpserver',
-         'applications:gameserver',
-         'applications:voynich',  
-         'applications:dnacode',
-         'applications:testal',
-         'applications:sdlconcept',
-         'applications:sdltest']
-TESTS = ['tests:plang', 
-         'tests:dnacode', 
-         'tests:fileloader', 
-         'tests:correlation', 
-         'tests:httpreader' ]
+BIN =   ['app:fileloader', 'app:filesplitter', 'app:aligner', 'app:actor', 
+         'app:single_map_probes', 'app:correlation', 'app:ostest', 'app:plang',
+         'app:startJVM', 'app:httpreader', 'app:regression', 'app:httpserver',
+         'app:gameserver', 'app:voynich', 'app:dnacode', 'app:testal', 'app:sdl',
+         'app:sdltest']
+TESTS = ['test:plang', 'tests:dnacode', 'test:fileloader', 'test:correlation', 
+         'test:httpreader' ]
 
 def builddir;return "build";end
 
@@ -78,7 +54,7 @@ def libext
 end
 
 # ---- Standard Libs ----
-namespace :libraries do
+namespace :lib do
   desc "Build all libraries"
   task :all => LIBS
   
@@ -134,137 +110,136 @@ namespace :libraries do
 end
 # ---- Applications ----
 
-namespace :applications do
+namespace :app do
   desc "Build all applications and libraries"
   task :all => LIBS+BIN
   
   desc "Fileloader application"
-  task "fileloader" => 'libraries:core' do
+  task "fileloader" => 'lib:core' do
     sh "dmd src/fileloader.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -offileloader.#{execext}"
   end
 
   desc "Large file splitter"
-  task "filesplitter" => 'libraries:core' do
+  task "filesplitter" => 'lib:core' do
     sh "dmd src/filesplitter.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -offileloader.#{execext}"
   end
 
   desc "DNA sequence alignment using blastn"
-  task "aligner" => 'libraries:core' do
+  task "aligner" => 'lib:core' do
     sh "dmd src/aligner.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofaligner.#{execext}"
   end
   
   desc "Actor example from D"
-  task "actor" => 'libraries:core' do
+  task "actor" => 'lib:core' do
     sh "dmd src/actor.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofactor.#{execext}"
   end
 
   desc "os test"
-  task "ostest" => 'libraries:core' do
+  task "ostest" => 'lib:core' do
     sh "dmd src/ostest.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofostest.#{execext}"
   end
   
   desc "Extract probes mapping to a single genome location"
-  task "single_map_probes" => 'libraries:core' do
+  task "single_map_probes" => 'lib:core' do
     sh "dmd src/single_map_probes.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofmap_probes.#{execext}"
   end
   
   desc "Correlation test using the Statistics library"
-  task "correlation" => [ 'libraries:core', 'libraries:stats' ] do
+  task "correlation" => [ 'lib:core', 'lib:stats' ] do
     sh "dmd src/correlation.d #{builddir}/core.#{libext} #{builddir}/stats.#{libext} -Isrc/ -od#{builddir} -ofcorrelation.#{execext}"
   end
   
   desc "P'' language interpreter (see: http://en.wikipedia.org/wiki/P'')"
-  task "plang" => 'libraries:core' do
+  task "plang" => 'lib:core' do
     sh "dmd src/plang.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofplang.#{execext}"
   end
 
   desc "Start the JVM"
-  task "startJVM" => 'libraries:jni' do
+  task "startJVM" => 'lib:jni' do
     sh "dmd src/startJVM.d #{builddir}/core.#{libext} #{builddir}/jni.#{libext} -Isrc/ -Ideps/ -od#{builddir} -ofstartJVM.#{execext}"
   end
   
   desc "Basic HTTP response slurper"
-  task "httpreader" => 'libraries:core' do
+  task "httpreader" => 'lib:core' do
     sh "dmd src/httpreader.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofhttpreader.#{execext}"
   end
   
   desc "Multiple lineair regression"
-  task "regression" => [ 'libraries:core',  'libraries:stats',  'libraries:r' ] do
-    sh "dmd src/regression.d #{builddir}/core.#{libext} #{builddir}/stats.#{libext} #{builddir}/r.#{libext} -Isrc/ -Ideps/ -L-ldl -od#{builddir} -ofregression.#{execext}"
+  task "regression" => [ 'lib:core',  'lib:stats',  'lib:r' ] do
+    sh "dmd src/regression.d #{builddir}/core.#{libext} #{builddir}/stats.#{libext} #{builddir}/r.#{libext} -Isrc/ -Ideps/ -od#{builddir} -ofregression.#{execext}"
   end
   
   desc "HTPPserver supporting D as CGI"
-  task "httpserver" => 'libraries:core' do
+  task "httpserver" => 'lib:core' do
     sh "dmd src/httpserver.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofhttpserver.#{execext}"
   end
   
   desc "Server for a multiplayer network mud"
-  task "gameserver" => 'libraries:game' do
+  task "gameserver" => 'lib:game' do
     sh "dmd src/server.d #{builddir}/core.#{libext}  #{builddir}/game.#{libext} -Isrc/ -od#{builddir} -ofserver.#{execext}"
   end
 
   desc "Decode voynich"
-  task "voynich" => 'libraries:core' do
+  task "voynich" => 'lib:core' do
     sh "dmd src/voynich.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofvoynich.#{execext}"
   end
   
   desc "Scan for proteins in DNA code"
-  task "dnacode" => 'libraries:core' do
+  task "dnacode" => 'lib:core' do
     sh "dmd src/dnacode.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofdnacode.#{execext}"
   end
 
   desc "Test openAL bindings"
-  task "testal" => 'libraries:openAL' do
+  task "testal" => 'lib:openAL' do
     sh "dmd src/testal.d #{builddir}/core.#{libext} #{builddir}/openAL.#{libext} -Isrc/ -Ideps/ -od#{builddir} -oftestal.#{execext}"
   end
 
-  
   desc "SDLconcept engine"
-  task "sdlconcept" => ['libraries:sdl','libraries:openGL','libraries:gui','libraries:game'] do
-    sh "dmd src/sdlconcept.d #{builddir}/sdl.#{libext} #{builddir}/gui.#{libext} #{builddir}/openGL.#{libext} #{builddir}/game.#{libext}  -Isrc/ -Ideps/ -od#{builddir} -ofsdltest.#{execext} -L-ldl"
+  task "sdl" => ['lib:sdl','lib:openGL','lib:gui','lib:game'] do
+    sh "dmd src/sdlconcept.d #{builddir}/sdl.#{libext} #{builddir}/gui.#{libext} #{builddir}/openGL.#{libext} #{builddir}/game.#{libext}  -Isrc/ -Ideps/ -od#{builddir} -ofsdltest.#{execext}"
   end
   
   desc "SDL test"
-  task "sdltest" => ['libraries:sdl','libraries:openGL','libraries:gui','libraries:game'] do
-    sh "dmd src/sdltest.d #{builddir}/sdl.#{libext} #{builddir}/gui.#{libext} #{builddir}/openGL.#{libext} #{builddir}/game.#{libext}  -Isrc/ -Ideps/ -od#{builddir} -ofsdltest.#{execext} -L-ldl"
+  task "sdltest" => ['lib:sdl','lib:openGL','lib:gui','lib:game'] do
+    sh "dmd src/sdltest.d #{builddir}/sdl.#{libext} #{builddir}/gui.#{libext} #{builddir}/openGL.#{libext} #{builddir}/game.#{libext}  -Isrc/ -Ideps/ -od#{builddir} -ofsdltest.#{execext}"
   end
 end
 
 # ---- Default task ----
 
 desc "Default is to build all applications"
-task :default => 'applications:all' do
+task :default => 'app:all' do
   print "Build OK\n"
 end
 
 desc "Build all game-executables"
-task :game => ['applications:gameserver', 'applications:sdltest' ] do
+task :game => ['app:gameserver', 'app:sdltest' ] do
   print "Game OK\n"
 end
 
 # ---- Unit tests ----
 
-namespace :tests do
+namespace :test do
   desc "Run all tests"
   task :all => TESTS do
     print "All tests OK\n"
   end
   
   desc "Test Plang"
-  task :plang => [ 'applications:plang' ] do 
+  task :plang => [ 'app:plang' ] do 
     print "Testing p'' language interpreter\n"
     sh "./plang.#{execext}"
     sh "./plang.#{execext} 'Rl(l)' 010"
   end
   desc "Test DNAcode"
-  task :dnacode => [ 'applications:dnacode' ] do 
+  task :dnacode => [ 'app:dnacode' ] do 
     print "Testing DNA translation\n"
     sh "./dnacode.#{execext}"
     sh "./dnacode.#{execext} AAAATGATTGAGTAGGATGGATTCTATATCTCTACTCATTTTGTCGCTT"
   end
   
   desc "Test Fileloader"
-  task :fileloader => [ 'applications:fileloader' ] do 
+  task :fileloader => [ 'app:fileloader' ] do 
     print "Testing fileloader\n"
     sh "./fileloader.#{execext}"
     #sh "./fileloader data/csv/test.csv"
@@ -273,20 +248,20 @@ namespace :tests do
   end
   
   desc "Test Regression"
-  task :regression => [ 'applications:regression' ] do 
+  task :regression => [ 'app:regression' ] do 
     print "Testing regression\n"
     sh "./regression.#{execext}"
   end
   
   desc "Test Correlation"
-  task :correlation => [ 'applications:correlation' ] do 
+  task :correlation => [ 'app:correlation' ] do 
     print "Testing correlation\n"
     sh "./correlation.#{execext}"
     #sh "./correlation data/csv/test.csv 2mb"
   end
   
   desc "Test HTTPreader"
-  task :httpreader => [ 'applications:httpreader' ] do 
+  task :httpreader => [ 'app:httpreader' ] do 
     print "Testing httpreader\n"
     sh "./httpreader.#{execext}"
     sh "./httpreader.#{execext} www.dannyarends.nl 80 /" 

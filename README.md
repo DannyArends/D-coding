@@ -9,7 +9,7 @@ Some libraries and/or examples require external libraries:
 - (Optional for GUI) Download and install SDL for your platform (http://www.libsdl.org/)
 - (R for Statistical) Download and install R for your platform (http://www.r-project.org/)
 
-Compile with using rake, dmd (and optionally dfl) on %PATH%:
+Compile with using rake, dmd on your %PATH%:
 List all possible build and test options:
 
     $ rake -T
@@ -39,8 +39,18 @@ however here a short description on what they are supposed to do is provided:
  
 To build an application simply run:
 
-    $ rake applications:sdltest
-    $ rake applications:dnacode
+```
+    $ rake app:aligner
+    $ rake app:correlation
+    $ rake app:ostest
+    $ rake app:plang
+    $ rake app:startJVM
+    $ rake app:regression
+    $ rake app:correlation
+    $ rake app:sdl
+    $ rake app:sdltest
+    $ rake app:dnacode
+```
 
 Want to contribute? Great!
 ------------
