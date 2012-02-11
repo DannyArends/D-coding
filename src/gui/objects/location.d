@@ -7,7 +7,7 @@ import std.conv;
 import gl.gl_1_0;
 import gui.objects.camera;
 
-struct Location{  
+class Location{  
   this(double x, double y, double z){
     loc[0]=x;
     loc[1]=y;

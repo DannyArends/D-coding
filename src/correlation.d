@@ -56,7 +56,7 @@ void main(string[] args){
     auto t1 = Clock.currTime();
     foreach(ref a; data1){
       foreach(ref b; data1){ 
-        writef("%f ", doCorrelation!double(a,b));
+        writef("%f ", correlation_v2!double(a,b));
       }
       writeln("");
     }
@@ -66,7 +66,7 @@ void main(string[] args){
     auto t3 = Clock.currTime();
     foreach(ref a; data1){
       foreach(ref b; data1){ 
-        writef("%f ", doSlowCorrelation!double(a,b));
+        writef("%f ", correlation_v2!double(a,b));
       }
       writeln("");
     }

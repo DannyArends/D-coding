@@ -62,7 +62,7 @@ pure real doVariance(T)(real sumofsquares,uint n){ return (sumofsquares/n); }
 
 pure real doStandardDeviation(T)(T[] data){ return sqrt(doVariance!T(data)); }
 
-real doSlowCorrelation(T)(T[] d1, T[] d2){
+real correlation_v1(T)(T[] d1, T[] d2){
   if(d1.length!=d2.length) throw new Exception("Error: Should have same length "~ to!string(d1.length) ~ " !=" ~ to!string(d2.length));
   
   real sumofsquares = 0;
@@ -77,4 +77,23 @@ real doSlowCorrelation(T)(T[] d1, T[] d2){
   real variance = doVariance!real(sumofsquares,cast(uint)d1.length);
   return (variance / (doStandardDeviation(d1)*doStandardDeviation(d2)));
 }
+
+double correlation_v2(T)(T[] x, T[] y){
+  assert(x.length == y.length);
+  double XiYi = 0;
+  double Xi = 0;
+  double Yi = 0;
+  double XiP2 = 0;
+  double YiP2 = 0;
+  for(uint i = 0; i < x.length; i++){
+    XiYi += x[i] * y[i];
+    Xi += x[i]; 
+    Yi += y[i];
+    XiP2 += x[i] * x[i]; 
+    YiP2 += y[i] * y[i];
+  }
+  double onedivn = 1.0/x.length;
+  return (XiYi - (onedivn*Xi*Yi)) / (sqrt(XiP2 - onedivn * pow(Xi, 2)) * sqrt(YiP2 - onedivn * pow(Yi, 2)));
+}
+
 
