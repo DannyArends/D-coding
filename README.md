@@ -20,16 +20,16 @@ Applications
 The provided applications are itself are not that interesting, and sometimes far from finished, 
 however here a short description on what they are supposed to do is provided:
 
-- sdltest: OS independent SDL OpenGL platform for testing D <-> SDL <-> OpenGL bindings
-- Plang: implementation of a p'' interpreter
-- Regression: Multiple regression adapted from MQM routine
-- Fileloader: High speed big data file loading using the D language
-- Aligner: Performs blastn on raw DNA sequences to a whole genome sequences in a fasta file (you'll need: ftp://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/)
-- Httpreader: Basic HTTP slurper
-- Httpserver: Basic try at a HTTP server
-- Httpserver: Basic try at a HTTP server
-- DNAcode: Translates an input sequence in DNA to Anti, mRNA and possible proteins
- 
+    - sdltest: OS independent SDL OpenGL platform for testing D <-> SDL <-> OpenGL bindings
+    - Plang: implementation of a p'' interpreter
+    - Regression: Multiple regression adapted from MQM routine
+    - Fileloader: High speed big data file loading using the D language
+    - Aligner: Performs blastn on raw DNA sequences to a whole genome sequences in a fasta file (you'll need: ftp://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/)
+    - Httpreader: Basic HTTP slurper
+    - Httpserver: Basic try at a HTTP server
+    - Httpserver: Basic try at a HTTP server
+    - DNAcode: Translates an input sequence in DNA to Anti, mRNA and possible proteins
+
 To build an application simply run:
 
 ```
