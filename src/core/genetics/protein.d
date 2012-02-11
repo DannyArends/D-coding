@@ -1,6 +1,11 @@
-/*
-* protein.d
-*/
+/**********************************************************************
+ * \file src/core/genetics/protein.d
+ *
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written 2011
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module core.genetics.protein;
 
 import std.stdio;
