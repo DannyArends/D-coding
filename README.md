@@ -1,26 +1,19 @@
 Installation
 ------------
-- Download and install DMD for D language 2.0+ (http://www.d-programming-language.org/)
-- Download and install Ruby 1.9.1 (or higher) preferably with GEM (http://www.ruby-lang.org/)
-- Install Rake (http://rake.rubyforge.org/)
-
-Some libraries and/or examples require external libraries:
+Download and install DMD for D language 2.0+ (http://www.d-programming-language.org/), 
+also get Ruby 1.9.1 (or higher) preferably with GEM (http://www.ruby-lang.org/) and 
+install Rake (http://rake.rubyforge.org/). Some libraries and/or examples require 
+external libraries:
 
 - (Optional for GUI) Download and install SDL for your platform (http://www.libsdl.org/)
 - (R for Statistical) Download and install R for your platform (http://www.r-project.org/)
 
 Compile with using rake, dmd on your %PATH%:
-List all possible build and test options:
 
-    $ rake -T
-
-Build all examples and standalone LIB components:
-
-    $ rake build
-
-Building only the standalone LIB components for re-use:
-
-    $ rake libs
+    $ rake -T         #List all possible build and test options
+    $ rake libs       #Build only the libraries
+    $ rake app:<name> #Build single standalone application
+    $ rake build      #Build all applications and libraries
 
 Applications
 ------------
