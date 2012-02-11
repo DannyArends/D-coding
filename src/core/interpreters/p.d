@@ -1,11 +1,12 @@
-/*
- * P.d - Interpreter for P'' programming language in D
- * 
- * See: http://en.wikipedia.org/wiki/P'' or http://www.cs.unibo.it/~martini/PP/bohm-jac.pdf
- * Copyright (c) 2010 Danny Arends
- * 
- */
- 
+/**********************************************************************
+ * \file src/core/interpreters/p.d
+ *
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written 2010
+ * Interpreter for P'' (http://en.wikipedia.org/wiki/P'')
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module core.interpreters.p;
 
 import core.thread;
@@ -36,7 +37,7 @@ class PInterpreter{
   int       p_ip = 0;
   int       p_mp = 0; //Starts pointing to the first character of the input
 
-  OP[]    p_program;
+  OP[]      p_program;
   int[]     p_targets;
   long      step=0;
   bool      p_running = true;
