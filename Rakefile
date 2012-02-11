@@ -189,7 +189,7 @@ namespace :applications do
   end
   
   desc "Multiple lineair regression"
-  task "regression" => [ 'libraries:core',  'libraries:r' ] do
+  task "regression" => [ 'libraries:core',  'libraries:stats',  'libraries:r' ] do
     sh "dmd src/regression.d #{builddir}/core.#{libext} #{builddir}/stats.#{libext} #{builddir}/r.#{libext} -Isrc/ -Ideps/ -L-ldl -od#{builddir} -ofregression.#{execext}"
   end
   
