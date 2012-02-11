@@ -6,7 +6,8 @@ install Rake (http://rake.rubyforge.org/). Some libraries and/or examples requir
 external libraries:
 
 - (Optional for GUI) Download and install SDL for your platform (http://www.libsdl.org/)
-- (R for Statistical) Download and install R for your platform (http://www.r-project.org/)
+- (R for Statistics) Download and install R for your platform (http://www.r-project.org/)
+- (Aligner) Download and install BLAST (ftp://ftp.ncbi.nlm.nih.gov/blast/)
 
 Compile with using rake, dmd on your %PATH%:
 
@@ -24,7 +25,7 @@ however here a short description on what they are supposed to do is provided:
     - Plang: implementation of a p'' interpreter
     - Regression: Multiple regression adapted from MQM routine
     - Fileloader: High speed big data file loading using the D language
-    - Aligner: Performs blastn on raw DNA sequences to a whole genome sequences in a fasta file (you'll need: ftp://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/)
+    - Aligner: Performs blastn on raw DNA sequences to a whole genome sequences in a fasta file
     - Httpreader: Basic HTTP slurper
     - Httpserver: Basic try at a HTTP server
     - Httpserver: Basic try at a HTTP server
