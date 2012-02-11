@@ -1,3 +1,11 @@
+/**********************************************************************
+ * \file src/core/typedefs/basictypes.d
+ *
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written 2010
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module core.typedefs.basictypes;
 
 import std.stdio;
@@ -27,17 +35,9 @@ struct Color {
     this.a = cast(ubyte) color[3];
   }
 
-  static Color transparent() {
-    return Color(0, 0, 0, 0);
-  }
-
-  static Color white() {
-    return Color(255, 255, 255);
-  }
-
-  static Color black() {
-    return Color(0, 0, 0);
-  }
+  static Color transparent(){ return Color(0, 0, 0, 0); }
+  static Color white(){ return Color(255, 255, 255); }
+  static Color black(){ return Color(0, 0, 0); }
   
   string toString(){
     return to!string(r) ~ "," ~ to!string(g) ~"," ~ to!string(b) ~"," ~ to!string(a) ~ "\t";

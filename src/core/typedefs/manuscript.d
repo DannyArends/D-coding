@@ -1,15 +1,11 @@
-/**
- * \file executor.d
+/**********************************************************************
+ * \file src/core/typedefs/manuscript.d
  *
- * last modified Jun, 2011
- * first written Jun, 2011
- *
- * Copyright (c) 2011 Danny Arends
- * 
- * Contains: Executor
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written 2010
  * Written in the D Programming Language (http://www.digitalmars.com/d)
- **/
-
+ **********************************************************************/
 module core.typedefs.manuscript;
 
 import core.thread;
@@ -20,7 +16,6 @@ import std.string;
 import std.socket;
 import std.stdio;
 import core.typedefs.types;
-
 
 struct Paragraph{
   int        page_start;
