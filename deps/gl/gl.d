@@ -62,7 +62,9 @@ static this(){
   load_function(wglGetCurrentContext)(lib, "wglGetCurrentContext");
   load_function(wglGetCurrentDC)(lib, "wglGetCurrentDC");
   load_function(wglGetLayerPaletteEntries)(lib, "wglGetLayerPaletteEntries");
+  */
   load_function(wglGetProcAddress)(lib, "wglGetProcAddress");
+  /*
   load_function(wglMakeCurrent)(lib, "wglMakeCurrent");
   load_function(wglRealizeLayerPalette)(lib, "wglRealizeLayerPalette");
   load_function(wglSetLayerPaletteEntries)(lib, "wglSetLayerPaletteEntries");

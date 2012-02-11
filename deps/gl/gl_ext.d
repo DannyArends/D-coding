@@ -16,6 +16,7 @@ static bool isArbBufferEnabled(){
 }
 
 bool load_VBO_extensions(){
+  writeln("Start loading VBO extension");
   if(!load_extension(glBindBufferARB)("glBindBufferARB")){
     if(!load_extension(glBindBufferARB)("glBindBuffer",true,"OpenGL 1.5 fail-safe")){  
       return false;
