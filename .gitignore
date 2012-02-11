@@ -12,5 +12,6 @@ data/
 *.aligned
 .project
 *.o
+*.class
 .externalToolBuilders/
 
