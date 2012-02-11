@@ -1,16 +1,12 @@
-/**
- * \file algebra.D
+/**********************************************************************
+ * \file src/core/arrays/algebra.d
  *
- * last modified May, 2011
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
  * first written May, 2011
- *
- * Copyright (c) 2010 Danny Arends
- * 
- *
- * Contains: doRange, searchArray, searchArrayBinary
+ * Contains: substract, doRange, searchArray, searchArrayBinary
  * Written in the D Programming Language (http://www.digitalmars.com/d)
- **/
-
+ **********************************************************************/ 
 module core.arrays.algebra;
 
 import std.math;
@@ -40,7 +36,7 @@ T[] subtract(T)(T[] d1,T[] d2){
 T[] add(T)(T[] d1,T[] d2){
   if(d1.length!=d2.length) throw new Exception("Error: Should have same length");
   T[] sum;
-  sum.length = d1.length;
+  sum.reserve(d1.length);
   for(int x=0;x<d1.length;x++){
     sum[x] = d1[x] + d2[x];
   }
@@ -53,9 +49,9 @@ T[] add(T)(T[] d1,T[] d2){
 * @param d1 any type any length vector<br>
 * @param alpha float parameter holding the maginification factor<br>
 */
-T[] multiply(T)(T[] d1, float alpha){
+T[] multiply(T)(T[] d1, float alpha = 1.0){
   T[] factor;
-  factor.length = d1.length;
+  factor.reserve(d1.length);
   for(int x=0;x<d1.length;x++){
     factor[x] = d1[x] * alpha;
   }
@@ -69,10 +65,10 @@ T[] multiply(T)(T[] d1, float alpha){
 * @param d2 any type any length vector<br>
 * @param alpha float parameter holding the maginification factor<br>
 */
-T[] addnmultiply(T)(T[] d1,T[] d2, float alpha){
+T[] addnmultiply(T)(T[] d1,T[] d2, float alpha = 1.0){
   if(d1.length!=d2.length) throw new Exception("Error: Should have same length");
   T[] factor;
-  factor.length = d1.length;
+  factor.reserve(d1.length);
   for(int x=0;x<d1.length;x++){
     factor[x] = d1[x] + d2[x] * alpha;
   }
@@ -85,7 +81,7 @@ T[] addnmultiply(T)(T[] d1,T[] d2, float alpha){
 * @param d1 any type any length vector<br>
 */
 float magnitude(T)(T[] d1){
-  float f;
+  float f = 0.0;
   for(int x=0;x<d1.length;x++){
     f += (d1[x] * d1[x]);
   }
@@ -99,7 +95,7 @@ float magnitude(T)(T[] d1){
 */
 T[] normalize(T)(T[] d1){
   T[] normal;
-  normal.length = d1.length;
+  normal.reserve(d1.length);
   
   float len = magnitude!T(d1);
   if (len == 0.0f) len = 1.0f;
@@ -121,7 +117,7 @@ T[] trianglefindnormal(T)(T[3][3] v){
   T[3] a;
   T[3] b;
   T[] normal;
-  normal.length=3;
+  normal.reserve(3);
   
   a[0] = v[0][0] - v[1][0];
   a[1] = v[0][1] - v[1][1];
