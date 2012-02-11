@@ -121,7 +121,7 @@ namespace :app do
 
   desc "Large file splitter"
   task "filesplitter" => 'lib:core' do
-    sh "dmd src/main/filesplitter.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -offileloader.#{execext}"
+    sh "dmd src/main/filesplitter.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -offilesplit.#{execext}"
   end
 
   desc "DNA sequence alignment using blastn"
