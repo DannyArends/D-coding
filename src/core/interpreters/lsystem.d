@@ -1,11 +1,12 @@
-/*
- * lsystem.d - Interpreter for an L-system in D
- * 
- * See: http://en.wikipedia.org/wiki/Lsystem
- * Copyright (c) 2011 Danny Arends
- * 
- */
-
+/**********************************************************************
+ * \file src/core/interpreters/lsystem.d
+ *
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written May, 2011
+ * Interpreter for an L-system (http://en.wikipedia.org/wiki/Lsystem)
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module core.interpreters.lsystem;
 
 import std.array;
@@ -14,18 +15,13 @@ import std.conv;
 
 class lsystemrule(Element, Sequence){
 public:
-  this(Element hd, Sequence tl) {
+  this(Element hd, Sequence tl){
     head = hd; 
     tail = tl;
   }
   
-  bool isMatch(Element hd) {
-    return hd == head;
-  }
-  
-  Sequence getTail() {
-    return tail;
-  }
+  bool     isMatch(Element hd){ return hd == head; }
+  Sequence getTail(){ return tail; }
   
 private:
   Element head;
@@ -34,13 +30,8 @@ private:
 
 class Lsystem(Element, Sequence){
 public:
-    void setState(Sequence st) {
-      state = st;
-    }
-    
-    Sequence getState() {
-      return state;
-    }
+    void setState(Sequence st){ state = st; }
+    Sequence getState(){ return state; }
    
     void addRule(Element hd, Sequence tl){
       rules ~= new lsystemrule!(Element,Sequence)(hd, tl);
