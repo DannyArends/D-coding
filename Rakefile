@@ -116,92 +116,92 @@ namespace :app do
   
   desc "Fileloader application"
   task "fileloader" => 'lib:core' do
-    sh "dmd src/fileloader.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -offileloader.#{execext}"
+    sh "dmd src/main/fileloader.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -offileloader.#{execext}"
   end
 
   desc "Large file splitter"
   task "filesplitter" => 'lib:core' do
-    sh "dmd src/filesplitter.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -offileloader.#{execext}"
+    sh "dmd src/main/filesplitter.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -offileloader.#{execext}"
   end
 
   desc "DNA sequence alignment using blastn"
   task "aligner" => 'lib:core' do
-    sh "dmd src/aligner.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofaligner.#{execext}"
+    sh "dmd src/main/aligner.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofaligner.#{execext}"
   end
   
   desc "Actor example from D"
   task "actor" => 'lib:core' do
-    sh "dmd src/actor.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofactor.#{execext}"
+    sh "dmd src/main/actor.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofactor.#{execext}"
   end
 
   desc "os test"
   task "ostest" => 'lib:core' do
-    sh "dmd src/ostest.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofostest.#{execext}"
+    sh "dmd src/main/ostest.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofostest.#{execext}"
   end
   
   desc "Extract probes mapping to a single genome location"
   task "single_map_probes" => 'lib:core' do
-    sh "dmd src/single_map_probes.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofmap_probes.#{execext}"
+    sh "dmd src/main/single_map_probes.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofmap_probes.#{execext}"
   end
   
   desc "Correlation test using the Statistics library"
   task "correlation" => [ 'lib:core', 'lib:stats' ] do
-    sh "dmd src/correlation.d #{builddir}/core.#{libext} #{builddir}/stats.#{libext} -Isrc/ -od#{builddir} -ofcorrelation.#{execext}"
+    sh "dmd src/main/correlation.d #{builddir}/core.#{libext} #{builddir}/stats.#{libext} -Isrc/ -od#{builddir} -ofcorrelation.#{execext}"
   end
   
   desc "P'' language interpreter (see: http://en.wikipedia.org/wiki/P'')"
   task "plang" => 'lib:core' do
-    sh "dmd src/plang.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofplang.#{execext}"
+    sh "dmd src/main/plang.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofplang.#{execext}"
   end
 
   desc "Start the JVM"
   task "startJVM" => 'lib:jni' do
-    sh "dmd src/startJVM.d #{builddir}/core.#{libext} #{builddir}/jni.#{libext} -Isrc/ -Ideps/ -od#{builddir} -ofstartJVM.#{execext}"
+    sh "dmd src/main/startJVM.d #{builddir}/core.#{libext} #{builddir}/jni.#{libext} -Isrc/ -Ideps/ -od#{builddir} -ofstartJVM.#{execext}"
   end
   
   desc "Basic HTTP response slurper"
   task "httpreader" => 'lib:core' do
-    sh "dmd src/httpreader.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofhttpreader.#{execext}"
+    sh "dmd src/main/httpreader.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofhttpreader.#{execext}"
   end
   
   desc "Multiple lineair regression"
   task "regression" => [ 'lib:core',  'lib:stats',  'lib:r' ] do
-    sh "dmd src/regression.d #{builddir}/core.#{libext} #{builddir}/stats.#{libext} #{builddir}/r.#{libext} -Isrc/ -Ideps/ -od#{builddir} -ofregression.#{execext}"
+    sh "dmd src/main/regression.d #{builddir}/core.#{libext} #{builddir}/stats.#{libext} #{builddir}/r.#{libext} -Isrc/ -Ideps/ -od#{builddir} -ofregression.#{execext}"
   end
   
   desc "HTPPserver supporting D as CGI"
   task "httpserver" => 'lib:core' do
-    sh "dmd src/httpserver.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofhttpserver.#{execext}"
+    sh "dmd src/main/httpserver.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofhttpserver.#{execext}"
   end
   
   desc "Server for a multiplayer network mud"
   task "gameserver" => 'lib:game' do
-    sh "dmd src/server.d #{builddir}/core.#{libext}  #{builddir}/game.#{libext} -Isrc/ -od#{builddir} -ofserver.#{execext}"
+    sh "dmd src/main/server.d #{builddir}/core.#{libext}  #{builddir}/game.#{libext} -Isrc/ -od#{builddir} -ofserver.#{execext}"
   end
 
   desc "Decode voynich"
   task "voynich" => 'lib:core' do
-    sh "dmd src/voynich.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofvoynich.#{execext}"
+    sh "dmd src/main/voynich.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofvoynich.#{execext}"
   end
   
   desc "Scan for proteins in DNA code"
   task "dnacode" => 'lib:core' do
-    sh "dmd src/dnacode.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofdnacode.#{execext}"
+    sh "dmd src/main/dnacode.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofdnacode.#{execext}"
   end
 
   desc "Test openAL bindings"
   task "testal" => 'lib:openAL' do
-    sh "dmd src/testal.d #{builddir}/core.#{libext} #{builddir}/openAL.#{libext} -Isrc/ -Ideps/ -od#{builddir} -oftestal.#{execext}"
+    sh "dmd src/main/testal.d #{builddir}/core.#{libext} #{builddir}/openAL.#{libext} -Isrc/ -Ideps/ -od#{builddir} -oftestal.#{execext}"
   end
 
   desc "SDLconcept engine"
   task "sdl" => ['lib:sdl','lib:openGL','lib:gui','lib:game'] do
-    sh "dmd src/sdlconcept.d #{builddir}/sdl.#{libext} #{builddir}/gui.#{libext} #{builddir}/openGL.#{libext} #{builddir}/game.#{libext}  -Isrc/ -Ideps/ -od#{builddir} -ofsdltest.#{execext}"
+    sh "dmd src/main/sdlconcept.d #{builddir}/sdl.#{libext} #{builddir}/gui.#{libext} #{builddir}/openGL.#{libext} #{builddir}/game.#{libext}  -Isrc/ -Ideps/ -od#{builddir} -ofsdltest.#{execext}"
   end
   
   desc "SDL test"
   task "sdltest" => ['lib:sdl','lib:openGL','lib:gui','lib:game'] do
-    sh "dmd src/sdltest.d #{builddir}/sdl.#{libext} #{builddir}/gui.#{libext} #{builddir}/openGL.#{libext} #{builddir}/game.#{libext}  -Isrc/ -Ideps/ -od#{builddir} -ofsdltest.#{execext}"
+    sh "dmd src/main/sdltest.d #{builddir}/sdl.#{libext} #{builddir}/gui.#{libext} #{builddir}/openGL.#{libext} #{builddir}/game.#{libext}  -Isrc/ -Ideps/ -od#{builddir} -ofsdltest.#{execext}"
   end
 end
 
