@@ -1,4 +1,8 @@
-/* Converted to D from AL/alut.h by htod */
+/**********************************************************************
+ * \file deps/openal/alut.d - Wrapper for ALUT
+ *
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/ 
 module openal.alut;
 
 import std.loader;
@@ -6,12 +10,11 @@ import std.stdio;
 import std.conv;
 import std.c.stdarg;
 
+import libload.libload;
 import openal.al;
 import openal.al_types;
 import openal.alc;
 import openal.alut_types;
-
-import core.libload.libload;
 
 static this(){
   HXModule lib = load_library("alut", "", "");

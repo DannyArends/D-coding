@@ -1,4 +1,9 @@
-/* Converted to D from al.h by htod */
+/**********************************************************************
+ * \file deps/openal/al.d - Wrapper for openAL
+ *
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/ 
+
 module openal.al;
 
 import std.loader;
@@ -6,14 +11,9 @@ import std.stdio;
 import std.conv;
 import std.c.stdarg;
 
+import libload.libload;
 import openal.al_types;
 
-import core.libload.libload;
-
-
-/*
- * Loads a single gl extension (Needs a live reference to the library)
- */
 template load_extension(T){
     ext_binding!(T) load_extension(ref T a) {
     ext_binding!(T) res;
@@ -22,9 +22,7 @@ template load_extension(T){
   }
 }
 
-/*
- * binding of a single extension
- */
+/* Binding of a single openAL extension */
 package struct ext_binding(T) {
   bool opCall(string name,bool verbose = false, string msg = "Bound extension"){
     void* func = alGetProcAddress(&name.dup[0]);
@@ -38,9 +36,8 @@ package struct ext_binding(T) {
     }
   }
   
-  private{
+  private:
     void** eptr;
-  }
 }
 
 static this(){
@@ -131,19 +128,19 @@ static this(){
 }
 
 extern(C){
-  void  function(ALenum capability)alEnable;
-  void  function(ALenum capability)alDisable;
+  void       function(ALenum capability)alEnable;
+  void       function(ALenum capability)alDisable;
   ALboolean  function(ALenum capability)alIsEnabled;
 
-  ALchar* function(ALenum param)alGetString;
-  void  function(ALenum param, ALboolean *data)alGetBooleanv;
-  void  function(ALenum param, ALint *data)alGetIntegerv;
-  void  function(ALenum param, ALfloat *data)alGetFloatv;
-  void  function(ALenum param, ALdouble *data)alGetDoublev;
+  ALchar*    function(ALenum param)alGetString;
+  void       function(ALenum param, ALboolean *data)alGetBooleanv;
+  void       function(ALenum param, ALint *data)alGetIntegerv;
+  void       function(ALenum param, ALfloat *data)alGetFloatv;
+  void       function(ALenum param, ALdouble *data)alGetDoublev;
   ALboolean  function(ALenum param)alGetBoolean;
-  ALint  function(ALenum param)alGetInteger;
-  ALfloat  function(ALenum param)alGetFloat;
-  ALdouble  function(ALenum param)alGetDouble;
+  ALint      function(ALenum param)alGetInteger;
+  ALfloat    function(ALenum param)alGetFloat;
+  ALdouble   function(ALenum param)alGetDouble;
 
   ALenum     function()alGetError;
   ALboolean  function(ALchar *extname)alIsExtensionPresent;

@@ -1,21 +1,15 @@
-/**
- * \file R.d - Wrapper for R.dll
- * Description: Wrapper for R.dll
- * Copyright (c) 2010 Danny Arends
- *
- * Contains: 
- * - private: static this
+/**********************************************************************
+ * \file deps/r/r.d - Wrapper for R
  *
  * Written in the D Programming Language (http://www.digitalmars.com/d)
- **/
- 
+ **********************************************************************/ 
 module r.r;
 
 private import std.loader;
 private import std.stdio;
 private import std.conv;
 
-import core.libload.libload;
+import libload.libload;
 
 const HAVE_F77_UNDERSCORE = 1;
 

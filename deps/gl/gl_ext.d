@@ -1,3 +1,8 @@
+/**********************************************************************
+ * \file deps/gl/gl_ext.d - Wrapper for openGL extensions
+ *
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/ 
 module gl.gl_ext;
 
 import std.loader;
@@ -7,7 +12,7 @@ import std.c.stdarg;
 private import gl.gl;
 private import gl.gl_1_0;
 
-import core.libload.libload;
+import libload.libload;
 
 private bool arb_buffer_enabled = false;
 

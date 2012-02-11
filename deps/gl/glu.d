@@ -1,4 +1,9 @@
-/* Converted to D from glu.h by htod */
+/**********************************************************************
+ * \file deps/gl/glu.d - Wrapper for GLUT
+ *
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/ 
+
 module gl.glu;
 
 import std.loader;
@@ -9,7 +14,7 @@ import std.c.stdarg;
 private import gl.gl_1_0;
 private import gl.gl_1_1;
 
-import core.libload.libload;
+import libload.libload;
 
 static this(){
   HXModule lib = load_library("glu32","GLU","");

@@ -1,4 +1,9 @@
-/* Converted to D from gl.h by htod */
+/**********************************************************************
+ * \file deps/gl/gl.d - Wrapper for openGL
+ *
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/ 
+
 module gl.gl;
 
 import std.loader;
@@ -6,6 +11,7 @@ import std.stdio;
 import std.conv;
 import std.c.stdarg;
 
+import libload.libload;
 private import gl.gl_1_0;
 private import gl.gl_1_1;
 private import gl.gl_1_2;
@@ -13,11 +19,7 @@ private import gl.gl_1_3;
 private import gl.gl_1_4;
 private import gl.gl_1_5;
 
-import core.libload.libload;
-
-/*
- * Loads a single gl extension (Needs a live reference to the library)
- */
+/* Loads a single gl extension (Needs a live reference to the library) */
 template load_extension(T){
     ext_binding!(T) load_extension(ref T a) {
     ext_binding!(T) res;
@@ -29,9 +31,7 @@ template load_extension(T){
 
 void* function(char*) wglGetProcAddress;
 
-/*
- * binding of a single extension
- */
+/* Binding of a single openGL extension */
 package struct ext_binding(T) {
   bool opCall(string name,bool verbose = false, string msg = "Bound extension"){
     void* func = wglGetProcAddress(&name.dup[0]);
@@ -45,9 +45,8 @@ package struct ext_binding(T) {
     }
   }
   
-  private{
+  private:
     void** eptr;
-  }
 }
 
 //Load the functions when the module is loaded

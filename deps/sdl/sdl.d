@@ -1,21 +1,15 @@
-/**
- * \file sdl.d - Wrapper for sdl
- * Description: Wrapper for sdl
- * Copyright (c) 2010 Danny Arends
- *
- * Contains: 
- * - private: static this
+/**********************************************************************
+ * \file deps/sdl/sdl.d - Wrapper for SDL
  *
  * Written in the D Programming Language (http://www.digitalmars.com/d)
- **/
- 
+ **********************************************************************/ 
 module sdl.sdl;
 
 private import std.loader;
 private import std.stdio;
 private import std.conv;
 
-import core.libload.libload;
+import libload.libload;
 import sdl.sdlstructs;
 import sdl.sdlfunctions;
 

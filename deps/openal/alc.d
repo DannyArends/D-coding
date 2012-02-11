@@ -1,4 +1,8 @@
-/* Converted to D from alc.h by htod */
+/**********************************************************************
+ * \file deps/openal/alc.d - Part of the wrapper for openAL
+ *
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/ 
 module openal.alc;
 
 import std.loader;
@@ -6,7 +10,7 @@ import std.stdio;
 import std.conv;
 import std.c.stdarg;
 
-import core.libload.libload;
+import libload.libload;
 
 const ALC_INVALID = 0;
 const ALC_VERSION_0_1 = 1;
