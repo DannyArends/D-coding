@@ -27,7 +27,7 @@ def execext
     return "bin"
   end
 end
-  
+
 CLEAN.include("#{builddir}*.*")
 CLEAN.include("#{builddir}")
 CLEAN.include("*.#{execext}")
@@ -240,6 +240,11 @@ end
 desc "Default is to build all applications"
 task :default => 'app:all' do
   print "Build OK\n"
+end
+
+desc "Run the unit test"
+task :unittest do
+  sh "dmd -unittest src/main/empty.d #{core_files} #{io_files} #{inter_files} #{game_files} #{web_files} #{genetic_files}"
 end
 
 desc "Build all game-executables"
