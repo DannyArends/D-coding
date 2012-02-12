@@ -1,3 +1,11 @@
+/**********************************************************************
+ * \file src/game/server/clienthandler.d
+ *
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written May, 2011
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/ 
 module game.server.clienthandler;
 
 import core.thread;
@@ -14,7 +22,7 @@ import std.uri;
 import core.typedefs.webtypes;
 import game.server.clientcommand;
 import game.server.gameserver;
-import core.web.server;
+import web.server;
 
 class ClientHandler : Thread {
   public:

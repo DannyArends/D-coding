@@ -1,15 +1,11 @@
-/**
- * \file gameclient.d
+/**********************************************************************
+ * \file src/game/users/gameclient.d
  *
- * last modified Juli, 2011
- * first written Juli, 2011
- *
- * Copyright (c) 2010 Danny Arends
- *
- * Contains: GameClient
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written Jul, 2011
  * Written in the D Programming Language (http://www.digitalmars.com/d)
- **/
-
+ **********************************************************************/ 
 module game.users.gameclient;
 
 import core.thread;
@@ -24,7 +20,7 @@ import std.uri;
 
 import core.typedefs.webtypes;
 import core.typedefs.eventhandling;
-import core.web.socketclient;
+import web.socketclient;
 
 class GameClient : Thread{
   private:
