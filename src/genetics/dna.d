@@ -46,13 +46,13 @@ alias DNA[3]         DNAcodon;
 
 /* Check if base is valid DNA code */
 bool is_valid_DNA(char base){
-	if (base == DNABASES.A.getBase())   return true;
-	if (base == DNABASES.C.getBase())   return true;
-	if (base == DNABASES.T.getBase())   return true;
-	if (base == DNABASES.G.getBase())   return true;
-	if (base == DNABASES.ANY.getBase()) return true;
+  if (base == DNABASES.A.getBase())   return true;
+  if (base == DNABASES.C.getBase())   return true;
+  if (base == DNABASES.T.getBase())   return true;
+  if (base == DNABASES.G.getBase())   return true;
+  if (base == DNABASES.ANY.getBase()) return true;
   writeln("Warning: invalid base: " ~ base);
-	return false;
+  return false;
 }
 
 DNAstrand DNA_from_string(string seq){
@@ -122,7 +122,7 @@ DNAstrand Mutate_DNA(DNAstrand sequence, double mutation_rate = 0.0001){
 DNAstrand[] CrossOver_DNA(DNAstrand[] strands, double crossover_rate = 0.7){
   if(uniform(0.0, 1.0) < crossover_rate){
     assert(strands.length >= 2);
-    uint[] s = randomrange(0,cast(uint)strands.length,2);
+    uint[] s = randomrange!uint(to!uint(0),cast(uint)strands.length,2);
     uint breakpoint = cast(uint)uniform(0, min(strands[s[0]].length,strands[s[1]].length));
     strands[s[0]] = strands[s[0]][0..breakpoint-1] ~ strands[s[1]][breakpoint-1.. $];
     strands[s[1]] = strands[s[1]][0..breakpoint-1] ~ strands[s[0]][breakpoint-1.. $];

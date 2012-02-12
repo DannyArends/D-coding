@@ -8,24 +8,35 @@
  **********************************************************************/
 module core.arrays.search;
 
+import std.stdio;
+import std.conv;
+import std.string;
 import std.random;
- 
-pure uint[] range(int start, uint length){
-  uint array[];
-  for(uint i = 0; i < (length-1); i++){
+
+pure T[] range(T)(T start, uint length){
+  T array[];
+  for(uint i = 0; i < length; i++){
    array ~= start+i;
   }
   return array;
 }
 
-uint[] randomrange(int start, uint length, int number){
-  assert(number < length);
-  return randomrange(range(start,length), number);
+pure T[] array(T)(int length, T value){
+  T array[];
+  for(int i = 0; i < length; i++){
+   array ~= value;
+  }
+  return array;
 }
 
-uint[] randomrange(uint[] range, int number){
+T[] randomrange(T)(T start, uint length, int number){
+  assert(number < length);
+  return randomrange!T(range(start,length), number);
+}
+
+T[] randomrange(T)(T[] range, int number){
   assert(number < range.length);
-  uint[] s;
+  T[] s;
   foreach(e;randomSample(range, number)){
     s ~= e;
   }
@@ -57,3 +68,19 @@ pure bool binsearcharray(T)(T[] haystack, T needle) {
   }
   return false;
 }
+
+
+unittest{
+  writeln("Unit test: ",__FILE__);
+  try{
+    assert(array!int(5,3)[2] == 3);
+    assert(array!int(5,3).length == 5);
+    assert(range!int(5,3).length == 3);
+    assert(range!int(5,3)[2] == 7);
+    writeln("OK: ",__FILE__);  
+  }catch(Throwable e){
+    string err = to!string(e).split("\n")[0];
+    writefln(" - %s\nFAILED: %s",err,__FILE__);  
+  }
+}
+

@@ -8,6 +8,9 @@
  **********************************************************************/ 
 module core.arrays.algebra;
 
+import std.stdio;
+import std.conv;
+import std.string;
 import std.math;
 
 /**
@@ -37,7 +40,7 @@ T[] add(T)(T[] d1,T[] d2){
   T[] sum;
   sum.reserve(d1.length);
   for(int x=0;x<d1.length;x++){
-    sum[x] = d1[x] + d2[x];
+    sum ~= d1[x] + d2[x];
   }
   return sum;
 }
@@ -52,7 +55,7 @@ T[] multiply(T)(T[] d1, float alpha = 1.0){
   T[] factor;
   factor.reserve(d1.length);
   for(int x=0;x<d1.length;x++){
-    factor[x] = d1[x] * alpha;
+    factor ~= d1[x] * alpha;
   }
   return factor;
 }
@@ -69,7 +72,7 @@ T[] addnmultiply(T)(T[] d1,T[] d2, float alpha = 1.0){
   T[] factor;
   factor.reserve(d1.length);
   for(int x=0;x<d1.length;x++){
-    factor[x] = d1[x] + d2[x] * alpha;
+    factor ~= d1[x] + d2[x] * alpha;
   }
   return factor;
 }
@@ -101,7 +104,7 @@ T[] normalize(T)(T[] d1){
 
   // reduce to unit size
   for(int x=0;x<d1.length;x++){
-    normal[x] = d1[x] / len;
+    normal ~= d1[x] / len;
   }
   return normal;
 }
@@ -133,4 +136,19 @@ T[] trianglefindnormal(T)(T[3][3] v){
 
   // normalize the normal
   return normalize(normal);
+}
+
+unittest{
+  writeln("Unit test: ",__FILE__);
+  try{
+    double[] a = [1,2,3];
+    double[] b = [2,2,1];
+    assert(multiply!double(a,2) == [2,4,6]);
+    assert(add!double(a,b) == [3,4,4]);
+    assert(addnmultiply!double(a,b,3) == [7,8,6]);
+    writeln("OK: ",__FILE__);  
+  }catch(Throwable e){
+    string err = to!string(e).split("\n")[0];
+    writefln(" - %s\nFAILED: %s",err,__FILE__);  
+  }
 }

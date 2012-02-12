@@ -65,13 +65,19 @@ public:
 }
 
 unittest{
-  Lsystem!(char, string) test = new Lsystem!(char, string)();
-   
-  test.setState("X");
-  test.addRule('X', "F-[[X]+X]+F[+FX]-X");
-  test.addRule('F', "FF");
-  for(int i = 0; i < 5; i++){
-    test.iterate();
-    writefln("After itteration %d: %s",i,test.getState());
+  writeln("Unit test: ",__FILE__);
+  try{
+    Lsystem!(char, string) test = new Lsystem!(char, string)();
+     
+    test.setState("X");
+    test.addRule('X', "F-[[X]+X]+F[+FX]-X");
+    test.addRule('F', "FF");
+    for(int i = 0; i < 5; i++){
+      test.iterate();
+    }
+    writeln("OK: ",__FILE__);  
+  }catch(Throwable e){
+    string err = to!string(e).split("\n")[0];
+    writefln(" - %s\nFAILED: %s",err,__FILE__);  
   }
 }
