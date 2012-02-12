@@ -22,6 +22,30 @@ T[] stringArrayToType(T)(string[] entities){
   return rowleveldata;
 }
 
+/*
+ * Splits a string by sep, and transforms each element to types of T
+ */
+T[] stringToArray(T)(string s, string sep= ","){
+  string[] entities = s.split(sep);
+  return stringArrayToType!T(entities);
+}
+
+struct Point{
+  int x;
+  int y;
+  
+  this(int x, int y){
+    this.x=x;
+    this.y=y;
+  }
+}
+
+struct Size {
+  int width;
+  int height;
+}
+
+
 struct Bone{
   float   length;
   string  name;
