@@ -69,8 +69,8 @@ namespace :lib do
   end
 
   desc "The library with io functionality"
-  task "io" do
-    sh "dmd -lib #{io_files} -of#{builddir}/io.#{libext} -Isrc/"
+  task "io" => ['lib:sdl','lib:openGL']do
+    sh "dmd -lib #{io_files} -of#{builddir}/io.#{libext} -Isrc/ -Ideps/"
   end
   
   desc "The library with io functionality"

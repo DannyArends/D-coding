@@ -1,22 +1,11 @@
-/**
- * \file types.D
+/**********************************************************************
+ * \file src/core/typedefs/types.d
  *
- * Copyright (c) 2010 Danny Arends
- *     This program is free software; you can redistribute it and/or
- *     modify it under the terms of the GNU General Public License,
- *     version 3, as published by the Free Software Foundation.
- * 
- *     This program is distributed in the hope that it will be useful,
- *     but without any warranty; without even the implied warranty of
- *     merchantability or fitness for a particular purpose.  See the GNU
- *     General Public License, version 3, for more details.
- * 
- *     A copy of the GNU General Public License, version 3, is available
- *     at http://www.r-project.org/Licenses/GPL-3
- *
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written 2010
  * Written in the D Programming Language (http://www.digitalmars.com/d)
- **/
- 
+ **********************************************************************/
 module core.typedefs.types;
 
 import std.stdio;
@@ -31,6 +20,52 @@ alias int[][] imatrix;
 alias double[] dvector;
 alias char[] cvector;
 alias int[] ivector;
+
+T[] stringArrayToType(T)(string[] entities){
+  T[] rowleveldata;
+  for(auto e=0;e < entities.length; e++){
+    rowleveldata ~= to!T(entities[e]);
+  }
+  return rowleveldata;
+}
+
+struct Bone{
+  float   length;
+  string  name;
+  bool    rotates = false;
+  float   ori[4];
+  string  objectname;
+  Bone[]  bones;
+}
+
+struct Figure{
+  string name;
+  Bone root;
+}
+
+struct FPS{
+  int   cnt = 0;
+  int   fps = 0;
+}
+
+enum FileStatus{ 
+  NO_SUCH_FILE = -6, 
+  FILE_OPEN = -5, 
+  READING_FILE = -4, 
+  INDEXED_COLOR = -3, 
+  MEMORY = -2, 
+  COMPRESSED_FILE = -1, 
+  OK = 0
+}
+
+struct Texture{
+  string       name;
+  FileStatus   status;
+  uint[]       id;
+  uint         type;
+  uint         width,height,bpp;
+  ubyte[]      data;
+}
 
 T[] toType(T)(ubyte[] buffer){
   T[] returnbuffer;
@@ -80,8 +115,8 @@ T[][] vectortomatrix(T)(uint nrow, uint ncol, T[] invector){
 void freevector(T)(T[] v) {
   auto c = new GC();
   c.removeRange(cast(void*)v);
-	c.free(cast(void*)v);
-	v = null;
+  c.free(cast(void*)v);
+  v = null;
 }
 void freematrix(T)(T[][] m,uint rows) {
   auto c = new GC();
