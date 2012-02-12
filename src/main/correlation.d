@@ -34,7 +34,7 @@ void main(string[] args){
       case "256mb":reader.setBufferSize(BUFFERSIZE.BUFFER_256MB);break;
       default     :reader.setBufferSize(BUFFERSIZE.BUFFER_16KB);break;
     }
-    uint individuals[] = range(1,15);
+    uint individuals[] = range!uint(1,15);
     auto data1 = reader.loadSubMatrix!double(args[1],individuals);
     writeln("Correlation algorithm 1");
     auto t1 = Clock.currTime();

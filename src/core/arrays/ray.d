@@ -19,7 +19,7 @@ struct camera{
 };
 
 struct world{
-  double[] right;	
+  double[] right;
   double[] viewplane;
   double[] up;
 };
