@@ -1,30 +1,18 @@
-/**
- * \file regression.D
+/**********************************************************************
+ * \file src/plugins/regression/regression.d
  *
- * Copyright (c) 1991-2010 Ritsert C Jansen, Danny Arends, Pjotr Prins, Karl Broman
- * 
- *     This program is free software; you can redistribute it and/or
- *     modify it under the terms of the GNU General Public License,
- *     version 3, as published by the Free Software Foundation.
- * 
- *     This program is distributed in the hope that it will be useful,
- *     but without any warranty; without even the implied warranty of
- *     merchantability or fitness for a particular purpose.  See the GNU
- *     General Public License, version 3, for more details.
- * 
- *     A copy of the GNU General Public License, version 3, is available
- *     at http://www.r-project.org/Licenses/GPL-3
- *
+ * copyright (c) 1991-2010 Ritsert C Jansen, Danny Arends, Pjotr Prins, Karl Broman
+ * last modified Feb, 2012
+ * first written 2010
  * Written in the D Programming Language (http://www.digitalmars.com/d)
- **/
- 
+ **********************************************************************/
 module plugins.regression.regression;
  
 import std.stdio;
 import std.conv;
 import std.math;
 
-import core.typedefs.types;
+import core.arrays.types;
 import plugins.regression.support;
 
 void multipleregression_R(int* nvariables,int* nsamples, double* x, double* w, double* y,double* estparams, int* nullmodellayout,int* verbose, double* lodscore){

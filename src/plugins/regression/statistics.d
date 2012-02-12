@@ -1,7 +1,7 @@
 /**********************************************************************
  * \file src/plugins/regression/statistics.d
  *
- * copyright (c) 2012 Danny Arends
+ * copyright (c) 1991-2010 Ritsert C Jansen, Danny Arends, Pjotr Prins, Karl Broman
  * last modified Feb, 2012
  * first written May, 2011
  * Written in the D Programming Language (http://www.digitalmars.com/d)
