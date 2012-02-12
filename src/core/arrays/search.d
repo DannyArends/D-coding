@@ -69,7 +69,6 @@ pure bool binsearcharray(T)(T[] haystack, T needle) {
   return false;
 }
 
-
 unittest{
   writeln("Unit test: ",__FILE__);
   try{
@@ -83,4 +82,3 @@ unittest{
     writefln(" - %s\nFAILED: %s",err,__FILE__);  
   }
 }
-
