@@ -1,16 +1,17 @@
-/**
- * \file httpserver.D
+/**********************************************************************
+ * \file src/main/httpserver.d
  *
- * Copyright (c) 2010 Danny Arends
- * 
- **/
-
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written Jun, 2011
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 import std.stdio;
 import std.math;
 import std.conv;
 
-import core.web.server;
-import core.web.httpclient;
+import web.server;
+import web.httpclient;
 
 void main(string[] args){
   auto http = new Server!HttpClient();

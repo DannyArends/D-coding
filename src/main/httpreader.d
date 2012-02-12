@@ -1,16 +1,16 @@
-/**
- * \file httpreader.D
+/**********************************************************************
+ * \file src/main/httpreader.d
  *
- * Copyright (c) 2010 Danny Arends
- * 
- **/
-
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written Jul, 2011
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 import std.stdio;
 import std.math;
 import std.conv;
 
-import core.web.httpreader;
-
+import web.httpreader;
 
 void print_usage(){
   writeln("   Usage: httpreader host port page");
