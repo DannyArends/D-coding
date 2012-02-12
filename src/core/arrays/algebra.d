@@ -36,7 +36,6 @@ T max(T)(T[] d){
   return m;
 }
 
-
 /**
 * D-routine to get the max value of a range within d1<br>
 * bugs: none found<br>
