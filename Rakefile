@@ -35,6 +35,7 @@ CLEAN.include("*.#{execext}")
 core_files    = Dir.glob("./src/core/**/*.d").join(' ')
 libload_files = Dir.glob("./src/libload/*.d").join(' ')
 game_files    = Dir.glob("./src/game/**/*.d").join(' ')
+web_files     = Dir.glob("./src/web/**/*.d").join(' ')
 genetic_files = Dir.glob("./src/genetics/*.d").join(' ')
 plugin_gui    = Dir.glob("./src/gui/**/*.d").join(' ')
 plugin_stats  = Dir.glob("./src/plugins/regression/*.d").join(' ')
@@ -75,6 +76,11 @@ namespace :lib do
     sh "dmd -lib #{game_files} #{builddir}/core.#{libext} -of#{builddir}/game.#{libext} -Isrc/"
   end
 
+  desc "Library with http/web functionality"
+  task "web" => :core do
+    sh "dmd -lib #{web_files} #{builddir}/core.#{libext} -of#{builddir}/web.#{libext} -Isrc/"
+  end
+  
   desc "Library with genetics functionality"
   task "genetics" do
     sh "dmd -lib #{genetic_files} -of#{builddir}/genetics.#{libext} -Isrc/"
@@ -172,8 +178,8 @@ namespace :app do
   end
   
   desc "Basic HTTP response slurper"
-  task "httpreader" => 'lib:core' do
-    sh "dmd src/main/httpreader.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofhttpreader.#{execext}"
+  task "httpreader" => ['lib:core','lib:web'] do
+    sh "dmd src/main/httpreader.d #{builddir}/core.#{libext} #{builddir}/web.#{libext} -Isrc/ -od#{builddir} -ofhttpreader.#{execext}"
   end
   
   desc "Multiple lineair regression"
@@ -182,13 +188,13 @@ namespace :app do
   end
   
   desc "HTPPserver supporting D as CGI"
-  task "httpserver" => 'lib:core' do
-    sh "dmd src/main/httpserver.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofhttpserver.#{execext}"
+  task "httpserver" => ['lib:core','lib:web'] do
+    sh "dmd src/main/httpserver.d #{builddir}/core.#{libext} #{builddir}/web.#{libext} -Isrc/ -od#{builddir} -ofhttpserver.#{execext}"
   end
   
   desc "Server for a multiplayer network mud"
-  task "gameserver" => 'lib:game' do
-    sh "dmd src/main/server.d #{builddir}/core.#{libext}  #{builddir}/game.#{libext} -Isrc/ -od#{builddir} -ofserver.#{execext}"
+  task "gameserver" => ['lib:core','lib:web','lib:game'] do
+    sh "dmd src/main/server.d #{builddir}/core.#{libext} #{builddir}/web.#{libext} #{builddir}/game.#{libext} -Isrc/ -od#{builddir} -ofserver.#{execext}"
   end
 
   desc "Decode voynich"
@@ -207,13 +213,13 @@ namespace :app do
   end
 
   desc "SDLconcept engine"
-  task "sdl" => ['lib:sdl','lib:openGL','lib:gui','lib:game'] do
-    sh "dmd src/main/sdlconcept.d #{builddir}/sdl.#{libext} #{builddir}/gui.#{libext} #{builddir}/openGL.#{libext} #{builddir}/game.#{libext}  -Isrc/ -Ideps/ -od#{builddir} -ofsdltest.#{execext}"
+  task "sdl" => ['lib:core','lib:web','lib:sdl','lib:openGL','lib:gui','lib:game'] do
+    sh "dmd src/main/sdlconcept.d #{builddir}/web.#{libext} #{builddir}/sdl.#{libext} #{builddir}/gui.#{libext} #{builddir}/openGL.#{libext} #{builddir}/game.#{libext}  -Isrc/ -Ideps/ -od#{builddir} -ofsdltest.#{execext}"
   end
   
   desc "SDL test"
-  task "sdltest" => ['lib:sdl','lib:openGL','lib:gui','lib:game'] do
-    sh "dmd src/main/sdltest.d #{builddir}/sdl.#{libext} #{builddir}/gui.#{libext} #{builddir}/openGL.#{libext} #{builddir}/game.#{libext}  -Isrc/ -Ideps/ -od#{builddir} -ofsdltest.#{execext}"
+  task "sdltest" => ['lib:core','lib:web','lib:sdl','lib:openGL','lib:gui','lib:game'] do
+    sh "dmd src/main/sdltest.d #{builddir}/web.#{libext} #{builddir}/sdl.#{libext} #{builddir}/gui.#{libext} #{builddir}/openGL.#{libext} #{builddir}/game.#{libext}  -Isrc/ -Ideps/ -od#{builddir} -ofsdltest.#{execext}"
   end
 end
 
