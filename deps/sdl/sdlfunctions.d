@@ -1,3 +1,8 @@
+/**********************************************************************
+ * \file deps/sdl/sdlfunctions.d - Wrapper for SDL
+ *
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/ 
 module sdl.sdlfunctions;
 
 private import std.stdio;
