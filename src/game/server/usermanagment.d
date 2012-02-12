@@ -1,13 +1,15 @@
+/**********************************************************************
+ * \file src/game/server/usermanagment.d
+ *
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written Jun, 2011
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module game.server.usermanagment;
 
-import std.array;
-import std.stdio;
-import std.datetime;
-import core.time;
-import std.conv;
-import std.file;
-
-import core.typedefs.basictypes;
+import core.stdinc;
+import core.typedefs.types;
 import core.typedefs.color;
 
 enum Race { RBC, WBC, FUNGUS, YEAST, BACTERIUM };

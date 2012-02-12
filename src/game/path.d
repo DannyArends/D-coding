@@ -1,25 +1,19 @@
-/**
- * \file path.d
+/**********************************************************************
+ * \file src/game/path.d
  *
- * Copyright (c) 2010 Danny Arends
- * 
- **/
-
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written May, 2011
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module game.path;
 
+import core.typedefs.types;
 import core.thread;
 import std.array;
 import std.conv;
 
-struct Step{
-  int x;
-  int y;
-  
-  this(int x, int y){
-    this.x=x;
-    this.y=y;
-  }
-}
+alias Point Step;
 
 class Path{
 

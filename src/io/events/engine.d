@@ -12,7 +12,6 @@ import std.stdio;
 import std.conv;
 
 import core.typedefs.types;
-import core.typedefs.basictypes;
 import sdl.sdlfunctions;
 import sdl.sdlstructs;
 

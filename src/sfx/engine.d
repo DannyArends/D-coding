@@ -1,32 +1,33 @@
+/**********************************************************************
+ * \file src/sfx/engine.d
+ *
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written Dec, 2011
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module sfx.engine;
 
-import std.stdio;
-import std.string;
-import std.conv;
-import std.array;
-import std.file;
-import std.random;
+import core.stdinc;
 
 import openal.al;
 import openal.al_types;
 import openal.alc;
 import openal.alut;
 import openal.alut_types;
-
 import io.events.engine;
-
 import sfx.formats.wav;
 
 class SFXEngine : EventHandler{
   
   this(){
-  	alutInit(null, cast(char**)0);
-	  if(alGetError() == AL_NO_ERROR){
+    alutInit(null, cast(char**)0);
+    if(alGetError() == AL_NO_ERROR){
       writeln("[SFX] Sound initialized.");
     }
     listDevices();
     checkEAX();
-	}
+  }
   
   void load(){
     sounds.length = 0;

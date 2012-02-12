@@ -15,7 +15,6 @@ import std.conv;
 import sdl.sdlstructs;
 
 import core.typedefs.types;
-import core.typedefs.basictypes;
 import io.events.engine;
 
 class SoundEvent : Event{

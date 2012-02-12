@@ -1,12 +1,14 @@
+/**********************************************************************
+ * \file src/gui/formats/an8.d
+ *
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written Dec, 2011
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module gui.formats.an8;
 
-import std.stdio;
-import std.array;
-import std.string;
-import std.conv;
-import std.file;
-import std.regex;
-
+import core.stdinc;
 import core.typedefs.types;
 import gui.formats.an8types;
 
