@@ -37,6 +37,7 @@ io_files      = Dir.glob("./src/io/**/*.d").join(' ')
 inter_files   = Dir.glob("./src/interpreters/*.d").join(' ')
 libload_files = Dir.glob("./src/libload/*.d").join(' ')
 game_files    = Dir.glob("./src/game/**/*.d").join(' ')
+sfx_files     = Dir.glob("./src/sfx/**/*.d").join(' ')
 web_files     = Dir.glob("./src/web/**/*.d").join(' ')
 genetic_files = Dir.glob("./src/genetics/*.d").join(' ')
 plugin_gui    = Dir.glob("./src/gui/**/*.d").join(' ')
@@ -73,6 +74,11 @@ namespace :lib do
     sh "dmd -lib #{io_files} -of#{builddir}/io.#{libext} -Isrc/ -Ideps/"
   end
   
+  desc "The library with sfx functionality"
+  task "sfx" => ['lib:openAL']do
+    sh "dmd -lib #{sfx_files} -of#{builddir}/sfx.#{libext} -Isrc/ -Ideps/"
+  end
+  
   desc "The library with io functionality"
   task "inter" do
     sh "dmd -lib #{inter_files} -of#{builddir}/interpreters.#{libext} -Isrc/"
@@ -84,8 +90,8 @@ namespace :lib do
   end
   
   desc "Library with game functionality (A* search)"
-  task "game" => :core do
-    sh "dmd -lib #{game_files} #{builddir}/core.#{libext} -of#{builddir}/game.#{libext} -Isrc/"
+  task "game" => ['lib:core','lib:sdl'] do
+    sh "dmd -lib #{game_files} #{builddir}/core.#{libext} -of#{builddir}/game.#{libext} -Isrc/ -Ideps/"
   end
 
   desc "Library with http/web functionality"
@@ -224,14 +230,9 @@ namespace :app do
     sh "dmd src/main/testal.d #{builddir}/core.#{libext} #{builddir}/openAL.#{libext} -Isrc/ -Ideps/ -od#{builddir} -oftestal.#{execext}"
   end
 
-  desc "SDLconcept engine"
-  task "sdl" => ['lib:core','lib:web','lib:sdl','lib:openGL','lib:gui','lib:game'] do
-    sh "dmd src/main/sdlconcept.d #{builddir}/web.#{libext} #{builddir}/sdl.#{libext} #{builddir}/gui.#{libext} #{builddir}/openGL.#{libext} #{builddir}/game.#{libext}  -Isrc/ -Ideps/ -od#{builddir} -ofsdltest.#{execext}"
-  end
-  
-  desc "SDL test"
-  task "sdltest" => ['lib:core','lib:web','lib:sdl','lib:openGL','lib:gui','lib:game'] do
-    sh "dmd src/main/sdltest.d #{builddir}/web.#{libext} #{builddir}/sdl.#{libext} #{builddir}/gui.#{libext} #{builddir}/openGL.#{libext} #{builddir}/game.#{libext}  -Isrc/ -Ideps/ -od#{builddir} -ofsdltest.#{execext}"
+  desc "SDL engine"
+  task "sdl" => ['lib:core', 'lib:io', 'lib:sdl','lib:openAL','lib:openGL','lib:sfx','lib:gui','lib:game'] do
+    sh "dmd src/main/sdlengine.d #{builddir}/core.#{libext} #{builddir}/io.#{libext} #{builddir}/sfx.#{libext} #{builddir}/sdl.#{libext} #{builddir}/gui.#{libext} #{builddir}/openGL.#{libext} #{builddir}/openAL.#{libext} #{builddir}/game.#{libext}  -Isrc/ -Ideps/ -od#{builddir} -ofsdltest.#{execext}"
   end
 end
 

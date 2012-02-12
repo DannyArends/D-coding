@@ -10,6 +10,8 @@ module core.typedefs.types;
 
 import std.stdio;
 import std.conv;
+import std.string;
+import std.random;
 import core.memory;
 
 alias double[][] dmatrix;
@@ -75,13 +77,17 @@ T[] toType(T)(ubyte[] buffer){
   return returnbuffer;
 }
 
-T[][] newmatrix(T)(uint nrow,uint ncol){
+T[][] newmatrix(T)(uint nrow,uint ncol, T init = cast(T)0, bool rf = false){
   T[][] x;
   x.length=nrow;
   for(uint i=0;i<nrow;i++){
     x[i].length=ncol;
-    for(uint j=0;j<ncol;j++){
-      x[i][j]= cast(T)(0);
+    for(uint j=0;j<ncol;j++){      
+      if(rf){
+        x[i][j] = cast(T)uniform(-3,3); //TODO Remove this HACKY bit
+      }else{
+        x[i][j] = init;
+      }
     }
   }
   return x;
@@ -137,6 +143,54 @@ T[] copyvector(T)(T[] c){
   }
   return x;
 }
+
+
+/*
+ * Transforms a character to its value when SHIFT is pressed
+ * Based on US-101 keyboard
+ */
+char toShiftChar(char c){
+  try{
+    switch(to!int(to!string(c))){
+      case 0:
+        return ')';
+      break;
+      case 1:
+        return '!';
+      break;
+      case 2:
+        return '@';
+      break;
+      case 3:
+        return '#';
+      break;      
+      case 4:
+        return '$';
+      break;
+      case 5:
+        return '%';
+      break;
+      case 6:
+        return '^';
+      break;
+      case 7:
+        return '&';
+      break;
+      case 8:
+        return '*';
+      break;
+      case 9:
+        return '(';
+      break;
+      default:
+      break;
+    }
+    return to!char(toUpper(to!string(c)));
+  }catch{
+    return to!char(toUpper(to!string(c)));
+  }
+}
+
 
 T[] newvector(T)(uint length){
   T[] x;

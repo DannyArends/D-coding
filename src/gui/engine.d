@@ -1,148 +1,164 @@
 module gui.engine;
 
-import core.thread;
-import std.array;
 import std.stdio;
-import std.conv;
 
 import sdl.sdl;
 import sdl.sdlstructs;
 import sdl.sdlfunctions;
 
-import gl.gl_1_0;
-import gl.gl_1_1;
-import gl.gl_1_5;
-import gl.gl_ext;
+import core.typedefs.types;
 
-import core.typedefs.eventhandling;
+import sfx.engine;
+import game.engine;
+import io.events.engine;
+import io.events.clockevents;
+import io.events.mouseevent;
+import io.events.keyevent;
 
-import game.users.gameclient;
-
-import gui.eventhandler;
-import gui.hud;
-import gui.scene;
-import gui.mytimer;
 import gui.enginefunctions;
+import gui.screen;
+import gui.hudhandler;
 
-import gui.objects.box;
-import gui.objects.camera;
-import gui.objects.line;
-import gui.objects.model3ds;
-import gui.objects.object3d;
-import gui.objects.quad;
-import gui.objects.sphere;
-import gui.objects.surface;
-import gui.objects.triangle;
-
-import gui.widgets.text;
-import gui.widgets.textinput;
-import gui.widgets.slider;
-import gui.widgets.window;
-import gui.widgets.serverbutton;
-import gui.widgets.windowbutton;
-
-class Engine : EventHandler{
-public:
-  this(){
-    writeln("Starting the Engine");
-    if(SDL_Init(SDL_INIT_VIDEO) < 0){
-      writefln("Video initialization failed: %s", SDL_GetError());
-      return;
-    }
+class GFXEngine : ClockEvents{
+  
+  this(GameEngine game, SFXEngine sound, bool verbose = false){
+    if(SDL_Init(SDL_INIT_VIDEO) < 0){ writefln("Video initialization failed: %s", SDL_GetError()); return; }
     videoInfo = SDL_GetVideoInfo();
-    if(videoInfo is null){
-      writefln("Video initialization failed: %s", SDL_GetError());
+    if(videoInfo is null){ 
+      writefln("Video initialization failed: %s", SDL_GetError()); 
       return;
     }
+    
     videoFlags = initVideoFlags(videoInfo);
     SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
-
-    surface = SDL_SetVideoMode( screen_width, screen_height, screen_bpp, videoFlags );
-    if(surface is null){
-      writefln("Video mode set failed: %s", SDL_GetError());
-      return;
+    surface = SDL_SetVideoMode(screen_width, screen_height, screen_bpp, videoFlags );
+    if(surface is null){ 
+      writefln("Video mode set failed: %s", SDL_GetError()); 
+      return; 
     }
-    SDL_WM_SetCaption("SDL OpenGL using D", "Danny Arends");
+    SDL_WM_SetCaption("Game", "Danny Arends");
     initGL();
-    printOpenGlInfo();
-    resizeWindow(screen_width, screen_height);
-    writefln("Initializing our own classes");
-    
-    mytimer = new MyTimer();
-    camera = new Camera();
-    fpsmonitor = new FPSmonitor();
-    
-    hud = new Hud(this);
-    networkclient = new GameClient(this);
-    
-    eventhandler = new MyEngineEventHandler(this, hud, networkclient);
-    scene = new Scene(this,camera);
-    
-    writefln("Engine initialization done");
+    this.sound = sound;
+    this.game = game;
+    this.screen = new Screen(this);
+    this.hud = new HudHandler(screen);
+    this.game.startRendering(this);
   }
   
-  void start(){
-    networkclient.start();
-    mytimer.addTimedEvent(TimedEvent(&networkclient.sendHeartbeat,5000));
-    while(!done){
-      drawGLScene();
-      eventhandler.call();
-      hud.render();
-      SDL_Delay(10);
-      mytimer.update();
+  void start(bool verbose = false){
+    setT0();
+    printOpenGlInfo(verbose);
+    add(new ClockEvent(&game.setMainMenuStage,8000));
+    add(new ClockEvent(&game.rotateLogo,40,199,false));
+    add(new ClockEvent(&game.changeLogo,2600,2,false));
+    while(rendering){
+      int st = SDL_GetTicks();
+      update();
+      resizeWindow(screen_width, screen_height);
+      Event     e;
+      SDL_Event event;
+      if(SDL_PollEvent(&event)){
+        switch(event.type){
+         case SDL_VIDEORESIZE:
+            screen_width= event.resize.w;
+            screen_height= event.resize.h;
+            surface = SDL_SetVideoMode(screen_width, screen_height, screen_bpp, videoFlags);
+            screen.resize(screen_width, screen_height);
+            resizeWindow(screen_width, screen_height);
+          break;        
+          case SDL_QUIT:
+            if(game.getGameStage()==Stage.PLAYING) e = new QuitEvent();
+            if(game.getGameStage()==Stage.MENU) rendering = false;
+          break;
+          case SDL_MOUSEMOTION:
+            handle(new MouseEvent(cast(MouseBtn)0, KeyEventType.NONE, event.button.x, event.button.y, event.motion.xrel, event.motion.yrel));
+            if(verbose) writefln("Mouse moved by %d,%d to (%d,%d)", event.motion.xrel, event.motion.yrel, event.motion.x, event.motion.y);
+          break;
+          case SDL_MOUSEBUTTONDOWN:
+            e = new MouseEvent(cast(MouseBtn)event.button.button,KeyEventType.DOWN, event.button.x, event.button.y);
+            if(verbose) writefln("Mouse button %d pressed at (%d,%d)", event.button.button, event.button.x, event.button.y);
+          break;
+          case SDL_MOUSEBUTTONUP:
+            e = new MouseEvent(cast(MouseBtn)event.button.button,KeyEventType.UP, event.button.x, event.button.y);
+            if(verbose) writefln("Mouse button %d pressed at (%d,%d)", event.button.button, event.button.x, event.button.y);
+          break;
+          case SDL_KEYDOWN:
+            e = new KeyEvent(event.key.keysym, KeyEventType.DOWN);
+            if(verbose) writefln("Key down");
+          break;
+          case SDL_KEYUP:
+            e = new KeyEvent(event.key.keysym, KeyEventType.UP);
+            if(verbose) writefln("Key up");
+          break;
+          default:
+          break;
+        }
+      }
+      int sr3d = SDL_GetTicks();
+      screen.render3D();
+      int dr3d = SDL_GetTicks() - sr3d;
+      switch(game.getGameStage()){
+        case Stage.PLAYING:
+          game.render();
+          game.handle(e);    
+        break;
+        case Stage.MENU:
+          hud.handle(e);
+        break;
+        default:
+        break;
+      }
+      screen.render();
+      int rt = SDL_GetTicks() - st;
+      if(rt < frametime){
+        SDL_Delay(frametime-rt);
+      }else{
+        writefln("[GFX] Warning framerate (%s) %s",frametime-rt,dr3d);
+      }
+      SDL_GL_SwapBuffers();
     }
-    networkclient.shutdown();
-    writefln("Engine shutdown received.");
-    SDL_Quit();
-    writefln("Bye...");
   }
   
-  int drawGLScene(){
-    resizeWindow(screen_width, screen_height);
-    scene.render();
-    fpsmonitor.update();
-    return true;
+  void update(){
+    super.update();
+    game.update();
+    sound.update();
+    int t = SDL_GetTicks();
+    if(t - getT0() >= 1000) {
+      fps.fps = fps.cnt;
+      fps.cnt = 0;
+      setT0();
+    }else{ fps.cnt++; }
   }
   
-  bool isDone(){ return done; }
-  bool isDone(bool d){ done = d; return done; }
+  int getWidth(){ return screen_width; }
+  int getHeight(){ return screen_height; }
+  int getFPS(){ return fps.fps; }
   
-  @property bool active(){ return m_active; }
-  @property bool active(bool a){ m_active=a; return m_active; }
+  GameEngine getGameEngine(){  return game; }
+  Screen getScreen(){  return screen; }
+  SFXEngine getSound(){  return sound; }
   
-  int getVideoFlags(){ return videoFlags; }
-  Camera getCamera(){ return camera; }
-  SDL_Surface* getSurface(){ return surface; }
-  Hud getHud(){ return hud; }
-  GameClient getNetwork(){ return networkclient; }
-  void setNetwork(GameClient gc){ networkclient=gc; }
-  
-  void setSurface(int w, int h){
-    active=false;
-    screen_width=w;
-    screen_height=h;
-    surface = SDL_SetVideoMode(screen_width, screen_height, screen_bpp, videoFlags);
+  void handle(Event e){
+    if(game.getGameStage()==Stage.PLAYING){
+      game.handle(e);
+    }
   }
   
-  void handleNetworkEvent(string input){
-    eventhandler.handleNetworkEvent(input);
-  }
-    
-  int screen_width  = 800;
-  int screen_height = 600;
-  int screen_bpp    = 32;
+  @property int frametime(){ return cast(int)(1000.0/screen_fps); }
 
-private:  
-  MyEngineEventHandler  eventhandler;
-  MyTimer             mytimer;
-  GameClient          networkclient;
-  FPSmonitor          fpsmonitor;
-  Camera              camera;
-  Hud                 hud;
-  Scene               scene;
-  SDL_Surface*        surface;
-  SDL_VideoInfo*      videoInfo;        /* This holds some info about our display */
-  int videoFlags;                       /* Flags to pass to SDL_SetVideoMode */
-  bool done         = false;            /* Main loop variable */
-  bool m_active     = true;             /* Is the window active? */
+  private:
+    int  videoFlags;
+    bool rendering      = true;
+    int  screen_width   = 900;
+    int  screen_height  = 480;
+    int  screen_bpp     = 32;
+    int  screen_fps     = 25;
+    HudHandler          hud;
+    FPS                 fps;
+    Screen              screen;
+    SFXEngine           sound;
+    GameEngine          game;
+    SDL_Surface*        surface;
+    SDL_VideoInfo*      videoInfo;
 }

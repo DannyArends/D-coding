@@ -6,6 +6,7 @@ import std.conv;
 import std.math;
 
 import gl.gl_1_0;
+import gl.gl_1_1;
 
 import gui.objects.camera;
 import gui.objects.object3d;
@@ -16,14 +17,15 @@ public:
     super(x,y,z);
   }
   
-  void render(Camera camera, int faceType = GL_TRIANGLE_STRIP){
-    glLoadIdentity();
-    glTranslatef(camera.x+x(),camera.y+y(),camera.z+z());
-
-    glRotatef(camera.rx+rx(), 1.0, 0.0, 0.0);
-    glRotatef(camera.ry+ry(), 0.0, 1.0, 0.0);
-    glRotatef(camera.rz+rz(), 0.0, 0.0, 1.0);
+  void buffer(){ }
+  
+  void render(int faceType = GL_TRIANGLE_STRIP){
+    glToLocation();
     glColor4f(r(), g(),  b(), alpha());
+    if(textureid != -1){
+      glEnable(GL_TEXTURE_2D);
+      glBindTexture(GL_TEXTURE_2D, textureid);
+    }
     for(uint i = 0; i <= subdivisions; i++ ){
       glBegin(faceType);
       double si = i/2.0;
@@ -37,7 +39,7 @@ public:
         e[2] = cos(theta[1]) * sin(theta[2]);
         
         glNormal3f(e[0], e[1], e[2]);
-        glTexCoord2f( -(j/subdivisions) , dip/subdivisions );
+        glTexCoord2f(cast(float)((j)/subdivisions) , cast(float)(dip/subdivisions) );
         glVertex3f(e[0]*sx(), e[1]*sy(), e[2]*sz());
         
         e[0] = cos(theta[0]) * cos(theta[2]);
@@ -45,17 +47,19 @@ public:
         e[2] = cos(theta[0]) * sin(theta[2]);
         
         glNormal3f(e[0], e[1], e[2]);
-        glTexCoord2f( -(j/subdivisions) , dip/subdivisions );
+        glTexCoord2f(cast(float)((j)/subdivisions) , cast(float)(dip/subdivisions) );
         glVertex3f(e[0]*sx(), e[1]*sy(), e[2]*sz());
       }
       glEnd();
     }
+    if(textureid != -1) glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
   }
   
   int getFaceType(){ return GL_TRIANGLE_STRIP; }
 
 private:
-  uint subdivisions = 20;
+  uint subdivisions = 70;
   double theta[3];
   double e[3];
   double twopi      = 2.0*PI;

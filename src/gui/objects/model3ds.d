@@ -6,10 +6,8 @@ import std.conv;
 
 import gl.gl_1_0;
 
-import gui.objects.camera;
 import gui.objects.object3d;
 import gui.formats.o3ds;
-
 
 private import gl.gl_1_0;
 private import gl.gl_1_1;
@@ -19,8 +17,7 @@ private import gl.gl_ext;
 class Model3DS : Object3D{
 public:  
   this(string filename){
-    super();
-    model = loadModelInfo3DS(filename);
+    this(0,0,0,filename);
   }
   
   this(double x, double y, double z,string filename){
@@ -28,13 +25,12 @@ public:
     model = loadModelInfo3DS(filename);
   }
   
-  void render(Camera camera, int faceType = GL_TRIANGLES){
-    glLoadIdentity();
-    glTranslatef(camera.x+x(),camera.y+y(),camera.z+z());
-        
-    glRotatef(camera.rx+rx(), 1.0, 0.0, 0.0);
-    glRotatef(camera.ry+ry(), 0.0, 1.0, 0.0);
-    glRotatef(camera.rz+rz(), 0.0, 0.0, 1.0);
+  void buffer(){ 
+    bufferModelInfo3DS(model);
+  }
+  
+  void render(int faceType = GL_TRIANGLES){
+    glToLocation();
     if(model.buffered){
       glEnableClientState(GL_VERTEX_ARRAY);                     // activate vertex coords array
       glEnableClientState(GL_COLOR_ARRAY);

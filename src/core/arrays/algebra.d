@@ -12,6 +12,58 @@ import std.stdio;
 import std.conv;
 import std.string;
 import std.math;
+import std.random;
+
+/**
+* D-routine to get the sum of values of d1<br>
+* bugs: none found<br>
+* @param d1 any type any length vector<br>
+*/
+T sum(T)(T[] d){
+  T s = 0;
+  foreach(T e; d[0..$]){ s += e; }
+  return s;
+}
+
+/**
+* D-routine to get the max value of d1<br>
+* bugs: none found<br>
+* @param d1 any type any length vector<br>
+*/
+T max(T)(T[] d){
+  T m = 0;
+  foreach(T e; d[0..$]){ if(m < e){ m = e; } }
+  return m;
+}
+
+
+/**
+* D-routine to get the max value of a range within d1<br>
+* bugs: none found<br>
+* @param d1 any type any length vector<br>
+* @param r range to consider<br>
+*/
+T maxOf(T)(T[] d, T r){
+  T m = 0;
+  for(int x=0;x<d.length-r;x++){ 
+    T e = sum!T(d[x..x+r]);
+    if(m < e){ m = e; } 
+  }
+  return m;
+}
+
+T[] applyRandomness(T)(T[] d1, int[] rnd){
+  T[] r;
+  r.length = d1.length;
+  for(int x=0;x<d1.length;x++){
+    if(rnd[x] != 0){
+      r[x] = d1[x] + to!T(uniform(-rnd[x],rnd[x])/100.0);
+    }else{
+      r[x] = d1[x];
+    }
+  }
+  return r;
+}
 
 /**
 * D-routine that substracts d1 from d2<br>

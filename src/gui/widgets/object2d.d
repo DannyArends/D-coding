@@ -5,12 +5,10 @@ import std.stdio;
 import std.conv;
 
 import gl.gl_1_0;
-import gui.objects.color;
+import core.typedefs.color;
 import gui.objects.location;
-import gui.widgets.window;
-import gui.hud;
 
-enum Object2DType{SQUARE, WINDOW, BUTTON, DRAGBAR, TEXTINPUT, SLIDER, TEXT, HUD};
+enum Object2DType{SQUARE, WINDOW, BUTTON, DRAGBAR, TEXTINPUT, SLIDER, TEXT, SCREEN};
 
 abstract class Object2D : Location{
   this(Object2D parent = null){
@@ -36,28 +34,6 @@ abstract class Object2D : Location{
     return parent;
   }
   
-  Window getWindow(){
-    if(parent !is null){
-      if(parent.getType()==Object2DType.WINDOW){
-        return cast(Window)parent;
-      }else{
-        return parent.getWindow();
-      }
-    }
-    return null;
-  }
-  
-  Hud getHud(){
-    if(parent !is null){
-      if(parent.getType()==Object2DType.HUD){
-        return cast(Hud)parent;
-      }else{
-        return parent.getHud();
-      }
-    }
-    return null;
-  }
-    
   void setSize(double sx, double sy, bool children = true){
     size[0]=sx;
     size[1]=sy;
@@ -85,13 +61,14 @@ abstract class Object2D : Location{
   GLuint getFontId(){ return getParent().getFontId(); }
   
   bool isVisible(){ return visible; }
-  bool isHud(){ return false; }
+  bool isScreen(){ return(this.getType()==Object2DType.SCREEN); }
   void setVisible(bool v){ visible = v; }
   bool isMinimized(){ return minimized; }
   void setMinimized(bool m){ this.minimized = m; }
   void setDragging(bool d){ this.dragging = d; }
   bool isDragging(){return this.dragging; }
   Object2D[] getObjects(){return objects;}
+  void clearObjects(){objects.length=0;}
 
   @property GLfloat r(){ return color.r(); }
   @property GLfloat g(){ return color.g(); }
@@ -99,8 +76,8 @@ abstract class Object2D : Location{
   @property GLfloat alpha(){ return color.alpha(); }
   
   @property GLfloat x(){
-    if(isHud()) return 0.0;
-    if(getParent().isHud()){
+    if(isScreen()) return 0.0;
+    if(getParent().isScreen()){
       return super.x(); 
     }else{
       return super.x() + getParent.x();
@@ -108,8 +85,8 @@ abstract class Object2D : Location{
   }
   
   @property GLfloat y(){ 
-    if(isHud()) return 0.0;
-    if(getParent().isHud()){
+    if(isScreen()) return 0.0;
+    if(getParent().isScreen()){
       return super.y(); 
     }else{
       return super.y() + getParent.y();
@@ -135,25 +112,37 @@ abstract class Object2D : Location{
     objects ~= object;
   }
   
+  Object2D getWindow(){
+    if(parent.getType()==Object2DType.WINDOW){
+      return parent;
+    }
+    return parent.getWindow();
+  }
+  
   Object2D getObjectAt(int cx, int cy){
     //writefln("x: %f %f",x()+sx(),y()+sy());
     if(visible && x() < cx && y() < cy && x()+sx() > cx && y()+sy() > cy){
       if(objects != null){
         foreach(Object2D obj; objects){
           if(obj.x() < cx && obj.y() < cy){
-            //writefln("x: %f %f %d",obj.x(),obj.sx(), cx);
-            //writefln("y: %f %f %d",obj.y(),obj.sy(), cy);
+          //  writefln("x: %f %f %d",obj.x(),obj.sx(), cx);
+          //  writefln("y: %f %f %d",obj.y(),obj.sy(), cy);
             if((obj.x()+obj.sx()) > cx && (obj.y()+obj.sy()) > cy){
               Object2D subobj = obj.getObjectAt(cx,cy);
               if(subobj !is null) return subobj;
             }
           }
         }
+      }else{
+        //writeln("No objects");
       }
       return this;
     }
     return null;
   }
+  
+  void setTexture(int id){ textureid=id; }
+  int getTexture(){ return textureid; }
   
   void resize(int width, int height){ }
   
@@ -167,4 +156,5 @@ private:
   bool        visible = true;
   bool        minimized = false;
   bool        dragging = false;
-};
+  int       textureid  = -1;
+}

@@ -56,10 +56,12 @@ GLdouble[3] getUnproject(int x, int y){
   return pos;
 }
 
-void printOpenGlInfo(){
-  writefln("Renderer = %s", to!string(glGetString(GL_RENDERER)));
-  writefln("OpenGL   = %s", to!string(glGetString(GL_VERSION)));
-  writefln("Vendor   = %s", to!string(glGetString(GL_VENDOR)));
+void printOpenGlInfo(bool verbose = false){
+  if(verbose){
+    writefln("[GFX] Renderer = %s", to!string(glGetString(GL_RENDERER)));
+    writefln("[GFX] OpenGL   = %s", to!string(glGetString(GL_VERSION)));
+    writefln("[GFX] Vendor   = %s", to!string(glGetString(GL_VENDOR)));
+  }
 }
 
 int initVideoFlags(SDL_VideoInfo* videoInfo){

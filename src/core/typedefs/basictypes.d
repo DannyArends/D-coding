@@ -16,52 +16,6 @@ import std.array;
 import core.memory;
 
 /*
- * Transforms a character to its value when SHIFT is pressed
- * Based on US-101 keyboard
- */
-char toShiftChar(char c){
-  try{
-    switch(to!int(to!string(c))){
-      case 0:
-        return ')';
-      break;
-      case 1:
-        return '!';
-      break;
-      case 2:
-        return '@';
-      break;
-      case 3:
-        return '#';
-      break;      
-      case 4:
-        return '$';
-      break;
-      case 5:
-        return '%';
-      break;
-      case 6:
-        return '^';
-      break;
-      case 7:
-        return '&';
-      break;
-      case 8:
-        return '*';
-      break;
-      case 9:
-        return '(';
-      break;
-      default:
-      break;
-    }
-    return to!char(toUpper(to!string(c)));
-  }catch{
-    return to!char(toUpper(to!string(c)));
-  }
-}
-
-/*
  * Splits a string by sep, and transforms each element to types of T
  */
 T[] stringToArray(T)(string s, string sep= ","){

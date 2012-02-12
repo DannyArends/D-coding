@@ -1,27 +1,3 @@
-/**
- * \file tga.D
- *
- * last modified May, 2011
- * first written May, 2011
- *
- * Copyright (c) 2010 Danny Arends
- * 
- *     This program is free software; you can redistribute it and/or
- *     modify it under the terms of the GNU General Public License,
- *     version 3, as published by the Free Software Foundation.
- * 
- *     This program is distributed in the hope that it will be useful,
- *     but without any warranty; without even the implied warranty of
- *     merchantability or fitness for a particular purpose.  See the GNU
- *     General Public License, version 3, for more details.
- * 
- *     A copy of the GNU General Public License, version 3, is available
- *     at http://www.r-project.org/Licenses/GPL-3
- *
- * Contains: TGA
- * Written in the D Programming Language (http://www.digitalmars.com/d)
- **/
-
 module gui.formats.tga;
 
 import std.stdio;
@@ -34,49 +10,30 @@ import std.file;
 import std.regex;
 
 import core.typedefs.types;
-
-import gui.objects.color;
+import core.typedefs.color;
 
 import gl.gl_1_0;
 import gl.gl_1_1;
 
-enum TgaType{ 
-  TGA_ERROR_NO_SUCH_FILE = -6, 
-  TGA_ERROR_FILE_OPEN = -5, 
-  TGA_ERROR_READING_FILE = -4, 
-  TGA_ERROR_INDEXED_COLOR = -3, 
-  TGA_ERROR_MEMORY = -2, 
-  TGA_ERROR_COMPRESSED_FILE = -1, 
-  TGA_OK = 0
+uint getDataSize(Texture texture){
+ return texture.height * texture.width * texture.bpp;
 }
 
-struct tgaInfo{
-  string          name;
-	int             status;
-  GLuint[]        textureID;
-  GLuint          tgatype;
-  uint            mode;
-  short           width, height;
-	ubyte           type, pixelDepth;
- 	ubyte[]         imageData;
-}
-
-tgaInfo doScreenshot(short width, short height, string filename="screen.tga"){
-  tgaInfo screenshot = tgaInfo(filename);
-  screenshot.width=width;
-  screenshot.height=height;
-  screenshot.type=2;
-  screenshot.pixelDepth=32;
-  uint total = screenshot.height * screenshot.width * (screenshot.pixelDepth/8);
-  screenshot.imageData = new ubyte[total];
-  glReadPixels(0,0,width,height,GL_RGBA,GL_UNSIGNED_BYTE, &screenshot.imageData[0]);
+Texture doScreenshot(uint width, uint height, string filename="screen.tga"){
+  Texture screenshot = Texture(filename);
+  screenshot.width   = width;
+  screenshot.height  = height;
+  screenshot.type    = GL_RGBA;
+  screenshot.bpp     = 4;
+  screenshot.data = new ubyte[getDataSize(screenshot)];
+  glReadPixels(0,0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, &screenshot.data[0]);
   return screenshot;
 }
 
-int loadAsFont(tgaInfo tga){
+int loadTextureAsFont(GLint id){
   glEnable(GL_TEXTURE_2D);
   auto base = glGenLists(256);
-  glBindTexture(GL_TEXTURE_2D, tga.textureID[0]);
+  glBindTexture(GL_TEXTURE_2D, id);
   for(int offset=0; offset<256; offset++){
     float cx=cast(float)(offset%16)/16.0f;					// X Position Of Current Character
     float cy=cast(float)(offset/16)/16.0f;					// Y Position Of Current Character
@@ -98,30 +55,27 @@ int loadAsFont(tgaInfo tga){
   return base;
 }
 
-int loadFileAsFont(string filename){
-  return loadAsFont(loadTexture(filename));
-}
-
-tgaInfo loadTexture(string filename){
-  tgaInfo texture = tgaInfo(filename);
+Texture loadTgaAsTexture(string filename, bool verbose = false){
+  Texture texture = Texture(filename);
   if(!exists(filename) || !filename.isFile){
-    writefln("No such file: %s",filename);
-    texture.status = TgaType.TGA_ERROR_NO_SUCH_FILE;
+    writefln("[TGA] No such file '%s'",filename);
+    texture.status = FileStatus.NO_SUCH_FILE;
     return texture;
   }
-  writefln("Opening tga-file: %s",filename);
+  if(verbose) writefln("[TGA] Opening '%s'",filename);
   
   ubyte cGarbage;
   short iGarbage;
   ubyte aux;
-  GLuint type=GL_RGBA;
+  texture.type=GL_RGBA;
   auto fp = new std.stdio.File(filename,"rb");
   auto f = fp.getFP();
+  ubyte tgatype;
+  ubyte pixelDepth;
   
   fread(&cGarbage, ubyte.sizeof, 1, f);
-  fread(&cGarbage, ubyte.sizeof, 1, f);
-
-  fread(&texture.type, ubyte.sizeof, 1, f);    // type must be 2 or 3
+  fread(&cGarbage, ubyte.sizeof, 1, f);  
+  fread(&tgatype, ubyte.sizeof, 1, f);    // type must be 2 or 3
   fread(&iGarbage, short.sizeof, 1, f);
   fread(&iGarbage, short.sizeof, 1, f);
   fread(&cGarbage, ubyte.sizeof, 1, f);
@@ -129,83 +83,89 @@ tgaInfo loadTexture(string filename){
   fread(&iGarbage, short.sizeof, 1, f);
   fread(&texture.width, short.sizeof, 1, f);
   fread(&texture.height, short.sizeof, 1, f);
-  fread(&texture.pixelDepth, ubyte.sizeof, 1, f);
+  fread(&pixelDepth, ubyte.sizeof, 1, f);
   fread(&cGarbage, ubyte.sizeof, 1, f);
-  
-  if(texture.type == 1){
+
+  if(tgatype == 1){
     writefln("Unsupported tga format: %s",filename);
-    texture.status = TgaType.TGA_ERROR_INDEXED_COLOR;
+    texture.status = FileStatus.INDEXED_COLOR;
     fp.close(); 
     return texture;
   }
-  if((texture.type != 2) && (texture.type !=3)){
-    writefln("Unsupported tga format: %s",filename);
-    texture.status = TgaType.TGA_ERROR_COMPRESSED_FILE;
+  if((tgatype != 2) && (tgatype !=3)){
+    writefln("[TGA] Unsupported format: %s",tgatype);
+    texture.status = FileStatus.COMPRESSED_FILE;
     fp.close(); 
     return texture;
   }
   
-  texture.mode = texture.pixelDepth / 8;
-  uint total = texture.height * texture.width * texture.mode;
-  texture.imageData = new ubyte[total];
-  if(texture.imageData == null){
-    writefln("Unable to allocate memory required for tga-file: %s",filename);
-    texture.status = TgaType.TGA_ERROR_MEMORY;
+  texture.bpp = pixelDepth / 8;
+  texture.data = new ubyte[getDataSize(texture)];
+  if(texture.data == null){
+    writeln("[TGA] ERROR: Unable to allocate memory required");
+    texture.status = FileStatus.MEMORY;
     fp.close(); 
     return texture;
   }
-  fread(&(texture.imageData[0]),ubyte.sizeof,total,f);
-  if(texture.mode >= 3){
-    for(uint i=0; i < total; i+= texture.mode) {
-      aux = texture.imageData[i];
-      texture.imageData[i] = texture.imageData[i+2];
-      texture.imageData[i+2] = aux;
+  fread(&(texture.data[0]),ubyte.sizeof,getDataSize(texture),f);
+  if(texture.bpp >= 3){
+    for(uint i=0; i < getDataSize(texture); i+= texture.bpp) {
+      aux = texture.data[i];
+      texture.data[i] = texture.data[i+2];
+      texture.data[i+2] = aux;
     }
   }
-  writefln("Tga-file: %s in memory",filename);
-  texture.tgatype = type;
-  texture.status = TgaType.TGA_OK;
+  if(verbose) writefln("[TGA] File '%s' in memory",filename);
+  if (texture.bpp == 3){
+    texture.type = GL_RGB;
+  }
+  texture.status = FileStatus.OK;
   fp.close();
   return texture;
 }
 
-Color[][] asColorMap(tgaInfo texture){
-  Color[][] colormap = newclassmatrix!Color(texture.width,texture.height+1);
-  if(texture.status == TgaType.TGA_OK){
+Color[][] asColorMap(Texture texture){
+  Color[][] colormap = newclassmatrix!Color(texture.width, texture.height);
+  if(texture.status == FileStatus.OK){
     int x=0;
     int z=0;
-    uint total = texture.height * texture.width * texture.mode;
-    for(uint i=0; i < total; i+= texture.mode) {
-      if(x < texture.height-1){
+    for(uint i=0; i < (getDataSize(texture)-texture.bpp); i+= texture.bpp) {
+      if(x < (texture.height-1)){
         x++;
       }else{
         x=0;
         z++;
       }
-      colormap[x][z] = new Color(texture.imageData[i..i+3]);
+      colormap[z][x] = new Color(texture.data[i..i+3]);
     }
   }
+  
   return colormap;
 }
 
-GLuint[] toTextureBuffer(tgaInfo texture, bool verbose = true){
-  GLuint type = texture.tgatype;
-  auto tid = new GLuint[1];
-  glEnable(GL_TEXTURE_2D);
-  glGenTextures(1, &(tid[0]));					// Generate OpenGL texture IDs
-  glBindTexture(GL_TEXTURE_2D, tid[0]);			// Bind Our Texture
-  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);	// Linear Filtered
-  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);	// Linear Filtered
-  if (texture.pixelDepth == 24){
-    type=GL_RGB;
+T[][] heightFromAlpha(T)(Texture texture, float scale = 5.0, float add = 0){
+  T[][] map = newmatrix!T(texture.width, texture.height,cast(T)add);
+  if(texture.status == FileStatus.OK){
+    int x=0;
+    int z=0;
+    for(uint i=0; i < (getDataSize(texture)-texture.bpp); i+= texture.bpp) {
+      if(x < (texture.height-1)){
+        x++;
+      }else{
+        x=0;
+        z++;
+      }
+      map[z][x] = cast(T)((((texture.data[i+3])/255.0)*scale)+add);
+    }
   }
-  glTexImage2D(GL_TEXTURE_2D, 0, type, texture.width, texture.height, 0, type, GL_UNSIGNED_BYTE, &(texture.imageData[0]));
-  glDisable(GL_TEXTURE_2D);
-  if(verbose) writefln("Loaded tga-file: %s to texture-buffer: %d",texture.name,tid);
-  return tid;
+  return map;
 }
 
-void save(tgaInfo texture, string filename) {
+bool[][] dampFromAlpha(Texture texture){
+  return heightFromAlpha!bool(texture,1);
+}
+
+void save(Texture texture, string filename) {
   ubyte cGarbage = 0;
   short iGarbage = 0;
   uint mode;
@@ -213,8 +173,7 @@ void save(tgaInfo texture, string filename) {
   GLuint type=GL_RGBA;
   auto fp = new std.stdio.File(filename,"wb");
   auto f = fp.getFP();
-  
-  mode = texture.pixelDepth / 8; // compute image type: 2 for RGB(A), 3 for greyscale
+  ubyte pixelDepth = cast(ubyte)(texture.bpp * 8);
 
   fwrite(&cGarbage, ubyte.sizeof, 1, f);
   fwrite(&cGarbage, ubyte.sizeof, 1, f);
@@ -226,17 +185,17 @@ void save(tgaInfo texture, string filename) {
   fwrite(&iGarbage, short.sizeof, 1, f);
   fwrite(&texture.width, short.sizeof, 1, f);
   fwrite(&texture.height, short.sizeof, 1, f);
-  fwrite(&texture.pixelDepth, ubyte.sizeof, 1,f);
+  fwrite(&pixelDepth, ubyte.sizeof, 1,f);
   fwrite(&cGarbage, ubyte.sizeof, 1, f);
 
-  if(mode >= 3){ // convert the image data from RGB(a) to BGR(A)
-    for(int i=0; i < texture.width * texture.height * mode ; i+= mode) {
-      aux = texture.imageData[i];
-      texture.imageData[i] = texture.imageData[i+2];
-      texture.imageData[i+2] = aux;
+  if(texture.bpp >= 3){ // convert the image data from RGB(a) to BGR(A)
+    for(int i=0; i < (getDataSize(texture)-texture.bpp) ; i+= texture.bpp) {
+      aux = texture.data[i];
+      texture.data[i] = texture.data[i+2];
+      texture.data[i+2] = aux;
     }
   }
-  fwrite(&texture.imageData[0], ubyte.sizeof, texture.width * texture.height * mode, f);
+  fwrite(&texture.data[0], ubyte.sizeof, getDataSize(texture), f);
   fp.close();
   writefln("Saved tga-file: %s",filename);
 }

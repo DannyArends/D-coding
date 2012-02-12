@@ -8,6 +8,7 @@ import std.conv;
 import std.file;
 
 import core.typedefs.basictypes;
+import core.typedefs.color;
 
 enum Race { RBC, WBC, FUNGUS, YEAST, BACTERIUM };
 
@@ -179,9 +180,9 @@ struct UserInfo{
 struct Looks{
   this(Race race = Race.RBC){
     this.race =race;
-    color1 = Color(1,0,0);
-    color2 = Color(0,1,0);
-    color3 = Color(0,0,1);
+    color1 = new Color(1,0,0);
+    color2 = new Color(0,1,0);
+    color3 = new Color(0,0,1);
   }
   Race  race;        //Race
   Color color1;      //UserDefined Colors
@@ -196,9 +197,9 @@ struct Looks{
   void fromString(string location){
     string[] entities = location.split("\t");
     this.race = to!Race(entities[0]);
-    this.color1 = Color(stringToArray!int(entities[1]));
-    this.color2 = Color(stringToArray!int(entities[2]));
-    this.color3 = Color(stringToArray!int(entities[3]));
+    this.color1 = new Color(stringToArray!ubyte(entities[1]));
+    this.color2 = new Color(stringToArray!ubyte(entities[2]));
+    this.color3 = new Color(stringToArray!ubyte(entities[3]));
   }
 };
 

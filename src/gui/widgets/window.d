@@ -7,7 +7,6 @@ import std.conv;
 import gl.gl_1_0;
 import gl.gl_1_1;
 
-import gui.hud;
 import gui.widgets.object2d;
 import gui.widgets.text;
 import gui.widgets.square;
@@ -15,12 +14,12 @@ import gui.widgets.button;
 
 class Window : Object2D{
 public:
-  this(double x, double y, Hud hud, bool menuBar = true){
-    this(x, y, 125, 60, hud, menuBar);
+  this(double x, double y, Object2D parent, bool menuBar = true){
+    this(x, y, 125, 60, parent, menuBar);
   }
   
-  this(double x, double y, double sx, double sy, Hud hud, bool menuBar = true){
-    super(x,y,sx,sy,hud);
+  this(double x, double y, double sx, double sy, Object2D parent, bool menuBar = true){
+    super(x,y,sx,sy,parent);
     bg = new Square(0,20,sx,sy-20,this);
     bg.setColor(0.75,0.75,0.75);
     if(menuBar) initMenuBar();

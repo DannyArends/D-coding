@@ -3,48 +3,38 @@ module gui.objects.object3d;
 import std.array;
 import std.stdio;
 import std.conv;
+import std.random;
 
+import core.typedefs.color;
+import core.arrays.algebra;
 import gl.gl_1_0;
-import gui.objects.camera;
-import gui.objects.color;
-import gui.objects.location;
 
-abstract class Object3D : Location{
+import gui.textureloader;
+import gui.objects.camera;
+import gui.objects.vector3d;
+
+abstract class Object3D : Vector3D{
 public:  
-  this(){
-    super(0.0, 0.0, 0.0);
-    setRotation(0.0, 0.0, 0.0);
-    setSize(1.0, 1.0, 1.0);
-    setColor(1.0, 1.0, 1.0);
+  this(Object3D parent = null){
+    this(0.0, 0.0, 0.0, parent);
   }
   
-  this(double x, double y, double z){
-    super(x, y, z);
-    setRotation(0.0, 0.0, 0.0);
-    setSize(1.0, 1.0, 1.0);
-    setColor(1.0, 1.0, 1.0);
+  this(double x, double y, double z, Object3D parent = null){
+    this(x, y, z,0.0,0.0,0.0,parent);
   }
   
-  this(double x, double y, double z,double rx, double ry, double rz){
-    super(x, y, z);
-    setRotation(rx, ry, rz);
-    setSize(1.0, 1.0, 1.0);
-    setColor(1.0, 1.0, 1.0);
+  this(double x, double y, double z,double rx, double ry, double rz, Object3D parent = null){
+    this(x, y, z,rx, ry, rz,1.0,1.0,1.0,parent);
   }
   
-  this(double x, double y, double z,double rx, double ry, double rz, double sx, double sy, double sz){
-    super(x,y,z);
-    setRotation(rx, ry, rz);
+  this(double x, double y, double z,double rx, double ry, double rz, double sx, double sy, double sz, Object3D parent = null){
+    super(x, y, z, rx, ry, rz);
     setSize(sx, sy, sz);
     setColor(1.0, 1.0, 1.0);
+    setImpulse(0.0,0.0,0.0);
+    this.parent=parent;
   }
-  
-  void setRotation(double rx, double ry, double rz){
-    rot[0]=rx;
-    rot[1]=ry;
-    rot[2]=rz;
-  }
-  
+      
   void setSize(double sx, double sy, double sz){
     size[0]=sx;
     size[1]=sy;
@@ -52,18 +42,10 @@ public:
   }
   
   void setColor(double r, double g, double b, double a = 1.0){
-    if(color is null){
-      color = new Color(r,g,b,a);
-    }else{
-      color.setColor(r,g,b,a);
-    }
+    color = new Color(r,g,b,a);
   }
   
-  void rotate(double rx, double ry, double rz){
-    rot[0]+=rx;
-    rot[1]+=ry;
-    rot[2]+=rz;
-  }
+  void setColor(Color c){ color = c; }
   
   void adjustSize(double factor = 1.0){
     size[0]*=factor;
@@ -71,23 +53,69 @@ public:
     size[2]*=factor;
   }
   
-  abstract void render(Camera c, int faceType = GL_TRIANGLES);
+  abstract void buffer();
+  abstract void render(int faceType = GL_TRIANGLES);
   abstract int getFaceType();
+  
+  void addImpulse(double[] direction, double magnitude){
+    impulse = add(impulse,multiply(direction,magnitude));
+  }
+  
+  void setImpulse(double ix,double iy, double iz){
+    impulse[0] = ix;
+    impulse[1] = iy;
+    impulse[2] = iz;
+  }
 
-  @property GLfloat rx(){ return rot[0]; }
-  @property GLfloat ry(){ return rot[1]; }
-  @property GLfloat rz(){ return rot[2]; }
+  void setLife(int life = 0){
+    this.life[0]=life;
+    if(life!=0) this.life[1]=uniform(0,life);
+  }
+  
+  void update(){
+    if(life[0] > 0){
+      move(ix()/100.0,iy()/100.0,iz()/100.0);
+      life[1]--;
+      if(life[1]==0){
+        setLocation(parent.x,parent.y,parent.z);
+        setImpulse(0.0, 0.0, 0.0);
+        life[1]=life[0];
+      }
+    }
+  }
+  
+  void glToLocation(){
+    glPushMatrix();    
+    glTranslatef(x(),y(),z());
+    glRotatef(rx(), 1.0, 0.0, 0.0);
+    glRotatef(ry(), 0.0, 1.0, 0.0);
+    glRotatef(rz(), 0.0, 0.0, 1.0);
+  }
+  
+  void setTexture(int id){ textureid=id; }
+  
+  @property bool buffered(){ return _buffered; }
+  @property void buffered(bool status){ _buffered=status; }
   
   @property GLfloat r(){ return color.r(); }
   @property GLfloat g(){ return color.g(); }
   @property GLfloat b(){ return color.b(); }
   @property GLfloat alpha(){ return color.alpha(); }
   
+  @property GLfloat ix(){ return impulse[0]; }
+  @property GLfloat iy(){ return impulse[1]; }
+  @property GLfloat iz(){ return impulse[2]; }
+
   @property GLfloat sx(){ return size[0]; }
   @property GLfloat sy(){ return size[1]; }
   @property GLfloat sz(){ return size[2]; }
-private:
+  
+protected:
+  Object3D  parent;
   Color     color;
-  double[3] rot;
-  double[3] size;
+  double    size[3]    = [1.0,1.0,1.0];
+  double    impulse[3] = [0.0,0.0,0.0];
+  int       life[2]    = [0,0];
+  int       textureid  = -1;
+  bool      _buffered;
 }

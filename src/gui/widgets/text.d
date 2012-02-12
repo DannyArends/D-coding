@@ -7,7 +7,6 @@ import std.conv;
 import gl.gl_1_0;
 import gl.gl_1_1;
 
-import gui.hud;
 import gui.widgets.object2d;
 
 class Text : Object2D{
@@ -25,8 +24,8 @@ public:
       glColor4f(r(), g(),  b(), alpha());
 
       glEnable(GL_TEXTURE_2D);
-      glBindTexture(GL_TEXTURE_2D, getParent().getFontId());
-      glListBase(getParent().getFontBase()-32+(128*type));
+      glBindTexture(GL_TEXTURE_2D, getFontId());
+      glListBase(getFontBase()-32+(128*type));
       glCallLists(to!int(line.length),GL_UNSIGNED_BYTE, line.dup.ptr);
       glDisable(GL_TEXTURE_2D);
     }
@@ -67,6 +66,8 @@ public:
   }
   
 private:
+  int      fontID;
+  int      base;  
   int      maxlines = -1;
   double   scale = 0.8f;
   int      type=0;

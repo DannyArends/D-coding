@@ -5,33 +5,31 @@ import std.stdio;
 import std.conv;
 
 import gl.gl_1_0;
+import gl.gl_1_1;
 
-import gui.objects.camera;
 import gui.objects.object3d;
 
 class Triangle : Object3D{
-public:  
-  this(){
-    super();
-  }
+public:
+
+  this(){ super(); }
+  this(double x, double y, double z, Object3D o = null){ super(x,y,z,o); }
   
-  this(double x, double y, double z){
-    super(x,y,z);
-  }
+  void buffer(){ }
   
-  void render(Camera camera, int faceType = GL_TRIANGLES){
-    glLoadIdentity();
-    glTranslatef(camera.x+x(),camera.y+y(),camera.z+z());
-        
-    glRotatef(camera.rx+rx(), 1.0, 0.0, 0.0);
-    glRotatef(camera.ry+ry(), 0.0, 1.0, 0.0);
-    glRotatef(camera.rz+rz(), 0.0, 0.0, 1.0);
+  void render(int faceType = GL_TRIANGLES){
+    glToLocation();
     glColor4f(r(), g(),  b(), alpha());
+    if(textureid != -1){
+      glEnable(GL_TEXTURE_2D);
+      glBindTexture(GL_TEXTURE_2D, textureid);
+    }
     glBegin(faceType);
       glVertex3f(  0.0f,  sx(),  0.0f );
       glVertex3f( -sx(), -sx(),  0.0f );
       glVertex3f(  sx(), -sx(),  0.0f );
     glEnd();
+    glPopMatrix();
   }
   
   int getFaceType(){ return GL_TRIANGLES; }

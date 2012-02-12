@@ -8,18 +8,14 @@ import gl.gl_1_0;
 import gl.gl_1_1;
 import sdl.sdlstructs;
 
-import core.typedefs.basictypes;
-
-import gui.hud;
 import gui.widgets.object2d;
-import gui.widgets.window;
 import gui.widgets.text;
 import gui.widgets.square;
 import gui.widgets.button;
 
 class Slider : DragBar{
-  this(Window window){
-    super(0, 0, 100, 16,"",window);
+  this(Object2D parent){
+    super(0, 0, 100, 16,"",parent);
     init();
   }
   

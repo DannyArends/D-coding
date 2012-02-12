@@ -8,9 +8,8 @@ import gl.gl_1_0;
 import gl.gl_1_1;
 import sdl.sdlstructs;
 
-import core.typedefs.basictypes;
+import core.typedefs.types;
 
-import gui.hud;
 import gui.widgets.object2d;
 import gui.widgets.window;
 import gui.widgets.text;

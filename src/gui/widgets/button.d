@@ -8,9 +8,7 @@ import sdl.sdlstructs;
 import gl.gl_1_0;
 import gl.gl_1_1;
 
-import gui.hud;
 import gui.widgets.object2d;
-import gui.widgets.window;
 import gui.widgets.text;
 import gui.widgets.square;
 
@@ -77,10 +75,9 @@ private:
   Text     name;
 }
 
-
 class CloseButton : Button{
-  this(Window window){
-    super(window.sx()-18,2,15,15,"X",window);
+  this(Object2D parent){
+    super(parent.sx()-18,2,15,15,"X",parent);
   }
   void onClick(int x, int y){
     writeln("OnClick of the CloseBtn");
@@ -92,8 +89,8 @@ class CloseButton : Button{
 }
 
 class MinMaxButton : Button{
-  this(Window window){
-    super(window.sx()-36,2,15,15,"-",window);
+  this(Object2D parent){
+    super(parent.sx()-36,2,15,15,"-",parent);
   }
   
   void onClick(int x, int y){
@@ -106,13 +103,13 @@ class MinMaxButton : Button{
 }
 
 class DragBar : Button{
-  this(Window window){
-    super(0,0,window.sx(),20,"",window);
+  this(Object2D parent){
+    super(0,0,parent.sx(),20,"",parent);
     bg.setColor(0.0,0.0,0.5);
   }
   
-  this(double x, double y, double sx, double sy, string btnname, Window window){
-    super(x,y,sx,sy,"",window);
+  this(double x, double y, double sx, double sy, string btnname, Object2D parent){
+    super(x,y,sx,sy,"",parent);
     bg.setColor(0.0,0.0,0.5);
   }
   
@@ -129,3 +126,5 @@ class DragBar : Button{
   
   Object2DType getType(){ return Object2DType.DRAGBAR; }
 }
+
+

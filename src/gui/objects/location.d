@@ -5,9 +5,13 @@ import std.stdio;
 import std.conv;
 
 import gl.gl_1_0;
-import gui.objects.camera;
 
-class Location{  
+class Location{
+public:
+  this(){
+    this(0.0, 0.0, 0.0);
+  }
+  
   this(double x, double y, double z){
     loc[0]=x;
     loc[1]=y;
@@ -26,6 +30,9 @@ class Location{
     loc[2]=z;
   }
   
+  double[] getLocation(){ return loc; }
+  
+  @property double[] location(){ return loc; }
   @property GLfloat x(){ return loc[0]; }
   @property GLfloat y(){ return loc[1]; }
   @property GLfloat z(){ return loc[2]; }
