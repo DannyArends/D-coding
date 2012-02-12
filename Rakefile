@@ -11,8 +11,7 @@ LIBS =  ['lib:libload', 'lib:core', 'lib:game', 'lib:stats', 'lib:options', 'lib
 BIN =   ['app:fileloader', 'app:filesplitter', 'app:aligner', 'app:actor', 
          'app:single_map_probes', 'app:correlation', 'app:ostest', 'app:plang',
          'app:startJVM', 'app:httpreader', 'app:regression', 'app:httpserver',
-         'app:gameserver', 'app:voynich', 'app:dnacode', 'app:testal', 'app:sdl',
-         'app:sdltest']
+         'app:gameserver', 'app:voynich', 'app:dnacode', 'app:testal', 'app:sdl']
 TESTS = ['test:plang', 'tests:dnacode', 'test:fileloader', 'test:correlation', 
          'test:httpreader' ]
 
