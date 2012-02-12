@@ -1,10 +1,18 @@
+/**********************************************************************
+ * \file src/game/tilemap.d
+ *
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written Dec, 2011
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module game.tilemap;
 
 import std.array;
 import std.conv;
 import std.string;
 
-import core.typedefs.types;
+import core.arrays.types;
 
 import game.tile;
 import game.mover;
@@ -16,9 +24,9 @@ public:
   uint y;
   
   this(uint x, uint y){
-  	this.x=x;
-  	this.y=y;
-  	tiles = newmatrix!TileType(x, y, BLOCKEDTILE);
+    this.x=x;
+    this.y=y;
+    tiles = newmatrix!TileType(x, y, BLOCKEDTILE);
   }
   
   double getMovementCost(Mover mover, uint x, uint y, uint xp, uint yp){

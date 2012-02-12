@@ -1,10 +1,11 @@
-/**
- * \file search.d
+/**********************************************************************
+ * \file src/game/search.d
  *
- * Copyright (c) 2010 Danny Arends
- * 
- **/
-
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written Dec, 2011
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module game.search;
 
 import core.thread;
@@ -15,9 +16,9 @@ import std.string;
 import std.datetime;
 import core.time;
 
-import core.typedefs.types;
+import core.arrays.types;
 import game.objects.searchnode;
-import game.maps.tilemap;
+import game.tilemap;
 import game.mover;
 import game.path;
 

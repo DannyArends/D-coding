@@ -11,7 +11,7 @@ import std.math;
 import r.r;
 import r.lapack;
 
-import core.typedefs.types;
+import core.arrays.types;
 import plugins.regression.support;
 import plugins.regression.regression;
 import plugins.regression.augmentation;

@@ -1,3 +1,11 @@
+/**********************************************************************
+ * \file src/gui/objects/liquid.d
+ *
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written Dec, 2011
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module gui.objects.liquid;
 
 import std.stdio;
@@ -8,6 +16,7 @@ import std.random;
 import gl.gl_1_0;
 import gl.gl_1_1;
 
+import core.arrays.types;
 import core.typedefs.types;
 import core.typedefs.color;
 import gui.formats.tga;

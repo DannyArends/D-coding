@@ -1,3 +1,11 @@
+/**********************************************************************
+ * \file src/gui/formats/tga.d
+ *
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written Dec, 2011
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module gui.formats.tga;
 
 import std.stdio;
@@ -9,6 +17,7 @@ import std.conv;
 import std.file;
 import std.regex;
 
+import core.arrays.types;
 import core.typedefs.types;
 import core.typedefs.color;
 
