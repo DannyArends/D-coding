@@ -1,17 +1,17 @@
 /**********************************************************************
- * \file src/core/genetics/protein.d
+ * \file src/genetics/protein.d
  *
  * copyright (c) 2012 Danny Arends
  * last modified Feb, 2012
  * first written 2011
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module core.genetics.protein;
+module genetics.protein;
 
 import std.stdio;
 import std.conv;
 
-import core.genetics.rna;
+import genetics.rna;
 
 enum AA : string  {START = "START", STOP = "STOP", 
           Phe = "Phe", Leu = "Leu", Ser = "Ser", 

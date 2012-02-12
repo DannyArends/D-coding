@@ -1,16 +1,16 @@
 /**********************************************************************
- * \file src/core/genetics/rna.d
+ * \file src/genetics/rna.d
  *
  * copyright (c) 2012 Danny Arends
  * last modified Feb, 2012
  * first written May, 2011
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module core.genetics.rna;
+module genetics.rna;
 
 import std.stdio;
 
-import core.genetics.dna;
+import genetics.dna;
 
 enum RNA : char {U = 'U', G = 'G', A = 'A', C = 'C' };
 

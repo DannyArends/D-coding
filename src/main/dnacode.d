@@ -5,9 +5,9 @@ import std.array;
 import std.stdio;
 import std.conv;
 import std.string;
-import core.genetics.dna;
-import core.genetics.rna;
-import core.genetics.protein;
+import genetics.dna;
+import genetics.rna;
+import genetics.protein;
 
 void print_usage(){
   writeln("   Usage: dnacode DNAstrand");

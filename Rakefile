@@ -35,6 +35,7 @@ CLEAN.include("*.#{execext}")
 core_files    = Dir.glob("./src/core/**/*.d").join(' ')
 libload_files = Dir.glob("./src/libload/*.d").join(' ')
 game_files    = Dir.glob("./src/game/**/*.d").join(' ')
+genetic_files = Dir.glob("./src/genetics/*.d").join(' ')
 plugin_gui    = Dir.glob("./src/gui/**/*.d").join(' ')
 plugin_stats  = Dir.glob("./src/plugins/regression/*.d").join(' ')
 plugin_opts   = Dir.glob("./src/plugins/optionsparser/*.d").join(' ')
@@ -72,6 +73,11 @@ namespace :lib do
   desc "Library with game functionality (A* search)"
   task "game" => :core do
     sh "dmd -lib #{game_files} #{builddir}/core.#{libext} -of#{builddir}/game.#{libext} -Isrc/"
+  end
+
+  desc "Library with genetics functionality"
+  task "genetics" do
+    sh "dmd -lib #{genetic_files} -of#{builddir}/genetics.#{libext} -Isrc/"
   end
   
   desc "Libary with basic statistics functions"
@@ -191,8 +197,8 @@ namespace :app do
   end
   
   desc "Scan for proteins in DNA code"
-  task "dnacode" => 'lib:core' do
-    sh "dmd src/main/dnacode.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofdnacode.#{execext}"
+  task "dnacode" => ['lib:core','lib:genetics'] do
+    sh "dmd src/main/dnacode.d #{builddir}/core.#{libext} #{builddir}/genetics.#{libext} -Isrc/ -od#{builddir} -ofdnacode.#{execext}"
   end
 
   desc "Test openAL bindings"
