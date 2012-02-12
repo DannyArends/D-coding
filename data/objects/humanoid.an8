@@ -1,0 +1,519 @@
+header {
+  version { "0.95" }
+  build { "2007.04.02" }
+}
+environment {
+  grid { 1 10 50 50 }
+  framerate { 24 }
+}
+object { "f0obj"
+  cylinder {
+    name { "f0obj" }
+    material { " -- default --" }
+    length { 7.5 }
+    diameter { 3 }
+    topdiameter { 2 }
+    longlat { 12 8 }
+    capend { }
+    capstart { }
+  }
+}
+object { "torso"
+  cylinder {
+    name { "ttop" }
+    base {
+      origin { (0 15 0) }
+    }
+    material { " -- default --" }
+    length { 5 }
+    diameter { 7 }
+    topdiameter { 4 }
+    longlat { 12 8 }
+    capend { }
+    capstart { }
+  }
+  cylinder {
+    name { "tbot" }
+    material { " -- default --" }
+    length { 5 }
+    diameter { 2 }
+    topdiameter { 7 }
+    longlat { 12 8 }
+    capend { }
+    capstart { }
+  }
+  cylinder {
+    name { "tmid" }
+    base {
+      origin { (0 5 0) }
+    }
+    material { " -- default --" }
+    length { 10 }
+    diameter { 7 }
+    topdiameter { 7 }
+    longlat { 12 8 }
+    capend { }
+    capstart { }
+  }
+}
+object { "f1obj"
+  cylinder {
+    name { "f1obj" }
+    material { " -- default --" }
+    length { 7.5 }
+    diameter { 2 }
+    topdiameter { 1 }
+    longlat { 12 8 }
+    capend { }
+    capstart { }
+  }
+}
+object { "b0obj"
+  cylinder {
+    name { "b0obj" }
+    base {
+      origin { (0 7.5 0) }
+      orientation { (0 0 1 0) }
+    }
+    material { " -- default --" }
+    length { 7.5 }
+    diameter { 2 }
+    topdiameter { 2 }
+    longlat { 12 8 }
+    capend { }
+    capstart { }
+  }
+}
+object { "b1obj"
+  cylinder {
+    name { "b1obj" }
+    base {
+      origin { (0 5 0) }
+      orientation { (0 0 1 0) }
+    }
+    material { " -- default --" }
+    length { 5 }
+    diameter { 1 }
+    topdiameter { 2 }
+    longlat { 12 8 }
+    capend { }
+    capstart { }
+  }
+}
+object { "h0"
+  sphere {
+    name { "sphere01" }
+    base {
+      origin { (0 5 0) }
+    }
+    material { " -- default --" }
+    diameter { 10 }
+    longlat { 12 12 }
+  }
+}
+object { "c0obj"
+  cylinder {
+    name { "c0obj" }
+    material { " -- default --" }
+    length { 5 }
+    diameter { 1.5 }
+    topdiameter { 1.5 }
+    longlat { 12 8 }
+    capend { }
+    capstart { }
+  }
+  sphere {
+    name { "sphere01" }
+    base {
+      origin { (0 5 0) }
+    }
+    material { " -- default --" }
+    diameter { 2.5 }
+    longlat { 12 8 }
+  }
+}
+object { "feet0"
+  cube {
+    name { "feet0" }
+    base {
+      origin { (0 2 0) }
+    }
+    material { " -- default --" }
+    scale { 5 5 2 }
+    divisions { 1 1 1 }
+  }
+}
+figure { "Humanoid"
+  bone { "root"
+    length { 10 }
+    bone { "s"
+      length { 20.002 }
+      namedobject { "torso"
+        name { "namedobject01" }
+        material { " -- default --" }
+      }
+      bone { "f10"
+        length { 5 }
+        orientation { (0 0 0.70711 -0.70711) }
+        namedobject { "c0obj"
+          name { "namedobject16" }
+          material { " -- default --" }
+        }
+        bone { "f11"
+          length { 7.5 }
+          orientation { (0 0 0.70711 -0.70711) }
+          namedobject { "f0obj"
+            name { "namedobject02" }
+            material { " -- default --" }
+          }
+          namedobject { "f0obj"
+            name { "namedobject05" }
+            material { " -- default --" }
+          }
+          bone { "f12"
+            length { 7.5 }
+            namedobject { "f1obj"
+              name { "namedobject07" }
+              material { " -- default --" }
+            }
+          }
+        }
+      }
+      bone { "f00"
+        length { 5 }
+        orientation { (0 0 -0.70711 -0.70711) }
+        namedobject { "c0obj"
+          name { "namedobject15" }
+          material { " -- default --" }
+        }
+        bone { "f01"
+          length { 7.5 }
+          orientation { (0 0 0.70711 0.70711) }
+          namedobject { "f0obj"
+            name { "namedobject03" }
+            material { " -- default --" }
+          }
+          namedobject { "f0obj"
+            name { "namedobject04" }
+            material { " -- default --" }
+          }
+          namedobject { "f0obj"
+            name { "namedobject17" }
+            material { " -- default --" }
+          }
+          bone { "f02"
+            length { 7.5 }
+            namedobject { "f1obj"
+              name { "namedobject06" }
+              material { " -- default --" }
+            }
+          }
+        }
+      }
+      bone { "n"
+        length { 2.5 }
+        namedobject { "c0obj"
+          name { "namedobject18" }
+          material { " -- default --" }
+        }
+        bone { "h"
+          length { 5 }
+          dof { "X"  0  0  0  
+            unlimited { }
+          }
+          dof { "Y"  0  0 100  
+            unlimited { }
+          }
+          namedobject { "h0"
+            name { "namedobject12" }
+            material { " -- default --" }
+          }
+        }
+      }
+    }
+    bone { "b00"
+      length { 5 }
+      orientation { (0 0 -0.70711 -0.70711) }
+      namedobject { "c0obj"
+        name { "namedobject13" }
+        material { " -- default --" }
+      }
+      bone { "b01"
+        length { 7.5 }
+        orientation { (0 0 0.70711 0.70711) }
+        namedobject { "b0obj"
+          name { "namedobject08" }
+          material { " -- default --" }
+        }
+        bone { "b02"
+          length { 5 }
+          namedobject { "b1obj"
+            name { "namedobject10" }
+            material { " -- default --" }
+          }
+          bone { "b03"
+            length { 5 }
+            orientation { (-0.69533 0 0 -0.71869) }
+            namedobject { "feet0"
+              name { "namedobject19" }
+              material { " -- default --" }
+            }
+          }
+        }
+      }
+    }
+    bone { "b10"
+      length { 5 }
+      orientation { (0 0 0.70711 -0.70711) }
+      namedobject { "c0obj"
+        name { "namedobject14" }
+        material { " -- default --" }
+      }
+      bone { "b11"
+        length { 7.5 }
+        orientation { (0 0 0.70711 -0.70711) }
+        namedobject { "b0obj"
+          name { "namedobject09" }
+          material { " -- default --" }
+        }
+        bone { "b12"
+          length { 5 }
+          namedobject { "b1obj"
+            name { "namedobject11" }
+            material { " -- default --" }
+          }
+          bone { "b13"
+            length { 5 }
+            orientation { (-0.69884 0 0 -0.71528) }
+            namedobject { "feet0"
+              name { "namedobject20" }
+              material { " -- default --" }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+figure { "insectoid"
+  bone { "root"
+    length { 10 }
+    orientation { (0 0 0 -1) }
+    bone { "bone01"
+      length { 10 }
+      orientation { (-0.70711 0 0 -0.70711) }
+      namedobject { "c0obj"
+        name { "namedobject24" }
+        material { " -- default --" }
+      }
+      namedobject { "torso"
+        name { "namedobject31" }
+        material { " -- default --" }
+      }
+      bone { "bone02"
+        length { 10 }
+        orientation { (0 0 -0.00033 1) }
+        namedobject { "c0obj"
+          name { "namedobject25" }
+          material { " -- default --" }
+        }
+        bone { "bone03"
+          length { 5 }
+          orientation { (0 0 0.70711 -0.70711) }
+          namedobject { "c0obj"
+            name { "namedobject04" }
+            material { " -- default --" }
+          }
+          bone { "bone13"
+            length { 5 }
+            orientation { (-0.53407 -0.00036 0 -0.84544) }
+            namedobject { "c0obj"
+              name { "namedobject07" }
+              material { " -- default --" }
+            }
+            bone { "bone17"
+              length { 5 }
+              namedobject { "feet0"
+                name { "namedobject17" }
+                material { " -- default --" }
+              }
+            }
+          }
+        }
+        bone { "bone04"
+          length { 5 }
+          orientation { (0 0 -0.71279 -0.70138) }
+          namedobject { "c0obj"
+            name { "namedobject03" }
+            material { " -- default --" }
+          }
+          bone { "bone16"
+            length { 5 }
+            orientation { (-0.54806 0.00847 0 -0.83639) }
+            namedobject { "c0obj"
+              name { "namedobject14" }
+              material { " -- default --" }
+            }
+            bone { "bone20"
+              length { 5 }
+              namedobject { "feet0"
+                name { "namedobject20" }
+                material { " -- default --" }
+              }
+            }
+          }
+        }
+        bone { "bone07"
+          length { 5 }
+          namedobject { "c0obj"
+            name { "namedobject15" }
+            material { " -- default --" }
+          }
+          namedobject { "c0obj"
+            name { "namedobject32" }
+            material { " -- default --" }
+          }
+          bone { "bone08"
+            length { 5 }
+            namedobject { "h0"
+              name { "namedobject16" }
+              material { " -- default --" }
+            }
+          }
+        }
+      }
+      bone { "bone05"
+        length { 5 }
+        orientation { (0 0 -0.71174 -0.70244) }
+        namedobject { "c0obj"
+          name { "namedobject02" }
+          material { " -- default --" }
+        }
+        namedobject { "feet0"
+          name { "namedobject26" }
+          material { " -- default --" }
+        }
+        bone { "bone15"
+          length { 5 }
+          orientation { (-0.53235 0.00700 0 0.84649) }
+          namedobject { "c0obj"
+            name { "namedobject10" }
+            material { " -- default --" }
+          }
+          namedobject { "feet0"
+            name { "namedobject29" }
+            material { " -- default --" }
+          }
+          bone { "bone21"
+            length { 5 }
+            namedobject { "feet0"
+              name { "namedobject21" }
+              material { " -- default --" }
+            }
+          }
+        }
+      }
+      bone { "bone06"
+        length { 5 }
+        orientation { (0 0 0.70711 -0.70711) }
+        namedobject { "c0obj"
+          name { "namedobject05" }
+          material { " -- default --" }
+        }
+        namedobject { "feet0"
+          name { "namedobject28" }
+          material { " -- default --" }
+        }
+        bone { "bone12"
+          length { 5 }
+          orientation { (-0.53960 0 0 0.84192) }
+          namedobject { "c0obj"
+            name { "namedobject08" }
+            material { " -- default --" }
+          }
+          namedobject { "feet0"
+            name { "namedobject27" }
+            material { " -- default --" }
+          }
+          bone { "bone18"
+            length { 5 }
+            namedobject { "feet0"
+              name { "namedobject18" }
+              material { " -- default --" }
+            }
+          }
+        }
+      }
+    }
+    bone { "bone09"
+      length { 5 }
+      orientation { (0 0 -0.70711 -0.70711) }
+      namedobject { "c0obj"
+        name { "namedobject01" }
+        material { " -- default --" }
+      }
+      namedobject { "c0obj"
+        name { "namedobject12" }
+        material { " -- default --" }
+      }
+      bone { "bone14"
+        length { 5 }
+        orientation { (-0.38436 0.59352 -0.38436 -0.59352) }
+        namedobject { "c0obj"
+          name { "namedobject11" }
+          material { " -- default --" }
+        }
+        namedobject { "c0obj"
+          name { "namedobject13" }
+          material { " -- default --" }
+        }
+        bone { "bone22"
+          length { 5 }
+          namedobject { "feet0"
+            name { "namedobject22" }
+            material { " -- default --" }
+          }
+        }
+      }
+    }
+    bone { "bone10"
+      length { 5 }
+      orientation { (0 0 0.70711 -0.70711) }
+      namedobject { "c0obj"
+        name { "namedobject06" }
+        material { " -- default --" }
+      }
+      bone { "bone11"
+        length { 5 }
+        orientation { (-0.37592 -0.59891 0.37592 -0.59891) }
+        namedobject { "c0obj"
+          name { "namedobject09" }
+          material { " -- default --" }
+        }
+        bone { "bone19"
+          length { 5 }
+          namedobject { "feet0"
+            name { "namedobject19" }
+            material { " -- default --" }
+          }
+        }
+      }
+    }
+    bone { "bone23"
+      length { 5 }
+      orientation { (0 0 1 0) }
+      namedobject { "c0obj"
+        name { "namedobject23" }
+        material { " -- default --" }
+      }
+    }
+    bone { "bone24"
+      length { 5 }
+      orientation { (0.69048 0 0 -0.72335) }
+      namedobject { "torso"
+        name { "namedobject30" }
+        material { " -- default --" }
+      }
+    }
+  }
+}
