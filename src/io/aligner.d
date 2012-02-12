@@ -1,20 +1,16 @@
-module core.io.aligner;
+/**********************************************************************
+ * \file src/io/aligner.d
+ *
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written Jun, 2011
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
+module io.aligner;
  
-import std.math; 
-import std.stdio;
-import std.array;
-import std.string;
-import std.conv;
-import std.file;
-import std.regex;
-import std.datetime;
-import core.time;
-import core.vararg;
-import std.datetime;
-import core.time;
-
-import core.io.xbin.reader;
-import core.io.iofunctions;
+import core.stdinc;
+import io.xbin.reader;
+import io.iofunctions;
 
 extern (C) int system(char *);
 

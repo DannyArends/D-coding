@@ -1,5 +1,5 @@
 /**********************************************************************
- * \file src/core/interpreters/p.d
+ * \file src/interpreters/p.d
  *
  * copyright (c) 2012 Danny Arends
  * last modified Feb, 2012
@@ -7,7 +7,7 @@
  * Interpreter for P'' (http://en.wikipedia.org/wiki/P'')
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module core.interpreters.p;
+module interpreters.p;
 
 import core.thread;
 import std.array;

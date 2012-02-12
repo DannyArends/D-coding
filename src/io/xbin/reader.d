@@ -1,37 +1,14 @@
-/**
- * \file xbin/reader.d
+/**********************************************************************
+ * \file src/io/xbin/reader.d
  *
- * last modified May, 2011
- * first written May, 2011
- *
- * Copyright (c) 2010 Danny Arends, Joeri v/d Velde, Pjotr Prins, Karl W. Broman, Ritsert C. Jansen
- * 
- *     This program is free software; you can redistribute it and/or
- *     modify it under the terms of the GNU General Public License,
- *     version 3, as published by the Free Software Foundation.
- * 
- *     This program is distributed in the hope that it will be useful,
- *     but without any warranty; without even the implied warranty of
- *     merchantability or fitness for a particular purpose.  See the GNU
- *     General Public License, version 3, for more details.
- * 
- *     A copy of the GNU General Public License, version 3, is available
- *     at http://www.r-project.org/Licenses/GPL-3
- *
- * Contains: BinaryReader
- * 
- **/
-module core.io.xbin.reader;
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written Jun, 2011
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
+module io.xbin.reader;
 
-import std.math; 
-import std.stdio;
-import std.array;
-import std.string;
-import std.conv;
-import std.file;
-import std.regex;
-import std.datetime;
-import core.time;
+import core.stdinc;
 
 enum BUFFERSIZE {BUFFER_16KB = 16_384,BUFFER_2MB = 2_097_152, BUFFER_4MB = 4_194_304,BUFFER_16MB = 16_777_216, BUFFER_64MB = 67_108_864, BUFFER_256MB = 268_435_456}
 

@@ -33,6 +33,8 @@ CLEAN.include("#{builddir}")
 CLEAN.include("*.#{execext}")
 
 core_files    = Dir.glob("./src/core/**/*.d").join(' ')
+io_files      = Dir.glob("./src/io/**/*.d").join(' ')
+inter_files   = Dir.glob("./src/interpreters/*.d").join(' ')
 libload_files = Dir.glob("./src/libload/*.d").join(' ')
 game_files    = Dir.glob("./src/game/**/*.d").join(' ')
 web_files     = Dir.glob("./src/web/**/*.d").join(' ')
@@ -64,6 +66,16 @@ namespace :lib do
   desc "The library with core functionality"
   task "core" do
     sh "dmd -lib #{core_files} -of#{builddir}/core.#{libext}"
+  end
+
+  desc "The library with io functionality"
+  task "io" do
+    sh "dmd -lib #{io_files} -of#{builddir}/io.#{libext} -Isrc/"
+  end
+  
+  desc "The library with io functionality"
+  task "inter" do
+    sh "dmd -lib #{inter_files} -of#{builddir}/interpreters.#{libext} -Isrc/"
   end
   
   desc "The library with libload functionality"
@@ -130,21 +142,21 @@ end
 
 namespace :app do
   desc "Build all applications and libraries"
-  task :all => LIBS+BIN
+  task :all => BIN
   
   desc "Fileloader application"
-  task "fileloader" => 'lib:core' do
-    sh "dmd src/main/fileloader.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -offileloader.#{execext}"
+  task "fileloader" => ['lib:core','lib:io'] do
+    sh "dmd src/main/fileloader.d #{builddir}/core.#{libext} #{builddir}/io.#{libext} -Isrc/ -od#{builddir} -offileloader.#{execext}"
   end
 
   desc "Large file splitter"
-  task "filesplitter" => 'lib:core' do
-    sh "dmd src/main/filesplitter.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -offilesplit.#{execext}"
+  task "filesplitter" => ['lib:core','lib:io'] do
+    sh "dmd src/main/filesplitter.d #{builddir}/core.#{libext} #{builddir}/io.#{libext} -Isrc/ -od#{builddir} -offilesplit.#{execext}"
   end
 
   desc "DNA sequence alignment using blastn"
-  task "aligner" => 'lib:core' do
-    sh "dmd src/main/aligner.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofaligner.#{execext}"
+  task "aligner" => ['lib:core','lib:io'] do
+    sh "dmd src/main/aligner.d #{builddir}/core.#{libext} #{builddir}/io.#{libext} -Isrc/ -od#{builddir} -ofaligner.#{execext}"
   end
   
   desc "Actor example from D"
@@ -153,23 +165,23 @@ namespace :app do
   end
 
   desc "os test"
-  task "ostest" => 'lib:core' do
-    sh "dmd src/main/ostest.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofostest.#{execext}"
+  task "ostest" => ['lib:core','lib:io'] do
+    sh "dmd src/main/ostest.d #{builddir}/core.#{libext} #{builddir}/io.#{libext} -Isrc/ -od#{builddir} -ofostest.#{execext}"
   end
   
   desc "Extract probes mapping to a single genome location"
-  task "single_map_probes" => 'lib:core' do
-    sh "dmd src/main/single_map_probes.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofmap_probes.#{execext}"
+  task "single_map_probes" => ['lib:core','lib:io'] do
+    sh "dmd src/main/single_map_probes.d #{builddir}/core.#{libext} #{builddir}/io.#{libext} -Isrc/ -od#{builddir} -ofmap_probes.#{execext}"
   end
   
   desc "Correlation test using the Statistics library"
-  task "correlation" => [ 'lib:core', 'lib:stats' ] do
-    sh "dmd src/main/correlation.d #{builddir}/core.#{libext} #{builddir}/stats.#{libext} -Isrc/ -od#{builddir} -ofcorrelation.#{execext}"
+  task "correlation" => [ 'lib:core','lib:stats','lib:io'] do
+    sh "dmd src/main/correlation.d #{builddir}/core.#{libext} #{builddir}/io.#{libext} #{builddir}/stats.#{libext} -Isrc/ -od#{builddir} -ofcorrelation.#{execext}"
   end
   
   desc "P'' language interpreter (see: http://en.wikipedia.org/wiki/P'')"
-  task "plang" => 'lib:core' do
-    sh "dmd src/main/plang.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofplang.#{execext}"
+  task "plang" => ['lib:core','lib:inter'] do
+    sh "dmd src/main/plang.d #{builddir}/core.#{libext} #{builddir}/interpreters.#{libext} -Isrc/ -od#{builddir} -ofplang.#{execext}"
   end
 
   desc "Start the JVM"

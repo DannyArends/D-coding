@@ -1,5 +1,5 @@
 /**********************************************************************
- * \file src/core/interpreters/lsystem.d
+ * \file src/interpreters/lsystem.d
  *
  * copyright (c) 2012 Danny Arends
  * last modified Feb, 2012
@@ -7,7 +7,7 @@
  * Interpreter for an L-system (http://en.wikipedia.org/wiki/Lsystem)
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module core.interpreters.lsystem;
+module interpreters.lsystem;
 
 import std.array;
 import std.stdio;

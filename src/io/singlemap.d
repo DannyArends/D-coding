@@ -1,18 +1,16 @@
-module core.io.singlemap;
+/**********************************************************************
+ * \file src/io/singlemap.d
+ *
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written Jun, 2011
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
+module io.singlemap;
  
-import std.math; 
-import std.stdio;
-import std.array;
-import std.string;
-import std.conv;
-import std.file;
-import std.regex;
-import std.datetime;
-import core.time;
-import core.vararg;
-
-import core.io.xbin.reader;
-import core.io.iofunctions;
+import core.stdinc;
+import io.xbin.reader;
+import io.iofunctions;
 
 class SingleMap{
   string buffer;

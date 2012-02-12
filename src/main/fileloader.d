@@ -10,9 +10,9 @@ import std.stdio;
 import std.conv;
 
 import core.arrays.search;
-import core.io.xbin.reader;
-import core.io.iofunctions;
-import core.io.textreader;
+import io.xbin.reader;
+import io.iofunctions;
+import io.textreader;
 
 void print_usage(){
   writeln("   Usage: fileloader in.csv buffersize [start-col] [end-col]");

@@ -12,9 +12,9 @@ import core.time;
 import std.datetime;
 
 import core.arrays.search;
-import core.io.xbin.reader;
-import core.io.iofunctions;
-import core.io.textreader;
+import io.xbin.reader;
+import io.iofunctions;
+import io.textreader;
 import plugins.regression.statistics;
 
 void print_usage(){

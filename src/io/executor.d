@@ -6,14 +6,9 @@
  * first written Jun, 2011
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module core.io.executor;
+module io.executor;
 
-import core.thread;
-import std.file;
-import std.path;
-import std.conv;
-import std.socket;
-import std.stdio;
+import core.stdinc;
 import core.typedefs.types;
 
 extern (C) int system(char *);

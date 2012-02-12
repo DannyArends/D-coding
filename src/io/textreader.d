@@ -1,41 +1,16 @@
-/**
- * \file textreader.d
+/**********************************************************************
+ * \file src/io/textreader.d
  *
- * last modified May, 2011
- * first written May, 2011
- *
- * Copyright (c) 2010 Danny Arends, Joeri v/d Velde, Pjotr Prins, Karl W. Broman, Ritsert C. Jansen
- * 
- *     This program is free software; you can redistribute it and/or
- *     modify it under the terms of the GNU General Public License,
- *     version 3, as published by the Free Software Foundation.
- * 
- *     This program is distributed in the hope that it will be useful,
- *     but without any warranty; without even the implied warranty of
- *     merchantability or fitness for a particular purpose.  See the GNU
- *     General Public License, version 3, for more details.
- * 
- *     A copy of the GNU General Public License, version 3, is available
- *     at http://www.r-project.org/Licenses/GPL-3
- *
- * Contains: TextReader
- * 
- **/
-module core.io.textreader;
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written Jun, 2011
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
+module io.textreader;
  
-import std.math; 
-import std.stdio;
-import std.array;
-import std.string;
-import std.conv;
-import std.file;
-import std.regex;
-import std.datetime;
-import core.time;
-import core.vararg;
-
-import core.io.xbin.reader;
-import core.io.iofunctions;
+import core.stdinc;
+import io.xbin.reader;
+import io.iofunctions;
 
 class TextReader{
   string buffer;

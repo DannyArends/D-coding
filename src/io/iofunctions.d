@@ -1,16 +1,14 @@
 /**********************************************************************
- * \file src/core/io/iofunctions.d
+ * \file src/io/iofunctions.d
  *
  * copyright (c) 2012 Danny Arends
  * last modified Feb, 2012
  * first written Jun, 2011
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module core.io.iofunctions;
+module io.iofunctions;
  
-import std.stdio;
-import std.conv;
-import core.vararg;
+import core.stdinc;
 
 //TODO: Easy :)
 T[][] all(T)(T[][] t, string data, long row, long col, long rindex, long cindex){
