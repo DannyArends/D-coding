@@ -92,7 +92,9 @@ An8Chunk[] getChunks(string content){
   foreach(int cnt, char c; content){
     switch(c){
       case ' ':
-        if(inID && content[cnt+1] != '{') chunkid = "";
+        if(cnt < (content.length-1)){
+          if(inID && content[cnt+1] != '{') chunkid = "";
+        }
       break;
       case '{':
         if(inID){

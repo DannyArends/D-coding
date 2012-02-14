@@ -169,8 +169,7 @@ T[] normalize(T)(T[] d1){
 T[] trianglefindnormal(T)(T[3][3] v){
   T[3] a;
   T[3] b;
-  T[] normal;
-  normal.reserve(3);
+  T[3] normal;
   
   a[0] = v[0][0] - v[1][0];
   a[1] = v[0][1] - v[1][1];

@@ -30,7 +30,7 @@ class Test_Object3DS : Empty{
     writefln("[ G ] setup 3D scene");
     objects ~= new Model3DS(-3, -1,-8,"data/objects/object_3.3ds");
     objects ~= new Skeleton(-1, -1,-5);
-    objects[0].buffer();
+    //objects[0].buffer();
     screen.add(objects);
   }
   
