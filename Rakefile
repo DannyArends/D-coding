@@ -15,9 +15,12 @@ BIN =   ['app:fileloader', 'app:filesplitter', 'app:aligner', 'app:actor',
 TESTS = ['test:plang', 'tests:dnacode', 'test:fileloader', 'test:correlation', 
          'test:httpreader' ]
 
-def builddir;return "build";end
+def bd;return "build";end
 
 def windows?;return RUBY_PLATFORM =~ /(:?mswin|mingw)/;end
+
+comp_args  = "-O"
+link_args = ""
 
 def execext
   if windows? then
@@ -27,8 +30,8 @@ def execext
   end
 end
 
-CLEAN.include("#{builddir}*.*")
-CLEAN.include("#{builddir}")
+CLEAN.include("#{bd}*.*")
+CLEAN.include("#{bd}")
 CLEAN.include("*.#{execext}")
 
 core_files    = Dir.glob("./src/core/**/*.d").join(' ')
@@ -48,7 +51,7 @@ deps_r        = Dir.glob("./deps/r/*.d").join(' ')
 deps_jni      = Dir.glob("./deps/jni/*.d").join(' ')
 deps_sdl      = Dir.glob("./deps/sdl/*.d").join(' ')
 
-directory builddir
+directory bd
 
 def libext
   if windows? then
@@ -65,82 +68,85 @@ namespace :lib do
   
   desc "The library with core functionality"
   task "core" do
-    sh "dmd -lib #{core_files} -of#{builddir}/core.#{libext}"
+    sh "dmd -lib #{core_files} -of#{bd}/core.#{libext}"
   end
 
   desc "The library with io functionality"
-  task "io" => ['lib:sdl','lib:openGL']do
-    sh "dmd -lib #{io_files} -of#{builddir}/io.#{libext} -Isrc/ -Ideps/"
+  task "io" => ['lib:core','lib:sdl','lib:openGL'] do
+    sh "dmd -lib #{io_files} #{bd}/core.#{libext} -of#{bd}/io.#{libext} -Isrc/ -Ideps/"
   end
   
   desc "The library with sfx functionality"
   task "sfx" => ['lib:openAL']do
-    sh "dmd -lib #{sfx_files} -of#{builddir}/sfx.#{libext} -Isrc/ -Ideps/"
+    sh "dmd -lib #{sfx_files} -of#{bd}/sfx.#{libext} -Isrc/ -Ideps/"
   end
   
   desc "The library with io functionality"
   task "inter" do
-    sh "dmd -lib #{inter_files} -of#{builddir}/interpreters.#{libext} -Isrc/"
+    sh "dmd -lib #{inter_files} -of#{bd}/interpreters.#{libext} -Isrc/"
   end
   
   desc "The library with libload functionality"
   task "libload" do
-    sh "dmd -lib #{libload_files} -of#{builddir}/libload.#{libext}"
+    if ! windows? then
+      link_args += " -L-ldl"
+    end
+    sh "dmd -lib #{libload_files} -of#{bd}/libload.#{libext}"
   end
   
   desc "Library with game functionality (A* search)"
-  task "game" => ['lib:core','lib:sdl'] do
-    sh "dmd -lib #{game_files} #{builddir}/core.#{libext} -of#{builddir}/game.#{libext} -Isrc/ -Ideps/"
+  task "game" => ['lib:core','lib:io','lib:sdl','lib:gui','lib:sfx'] do
+    sh "dmd -lib #{game_files} #{bd}/core.#{libext} #{bd}/io.#{libext} #{bd}/gui.#{libext} #{bd}/sfx.#{libext} -of#{bd}/game.#{libext} -Isrc/ -Ideps/"
   end
 
   desc "Library with http/web functionality"
   task "web" => :core do
-    sh "dmd -lib #{web_files} #{builddir}/core.#{libext} -of#{builddir}/web.#{libext} -Isrc/"
+    sh "dmd -lib #{web_files} #{bd}/core.#{libext} -of#{bd}/web.#{libext} -Isrc/"
   end
   
   desc "Library with genetics functionality"
-  task "genetics" do
-    sh "dmd -lib #{genetic_files} -of#{builddir}/genetics.#{libext} -Isrc/"
+  task "genetics" => ['lib:core'] do
+    sh "dmd -lib #{genetic_files} #{bd}/core.#{libext} -of#{bd}/genetics.#{libext} -Isrc/"
   end
   
   desc "Libary with basic statistics functions"
   task "stats" => :core do
-    sh "dmd -lib #{plugin_stats} #{builddir}/core.#{libext} -of#{builddir}/stats.#{libext} -Isrc/ -Ideps/"
+    sh "dmd -lib #{plugin_stats} #{bd}/core.#{libext} -of#{bd}/stats.#{libext} -Isrc/ -Ideps/"
   end
   
   desc "Libary with basic option parsing functions"
   task "options" => :core do
-    sh "dmd -lib #{plugin_opts} #{builddir}/core.#{libext} -of#{builddir}/options.#{libext} -Isrc/ -Ideps/"
+    sh "dmd -lib #{plugin_opts} #{bd}/core.#{libext} -of#{bd}/options.#{libext} -Isrc/ -Ideps/"
   end
 
   desc "Bindings for openGL"
   task "openGL" => :libload do
-    sh "dmd -lib #{deps_opengl} #{builddir}/libload.#{libext} -of#{builddir}/openGL.#{libext} -Ideps/ -Isrc/"
+    sh "dmd -lib #{deps_opengl} #{bd}/libload.#{libext} -of#{bd}/openGL.#{libext} -Ideps/ -Isrc/"
   end
   
   desc "Bindings for openAL"
   task "openAL" => :libload do
-    sh "dmd -lib #{deps_openal} #{builddir}/libload.#{libext} -of#{builddir}/openAL.#{libext} -Ideps/ -Isrc/"
+    sh "dmd -lib #{deps_openal} #{bd}/libload.#{libext} -of#{bd}/openAL.#{libext} -Ideps/ -Isrc/"
   end
   
   desc "Bindings for R"
   task "r" => :libload do
-    sh "dmd -lib #{deps_r} #{builddir}/libload.#{libext} -of#{builddir}/r.#{libext} -Ideps/ -Isrc/"
+    sh "dmd -lib #{deps_r} #{bd}/libload.#{libext} -of#{bd}/r.#{libext} -Ideps/ -Isrc/"
   end
 
   desc "Bindings for JNI"
   task "jni" => :libload do
-    sh "dmd -lib #{deps_jni} #{builddir}/libload.#{libext} -of#{builddir}/jni.#{libext} -Ideps/ -Isrc/"
+    sh "dmd -lib #{deps_jni} #{bd}/libload.#{libext} -of#{bd}/jni.#{libext} -Ideps/ -Isrc/"
   end
   
   desc "Bindings for SDL"
   task "sdl" => :libload do
-    sh "dmd -lib #{deps_sdl} #{builddir}/libload.#{libext} -of#{builddir}/sdl.#{libext} -Ideps/ -Isrc/"
+    sh "dmd -lib #{deps_sdl} #{bd}/libload.#{libext} -of#{bd}/sdl.#{libext} -Ideps/ -Isrc/"
   end
   
   desc "SDL GUI libary"
   task "gui" => :sdl do
-    sh "dmd -lib #{plugin_gui} #{builddir}/sdl.#{libext} -of#{builddir}/gui.#{libext} -Ideps/ -Isrc/"
+    sh "dmd -lib #{plugin_gui} #{bd}/sdl.#{libext} -of#{bd}/gui.#{libext} -Ideps/ -Isrc/"
   end
 end
 # ---- Applications ----
@@ -151,87 +157,87 @@ namespace :app do
   
   desc "Fileloader application"
   task "fileloader" => ['lib:core','lib:io'] do
-    sh "dmd src/main/fileloader.d #{builddir}/core.#{libext} #{builddir}/io.#{libext} -Isrc/ -od#{builddir} -offileloader.#{execext}"
+    sh "dmd src/main/fileloader.d #{bd}/core.#{libext} #{bd}/io.#{libext} -Isrc/ -od#{bd} -offileloader.#{execext}"
   end
 
   desc "Large file splitter"
   task "filesplitter" => ['lib:core','lib:io'] do
-    sh "dmd src/main/filesplitter.d #{builddir}/core.#{libext} #{builddir}/io.#{libext} -Isrc/ -od#{builddir} -offilesplit.#{execext}"
+    sh "dmd src/main/filesplitter.d #{bd}/core.#{libext} #{bd}/io.#{libext} -Isrc/ -od#{bd} -offilesplit.#{execext}"
   end
 
   desc "DNA sequence alignment using blastn"
   task "aligner" => ['lib:core','lib:io'] do
-    sh "dmd src/main/aligner.d #{builddir}/core.#{libext} #{builddir}/io.#{libext} -Isrc/ -od#{builddir} -ofaligner.#{execext}"
+    sh "dmd src/main/aligner.d #{bd}/core.#{libext} #{bd}/io.#{libext} -Isrc/ -od#{bd} -ofaligner.#{execext}"
   end
   
   desc "Actor example from D"
   task "actor" => 'lib:core' do
-    sh "dmd src/main/actor.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofactor.#{execext}"
+    sh "dmd src/main/actor.d #{bd}/core.#{libext} -Isrc/ -od#{bd} -ofactor.#{execext}"
   end
 
   desc "os test"
   task "ostest" => ['lib:core','lib:io'] do
-    sh "dmd src/main/ostest.d #{builddir}/core.#{libext} #{builddir}/io.#{libext} -Isrc/ -od#{builddir} -ofostest.#{execext}"
+    sh "dmd src/main/ostest.d #{bd}/core.#{libext} #{bd}/io.#{libext} -Isrc/ -od#{bd} -ofostest.#{execext}"
   end
   
   desc "Extract probes mapping to a single genome location"
   task "single_map_probes" => ['lib:core','lib:io'] do
-    sh "dmd src/main/single_map_probes.d #{builddir}/core.#{libext} #{builddir}/io.#{libext} -Isrc/ -od#{builddir} -ofmap_probes.#{execext}"
+    sh "dmd src/main/single_map_probes.d #{bd}/core.#{libext} #{bd}/io.#{libext} -Isrc/ -od#{bd} -ofmap_probes.#{execext}"
   end
   
   desc "Correlation test using the Statistics library"
   task "correlation" => [ 'lib:core','lib:stats','lib:io'] do
-    sh "dmd src/main/correlation.d #{builddir}/core.#{libext} #{builddir}/io.#{libext} #{builddir}/stats.#{libext} -Isrc/ -od#{builddir} -ofcorrelation.#{execext}"
+    sh "dmd src/main/correlation.d #{bd}/core.#{libext} #{bd}/io.#{libext} #{bd}/stats.#{libext} -Isrc/ -od#{bd} -ofcorrelation.#{execext}"
   end
   
   desc "P'' language interpreter (see: http://en.wikipedia.org/wiki/P'')"
   task "plang" => ['lib:core','lib:inter'] do
-    sh "dmd src/main/plang.d #{builddir}/core.#{libext} #{builddir}/interpreters.#{libext} -Isrc/ -od#{builddir} -ofplang.#{execext}"
+    sh "dmd src/main/plang.d #{bd}/core.#{libext} #{bd}/interpreters.#{libext} -Isrc/ -od#{bd} -ofplang.#{execext}"
   end
 
   desc "Start the JVM"
   task "startJVM" => 'lib:jni' do
-    sh "dmd src/main/startJVM.d #{builddir}/core.#{libext} #{builddir}/jni.#{libext} -Isrc/ -Ideps/ -od#{builddir} -ofstartJVM.#{execext}"
+    sh "dmd src/main/startJVM.d #{bd}/core.#{libext} #{bd}/jni.#{libext} -Isrc/ -Ideps/ -od#{bd} -ofstartJVM.#{execext} #{link_args}"
   end
   
   desc "Basic HTTP response slurper"
   task "httpreader" => ['lib:core','lib:web'] do
-    sh "dmd src/main/httpreader.d #{builddir}/core.#{libext} #{builddir}/web.#{libext} -Isrc/ -od#{builddir} -ofhttpreader.#{execext}"
+    sh "dmd src/main/httpreader.d #{bd}/core.#{libext} #{bd}/web.#{libext} -Isrc/ -od#{bd} -ofhttpreader.#{execext}"
   end
   
   desc "Multiple lineair regression"
   task "regression" => [ 'lib:core',  'lib:stats',  'lib:r' ] do
-    sh "dmd src/main/regression.d #{builddir}/core.#{libext} #{builddir}/stats.#{libext} #{builddir}/r.#{libext} -Isrc/ -Ideps/ -od#{builddir} -ofregression.#{execext}"
+    sh "dmd src/main/regression.d #{bd}/core.#{libext} #{bd}/stats.#{libext} #{bd}/r.#{libext} -Isrc/ -Ideps/ -od#{bd} -ofregression.#{execext} #{link_args}"
   end
   
   desc "HTPPserver supporting D as CGI"
   task "httpserver" => ['lib:core','lib:web'] do
-    sh "dmd src/main/httpserver.d #{builddir}/core.#{libext} #{builddir}/web.#{libext} -Isrc/ -od#{builddir} -ofhttpserver.#{execext}"
+    sh "dmd src/main/httpserver.d #{bd}/core.#{libext} #{bd}/web.#{libext} -Isrc/ -od#{bd} -ofhttpserver.#{execext}"
   end
   
   desc "Server for a multiplayer network mud"
   task "gameserver" => ['lib:core','lib:web','lib:game'] do
-    sh "dmd src/main/server.d #{builddir}/core.#{libext} #{builddir}/web.#{libext} #{builddir}/game.#{libext} -Isrc/ -od#{builddir} -ofserver.#{execext}"
+    sh "dmd src/main/server.d #{bd}/core.#{libext} #{bd}/web.#{libext} #{bd}/game.#{libext} -Isrc/ -od#{bd} -ofserver.#{execext}"
   end
 
   desc "Decode voynich"
   task "voynich" => 'lib:core' do
-    sh "dmd src/main/voynich.d #{builddir}/core.#{libext} -Isrc/ -od#{builddir} -ofvoynich.#{execext}"
+    sh "dmd src/main/voynich.d #{bd}/core.#{libext} -Isrc/ -od#{bd} -ofvoynich.#{execext}"
   end
   
   desc "Scan for proteins in DNA code"
   task "dnacode" => ['lib:core','lib:genetics'] do
-    sh "dmd src/main/dnacode.d #{builddir}/core.#{libext} #{builddir}/genetics.#{libext} -Isrc/ -od#{builddir} -ofdnacode.#{execext}"
+    sh "dmd src/main/dnacode.d #{bd}/core.#{libext} #{bd}/genetics.#{libext} -Isrc/ -od#{bd} -ofdnacode.#{execext}"
   end
 
   desc "Test openAL bindings"
   task "testal" => 'lib:openAL' do
-    sh "dmd src/main/testal.d #{builddir}/core.#{libext} #{builddir}/openAL.#{libext} -Isrc/ -Ideps/ -od#{builddir} -oftestal.#{execext}"
+    sh "dmd src/main/testal.d #{bd}/core.#{libext} #{bd}/openAL.#{libext} -Isrc/ -Ideps/ -od#{bd} -oftestal.#{execext}  #{link_args}"
   end
 
   desc "SDL engine"
   task "sdl" => ['lib:core', 'lib:io', 'lib:sdl','lib:openAL','lib:openGL','lib:sfx','lib:gui','lib:game'] do
-    sh "dmd src/main/sdlengine.d #{builddir}/core.#{libext} #{builddir}/io.#{libext} #{builddir}/sfx.#{libext} #{builddir}/sdl.#{libext} #{builddir}/gui.#{libext} #{builddir}/openGL.#{libext} #{builddir}/openAL.#{libext} #{builddir}/game.#{libext}  -Isrc/ -Ideps/ -od#{builddir} -ofsdltest.#{execext}"
+    sh "dmd src/main/sdlengine.d #{bd}/core.#{libext} #{bd}/io.#{libext} #{bd}/sfx.#{libext} #{bd}/sdl.#{libext} #{bd}/gui.#{libext} #{bd}/openGL.#{libext} #{bd}/openAL.#{libext} #{bd}/game.#{libext}  -Isrc/ -Ideps/ -od#{bd} -ofsdltest.#{execext} #{link_args}"
   end
 end
 
