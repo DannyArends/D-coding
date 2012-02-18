@@ -72,7 +72,7 @@ namespace :lib do
   end
 
   desc "The library with io functionality"
-  task "io" => ['lib:core','lib:sdl','lib:openGL'] do
+  task "io" => ['lib:core'] do
     sh "dmd -lib #{io_files} #{bd}/core.#{libext} -of#{bd}/io.#{libext} -Isrc/ -Ideps/"
   end
   
@@ -81,7 +81,7 @@ namespace :lib do
     sh "dmd -lib #{sfx_files} -of#{bd}/sfx.#{libext} -Isrc/ -Ideps/"
   end
   
-  desc "The library with io functionality"
+  desc "The library providing interpreters"
   task "inter" do
     sh "dmd -lib #{inter_files} -of#{bd}/interpreters.#{libext} -Isrc/"
   end
@@ -232,7 +232,7 @@ namespace :app do
 
   desc "Test openAL bindings"
   task "testal" => 'lib:openAL' do
-    sh "dmd src/main/testal.d #{bd}/core.#{libext} #{bd}/openAL.#{libext} -Isrc/ -Ideps/ -od#{bd} -oftestal.#{execext}  #{link_args}"
+    sh "dmd src/main/testal.d #{bd}/core.#{libext} #{bd}/openAL.#{libext} -Isrc/ -Ideps/ -od#{bd} -oftestal.#{execext} #{link_args}"
   end
 
   desc "SDL engine"
