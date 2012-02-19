@@ -95,8 +95,8 @@ namespace :lib do
   end
   
   desc "Library with game functionality (A* search)"
-  task "game" => ['lib:core','lib:io','lib:sdl','lib:gui','lib:sfx'] do
-    sh "dmd -lib #{game_files} #{bd}/core.#{libext} #{bd}/io.#{libext} #{bd}/gui.#{libext} #{bd}/sfx.#{libext} -of#{bd}/game.#{libext} -Isrc/ -Ideps/"
+  task "game" => ['lib:io','lib:sdl','lib:gui','lib:sfx'] do
+    sh "dmd -lib #{game_files} #{bd}/io.#{libext} #{bd}/gui.#{libext} #{bd}/sfx.#{libext} -of#{bd}/game.#{libext} -Isrc/ -Ideps/"
   end
 
   desc "Library with http/web functionality"
@@ -250,7 +250,7 @@ end
 
 desc "Run the unit test"
 task :unittest do
-  sh "dmd -unittest src/main/empty.d #{core_files} #{io_files} #{inter_files} #{game_files} #{web_files} #{genetic_files}"
+  sh "dmd -unittest src/main/empty.d #{core_files} #{libload_files} #{io_files} #{inter_files} #{game_files} #{web_files} #{sfx_files} #{genetic_files} #{plugin_gui} #{deps_sdl} #{deps_opengl} #{deps_openal}"
 end
 
 desc "Build all game-executables"
