@@ -5,7 +5,7 @@
  * 
  **/
 
-module game.objects.searchnode;
+module game.searchnode;
 
 import core.thread;
 import std.array;

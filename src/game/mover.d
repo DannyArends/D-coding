@@ -12,7 +12,7 @@ import std.array;
 import std.conv;
 import std.string;
 
-import game.objects.tile;
+import game.tile;
 
 class Mover{
 public:

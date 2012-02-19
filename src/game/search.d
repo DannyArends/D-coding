@@ -17,7 +17,7 @@ import std.datetime;
 import core.time;
 
 import core.arrays.types;
-import game.objects.searchnode;
+import game.searchnode;
 import game.tilemap;
 import game.mover;
 import game.path;
