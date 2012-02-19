@@ -1,10 +1,11 @@
-/**
- * \file searchnode.d
+/**********************************************************************
+ * \file src/game/searchnode.d
  *
- * Copyright (c) 2010 Danny Arends
- * 
- **/
-
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written May, 2011
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module game.searchnode;
 
 import core.thread;

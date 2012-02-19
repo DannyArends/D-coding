@@ -1,3 +1,11 @@
+/**********************************************************************
+ * \file src/main/actor.d
+ *
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written May, 2011
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 import std.concurrency;
 import std.stdio;
 import core.thread;
