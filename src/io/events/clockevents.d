@@ -11,11 +11,9 @@ module io.events.clockevents;
 import std.array;
 import std.stdio;
 import std.conv;
+import std.datetime;
 
 import io.events.engine;
-
-import sdl.sdlfunctions;
-import gl.gl_1_0;
 
 alias void delegate(int, int) FUN;
 
@@ -24,7 +22,7 @@ class ClockEvent : Event {
     this.times  = times;
     this.period = period;
     this.toexecute = toexecute;
-    this.t0 = SDL_GetTicks();
+    this.t0 = Clock.currTime();
     this.verbose = verbose;
   }
   
@@ -62,9 +60,9 @@ class ClockEvents : EventHandler{
         }
       }
     }
-    int getTN(){ return SDL_GetTicks(); }
-    int getT0(){ return t0; }
-    void setT0(){t0 = SDL_GetTicks(); }
+    SysTime getTN(){ return Clock.currTime(); }
+    SysTime getT0(){ return t0; }
+    void setT0(){t0 = Clock.currTime(); }
   private:
-    int t0;
+    SysTime t0;
 }

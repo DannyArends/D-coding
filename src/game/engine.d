@@ -121,7 +121,7 @@ class GameEngine : ClockEvents{
     if(stage==Stage.PLAYING){
       game.getCameraMotion().update();
       if(updateFrequency > 0.0){
-        if(getTN()-getT0() > cast(int)(1000*updateFrequency)){
+        if((getTN()-getT0()).total!"msecs" > cast(long)(1000*updateFrequency)){
           setT0();
           return game.update();
         }

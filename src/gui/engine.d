@@ -9,6 +9,7 @@
 module gui.engine;
 
 import std.stdio;
+import std.datetime;
 
 import sdl.sdl;
 import sdl.sdlstructs;
@@ -60,7 +61,7 @@ class GFXEngine : ClockEvents{
     add(new ClockEvent(&game.rotateLogo,40,199,false));
     add(new ClockEvent(&game.changeLogo,2600,2,false));
     while(rendering){
-      int st = SDL_GetTicks();
+      SysTime st = Clock.currTime();
       update();
       resizeWindow(screen_width, screen_height);
       Event     e;
@@ -102,9 +103,9 @@ class GFXEngine : ClockEvents{
           break;
         }
       }
-      int sr3d = SDL_GetTicks();
+      SysTime sr3d = Clock.currTime();
       screen.render3D();
-      int dr3d = SDL_GetTicks() - sr3d;
+      long dr3d = (Clock.currTime() - sr3d).total!"msecs";
       switch(game.getGameStage()){
         case Stage.PLAYING:
           game.render();
@@ -117,9 +118,9 @@ class GFXEngine : ClockEvents{
         break;
       }
       screen.render();
-      int rt = SDL_GetTicks() - st;
+      long rt = (Clock.currTime() - st).total!"msecs";
       if(rt < frametime){
-        SDL_Delay(frametime-rt);
+        SDL_Delay(cast(int)(frametime-rt));
       }else{
         writefln("[GFX] Warning framerate (%s) %s",frametime-rt,dr3d);
       }
@@ -131,8 +132,7 @@ class GFXEngine : ClockEvents{
     super.update();
     game.update();
     sound.update();
-    int t = SDL_GetTicks();
-    if(t - getT0() >= 1000) {
+    if((Clock.currTime() - getT0()).total!"msecs" >= 1000) {
       fps.fps = fps.cnt;
       fps.cnt = 0;
       setT0();

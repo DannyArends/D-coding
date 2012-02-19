@@ -10,10 +10,9 @@ module io.events.engine;
 
 import std.stdio;
 import std.conv;
+import std.datetime;
 
 import core.typedefs.types;
-import sdl.sdlfunctions;
-import sdl.sdlstructs;
 
 enum EventType{MOUSE, KEYBOARD, SOUND, GFX2D, GFX3D, CLOCK, QUIT}
 enum KeyEventType{UP, DOWN, NONE}
@@ -22,12 +21,12 @@ enum MouseBtn{MOVE=0, LEFT=1, MIDDLE=2, RIGHT=3}
 class Event{
   abstract EventType getEventType();
   
-  int  getAge(){ return (SDL_GetTicks()-t0); }
-  void resetAge(){ t0 = SDL_GetTicks(); }
+  long getAge(){ return ((Clock.currTime()-t0).total!"msecs"); }
+  void resetAge(){ t0 = Clock.currTime(); }
   
   bool      verbose = true;
   bool      handled = false;
-  int       t0      = 0;
+  SysTime   t0;
 }
 
 class QuitEvent : Event{
