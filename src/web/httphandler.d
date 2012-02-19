@@ -8,17 +8,7 @@
  **********************************************************************/
 module web.httphandler;
 
-import core.thread;
-import std.array;
-import std.conv;
-import std.file;
-import std.path;
-import std.socket;
-import std.stdio;
-import std.string;
-import std.uni;
-import std.uri;
-import std.regex;
+import core.stdinc;
 import core.typedefs.webtypes;
 import core.typedefs.mimetypes;
 

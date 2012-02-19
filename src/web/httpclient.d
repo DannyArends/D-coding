@@ -8,23 +8,15 @@
  **********************************************************************/
 module web.httpclient;
 
-import core.thread;
-import std.array;
-import std.conv;
-import std.file;
-import std.path;
-import std.socket;
-import std.stdio;
-import std.string;
-import std.uri;
+import core.stdinc;
+import core.typedefs.webtypes;
 
 import web.httphandler;
 import web.server;
-import core.typedefs.webtypes;
 import web.servlets.servlet;
 import web.servlets.fileServlet;
 
-class HttpClient : Thread{
+class HttpClient : core.thread.Thread{
   private:
   Socket sock;
   RequestHandler handler;

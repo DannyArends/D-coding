@@ -8,16 +8,10 @@
  **********************************************************************/
 module web.server;
 
-import core.thread;
-import std.file;
-import std.path;
-import std.conv;
-import std.socket;
-import std.stdio;
-
+import core.stdinc;
 import core.typedefs.types;
 
-class Server(Client) : Thread{
+class Server(Client) : core.thread.Thread{
   private:
   Socket serverSocket;
   SocketSet set;
