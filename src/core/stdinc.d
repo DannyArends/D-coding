@@ -15,6 +15,8 @@ public import std.string;
 public import std.conv;
 public import std.file;
 public import std.path;
+public import std.uni;
+public import std.uri;
 public import std.regex;
 public import std.datetime;
 public import std.socket;
