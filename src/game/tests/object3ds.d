@@ -7,13 +7,7 @@ import core.typedefs.types;
 import io.events.engine;
 import game.engine;
 import game.games.empty;
-import gui.engine;
-import gui.screen;
-import gui.motion;
-import gui.objects.object3d;
-import gui.objects.model3ds;
-import gui.objects.skeleton;
-import gui.widgets.text;
+import gui.stdinc;
 import sfx.engine;
 
 class Test_Object3DS : Empty{

@@ -13,11 +13,7 @@ import core.typedefs.types;
 import io.events.engine;
 import io.events.mouseevent;
 import game.engine;
-import gui.screen;
-import gui.engine;
-import gui.objects.liquid;
-import gui.widgets.text;
-import gui.widgets.square;
+import gui.stdinc;
 import sfx.engine;
 
 

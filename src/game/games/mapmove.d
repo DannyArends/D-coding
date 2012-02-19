@@ -8,11 +8,7 @@ import core.arrays.algebra;
 import io.events.engine;
 import io.events.mouseevent;
 import game.engine;
-import gui.engine;
-import gui.screen;
-import gui.motion;
-import gui.objects.surface;
-import gui.objects.skeleton;
+import gui.stdinc;
 import sfx.engine;
 
 class MapMove : Game{

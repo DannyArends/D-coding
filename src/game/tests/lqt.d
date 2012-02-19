@@ -7,14 +7,7 @@ import core.typedefs.types;
 import io.events.engine;
 import game.engine;
 import game.games.empty;
-import gui.engine;
-import gui.screen;
-import gui.motion;
-import gui.objects.object3d;
-import gui.objects.line;
-import gui.objects.quad;
-import gui.objects.triangle;
-import gui.widgets.text;
+import gui.stdinc;
 import sfx.engine;
 
 

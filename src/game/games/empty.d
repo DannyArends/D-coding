@@ -14,10 +14,7 @@ import core.arrays.algebra;
 
 import io.events.engine;
 import game.engine;
-import gui.engine;
-import gui.screen;
-import gui.objects.quad;
-import gui.widgets.text;
+import gui.stdinc;
 import sfx.engine;
 
 class Empty : Game{

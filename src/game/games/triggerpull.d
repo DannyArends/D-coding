@@ -10,10 +10,7 @@ import core.arrays.algebra;
 import io.events.engine;
 import io.events.mouseevent;
 import game.engine;
-import gui.engine;
-import gui.screen;
-import gui.objects.quad;
-import gui.widgets.text;
+import gui.stdinc;
 import sfx.engine;
 import sfx.formats.wav;
 
