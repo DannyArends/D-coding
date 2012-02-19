@@ -15,9 +15,6 @@ import std.conv;
 import io.events.engine;
 import gui.enginefunctions;
 
-import sdl.sdlfunctions;
-import gl.gl_1_0;
-
 class MouseEvent : Event{
   this(MouseBtn btn, KeyEventType type, int x, int y, int xr = 0, int yr = 0, bool verbose = true){
     this.btn=btn;
@@ -37,9 +34,9 @@ class MouseEvent : Event{
   @property int sy(){ return coords[1]; }
   @property int sxr(){ return coords[2]; }
   @property int syr(){ return coords[3]; }
-  @property GLfloat wx(){ return getUnproject(sx, sy)[0]; }
-  @property GLfloat wy(){ return getUnproject(sx, sy)[1]; }
-  @property GLfloat wz(){ return getUnproject(sx, sy)[2]; }
+  @property double wx(){ return getUnproject(sx, sy)[0]; }
+  @property double wy(){ return getUnproject(sx, sy)[1]; }
+  @property double wz(){ return getUnproject(sx, sy)[2]; }
 private:
   MouseBtn     btn;
   KeyEventType type;

@@ -10,9 +10,6 @@ module events.soundevent;
 
 import std.array;
 import std.stdio;
-import std.conv;
-
-import sdl.sdlstructs;
 
 import core.typedefs.types;
 import io.events.engine;

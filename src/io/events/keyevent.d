@@ -37,7 +37,7 @@ class KeyEvent : Event{
   KeyEventType getKeyEventType(){ return type; }
   EventType getEventType(){ return EventType.KEYBOARD;}
 private:  
-  SDL_keysym  key;
+  SDL_keysym   key;
   KeyEventType type;
   bool         shift;
 }
