@@ -81,8 +81,8 @@ class GFXEngine : ClockEvents{
           break;        
           case SDL_QUIT:
             writeln("[GUI] QUIT received");
-            if(game.getGameStage()==Stage.PLAYING) e = new QuitEvent();
-            if(game.getGameStage()==Stage.MENU) rendering = false;
+            if(game.gamestage == Stage.PLAYING) e = new QuitEvent();
+            if(game.gamestage == Stage.MENU) rendering = false;
           break;
           case SDL_MOUSEMOTION:
             handle(new MouseEvent(cast(MouseBtn)0, KeyEventType.NONE, event.button.x, event.button.y, event.motion.xrel, event.motion.yrel));
@@ -111,7 +111,7 @@ class GFXEngine : ClockEvents{
       SysTime sr3d = Clock.currTime();
       screen.render3D();
       long dr3d = (Clock.currTime() - sr3d).total!"msecs";
-      switch(game.getGameStage()){
+      switch(game.gamestage){
         case Stage.PLAYING:
           game.render();
           game.handle(e);    
@@ -144,10 +144,11 @@ class GFXEngine : ClockEvents{
       setT0();
     }else{ _fps.cnt++; }
   }
-  
-  @property string  fps(){ return to!string(_fps.fps); }
-  @property int     width(int w = -1){ if(w > 0){ screen_width=w;} return screen_width; }
-  @property int     height(int h = -1){ if(h > 0){ screen_height=h;} return screen_height; }
+
+  @property int         frametime(){ return cast(int)(1000.0/screen_fps); }  
+  @property string      fps(){ return to!string(_fps.fps); }
+  @property int         width(int w = -1){ if(w > 0){ screen_width=w;} return screen_width; }
+  @property int         height(int h = -1){ if(h > 0){ screen_height=h;} return screen_height; }
   @property HudHandler  hud(HudHandler h = null){ if(h !is null){ _hud=h;} return _hud; }
   @property GameEngine  game(GameEngine g = null){ if(g !is null){ _game=g; } return _game; }
   @property Screen      screen(Screen s = null){ if(s !is null){ _screen=s; } return _screen; }
@@ -155,13 +156,11 @@ class GFXEngine : ClockEvents{
   @property GameClient  network(GameClient g = null){ if(g !is null){ _network=g; } return _network; }
   
   void handle(Event e){
-    if(game.getGameStage()==Stage.PLAYING){
+    if(game.gamestage == Stage.PLAYING){
       game.handle(e);
     }
   }
   
-  @property int frametime(){ return cast(int)(1000.0/screen_fps); }
-
   private:
     int  videoFlags;
     bool rendering      = true;

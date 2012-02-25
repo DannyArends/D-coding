@@ -110,9 +110,7 @@ class GameEngine : ClockEvents{
     e.handled=true;
   }
   
-  Stage getGameStage(){
-    return stage;
-  }
+  @property Stage gamestage(){ return stage; }
   
   void update(){
     super.update();

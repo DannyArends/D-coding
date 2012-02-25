@@ -33,10 +33,6 @@ class ClientHandler : Thread {
     this.id = id;
     this.online = true;
   }
-
-  void close() {
-    sock.close();
-  }
   
   void processCommand(ubyte[] command){
     if(command.length > 0){
@@ -64,27 +60,24 @@ class ClientHandler : Thread {
     }
   }
 
-  @property
-  public Socket socket() {
-    return sock;
-  }
+  @property public Socket socket() { return sock; }
   
-  void offline(){
-    online = false;
-  }
-
+  void offline(){ online = false; }
+  void close() { sock.close(); }
+  
 private:
 
   void payload() {
-    writeln("[CLIENT] Client",id,": Starting");
+    writeln("[CLIENT] Client",id,": starting");
     while(online){
       //writeln("Client",id,": Still here");
+      sock.send("S" ~ to!string('\0'));
       Thread.sleep( dur!("seconds")( 2 ) );
     }
   }
   
   GameServer server;
-  Socket sock;
-  uint id;
-  bool online;
+  Socket     sock;
+  uint       id;
+  bool       online;
 }
