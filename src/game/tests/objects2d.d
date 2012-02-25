@@ -61,7 +61,7 @@ class Test_Objects2D : Game{
   }
   
   void render(GFXEngine engine){
-    text.setText("FPS: " ~ to!string(engine.getFPS()));
+    text.setText("FPS: " ~ engine.fps);
   }
   
   void handle(Event e){

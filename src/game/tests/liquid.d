@@ -44,7 +44,7 @@ class Test_Liquid : Empty{
   }
   
   void render(GFXEngine engine){
-    text.setText("FPS: " ~ to!string(engine.getFPS()));
+    text.setText("FPS: " ~ engine.fps);
   }
   
   void handle(Event e){

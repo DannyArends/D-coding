@@ -37,7 +37,7 @@ class Test_Object3DS : Empty{
   }
   
   void render(GFXEngine engine){
-    text.setText("FPS: " ~ to!string(engine.getFPS()));
+    text.setText("FPS: " ~ engine.fps);
   }
   
   private:

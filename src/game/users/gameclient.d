@@ -46,8 +46,8 @@ class GameClient : Thread{
     writeln("[NET] Online:",online); 
   }
   
-  void shutdown(){online = false;}
-  bool isOnline(){return online;}
+  void shutdown(){ online = false; }
+  bool isOnline(){ return online; }
   
   void run(){
     try{

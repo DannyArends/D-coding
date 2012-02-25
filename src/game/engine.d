@@ -42,22 +42,20 @@ class GameEngine : ClockEvents{
   public:
     void startRendering(GFXEngine engine){
       this.engine = engine;
-      this.screen = engine.getScreen();
-      this.sound = engine.getSound();
       this.stage = Stage.STARTUP;
-      screen.showLoading();
+      engine.screen.showLoading();
     }
     
     void rotateLogo(int after, int ntime){
       if(stage == Stage.STARTUP){
-        screen.rotateLogo(3);
+        engine.screen.rotateLogo(3);
       }
     }
 
     void changeLogo(int after, int ntime){
       if(stage == Stage.STARTUP){
-        if(ntime==2)screen.changeLogo("openGL");
-        if(ntime==1)screen.changeLogo("openAL");
+        if(ntime==2)engine.screen.changeLogo("openGL");
+        if(ntime==1)engine.screen.changeLogo("openAL");
       }
     }
     
@@ -65,8 +63,8 @@ class GameEngine : ClockEvents{
       writeln("[ G ] Changing stage to menu");
       cleanUpGame();
       stage = Stage.MENU;
-      screen.clear();
-      screen.showMainMenu();
+      engine.screen.clear();
+      engine.screen.showMainMenu();
       //add(new ClockEvent(&this.setGameStage,1000));
     }
     
@@ -83,10 +81,10 @@ class GameEngine : ClockEvents{
       cleanUpGame();
       game = g;
       stage = Stage.PLAYING;
-      screen.clear();
-      game.setupSound(sound);
-      game.setup2D(screen);
-      game.setup3D(screen);
+      engine.screen.clear();
+      game.setupSound(engine.sound);
+      game.setup2D(engine.screen);
+      game.setup3D(engine.screen);
       game.load(this);
       setT0();
     }
@@ -136,8 +134,6 @@ class GameEngine : ClockEvents{
   }
   
   private:
-    Screen      screen;
-    SFXEngine   sound;
     GFXEngine   engine;
     Stage       stage;
     Game        game;

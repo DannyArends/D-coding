@@ -34,7 +34,7 @@ class Test_Spheres : Empty{
   }
   
   void render(GFXEngine engine){
-    text.setText("FPS: " ~ to!string(engine.getFPS()));
+    text.setText("FPS: " ~ engine.fps);
   }
   
   private:

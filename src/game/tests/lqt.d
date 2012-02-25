@@ -47,7 +47,7 @@ class Test_LQT : Empty{
   }
   
   void render(GFXEngine engine){
-    text.setText("FPS: " ~ to!string(engine.getFPS()));
+    text.setText("FPS: " ~ engine.fps);
   }
   
   void update(){

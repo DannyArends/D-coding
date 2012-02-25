@@ -55,7 +55,7 @@ class Test_HeightMap : Empty{
   
   void render(GFXEngine engine){
     text.setText("Buffered: " ~ to!string(heightmap.buffered) ~ "");
-    text.addLine("FPS: " ~ to!string(engine.getFPS()));
+    text.addLine("FPS: " ~ engine.fps);
   }
    
   private:
