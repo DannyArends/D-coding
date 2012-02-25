@@ -30,25 +30,28 @@ class GameClient : Thread{
   bool         online;
    
   public:
-  this(EventHandler handler, string host = "localhost", ushort port = 3000, bool verbose = false){
-    this.network = new SocketClient(host,port);
+  this(EventHandler handler, string host = "localhost", ushort port = 3000, bool verbose = true){
+    this.network = new SocketClient(host, port);
     this.verbose = verbose;
     this.online  = true;
     this.handler = handler;
-    writeln("-----> Setup network");
     super(&run);
+    writeln("[NET] Network setup done");
   }
   
   ~this(){ network.disconnect(); }
   
-  void send(string rawtext){online = network.write(rawtext);writeln("online:",online); }
+  void send(string rawtext){
+    online = network.write(rawtext);
+    writeln("[NET] Online:",online); 
+  }
+  
   void shutdown(){online = false;}
   bool isOnline(){return online;}
   
   void run(){
     try{
       online = network.connect();
-      online = network.write("I");
       while(online){
         string s = network.read(1);
         if(s !is null){
@@ -56,9 +59,9 @@ class GameClient : Thread{
         }
         Thread.sleep( dur!("msecs")( 10 ) );
       }
-      writeln("Network Bye...");
+      writeln("[NET] Network closing down");
     }catch(Throwable exception){
-      if(verbose) writeln("Client threw an error");
+      if(verbose) writeln("[NET] GameClient threw an error");
       return;
     }finally{
       network.disconnect();
@@ -66,6 +69,6 @@ class GameClient : Thread{
   }
   
   void sendHeartbeat(int checks){
-    this.send("S:"~to!string(checks));
+    send("S:"~to!string(checks));
   }
 }

@@ -33,7 +33,7 @@ class ClientHandler : Thread {
     this.id = id;
     this.online = true;
   }
-	
+
   void close() {
     sock.close();
   }
@@ -63,7 +63,7 @@ class ClientHandler : Thread {
       }
     }
   }
-  
+
   @property
   public Socket socket() {
     return sock;
@@ -76,7 +76,7 @@ class ClientHandler : Thread {
 private:
 
   void payload() {
-    writeln("Client",id,": Starting");
+    writeln("[CLIENT] Client",id,": Starting");
     while(online){
       //writeln("Client",id,": Still here");
       Thread.sleep( dur!("seconds")( 2 ) );

@@ -24,7 +24,7 @@ Texture loadImageAsTexture(string filename, bool verbose = true){
     return texture;
   }
   filename = filename ~ "\0";
-  if(verbose) writefln("Opening file: %s",filename);
+  if(verbose) writefln("[GFX] Opening file: %s",filename);
   SDL_Surface* image = IMG_Load(filename.dup.ptr);
   if(image is null){
     writefln("[GFX] No surface: %s",to!string(cast(char*)IMG_GetError()));

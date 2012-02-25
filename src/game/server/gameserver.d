@@ -18,8 +18,6 @@ import game.server.clienthandler;
 
 class GameServer : Server!ClientHandler{
   UserManagment        usermngr;
-  //MapManagment       mapsmngr;
-  //EventManagment     eventmngr;
     
   this(){
     super();

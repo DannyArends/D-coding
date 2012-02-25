@@ -60,7 +60,7 @@ GLdouble[3] getUnproject(int x, int y){
   GLfloat winY = viewport[3] - y;
   glReadPixels(x, cast(int)winY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ );
   gluUnProject( winX, winY, winZ, modelview.ptr, projection.ptr, viewport.ptr, &pos[0], &pos[1], &pos[2]);
-  writefln("World location: [%s, %s, %s]",to!string(pos[0]), to!string(pos[1]), to!string(pos[2]));
+  writefln("[ENG] World location: [%s, %s, %s]",to!string(pos[0]), to!string(pos[1]), to!string(pos[2]));
   return pos;
 }
 
@@ -79,15 +79,15 @@ int initVideoFlags(SDL_VideoInfo* videoInfo){
   videoFlags |= SDL_RESIZABLE;       /* Enable window resizing */
 
   if(videoInfo.hw_available){
-    writefln("Video info reports hardware surface available");
+    writefln("[GFX] Video hardware surface available");
     videoFlags |= SDL_HWSURFACE;
   }else{
-    writefln("Video info fallback to software surface");
+    writefln("[GFX] Video fallback to software surface");
     videoFlags |= SDL_SWSURFACE;
   }
   
   if(videoInfo.blit_hw){
-    writefln("Video info reports hardware acceleration available");
+    writefln("[GFX] Video hardware acceleration available");
     videoFlags |= SDL_HWACCEL;
   }
   return videoFlags;
