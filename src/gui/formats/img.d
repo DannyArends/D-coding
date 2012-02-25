@@ -1,3 +1,11 @@
+/**********************************************************************
+ * \file src/gui/formats/img.d
+ *
+ * copyright (c) 2012 Danny Arends
+ * last modified Feb, 2012
+ * first written Dec, 2011
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module gui.formats.img;
 
 import std.stdio;
@@ -5,7 +13,6 @@ import std.string;
 import std.file;
 import std.conv;
 
-import sdl.sdl;
 import sdl.sdlstructs;
 import sdl.sdlfunctions;
 import sdl.sdlimage;

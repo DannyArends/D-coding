@@ -9,6 +9,7 @@
 module gui.engine;
 
 import std.stdio;
+import std.conv;
 import std.datetime;
 
 import sdl.sdl;
@@ -48,17 +49,17 @@ class GFXEngine : ClockEvents{
     }
     SDL_WM_SetCaption("Game", "Danny Arends");
     initGL();
-    this.sound = sound;
-    this.game = game;
-    this.screen = new Screen(this);
-    this.hud = new HudHandler(screen);
-    this.client = new GameClient(this);
-    this.game.startRendering(this);
+    _sound = sound;
+    _game = game;
+    _screen = new Screen(this);
+    _hud = new HudHandler(screen);
+    _network = new GameClient(this);
+    _game.startRendering(this);
   }
   
   void start(bool verbose = false){
     setT0();
-    client.start();
+    network.start();
     printOpenGlInfo(verbose);
     add(new ClockEvent(&game.setMainMenuStage,8000));
     add(new ClockEvent(&game.rotateLogo,40,199,false));
@@ -79,9 +80,9 @@ class GFXEngine : ClockEvents{
             resizeWindow(screen_width, screen_height);
           break;        
           case SDL_QUIT:
+            writeln("[GUI] QUIT received");
             if(game.getGameStage()==Stage.PLAYING) e = new QuitEvent();
             if(game.getGameStage()==Stage.MENU) rendering = false;
-            if(client.isOnline()) client.shutdown();
           break;
           case SDL_MOUSEMOTION:
             handle(new MouseEvent(cast(MouseBtn)0, KeyEventType.NONE, event.button.x, event.button.y, event.motion.xrel, event.motion.yrel));
@@ -125,11 +126,12 @@ class GFXEngine : ClockEvents{
       long rt = (Clock.currTime() - st).total!"msecs";
       if(rt < frametime){
         SDL_Delay(cast(int)(frametime-rt));
-      }else{
-        writefln("[GFX] Warning framerate (%s) %s",frametime-rt,dr3d);
       }
       SDL_GL_SwapBuffers();
     }
+    if(network.isOnline()) network.shutdown();
+    SDL_Quit();
+    return;
   }
   
   void update(){
@@ -137,19 +139,20 @@ class GFXEngine : ClockEvents{
     game.update();
     sound.update();
     if((Clock.currTime() - getT0()).total!"msecs" >= 1000) {
-      fps.fps = fps.cnt;
-      fps.cnt = 0;
+      _fps.fps = _fps.cnt;
+      _fps.cnt = 0;
       setT0();
-    }else{ fps.cnt++; }
+    }else{ _fps.cnt++; }
   }
   
-  int getWidth(){ return screen_width; }
-  int getHeight(){ return screen_height; }
-  int getFPS(){ return fps.fps; }
-  
-  GameEngine getGameEngine(){  return game; }
-  Screen getScreen(){  return screen; }
-  SFXEngine getSound(){  return sound; }
+  @property string  fps(){ return to!string(_fps.fps); }
+  @property int     width(int w = -1){ if(w > 0){ screen_width=w;} return screen_width; }
+  @property int     height(int h = -1){ if(h > 0){ screen_height=h;} return screen_height; }
+  @property HudHandler  hud(HudHandler h = null){ if(h !is null){ _hud=h;} return _hud; }
+  @property GameEngine  game(GameEngine g = null){ if(g !is null){ _game=g; } return _game; }
+  @property Screen      screen(Screen s = null){ if(s !is null){ _screen=s; } return _screen; }
+  @property SFXEngine   sound(SFXEngine s = null){ if(s !is null){ _sound=s; } return _sound; }
+  @property GameClient  network(GameClient g = null){ if(g !is null){ _network=g; } return _network; }
   
   void handle(Event e){
     if(game.getGameStage()==Stage.PLAYING){
@@ -165,13 +168,13 @@ class GFXEngine : ClockEvents{
     int  screen_width   = 900;
     int  screen_height  = 480;
     int  screen_bpp     = 32;
-    int  screen_fps     = 25;
-    HudHandler          hud;
-    FPS                 fps;
-    Screen              screen;
-    SFXEngine           sound;
-    GameEngine          game;
-    GameClient          client;
+    int  screen_fps     = 30;
+    HudHandler          _hud;
+    FPS                 _fps;
+    Screen              _screen;
+    SFXEngine           _sound;
+    GameEngine          _game;
+    GameClient          _network;
     SDL_Surface*        surface;
     SDL_VideoInfo*      videoInfo;
 }

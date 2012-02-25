@@ -65,7 +65,7 @@ bool bufferModelInfo3DS(ModelInfo3DS* model){
   // Generate And Bind The Vertex Buffer
   glGenBuffersARB(cast(int)model.objects.length, &model.vertexbuffer); // Objects
   glGenBuffersARB(cast(int)model.objects.length, &model.colorbuffer); // Colors
-  writefln("Generated buffers: %d %d",model.vertexbuffer,model.colorbuffer);
+  writefln("[3DS] Generated buffers: %d %d",model.vertexbuffer,model.colorbuffer);
   GLfloat[] verticesunpacked = new GLfloat[](9*model.npolygons);
   ubyte[] colorunpacked = new ubyte[](12*model.npolygons);
 
@@ -77,7 +77,7 @@ bool bufferModelInfo3DS(ModelInfo3DS* model){
         for(int sideloc=0;sideloc<3;sideloc++){
           int vertexnum = o3ds.polygon[x].p[triside];
           if(vertexnum >= o3ds.vertex.length){
-            writefln("Model %s contains incomplete polygon at %d",o3ds.name,x);
+            writefln("[3DS] Model %s contains incomplete polygon at %d",o3ds.name,x);
             vertexnum=1;
           }
           verticesunpacked[vcnt] = o3ds.vertex[vertexnum].v[sideloc];
@@ -107,7 +107,7 @@ bool bufferModelInfo3DS(ModelInfo3DS* model){
   glBufferDataARB(GL_ARRAY_BUFFER_ARB, model.npolygons*12*ubyte.sizeof, colorunpacked.ptr, GL_STATIC_DRAW_ARB);
   
   model.buffered = true;
-  writefln("Buffering done");
+  writefln("[3DS] Buffering done");
   return model.buffered;
 }
 
@@ -125,10 +125,10 @@ int findMaterial(string name, Material3DS[] materials){
 
 ModelInfo3DS* loadModelInfo3DS(string filename){
   if(!exists(filename) || !filename.isFile){
-    writefln("No such file: %s",filename);
+    writefln("[3DS] No such file: %s",filename);
     return null;
   }
-  writefln("Opening 3ds-file: %s",filename);
+  writefln("[3DS] Opening 3ds-file: %s",filename);
   string materialname = "";
   string objectname   = "";
   string texturename  = "";
@@ -233,7 +233,6 @@ ModelInfo3DS* loadModelInfo3DS(string filename){
         material.diffuse[1] = g;
         material.diffuse[2] = b;
       }else if(is_ambient){
-        writefln("%d %d %d",r,g,b);
         material.ambient[0] = r;
         material.ambient[1] = g;
         material.ambient[2] = b;
@@ -259,7 +258,7 @@ ModelInfo3DS* loadModelInfo3DS(string filename){
   if(model!=null) fullmodel.objects ~= (*model);
   if(material!=null) fullmodel.materials ~= (*material);
   fp.close();
-  writefln("Loaded 3ds-file: %s, %d objects, %d materials",filename, fullmodel.objects.length,fullmodel.materials.length);
+  writefln("[3DS] Loaded 3ds-file: %s, %d objects, %d materials",filename, fullmodel.objects.length,fullmodel.materials.length);
   foreach(Object3DS m;fullmodel.objects){
     float     triangle[3][3];
     for(int x=0;x<m.polygon.length;x++){
@@ -272,6 +271,6 @@ ModelInfo3DS* loadModelInfo3DS(string filename){
       }
     }
   }
-  writefln("Calculated normals, object %s OK",filename);
+  writefln("[3DS] Calculated normals, object %s OK",filename);
   return fullmodel;
 }

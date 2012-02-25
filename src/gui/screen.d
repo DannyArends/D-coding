@@ -47,7 +47,7 @@ import game.tests.emission;
 class Screen : Object2D{
   public:
     this(GFXEngine engine){
-      super(0,0,engine.getWidth(),engine.getHeight());
+      super(0,0,engine.width,engine.height);
       this.engine = engine;
       this.camera = new Camera();
       textureloader = new TextureLoader();
@@ -115,18 +115,18 @@ class Screen : Object2D{
 
     void showMainMenu(){
       addObject(new Text(100,100,"Menu",this));
-      addObject(new GameButton(100,120,"Empty",engine.getGameEngine(),new Empty(),this));
-      addObject(new GameButton(100,140,"Triggerpull",engine.getGameEngine(),new TriggerPull(),this));
-      addObject(new GameButton(100,160,"MapMove",engine.getGameEngine(),new MapMove(),this));
+      addObject(new GameButton(100,120,"Empty",engine.game,new Empty(),this));
+      addObject(new GameButton(100,140,"Triggerpull",engine.game,new TriggerPull(),this));
+      addObject(new GameButton(100,160,"MapMove",engine.game,new MapMove(),this));
       
       addObject(new Text(400,100,"Test",this));
-      addObject(new GameButton(400,120,"2D objects",engine.getGameEngine(),new Test_Objects2D(),this));
-      addObject(new GameButton(400,140,"Line Quad Triangle",engine.getGameEngine(),new Test_LQT(),this));
-      addObject(new GameButton(400,160,"Spheres",engine.getGameEngine(),new Test_Spheres(),this));
-      addObject(new GameButton(400,180,"Height map",engine.getGameEngine(),new Test_HeightMap(),this));
-      addObject(new GameButton(400,200,"Liquid map",engine.getGameEngine(),new Test_Liquid(),this));
-      addObject(new GameButton(400,220,"Object3DS",engine.getGameEngine(),new Test_Object3DS(),this));
-      addObject(new GameButton(400,240,"Emission",engine.getGameEngine(),new Test_PE(),this));
+      addObject(new GameButton(400,120,"2D objects",engine.game,new Test_Objects2D(),this));
+      addObject(new GameButton(400,140,"Line Quad Triangle",engine.game,new Test_LQT(),this));
+      addObject(new GameButton(400,160,"Spheres",engine.game,new Test_Spheres(),this));
+      addObject(new GameButton(400,180,"Height map",engine.game,new Test_HeightMap(),this));
+      addObject(new GameButton(400,200,"Liquid map",engine.game,new Test_Liquid(),this));
+      addObject(new GameButton(400,220,"Object3DS",engine.game,new Test_Object3DS(),this));
+      addObject(new GameButton(400,240,"Emission",engine.game,new Test_PE(),this));
     }
 
     void add(Object3D o){ objects3d ~= o; }

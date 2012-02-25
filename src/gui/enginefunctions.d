@@ -12,7 +12,6 @@ import std.array;
 import std.stdio;
 import std.conv;
 
-import sdl.sdl;
 import sdl.sdlstructs;
 import sdl.sdlfunctions;
 
