@@ -5,9 +5,9 @@
  **********************************************************************/ 
 module sdl.sdlimage;
 
-private import std.loader;
-private import std.stdio;
-private import std.conv;
+import std.loader;
+import std.stdio;
+import std.conv;
 
 import libload.libload;
 import sdl.sdlstructs;

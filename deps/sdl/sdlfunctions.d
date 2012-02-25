@@ -5,10 +5,10 @@
  **********************************************************************/ 
 module sdl.sdlfunctions;
 
-private import std.stdio;
-private import std.conv;
-private import std.string;
-private import sdl.sdlstructs;
+import std.stdio;
+import std.conv;
+import std.string;
+import sdl.sdlstructs;
 
 SDL_AudioSpec* SDL_LoadWAV(in char* file, SDL_AudioSpec* spec, Uint8** buf, Uint32* len){
     return SDL_LoadWAV_RW(SDL_RWFromFile(file, "rb"), 1, spec, buf, len);
