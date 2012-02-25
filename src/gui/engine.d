@@ -19,6 +19,7 @@ import core.typedefs.types;
 
 import sfx.engine;
 import game.engine;
+import game.users.gameclient;
 import io.events.engine;
 import io.events.clockevents;
 import io.events.mouseevent;
@@ -51,11 +52,13 @@ class GFXEngine : ClockEvents{
     this.game = game;
     this.screen = new Screen(this);
     this.hud = new HudHandler(screen);
+    this.client = new GameClient(this);
     this.game.startRendering(this);
   }
   
   void start(bool verbose = false){
     setT0();
+    client.start();
     printOpenGlInfo(verbose);
     add(new ClockEvent(&game.setMainMenuStage,8000));
     add(new ClockEvent(&game.rotateLogo,40,199,false));
@@ -78,6 +81,7 @@ class GFXEngine : ClockEvents{
           case SDL_QUIT:
             if(game.getGameStage()==Stage.PLAYING) e = new QuitEvent();
             if(game.getGameStage()==Stage.MENU) rendering = false;
+            if(client.isOnline()) client.shutdown();
           break;
           case SDL_MOUSEMOTION:
             handle(new MouseEvent(cast(MouseBtn)0, KeyEventType.NONE, event.button.x, event.button.y, event.motion.xrel, event.motion.yrel));
@@ -167,6 +171,7 @@ class GFXEngine : ClockEvents{
     Screen              screen;
     SFXEngine           sound;
     GameEngine          game;
+    GameClient          client;
     SDL_Surface*        surface;
     SDL_VideoInfo*      videoInfo;
 }

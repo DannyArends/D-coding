@@ -19,7 +19,7 @@ import std.string;
 import std.uri;
 
 import core.typedefs.webtypes;
-import core.typedefs.eventhandling;
+import io.events.engine;
 import web.socketclient;
 
 class GameClient : Thread{
@@ -35,6 +35,7 @@ class GameClient : Thread{
     this.verbose = verbose;
     this.online  = true;
     this.handler = handler;
+    writeln("-----> Setup network");
     super(&run);
   }
   
@@ -51,7 +52,7 @@ class GameClient : Thread{
       while(online){
         string s = network.read(1);
         if(s !is null){
-          handler.handleNetworkEvent(s);
+          handler.handle(new NetworkEvent(s));
         }
         Thread.sleep( dur!("msecs")( 10 ) );
       }

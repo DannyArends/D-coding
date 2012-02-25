@@ -236,8 +236,8 @@ namespace :app do
   end
 
   desc "SDL engine"
-  task "sdl" => ['lib:core', 'lib:io', 'lib:sdl','lib:openAL','lib:openGL','lib:sfx','lib:gui','lib:game'] do
-    sh "dmd src/main/sdlengine.d #{bd}/core.#{libext} #{bd}/io.#{libext} #{bd}/sfx.#{libext} #{bd}/sdl.#{libext} #{bd}/gui.#{libext} #{bd}/openGL.#{libext} #{bd}/openAL.#{libext} #{bd}/game.#{libext}  -Isrc/ -Ideps/ -od#{bd} -ofsdltest.#{execext} #{link_args}"
+  task "sdl" => ['lib:core', 'lib:io', 'lib:sdl','lib:openAL','lib:openGL','lib:sfx','lib:web','lib:gui','lib:game'] do
+    sh "dmd src/main/sdlengine.d #{bd}/core.#{libext} #{bd}/io.#{libext} #{bd}/sfx.#{libext} #{bd}/sdl.#{libext} #{bd}/web.#{libext} #{bd}/gui.#{libext} #{bd}/openGL.#{libext} #{bd}/openAL.#{libext} #{bd}/game.#{libext}  -Isrc/ -Ideps/ -od#{bd} -ofsdltest.#{execext} #{link_args}"
   end
 end
 

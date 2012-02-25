@@ -8,16 +8,9 @@
  **********************************************************************/ 
 module game.server.gameserver;
 
-import std.array;
-import std.conv;
-import std.file;
-import std.path;
-import std.socket;
-import std.stdio;
-import std.string;
-import std.uri;
-
+import core.stdinc;
 import core.typedefs.webtypes;
+
 import web.server;
 import game.server.clientcommand;
 import game.server.usermanagment;

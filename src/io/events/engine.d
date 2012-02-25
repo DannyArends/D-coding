@@ -14,7 +14,7 @@ import std.datetime;
 
 import core.typedefs.types;
 
-enum EventType{MOUSE, KEYBOARD, SOUND, GFX2D, GFX3D, CLOCK, QUIT}
+enum EventType{MOUSE, KEYBOARD, SOUND, GFX2D, GFX3D, CLOCK, NETWORK, QUIT}
 enum KeyEventType{UP, DOWN, NONE}
 enum MouseBtn{MOVE=0, LEFT=1, MIDDLE=2, RIGHT=3}
 
@@ -27,6 +27,15 @@ class Event{
   bool      verbose = true;
   bool      handled = false;
   SysTime   t0;
+}
+
+class NetworkEvent : Event{
+  this(string nmsg){ msg=nmsg; }
+  
+  EventType getEventType(){ return EventType.NETWORK; }
+  
+  private:
+    string msg;
 }
 
 class QuitEvent : Event{
