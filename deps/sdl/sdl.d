@@ -224,5 +224,5 @@ static this(){
   // syswm.d
   version(Windows) load_function(SDL_GetWMInfo)(lib,"SDL_GetWMInfo");
 
-  writeln("Loaded SDL functionality");
+  writeln("[ D ] Mapped SDL functionality");
 }

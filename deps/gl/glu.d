@@ -25,7 +25,7 @@ static this(){
   load_function(gluPickMatrix)(lib,"gluPickMatrix");
   load_function(gluProject)(lib,"gluProject");
   load_function(gluUnProject)(lib,"gluUnProject");
-  writeln("Mapped GLU functionality");
+  writeln("[ D ] Mapped GLU functionality");
 }
 
 //==============================================================================

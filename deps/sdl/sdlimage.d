@@ -27,7 +27,7 @@ extern(C){
     load_function(IMG_Quit)(lib, "IMG_Quit");
     load_function(IMG_Load)(lib, "IMG_Load");
     
-    writeln("[ D ] Loaded SDL_image functionality");
+    writeln("[ D ] Mapped SDL_image functionality");
   }
   
   SDL_version* function()IMG_Linked_Version;

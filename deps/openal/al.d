@@ -125,6 +125,7 @@ static this(){
   load_function(alDopplerVelocity)(lib, "alDopplerVelocity");
   load_function(alSpeedOfSound)(lib, "alSpeedOfSound");
   load_function(alDistanceModel)(lib, "alDistanceModel");
+  writeln("[ D ] Mapped openAL functionality");
 }
 
 extern(C){

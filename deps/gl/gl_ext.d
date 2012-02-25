@@ -21,7 +21,7 @@ static bool isArbBufferEnabled(){
 }
 
 bool load_VBO_extensions(){
-  writeln("Start loading VBO extension");
+  writeln("[VBO] Start loading VBO extension");
   if(!load_extension(glBindBufferARB)("glBindBufferARB")){
     if(!load_extension(glBindBufferARB)("glBindBuffer",true,"OpenGL 1.5 fail-safe")){  
       return false;
@@ -45,7 +45,7 @@ bool load_VBO_extensions(){
   if(!load_extension(glGetBufferParameterivARB)("glGetBufferParameterivARB")) return false;
   if(!load_extension(glGetBufferPointervARB)("glGetBufferPointervARB")) return false;
   arb_buffer_enabled=true;
-  writeln("Mapped ARB buffers");
+  writeln("[VBO] Mapped ARB buffers");
   return true;
 }
 

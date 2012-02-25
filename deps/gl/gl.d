@@ -407,12 +407,12 @@ static this(){
   load_function(glDrawArrays)(lib, "glDrawArrays");
   load_function(glDrawElements)(lib, "glDrawElements");
   load_function(glInterleavedArrays)(lib, "glInterleavedArrays");
-  writeln("Loaded OPENGL functionality");
+  writeln("[ D ] Mapped OPENGL functionality");
 }
 
 
 void load_extensions(){
-  writeln("Discovering: OPENGL EXTENSIONS");
+  writeln("[EXT] Discovering: OPENGL EXTENSIONS");
   // gl 1.2
   load_extension(glDrawRangeElements)("glDrawRangeElements");
   load_extension(glTexImage3D)("glTexImage3D");
@@ -533,5 +533,5 @@ void load_extensions(){
   load_extension(glUnmapBuffer)("glUnmapBuffer");
   load_extension(glGetBufferParameteriv)("glGetBufferParameteriv");
   load_extension(glGetBufferPointerv)("glGetBufferPointerv");
-  writeln("Loaded OPENGL EXTENSIONS functionality");
+  writeln("[EXT] Loaded OPENGL EXTENSIONS functionality");
 }
