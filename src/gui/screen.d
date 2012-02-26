@@ -1,9 +1,10 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/gui/screen.d
+ * \brief Screen format definition
  *
- * copyright (c) 2012 Danny Arends
- * last modified Feb, 2012
- * first written Dec, 2011
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Feb, 2012<br>
+ * First written Dec, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module gui.screen;
@@ -45,6 +46,10 @@ import game.tests.liquid;
 import game.tests.object3ds;
 import game.tests.emission;
 
+/*! \brief Rendering class for GFX objects
+ *
+ *  The Screen class is the main rendering class for GFX objects
+ */
 class Screen : Object2D{
   public:
     this(GFXEngine engine){

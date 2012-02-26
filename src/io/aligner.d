@@ -1,9 +1,10 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/io/aligner.d
+ * \brief Sequence alignment using BLAST
  *
- * copyright (c) 2012 Danny Arends
- * last modified Feb, 2012
- * first written Jun, 2011
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Feb, 2012<br>
+ * First written Jun, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module io.aligner;
@@ -14,10 +15,13 @@ import io.iofunctions;
 
 extern (C) int system(char *);
 
-//Old for tomato we use the 5th column (tab separated)
-//auto entities = buffer.split("\t");
-//entities[5][1..($-1)] ~ "\n");
-
+/*! \brief Align DNA nucleotide sequences
+ *
+ * Align DNA nucleotide sequences. 
+ * Old for tomato we use the 5th column (tab separated)
+ * auto entities = buffer.split("\t");
+ * entities[5][1..($-1)] ~ "\n");
+ */
 class Aligner{
 public:
   this(string filename){

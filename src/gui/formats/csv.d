@@ -1,6 +1,6 @@
 /******************************************************************//**
  * \file src/gui/formats/csv.d
- * \brief CSV file definition
+ * \brief CSV file format definition
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
  * Last modified Feb, 2012<br>

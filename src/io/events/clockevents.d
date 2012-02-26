@@ -1,9 +1,10 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/io/events/clockevent.d
+ * \brief Definition of periodic Event and ClockEventHandler
  *
- * copyright (c) 2012 Danny Arends
- * last modified Feb, 2012
- * first written Dec, 2011
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Feb, 2012<br>
+ * First written Dec, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module io.events.clockevents;
@@ -18,6 +19,10 @@ import io.events.engine;
 
 alias void delegate(int, int) FUN;
 
+/*! \brief A periodic Event
+ *
+ *  Representation of a periodic Event, with adjustable timer
+ */
 class ClockEvent : Event {
   this(FUN toexecute, int period = 1000, int times = 1, bool verbose = true){
     this.times  = times;
@@ -43,6 +48,10 @@ class ClockEvent : Event {
   int checks = 0;            /* Number of times we check */
 }
 
+/*! \brief EventHandler for the ClockEvent class
+ *
+ *  EventHandler for the ClockEvent class
+ */
 class ClockEvents : EventHandler{
   public:
     
