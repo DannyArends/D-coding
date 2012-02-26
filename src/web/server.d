@@ -13,6 +13,9 @@ import core.typedefs.types;
 
 class Server(Client) : core.thread.Thread{
   private:
+    bool         _online = true;
+    TimeTracker   _servertime;
+    SysTime      t0;
     Socket       socket;
     SocketSet    set;
     string       _hostname    = "0.0.0.0";
@@ -25,9 +28,11 @@ class Server(Client) : core.thread.Thread{
     this(string hostname = "0.0.0.0", ushort port = 3000, uint max_clients=2000){
       super(&run);
       socket = new Socket(AddressFamily.INET, SocketType.STREAM, ProtocolType.TCP);
+      t0 = Clock.currTime();
       _port = port;
       _hostname = hostname;
       _max_clients = max_clients;
+      _servertime.load();
       with(socket){
         bind(new InternetAddress(hostname,port));
         listen(20);
@@ -36,14 +41,16 @@ class Server(Client) : core.thread.Thread{
       writeln("[Server] Constructed");
     }
     
-    @property int    max_clients(){ return _max_clients; }
-    @property int    port(){return _port; }
-    @property string hostname(){return _hostname; }
+    @property string  servertime(){ return _servertime.val; }
+    @property int     max_clients(){ return _max_clients; }
+    @property int     port(){return _port; }
+    @property string  hostname(){return _hostname; }
+    void  shutdown(){ _online = false; }
 
     void run(){
       writeln("[Server] Start listening for clients");
       set = new SocketSet();
-      while(true){
+      while(_online){
         assert(set !is null);
         set.reset();
         set.add(socket);
@@ -89,7 +96,12 @@ class Server(Client) : core.thread.Thread{
             }
           }
         }
+        if((Clock.currTime() - t0).total!"msecs" > 950){
+          _servertime.addSecond();
+          t0 = Clock.currTime();
+        }
       }
+      _servertime.save();
       writeln("[Server] Shutdown");
     }
 }

@@ -7,6 +7,7 @@
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 import std.stdio;
+import std.string;
 import std.math;
 import std.conv;
 
@@ -16,4 +17,10 @@ import game.server.gameserver;
 void main(string[] args){
   auto gameserver = new GameServer();
   gameserver.start();
+  
+  string cmd = readln();
+  while(strip(cmd) != "q"){
+    cmd = readln();
+  }
+  gameserver.shutdown();
 }
