@@ -107,63 +107,52 @@ string toD(int x, int d){
 }
 
 struct TimeTracker{
-  int[] mytime  = [0,0,0,1,1,1];
+  private:
+    int[] mytime  = [0,0,0,1,1,1];
   
-  void load(string filename = "ST.save"){
-    if(!exists(filename)){
-      writefln("[T T] Not found: %s",filename);    
-    }else{
-      auto fp = new File(filename,"rb");
-      string buffer;
-      int cnt=0;
-      fp.readln(buffer);
-      buffer = chomp(buffer);
-      string[] entities = buffer.split("\t");
-      foreach(string e; entities){
-        mytime[cnt] = to!int(e); 
-        cnt++;
+  public:
+    void load(string filename = "ST.save"){
+      if(!exists(filename)){
+        writefln("[T T] Not found: %s",filename);    
+      }else{
+        auto fp = new File(filename,"rb");
+        string buffer;
+        fp.readln(buffer);
+        fromString(chomp(buffer));
+        fp.close();
+        writefln("[ G ] %s loaded", filename);
       }
+    }
+    
+    void fromString(string msg){
+      string[] dt = msg.split(" ");
+      string[] entities = dt[1].split(":");
+      int cnt=0;
+      for(int x = 2; x>=0;x--){mytime[cnt] = to!int(entities[x]); cnt++; }
+      entities = dt[0].split("-");
+      for(int x = 2; x>=0;x--){mytime[cnt] = to!int(entities[x]); cnt++; }
+    }
+    
+    void save(string filename = "ST.save"){
+      auto fp = new File(filename,"wb");
+      fp.writeln(val);
       fp.close();
-      writefln("[ G ] %s loaded", filename);
+      writefln("[ G ] Saved to %s", filename);
     }
-  }
-  
-  void fromString(string msg){
-    string[] dt = msg.split(" ");
-    string[] entities = dt[1].split(":");
-    int cnt=0;
-    for(int x = 2; x>=0;x--){mytime[cnt] = to!int(entities[x]); cnt++; }
-    entities = dt[0].split("-");
-    for(int x = 2; x>=0;x--){mytime[cnt] = to!int(entities[x]); cnt++; }
-  }
-  
-  void save(string filename = "ST.save"){
-    auto fp = new File(filename,"wb");
-    string buffer = "";
-    int cnt = 0;
-    foreach(int c; mytime){
-      if(cnt >= 1) buffer ~= "\t";
-      buffer ~= to!string(c); 
-      cnt++;
+    
+    void addSecond(){
+      mytime[0]++;
+      if(mytime[0] > 59){ mytime[1]++; mytime[0]=0; }
+      if(mytime[1] > 59){ mytime[2]++; mytime[1]=0; }
+      if(mytime[2] > 23){ mytime[3]++; mytime[2]=0; }
+      if(mytime[3] > 30){ mytime[4]++; mytime[3]=1; }
+      if(mytime[4] > 12){ mytime[5]++; mytime[4]=1; }
     }
-    fp.writeln(buffer);
-    fp.close();
-    writefln("[ G ] Saved to %s", filename);
-  }
-  
-  void addSecond(){
-    mytime[0]++;
-    if(mytime[0] > 59){ mytime[1]++; mytime[0]=0; }
-    if(mytime[1] > 59){ mytime[2]++; mytime[1]=0; }
-    if(mytime[2] > 23){ mytime[3]++; mytime[2]=0; }
-    if(mytime[3] > 30){ mytime[4]++; mytime[3]=1; }
-    if(mytime[4] > 12){ mytime[5]++; mytime[4]=1; }
-  }
-  
-  @property string val(){
-    return  toD(mytime[3],2) ~ "-" ~ toD(mytime[4],2) ~ "-" ~ toD(mytime[5],4) ~ " " ~
-            toD(mytime[2],2) ~ ":" ~ toD(mytime[1],2) ~ ":" ~ toD(mytime[0],2);
-  }
+    
+    @property string val(){
+      return  toD(mytime[3],2) ~ "-" ~ toD(mytime[4],2) ~ "-" ~ toD(mytime[5],4) ~ " " ~
+              toD(mytime[2],2) ~ ":" ~ toD(mytime[1],2) ~ ":" ~ toD(mytime[0],2);
+    }
 }
 
 /*
