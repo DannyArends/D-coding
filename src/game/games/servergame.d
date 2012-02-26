@@ -21,6 +21,8 @@ class ServerGame : Game{
   public:
   void setup2D(Screen screen){
     writefln("[ G ] setup2D");
+    text = new Text(10, 10, "", screen);
+    screen.add(text);
   }
 
   void setup3D(Screen screen){
@@ -48,8 +50,13 @@ class ServerGame : Game{
   }
   
   void handle(Event e){
-    writefln("[ G ] event received");
+    if(e.getEventType() == EventType.NETWORK){
+      writeln("[ G ] Network event");
+      NetworkEvent n_evt = cast(NetworkEvent) e;
+      text.setText(n_evt.msg);
+    }
   }
   
   private:
+    Text   text;
 }

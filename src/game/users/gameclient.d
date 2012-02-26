@@ -55,7 +55,7 @@ class GameClient : Thread{
       while(online){
         string s = network.read(1);
         if(s !is null){
-          writeln("[NET] Network:",s);
+          //writeln("[NET] Network:",s);
           handler.handle(new NetworkEvent(s));
         }
         Thread.sleep( dur!("msecs")( 10 ) );
