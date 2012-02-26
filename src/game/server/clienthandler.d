@@ -63,7 +63,7 @@ private:
 
   void payload() {
     writeln("[CLIENT] Client",id,": starting");
-    sock.send(NetEvent.HEARTBEAT ~ server.servertime ~ to!string('\0'));
+    sock.send(NetEvent.GAME ~ "Welcome to the server\nPlease login or create a new character" ~ to!string('\0'));
     lastBeat = Clock.currTime();  
     while(online){
       if((Clock.currTime() - lastBeat).total!"msecs" >= 5000) {

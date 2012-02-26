@@ -15,6 +15,7 @@ import game.tilemap;
 import game.player;
 
 import game.games.triggerpull;
+import game.users.gameclient;
 
 enum Stage{STARTUP, MENU, PLAYING};
 
@@ -24,7 +25,7 @@ abstract class Game : EventHandler{
   abstract void setupSound(SFXEngine sound);
   abstract void load(GameEngine engine);
   abstract void save();
-  abstract void quit();
+  abstract void quit(GameEngine engine);
   abstract void render(GFXEngine engine);
   
   void setCameraMotion(CameraMotion m){
@@ -73,7 +74,7 @@ class GameEngine : ClockEvents{
     void cleanUpGame(){
       if(game !is null){
         game.save();
-        game.quit();
+        game.quit(this);
         updateFrequency = 0.0;
       }
     }
@@ -101,7 +102,7 @@ class GameEngine : ClockEvents{
     if(e is null) return;
     if(e.getEventType() == EventType.QUIT){
       game.save();
-      game.quit();
+      game.quit(this);
       setMainMenuStage(0,0);
       return;
     }
@@ -132,6 +133,8 @@ class GameEngine : ClockEvents{
   void requestUpdate(double seconds){
     updateFrequency = seconds;
   }
+  
+  @property GameClient network(){ return engine.network; }
   
   private:
     GFXEngine   engine;

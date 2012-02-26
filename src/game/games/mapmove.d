@@ -39,7 +39,7 @@ class MapMove : Game{
     writefln("[ G ] setupSound");    
   }
 
-  void quit(){
+  void quit(GameEngine engine){
     writefln("[ G ] quit");
   }
   

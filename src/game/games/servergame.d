@@ -34,13 +34,15 @@ class ServerGame : Game{
     writefln("[ G ] setupSound");    
   }
 
-  void quit(){
+  void quit(GameEngine engine){
     writefln("[ G ] quit");
+    if(engine.network.isOnline()) engine.network.shutdown();
   }
   
   void load(GameEngine engine){
     writefln("[ G ] load");
     engine.requestUpdate(1.0);
+    engine.network.start();
   }
   
   void save(){
@@ -53,7 +55,6 @@ class ServerGame : Game{
   
   void handle(Event e){
     if(e.getEventType() == EventType.NETWORK){
-      writeln("[ G ] Network event");
       NetworkEvent n_evt = cast(NetworkEvent) e;
       if(n_evt.getNetEvent() == NetEvent.HEARTBEAT){
         writeln("[ G ] Network sync");

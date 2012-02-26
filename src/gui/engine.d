@@ -59,7 +59,6 @@ class GFXEngine : ClockEvents{
   
   void start(bool verbose = false){
     setT0();
-    network.start();
     printOpenGlInfo(verbose);
     add(new ClockEvent(&game.setMainMenuStage,8000));
     add(new ClockEvent(&game.rotateLogo,40,199,false));
@@ -129,7 +128,6 @@ class GFXEngine : ClockEvents{
       }
       SDL_GL_SwapBuffers();
     }
-    if(network.isOnline()) network.shutdown();
     SDL_Quit();
     return;
   }

@@ -35,7 +35,7 @@ class TriggerPull : Game{
     gunsound = sound.getSound("gun");
   }
 
-  void quit(){
+  void quit(GameEngine engine){
     writefln("[ G ] Triggerpull bye");
   }
   
