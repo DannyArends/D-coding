@@ -17,10 +17,12 @@ import game.server.usermanagment;
 import game.server.clienthandler;
 
 class GameServer : Server!ClientHandler{
-  UserManagment        usermngr;
-    
-  this(){
-    super();
-    usermngr = new UserManagment();
-  }
+  private:
+    UserManagment  usermngr;
+  
+  public:
+    this(){
+      super();
+      usermngr = new UserManagment();
+    }
 }

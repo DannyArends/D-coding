@@ -8,27 +8,19 @@
  **********************************************************************/ 
 module game.server.clienthandler;
 
-import core.thread;
-import std.concurrency;
-import std.array;
-import std.conv;
-import std.file;
-import std.path;
-import std.socket;
-import std.stdio;
-import std.string;
-import std.uri;
-
+import core.stdinc;
 import core.typedefs.webtypes;
 import game.server.clientcommand;
 import game.server.gameserver;
 import web.server;
 
+alias core.thread.Thread Thread;
+
 class ClientHandler : Thread {
   public:
-  this(Server!ClientHandler s, Socket sock, uint id) {
+  this(Server!ClientHandler server, Socket sock, uint id) {
     super(&payload);
-    server = cast(GameServer)s;
+    this.server = cast(GameServer)server;
     this.sock = sock;
     this.id = id;
     this.online = true;
@@ -71,7 +63,7 @@ private:
     writeln("[CLIENT] Client",id,": starting");
     while(online){
       //writeln("Client",id,": Still here");
-      sock.send("S" ~ to!string('\0'));
+      sock.send("S" ~ server.servertime ~ to!string('\0'));
       Thread.sleep( dur!("seconds")( 2 ) );
     }
   }
