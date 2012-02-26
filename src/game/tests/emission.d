@@ -4,12 +4,10 @@ import std.stdio;
 import std.string;
 import std.conv;
 import std.file;
-import std.random;
 
-import sdl.sdlfunctions;
-
-import core.arrays.algebra;
 import core.typedefs.types;
+import core.arrays.algebra;
+
 import io.events.engine;
 import io.events.mouseevent;
 import game.engine;

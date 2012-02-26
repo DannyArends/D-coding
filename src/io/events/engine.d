@@ -14,11 +14,6 @@ import std.datetime;
 
 import core.typedefs.types;
 
-enum EventType{MOUSE, KEYBOARD, SOUND, GFX2D, GFX3D, CLOCK, NETWORK, QUIT}
-enum NetEvent{HEARTBEAT, REGISTER, LOGIN, GAME}
-enum KeyEventType{UP, DOWN, NONE}
-enum MouseBtn{MOVE=0, LEFT=1, MIDDLE=2, RIGHT=3}
-
 class Event{
   abstract EventType getEventType();
   
@@ -31,9 +26,31 @@ class Event{
 }
 
 class NetworkEvent : Event{
-  this(string msg, NetEvent evt = NetEvent.HEARTBEAT){ 
-    _msg=msg;
-    _evt=evt;
+  this(string msg){
+    _msg=msg[1..($-1)];
+    switch(msg[0]){
+      case 'H':
+        _evt=NetEvent.HEARTBEAT;
+      break;
+      case 'R':
+        _evt=NetEvent.REGISTER;
+      break;
+      case 'L':
+        _evt=NetEvent.LOGIN;
+      break;
+      case 'C':
+        _evt=NetEvent.CHAT;
+      break;
+      case 'M':
+        _evt=NetEvent.MOVEMENT;
+      break;
+      case 'G':
+        _evt=NetEvent.GAME;
+      break;
+      default:
+        _evt=NetEvent.UNKNOWN;
+      break;
+    }
   }
   
   EventType getEventType(){ return EventType.NETWORK; }

@@ -54,16 +54,19 @@ class GameClient : Thread{
       online = network.connect();
       while(online){
         string s = network.read(1);
-        if(s !is null){
-          //writeln("[NET] Network:",s);
-          handler.handle(new NetworkEvent(s));
+        if(s !is null && s.length > 1){
+          try{
+            handler.handle(new NetworkEvent(s));
+          }catch(Throwable exception){
+            writeln("[NET] Unable to handle command:",s,"\n",exception);
+          }
         }
         Thread.sleep( dur!("msecs")( 10 ) );
       }
       writeln("[NET] Network closing down");
       network.disconnect();
     }catch(Throwable exception){
-      if(verbose) writeln("[NET] GameClient threw an error");
+      if(verbose) writeln("[NET] GameClient threw an error\n",exception);
       return;
     }
   }

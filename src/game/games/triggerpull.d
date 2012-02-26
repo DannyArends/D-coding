@@ -5,6 +5,7 @@ import std.string;
 import std.conv;
 import std.file;
 
+import core.typedefs.types;
 import core.arrays.algebra;
 
 import io.events.engine;

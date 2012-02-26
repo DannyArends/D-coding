@@ -11,6 +11,7 @@ module game.games.mapmove;
 import std.stdio;
 import std.math;
 
+import core.typedefs.types;
 import core.arrays.algebra;
 
 import io.events.engine;

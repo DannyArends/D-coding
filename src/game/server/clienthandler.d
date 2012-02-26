@@ -9,7 +9,9 @@
 module game.server.clienthandler;
 
 import core.stdinc;
+import core.typedefs.types;
 import core.typedefs.webtypes;
+
 import game.server.clientcommand;
 import game.server.gameserver;
 import web.server;
@@ -61,13 +63,19 @@ private:
 
   void payload() {
     writeln("[CLIENT] Client",id,": starting");
+    sock.send(NetEvent.HEARTBEAT ~ server.servertime ~ to!string('\0'));
+    lastBeat = Clock.currTime();  
     while(online){
-      //writeln("Client",id,": Still here");
-      sock.send("S" ~ server.servertime ~ to!string('\0'));
-      Thread.sleep( dur!("seconds")( 2 ) );
+      if((Clock.currTime() - lastBeat).total!"msecs" >= 5000) {
+        sock.send(NetEvent.HEARTBEAT ~ server.servertime ~ to!string('\0'));
+        lastBeat = Clock.currTime();
+      }else{
+        Thread.sleep( dur!("msecs")( 20 ) );
+      }
     }
   }
   
+  SysTime    lastBeat;
   GameServer server;
   Socket     sock;
   uint       id;

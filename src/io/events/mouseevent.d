@@ -12,6 +12,7 @@ import std.array;
 import std.stdio;
 import std.conv;
 
+import core.typedefs.types;
 import io.events.engine;
 import gui.enginefunctions;
 

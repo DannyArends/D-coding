@@ -15,6 +15,11 @@ import std.string;
 import std.random;
 import core.memory;
 
+enum EventType    { MOUSE, KEYBOARD, SOUND, GFX2D, GFX3D, CLOCK, NETWORK, QUIT }
+enum NetEvent     { UNKNOWN = 'U', HEARTBEAT = 'H', REGISTER = 'R', LOGIN = 'L', CHAT = 'C', MOVEMENT = 'M', GAME = 'G' }
+enum KeyEventType { NONE, DOWN, UP  }
+enum MouseBtn     { MOVE = 0, LEFT = 1, MIDDLE = 2, RIGHT = 3 }
+
 T[] stringArrayToType(T)(string[] entities){
   T[] rowleveldata;
   for(auto e=0;e < entities.length; e++){
@@ -113,12 +118,23 @@ struct TimeTracker{
       int cnt=0;
       fp.readln(buffer);
       buffer = chomp(buffer);
-      mytime.length=0;
       string[] entities = buffer.split("\t");
-      foreach(string e; entities){mytime ~= to!int(e); }
+      foreach(string e; entities){
+        mytime[cnt] = to!int(e); 
+        cnt++;
+      }
       fp.close();
       writefln("[ G ] %s loaded", filename);
     }
+  }
+  
+  void fromString(string msg){
+    string[] dt = msg.split(" ");
+    string[] entities = dt[1].split(":");
+    int cnt=0;
+    for(int x = 2; x>0;x--){mytime[cnt] = to!int(entities[x]); cnt++; }
+    entities = dt[0].split("-");
+    for(int x = 2; x>0;x--){mytime[cnt] = to!int(entities[x]); cnt++; }
   }
   
   void save(string filename = "ST.save"){

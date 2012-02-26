@@ -15,6 +15,7 @@ import std.conv;
 
 import sdl.sdlstructs;
 
+import core.typedefs.types;
 import io.events.engine;
 import io.events.keyevent;
 import io.events.mouseevent;
