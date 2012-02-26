@@ -1,3 +1,12 @@
+/******************************************************************//**
+ * \file src/gui/objects/location.d
+ * \brief 3D location definition
+ *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Feb, 2012<br>
+ * First written Feb, 2012<br>
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module gui.objects.location;
 
 import std.array;
@@ -6,6 +15,10 @@ import std.conv;
 
 import gl.gl_1_0;
 
+/*! \brief 3D Location class
+ *
+ *  3D Location class
+ */
 class Location{
 public:
   this(){

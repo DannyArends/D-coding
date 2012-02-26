@@ -1,6 +1,6 @@
 /******************************************************************//**
  * \file src/io/events/engine.d
- * \brief Definition of Event and EventHandler
+ * \brief Event and EventHandler
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
  * Last modified Feb, 2012<br>

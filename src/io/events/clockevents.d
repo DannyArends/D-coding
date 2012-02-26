@@ -1,6 +1,6 @@
 /******************************************************************//**
  * \file src/io/events/clockevent.d
- * \brief Definition of periodic Event and ClockEventHandler
+ * \brief Periodic Event and ClockEventHandler
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
  * Last modified Feb, 2012<br>

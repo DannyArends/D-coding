@@ -1,9 +1,10 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/gui/objects/surface.d
+ * \brief 3D Surface definition
  *
- * copyright (c) 2012 Danny Arends
- * last modified Feb, 2012
- * first written Dec, 2011
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Feb, 2012<br>
+ * First written Dec, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module gui.objects.surface;
@@ -23,6 +24,10 @@ import gui.objects.camera;
 import gui.formats.tga;
 import gui.objects.object3d;
 
+/*! \brief 3D HeightMap
+ *
+ *  Representation of a 3D HeightMap
+ */
 class HeightMap : Surface{
 
   this(double x, double y, double z, Texture texture){
@@ -61,6 +66,10 @@ class HeightMap : Surface{
   int[2]     highlight = [0,0];
 }
 
+/*! \brief 3D Surface
+ *
+ *  Representation of a 3D Surface
+ */
 class Surface : Object3D{
 
   this(double x, double y, double z, int sx, int sy){

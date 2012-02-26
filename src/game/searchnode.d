@@ -1,9 +1,10 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/game/searchnode.d
+ * \brief Internal A* searchnode definition
  *
- * copyright (c) 2012 Danny Arends
- * last modified Feb, 2012
- * first written May, 2011
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Feb, 2012<br>
+ * First written Feb, 2012<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module game.searchnode;
@@ -12,6 +13,10 @@ import core.thread;
 import std.array;
 import std.conv;
 
+/*! \brief A* search Node class
+ *
+ *  Internal A* search Node class
+ */
 class Node{
 public:
   int   x;

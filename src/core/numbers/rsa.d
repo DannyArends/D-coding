@@ -1,9 +1,10 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/core/numbers/rsa.d
+ * \brief Implementation of the RSA algorithm
  *
- * copyright (c) 2012 Danny Arends
- * last modified Feb, 2012
- * first written Feb, 2012
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Feb, 2012<br>
+ * First written Feb, 2012<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module core.numbers.rsa;

@@ -1,6 +1,6 @@
 /******************************************************************//**
  * \file src/game/search.d
- * \brief Search algorithms
+ * \brief A* Search and distance algorithms
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
  * Last modified Feb, 2012<br>
@@ -23,11 +23,19 @@ import game.tilemap;
 import game.mover;
 import game.path;
 
+/*! \brief SearchHeuristic interface definition
+ *
+ * Interface SearchHeuristic definition
+ */
 interface SearchHeuristic {
 public:
   double getCost(Mover mover, int x, int y, int tx, int ty);
 }
 
+/*! \brief Euclidean distance estimator
+ *
+ * Calculate Euclidean distance, helper class for A* search
+ */
 class EuclideanEstimator : SearchHeuristic {
 public:
   override double getCost(Mover mover, int x, int y, int tx, int ty) {
@@ -37,6 +45,10 @@ public:
   }
 }
 
+/*! \brief Manhattan distance estimator
+ *
+ * Calculate Manhattan distance, helper class for A* search
+ */
 class ManhattanEstimator : SearchHeuristic{
 public:
   override double getCost(Mover mover, int x, int y, int tx, int ty) {
@@ -46,6 +58,10 @@ public:
   }
 }
 
+/*! \brief A* search implementation in D
+ *
+ * A* search implementation in D
+ */
 class AStarSearch{
 public:
 
