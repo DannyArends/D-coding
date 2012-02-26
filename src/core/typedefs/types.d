@@ -9,6 +9,7 @@
 module core.typedefs.types;
 
 import std.stdio;
+import std.file;
 import std.conv;
 import std.string;
 import std.random;
@@ -90,6 +91,64 @@ T[] toType(T)(ubyte[] buffer){
     returnbuffer ~= to!T(b);
   }
   return returnbuffer;
+}
+
+
+string toD(int x, int d){
+  string s = to!string(x);
+  while(s.length < d){
+    s = "0" ~ s;
+  }
+  return s;
+}
+
+struct TimeTracker{
+  int[] mytime  = [0,0,0,1,1,1];
+  
+  void load(string filename = "ST.save"){
+    if(!exists(filename)){
+      writefln("[T T] Not found: %s",filename);    
+    }else{
+      auto fp = new File(filename,"rb");
+      string buffer;
+      int cnt=0;
+      fp.readln(buffer);
+      buffer = chomp(buffer);
+      mytime.length=0;
+      string[] entities = buffer.split("\t");
+      foreach(string e; entities){mytime ~= to!int(e); }
+      fp.close();
+      writefln("[ G ] %s loaded", filename);
+    }
+  }
+  
+  void save(string filename = "ST.save"){
+    auto fp = new File(filename,"wb");
+    string buffer = "";
+    int cnt = 0;
+    foreach(int c; mytime){
+      if(cnt >= 1) buffer ~= "\t";
+      buffer ~= to!string(c); 
+      cnt++;
+    }
+    fp.writeln(buffer);
+    fp.close();
+    writefln("[ G ] Saved to %s", filename);
+  }
+  
+  void addSecond(){
+    mytime[0]++;
+    if(mytime[0] > 59){ mytime[1]++; mytime[0]=0; }
+    if(mytime[1] > 59){ mytime[2]++; mytime[1]=0; }
+    if(mytime[2] > 23){ mytime[3]++; mytime[2]=0; }
+    if(mytime[3] > 30){ mytime[4]++; mytime[3]=1; }
+    if(mytime[4] > 12){ mytime[5]++; mytime[4]=1; }
+  }
+  
+  @property string val(){
+    return  toD(mytime[3],2) ~ "-" ~ toD(mytime[4],2) ~ "-" ~ toD(mytime[5],4) ~ " " ~
+            toD(mytime[2],2) ~ ":" ~ toD(mytime[1],2) ~ ":" ~ toD(mytime[0],2);
+  }
 }
 
 /*

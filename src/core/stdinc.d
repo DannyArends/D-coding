@@ -13,6 +13,7 @@ public import std.math;
 public import std.array;
 public import std.string;
 public import std.conv;
+public import std.concurrency;
 public import std.file;
 public import std.path;
 public import std.uni;
