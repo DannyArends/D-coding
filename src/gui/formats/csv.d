@@ -1,16 +1,17 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/gui/formats/csv.d
+ * \brief CSV file definition
  *
- * copyright (c) 2012 Danny Arends
- * last modified Feb, 2012
- * first written Dec, 2011
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Feb, 2012<br>
+ * First written Dec, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module gui.formats.csv;
 
 import core.stdinc;
 import core.typedefs.types;
-import gui.objects.color;
+import core.typedefs.color;
 
 import gl.gl_1_0;
 import gl.gl_1_1;

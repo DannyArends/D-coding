@@ -1,9 +1,12 @@
-/**
- * \file mover.d
+/******************************************************************//**
+ * \file src/game/mover.d
+ * \brief Mover class definition
  *
- * Copyright (c) 2010 Danny Arends
- * 
- **/
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Feb, 2012<br>
+ * First written 2010<br>
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 
 module game.mover;
 
@@ -14,6 +17,10 @@ import std.string;
 
 import game.tile;
 
+/*! \brief A* representation of a moving object
+ *
+ *  A* representation of a moving object
+ */
 class Mover{
 public:
   this(double s){
