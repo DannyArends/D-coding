@@ -35,6 +35,7 @@ import gui.formats.tga;
 import game.games.triggerpull;
 import game.games.mapmove;
 import game.games.empty;
+import game.games.servergame;
 
 import game.tests.objects2d;
 import game.tests.lqt;
@@ -118,6 +119,7 @@ class Screen : Object2D{
       addObject(new GameButton(100,120,"Empty",engine.game,new Empty(),this));
       addObject(new GameButton(100,140,"Triggerpull",engine.game,new TriggerPull(),this));
       addObject(new GameButton(100,160,"MapMove",engine.game,new MapMove(),this));
+      addObject(new GameButton(100,180,"ServerGame",engine.game,new ServerGame(),this));
       
       addObject(new Text(400,100,"Test",this));
       addObject(new GameButton(400,120,"2D objects",engine.game,new Test_Objects2D(),this));

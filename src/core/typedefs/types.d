@@ -46,7 +46,6 @@ struct Size {
   int height;
 }
 
-
 struct Bone{
   float   length;
   string  name;

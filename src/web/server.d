@@ -13,16 +13,17 @@ import core.typedefs.types;
 
 class Server(Client) : core.thread.Thread{
   private:
-    bool         _online = true;
-    TimeTracker   _servertime;
     SysTime      t0;
     Socket       socket;
     SocketSet    set;
+    Client[]     clients;
+    ubyte[1024]  buffer;
+
+    bool         _online = true;
+    TimeTracker   _servertime;
     string       _hostname    = "0.0.0.0";
     ushort       _port        = 3000;
-    Client[]     clients;
     uint         _max_clients = 2000;
-    ubyte[1024]  buffer;
   
   public:
     this(string hostname = "0.0.0.0", ushort port = 3000, uint max_clients=2000){
