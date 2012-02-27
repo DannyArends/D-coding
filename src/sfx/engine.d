@@ -1,9 +1,10 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/sfx/engine.d
+ * \brief OpenAL sound engine
  *
- * copyright (c) 2012 Danny Arends
- * last modified Feb, 2012
- * first written Dec, 2011
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Feb, 2012<br>
+ * First written Dec, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module sfx.engine;

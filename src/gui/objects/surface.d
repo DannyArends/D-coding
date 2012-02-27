@@ -1,6 +1,6 @@
 /******************************************************************//**
  * \file src/gui/objects/surface.d
- * \brief 3D Surface definition
+ * \brief 3D surface definition
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
  * Last modified Feb, 2012<br>
