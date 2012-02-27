@@ -68,22 +68,22 @@ namespace :lib do
   
   desc "The library with core functionality"
   task "core" do
-    sh "dmd -lib #{core_files} -of#{bd}/core.#{libext}"
+    sh "dmd -lib -c #{core_files} -of#{bd}/core.#{libext}"
   end
 
   desc "The library with io functionality"
-  task "io" => ['lib:core'] do
-    sh "dmd -lib #{io_files} #{bd}/core.#{libext} -of#{bd}/io.#{libext} -Isrc/ -Ideps/"
+  task "io" do
+    sh "dmd -lib -c #{io_files} -of#{bd}/io.#{libext} -Isrc/ -Ideps/"
   end
   
   desc "The library with sfx functionality"
-  task "sfx" => ['lib:openAL']do
-    sh "dmd -lib #{sfx_files} -of#{bd}/sfx.#{libext} -Isrc/ -Ideps/"
+  task "sfx" => ['lib:openAL'] do
+    sh "dmd -lib -c #{sfx_files} -of#{bd}/sfx.#{libext} -Isrc/ -Ideps/"
   end
   
   desc "The library providing interpreters"
   task "inter" do
-    sh "dmd -lib #{inter_files} -of#{bd}/interpreters.#{libext} -Isrc/"
+    sh "dmd -lib -c #{inter_files} -of#{bd}/interpreters.#{libext} -Isrc/"
   end
   
   desc "The library with libload functionality"
@@ -91,62 +91,62 @@ namespace :lib do
     if ! windows? then
       link_args += " -L-ldl"
     end
-    sh "dmd -lib #{libload_files} -of#{bd}/libload.#{libext}"
+    sh "dmd -lib -c #{libload_files} -of#{bd}/libload.#{libext}"
   end
   
   desc "Library with game functionality (A* search)"
-  task "game" => ['lib:io','lib:sdl','lib:gui','lib:sfx'] do
-    sh "dmd -lib #{game_files} #{bd}/io.#{libext} #{bd}/gui.#{libext} #{bd}/sfx.#{libext} -of#{bd}/game.#{libext} -Isrc/ -Ideps/"
+  task "game" do
+    sh "dmd -lib -c #{game_files} -of#{bd}/game.#{libext} -Isrc/ -Ideps/"
   end
 
   desc "Library with http/web functionality"
-  task "web" => :core do
-    sh "dmd -lib #{web_files} #{bd}/core.#{libext} -of#{bd}/web.#{libext} -Isrc/"
+  task "web" do
+    sh "dmd -lib -c #{web_files} -of#{bd}/web.#{libext} -Isrc/"
   end
   
   desc "Library with genetics functionality"
-  task "genetics" => ['lib:core'] do
-    sh "dmd -lib #{genetic_files} #{bd}/core.#{libext} -of#{bd}/genetics.#{libext} -Isrc/"
+  task "genetics" do
+    sh "dmd -lib -c #{genetic_files} -of#{bd}/genetics.#{libext} -Isrc/"
   end
   
   desc "Libary with basic statistics functions"
-  task "stats" => :core do
-    sh "dmd -lib #{plugin_stats} #{bd}/core.#{libext} -of#{bd}/stats.#{libext} -Isrc/ -Ideps/"
+  task "stats" do
+    sh "dmd -lib -c #{plugin_stats} -of#{bd}/stats.#{libext} -Isrc/ -Ideps/"
   end
   
   desc "Libary with basic option parsing functions"
-  task "options" => :core do
-    sh "dmd -lib #{plugin_opts} #{bd}/core.#{libext} -of#{bd}/options.#{libext} -Isrc/ -Ideps/"
+  task "options" do
+    sh "dmd -lib -c #{plugin_opts} -of#{bd}/options.#{libext} -Isrc/ -Ideps/"
   end
 
   desc "Bindings for openGL"
   task "openGL" => :libload do
-    sh "dmd -lib #{deps_opengl} #{bd}/libload.#{libext} -of#{bd}/openGL.#{libext} -Ideps/ -Isrc/"
+    sh "dmd -lib -c #{deps_opengl} #{bd}/libload.#{libext} -of#{bd}/openGL.#{libext} -Ideps/ -Isrc/"
   end
   
   desc "Bindings for openAL"
   task "openAL" => :libload do
-    sh "dmd -lib #{deps_openal} #{bd}/libload.#{libext} -of#{bd}/openAL.#{libext} -Ideps/ -Isrc/"
+    sh "dmd -lib -c #{deps_openal} #{bd}/libload.#{libext} -of#{bd}/openAL.#{libext} -Ideps/ -Isrc/"
   end
   
   desc "Bindings for R"
   task "r" => :libload do
-    sh "dmd -lib #{deps_r} #{bd}/libload.#{libext} -of#{bd}/r.#{libext} -Ideps/ -Isrc/"
+    sh "dmd -lib -c #{deps_r} #{bd}/libload.#{libext} -of#{bd}/r.#{libext} -Ideps/ -Isrc/"
   end
 
   desc "Bindings for JNI"
   task "jni" => :libload do
-    sh "dmd -lib #{deps_jni} #{bd}/libload.#{libext} -of#{bd}/jni.#{libext} -Ideps/ -Isrc/"
+    sh "dmd -lib -c #{deps_jni} #{bd}/libload.#{libext} -of#{bd}/jni.#{libext} -Ideps/ -Isrc/"
   end
   
   desc "Bindings for SDL"
   task "sdl" => :libload do
-    sh "dmd -lib #{deps_sdl} #{bd}/libload.#{libext} -of#{bd}/sdl.#{libext} -Ideps/ -Isrc/"
+    sh "dmd -lib -c #{deps_sdl} #{bd}/libload.#{libext} -of#{bd}/sdl.#{libext} -Ideps/ -Isrc/"
   end
   
   desc "SDL GUI libary"
-  task "gui" => :sdl do
-    sh "dmd -lib #{plugin_gui} #{bd}/sdl.#{libext} -of#{bd}/gui.#{libext} -Ideps/ -Isrc/"
+  task "gui" do
+    sh "dmd -lib -c #{plugin_gui} -of#{bd}/gui.#{libext} -Ideps/ -Isrc/"
   end
 end
 # ---- Applications ----
