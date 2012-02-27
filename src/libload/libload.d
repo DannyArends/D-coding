@@ -1,9 +1,10 @@
-/**********************************************************************
- * \file src/core/libload/libload.d - Shared library loader
+/******************************************************************//**
+ * \file src/core/libload/libload.d
+ * \brief Shared library loader
  *
- * copyright (c) 2012 Danny Arends
- * last modified Feb, 2012
- * first written 2010
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Feb, 2012<br>
+ * First written 2010<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module libload.libload;

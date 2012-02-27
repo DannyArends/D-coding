@@ -41,7 +41,7 @@ private:
   CameraMotion motion;
 }
 
-class GameEngine : ClockEvents{
+class GameEngine : ClockEventHandler{
   public:
     void startRendering(GFXEngine engine){
       this.engine = engine;

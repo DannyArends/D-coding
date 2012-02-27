@@ -35,7 +35,7 @@ import gui.hudhandler;
  *
  *  The GFXEngine class is the main EventHandler for all GFX related events
  */
-class GFXEngine : ClockEvents{
+class GFXEngine : ClockEventHandler{
   
   this(GameEngine game, SFXEngine sound, bool verbose = false){
     if(SDL_Init(SDL_INIT_VIDEO) < 0){ writefln("Video initialization failed: %s", SDL_GetError()); return; }

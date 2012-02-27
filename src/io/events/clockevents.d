@@ -52,7 +52,7 @@ class ClockEvent : Event {
  *
  *  EventHandler for the ClockEvent class
  */
-class ClockEvents : EventHandler{
+class ClockEventHandler : EventHandler{
   public:
     
     void update(){
