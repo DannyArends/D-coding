@@ -5,9 +5,9 @@ import std.stdio;
 import std.conv;
 
 import core.arrays.algebra;
+import core.typedefs.vector3d;
 
 import gui.objects.object3d;
-import gui.objects.vector3d;
 
 class NullForce : Force{
   this(){

@@ -8,7 +8,7 @@ import std.math;
 import gl.gl_1_0;
 import gl.gl_1_1;
 
-import gui.objects.camera;
+import core.typedefs.camera;
 import gui.objects.object3d;
 
 class Sphere : Object3D{

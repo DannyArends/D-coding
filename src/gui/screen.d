@@ -19,17 +19,15 @@ import gl.gl_1_5;
 import gl.gl_ext;
 
 import core.typedefs.types;
-import gui.engine;
+import core.typedefs.camera;
 
+import gui.engine;
 import gui.widgets.object2d;
 import gui.widgets.window;
 import gui.widgets.text;
 import gui.widgets.gamebutton;
-
-import gui.objects.camera;
 import gui.objects.object3d;
 import gui.objects.quad;
-
 import gui.textureloader;
 import gui.formats.tga;
 

@@ -16,12 +16,13 @@ import std.conv;
 import sdl.sdlstructs;
 
 import core.typedefs.types;
+import core.typedefs.camera;
+
 import io.events.engine;
 import io.events.keyevent;
 import io.events.mouseevent;
 import gui.screen;
 import gui.objects.object3d;
-import gui.objects.camera;
 
 class CameraMotion : EventHandler{ 
   this(Screen screen){ scr = screen; }

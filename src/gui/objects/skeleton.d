@@ -1,3 +1,12 @@
+/******************************************************************//**
+ * \file src/gui/objects/skeleton.d
+ * \brief 3D skeleton definition
+ *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Feb, 2012<br>
+ * First written Dec, 2012<br>
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module gui.objects.skeleton;
 
 import std.array;
@@ -10,7 +19,7 @@ import gl.gl_1_1;
 
 import core.typedefs.types;
 
-import gui.objects.camera;
+import core.typedefs.camera;
 import gui.objects.object3d;
 import gui.formats.an8;
 import gui.formats.an8types;

@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/gui/objects/location.d
+ * \file src/core/typedefs/location.d
  * \brief 3D location definition
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
@@ -7,13 +7,11 @@
  * First written Feb, 2012<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module gui.objects.location;
+module core.typedefs.location;
 
 import std.array;
 import std.stdio;
 import std.conv;
-
-import gl.gl_1_0;
 
 /*! \brief 3D Location class
  *
@@ -46,9 +44,9 @@ public:
   double[] getLocation(){ return loc; }
   
   @property double[] location(){ return loc; }
-  @property GLfloat x(){ return loc[0]; }
-  @property GLfloat y(){ return loc[1]; }
-  @property GLfloat z(){ return loc[2]; }
+  @property float x(){ return loc[0]; }
+  @property float y(){ return loc[1]; }
+  @property float z(){ return loc[2]; }
   
 private:
   double loc[3];

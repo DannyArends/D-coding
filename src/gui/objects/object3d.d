@@ -1,3 +1,12 @@
+/******************************************************************//**
+ * \file src/gui/objects/object3d.d
+ * \brief 3D object definition
+ *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Feb, 2012<br>
+ * First written Dec, 2012<br>
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module gui.objects.object3d;
 
 import std.array;
@@ -10,9 +19,13 @@ import core.arrays.algebra;
 import gl.gl_1_0;
 
 import gui.textureloader;
-import gui.objects.camera;
-import gui.objects.vector3d;
+import core.typedefs.camera;
+import core.typedefs.vector3d;
 
+/*! \brief Abstract 3D Object
+ *
+ *  Abstract 3D Object class
+ */
 abstract class Object3D : Vector3D{
 public:  
   this(Object3D parent = null){

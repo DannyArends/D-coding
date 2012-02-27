@@ -20,7 +20,7 @@ import gl.gl_1_1;
 import core.arrays.types;
 import core.typedefs.types;
 import core.typedefs.color;
-import gui.objects.camera;
+import core.typedefs.camera;
 import gui.formats.tga;
 import gui.objects.object3d;
 

@@ -1,3 +1,12 @@
+/******************************************************************//**
+ * \file src/gui/widgets/object2d.d
+ * \brief 2D object definition
+ *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Feb, 2012<br>
+ * First written Dec, 2012<br>
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module gui.widgets.object2d;
 
 import std.array;
@@ -6,10 +15,14 @@ import std.conv;
 
 import gl.gl_1_0;
 import core.typedefs.color;
-import gui.objects.location;
+import core.typedefs.location;
 
 enum Object2DType{SQUARE, WINDOW, BUTTON, DRAGBAR, TEXTINPUT, SLIDER, TEXT, SCREEN};
 
+/*! \brief Abstract 2D Object
+ *
+ *  Abstract 2D Object class
+ */
 abstract class Object2D : Location{
   this(Object2D parent = null){
     this(0.0, 0.0, 1.0, 1.0, parent);

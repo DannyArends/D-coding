@@ -8,15 +8,9 @@
  **********************************************************************/
 module core.arrays.ray;
 
+import core.typedefs.camera;
 import core.arrays.algebra;
 import std.math;
-
-struct camera{
-  double[] location;
-  double[] direction;
-  double toscreen = 3;
-  double height,width;
-};
 
 struct world{
   double[] right;
@@ -29,7 +23,7 @@ class Ray{
   double[] direction;
   double magnitude;
   
-  this(camera c){
+  this(Camera c){
     location  = c.location;
     direction = c.direction;
     magnitude = c.toscreen;
@@ -44,7 +38,7 @@ class Ray{
   }
 }
 
-Ray constructRayThroughPixel(world w, camera c, int x, int y){
+Ray constructRayThroughPixel(world w, Camera c, int x, int y){
   Ray ray = new Ray(c);
   double[] endlocation = ray.endpoint();
 
