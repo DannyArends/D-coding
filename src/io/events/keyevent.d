@@ -33,6 +33,8 @@ class KeyEvent : Event{
     return c;
   }
   
+  void setShift(bool status){ shift=status; }
+  
   int getSDLkey(){ return key.sym; }
   KeyEventType getKeyEventType(){ return type; }
   EventType getEventType(){ return EventType.KEYBOARD;}
