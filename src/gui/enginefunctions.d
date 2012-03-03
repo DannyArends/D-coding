@@ -59,7 +59,7 @@ GLdouble[3] getUnproject(int x, int y){
   GLfloat winY = viewport[3] - y;
   glReadPixels(x, cast(int)winY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ );
   gluUnProject( winX, winY, winZ, modelview.ptr, projection.ptr, viewport.ptr, &pos[0], &pos[1], &pos[2]);
-  writefln("[ENG] World location: [%s, %s, %s]",to!string(pos[0]), to!string(pos[1]), to!string(pos[2]));
+  //writefln("[ENG] World location: [%s, %s, %s]",to!string(pos[0]), to!string(pos[1]), to!string(pos[2]));
   return pos;
 }
 

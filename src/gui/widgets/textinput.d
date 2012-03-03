@@ -38,9 +38,8 @@ class TextInput : Button{
     Event e = new Event();
     switch(key.getSDLkey()){
       case SDLK_RETURN:
-        onClick(0,0);
         e = new NetworkEvent(NetEvent.CHAT ~ input ~ "\0", false);
-        input = "";
+        onClick(0,0);
       break;
       case SDLK_BACKSPACE:
         if(input.length > 0) input = input[0..($-1)];

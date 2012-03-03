@@ -60,7 +60,7 @@ class NetworkEvent : Event{
   
   @property string    msg(){ return _msg; }
   @property bool      incomming(){ return _incomming; }
-  @property string    full(){ return to!string(_evt) ~ _msg ~ "\0"; }
+  @property string    full(){ return (_evt ~ _msg ~ "\0"); }
   
   private:
     bool     _incomming;

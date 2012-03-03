@@ -28,23 +28,26 @@ class HudHandler : EventHandler{
       if(e is null) return;
       if(e.getEventType() == EventType.MOUSE){
         MouseEvent evt = cast(MouseEvent) e;
-        Object2D hit = engine.screen.getObjectAt(evt.sx, evt.sy);
-        if(hit !is null && !hit.isScreen()){
-          switch(hit.getType){
-            case Object2DType.BUTTON:
-              (cast(Button)(hit)).onClick(evt.sx, evt.sy);
-              e.handled = true;
-            break;
-            case Object2DType.TEXTINPUT:
-              keyhandler = cast(TextInput)(hit);
-              e.handled = true;
-            break;
-            default:
-            break;
+        if(evt.getBtn() == MouseBtn.LEFT){
+          Object2D hit = engine.screen.getObjectAt(evt.sx, evt.sy);
+          if(hit !is null && !hit.isScreen()){
+            switch(hit.getType){
+              case Object2DType.BUTTON:
+                (cast(Button)(hit)).onClick(evt.sx, evt.sy);
+                e.handled = true;
+              break;
+              case Object2DType.TEXTINPUT:
+                keyhandler = cast(TextInput)(hit);
+                e.handled = true;
+              break;
+              default:
+              break;
+            }
+          }else{
+            double[3] loc = evt.getXYZ();
+            engine.handle(new NetworkEvent(NetEvent.MOVEMENT ~ to!string(loc) ~ "\0", false));
+            //writeln("S:" ~ to!string(evt.sx) ~ ";" ~ to!string(evt.sy));
           }
-        }else{
-          double[3] loc = evt.getXYZ();
-          //writeln("S:" ~ to!string(evt.sx) ~ ";" ~ to!string(evt.sy));
         }
       }
       if(e.getEventType() == EventType.KEYBOARD){
@@ -58,8 +61,7 @@ class HudHandler : EventHandler{
           if(key.getKeyEventType() == KeyEventType.DOWN){
             key.setShift(shiftStatus);
             if(keyhandler !is null){
-              Event passe = keyhandler.handleKeyPress(key);
-              engine.handle(passe);
+              engine.handle(keyhandler.handleKeyPress(key));
             }
           }
         }
