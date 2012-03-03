@@ -11,6 +11,7 @@ module gui.stdinc;
 public import gui.engine;
 public import gui.screen;
 public import gui.motion;
+public import gui.hudhandler;
 
 public import gui.objects.box;
 public import gui.objects.force;

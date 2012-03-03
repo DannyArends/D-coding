@@ -8,6 +8,8 @@ import gl.gl_1_0;
 import gl.gl_1_1;
 import sdl.sdlstructs;
 
+import io.events.keyevent;
+
 import game.engine;
 
 import gui.widgets.object2d;
@@ -27,7 +29,7 @@ class GameButton : Button{
   }
   
   void onDrag(int x, int y){ }
-  void handleKeyPress(SDLKey key, bool shift){ }
+  void handleKeyPress(KeyEvent key){ }
 private:
   GameEngine gameengine;
   Game       game;  

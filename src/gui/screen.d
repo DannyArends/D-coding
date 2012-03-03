@@ -140,6 +140,10 @@ class Screen : Object2D{
     }
     void add(Object2D o){ addObject(o); }
     
+    @property int width(){ return engine.width; }
+    @property int height(){ return engine.height; }
+
+    
     GLuint getFontBase(){ return base; }
     Camera getCamera(){ return camera; }
     GLuint getFontId(){ return fontID; }

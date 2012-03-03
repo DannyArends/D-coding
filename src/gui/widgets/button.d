@@ -8,6 +8,8 @@ import sdl.sdlstructs;
 import gl.gl_1_0;
 import gl.gl_1_1;
 
+import io.events.keyevent;
+
 import gui.widgets.object2d;
 import gui.widgets.text;
 import gui.widgets.square;
@@ -28,7 +30,7 @@ public:
   
   abstract void onClick(int x, int y);
   abstract void onDrag(int x, int y);
-  abstract void handleKeyPress(SDLKey key, bool shift);
+  abstract void handleKeyPress(KeyEvent key);
   
   void render(){
     glLoadIdentity();
@@ -85,7 +87,7 @@ class CloseButton : Button{
   }
   
   void onDrag(int x, int y){ }
-  void handleKeyPress(SDLKey key, bool shift){ }
+  void handleKeyPress(KeyEvent key){ }
 }
 
 class MinMaxButton : Button{
@@ -99,7 +101,7 @@ class MinMaxButton : Button{
   }
   
   void onDrag(int x, int y){ }
-  void handleKeyPress(SDLKey key, bool shift){ }
+  void handleKeyPress(KeyEvent key){ }
 }
 
 class DragBar : Button{
@@ -122,9 +124,7 @@ class DragBar : Button{
     if(getWindow().isDragging())getWindow().move(x,y,0);
   }
   
-  void handleKeyPress(SDLKey key, bool shift){ }
+  void handleKeyPress(KeyEvent key){ }
   
   Object2DType getType(){ return Object2DType.DRAGBAR; }
 }
-
-

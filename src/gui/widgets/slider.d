@@ -8,6 +8,8 @@ import gl.gl_1_0;
 import gl.gl_1_1;
 import sdl.sdlstructs;
 
+import io.events.keyevent;
+
 import gui.widgets.object2d;
 import gui.widgets.text;
 import gui.widgets.square;
@@ -60,7 +62,7 @@ class Slider : DragBar{
     value = to!int((((slider.x()-x())/(sx()-16))) * (range[1]-range[0])) + range[0];
   }
   
-  void handleKeyPress(SDLKey key, bool shift){ }
+  void handleKeyPress(KeyEvent key){ }
   
   Object2DType getType(){ return Object2DType.SLIDER; }
 private:
