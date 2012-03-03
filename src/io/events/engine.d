@@ -16,7 +16,7 @@ import std.datetime;
 import core.typedefs.types;
 
 class Event{
-  abstract EventType getEventType();
+  EventType getEventType(){ return EventType.NULL; }
   
   long getAge(){ return ((Clock.currTime()-t0).total!"msecs"); }
   void resetAge(){ t0 = Clock.currTime(); }
@@ -27,7 +27,8 @@ class Event{
 }
 
 class NetworkEvent : Event{
-  this(string msg){
+  this(string msg, bool incomming = true){
+    _incomming=incomming;
     _msg=msg[1..($-1)];
     switch(msg[0]){
       case 'H':
@@ -58,8 +59,11 @@ class NetworkEvent : Event{
   NetEvent  getNetEvent(){ return _evt; }
   
   @property string    msg(){ return _msg; }
-
+  @property bool      incomming(){ return _incomming; }
+  @property string    full(){ return to!string(_evt) ~ _msg ~ "\0"; }
+  
   private:
+    bool     _incomming;
     string   _msg;
     NetEvent _evt;
 }

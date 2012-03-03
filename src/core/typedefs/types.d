@@ -16,7 +16,7 @@ import std.string;
 import std.random;
 import core.memory;
 
-enum EventType    { MOUSE, KEYBOARD, SOUND, GFX2D, GFX3D, CLOCK, NETWORK, QUIT }
+enum EventType    { NULL, MOUSE, KEYBOARD, SOUND, GFX2D, GFX3D, CLOCK, NETWORK, QUIT }
 enum NetEvent     { UNKNOWN = 'U', HEARTBEAT = 'H', REGISTER = 'R', LOGIN = 'L', CHAT = 'C', MOVEMENT = 'M', GAME = 'G' }
 enum KeyEventType { NONE, DOWN, UP  }
 enum MouseBtn     { MOVE = 0, LEFT = 1, MIDDLE = 2, RIGHT = 3 }
