@@ -24,7 +24,7 @@ class TextInput : Button{
   this(Object2D window, int x = 0, int y = 0, int sx = 100, int sy = 16, string label = "", string value = ""){
     super(x, y, sx, sy,label,window);
     setBgColor(0.3,0.3,0.3);
-    inputtext = new Text(1+label.length*15,1,value,this);
+    inputtext = new Text(this,1+label.length*15,1,value);
   }
   
   void onClick(int x, int y){

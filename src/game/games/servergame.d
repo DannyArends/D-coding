@@ -23,8 +23,10 @@ class ServerGame : Game{
   public:
   void setup2D(Screen screen){
     writefln("[ G ] setup2D");
-    text = new Text(10, 10, "", screen);
-    commandline = new TextInput(screen,30,30);
+    time = new Text(screen, 0, screen.height-32);
+    text = new Text(screen, 0, 16, screen.width, 64);
+    commandline = new TextInput(screen,0,screen.height-16,screen.width,16);
+    screen.add(time);
     screen.add(text);
     screen.add(commandline);
   }
@@ -54,7 +56,7 @@ class ServerGame : Game{
   }
   
   void render(GFXEngine engine){
-    text.setText(servertime.val);
+    time.setText(servertime.val);
   }
   
   void handle(Event e){
@@ -68,6 +70,7 @@ class ServerGame : Game{
         break;
         case NetEvent.GAME:
           writeln("[ G ] Network game event");
+          text.addLine(n_evt.msg);
           e.handled=true;
         break;
         default:
@@ -82,6 +85,7 @@ class ServerGame : Game{
   
   private:
     TimeTracker servertime;
+    Text        time;
     Text        text;
     TextInput   commandline;
 }

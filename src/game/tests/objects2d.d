@@ -29,7 +29,7 @@ class Test_Objects2D : Game{
   public:
   void setup2D(Screen screen){
     writefln("[ G ] setup2D");
-    text = new Text(10,10,"",screen);
+    text = new Text(screen, 10, 10);
     gun = new Square(0,200,300,300,screen);
     gun.setTexture(screen.getTextureID("Gun1"));
     target = new Square(400,50,200,240,screen);

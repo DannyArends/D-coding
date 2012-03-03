@@ -17,7 +17,7 @@ class Test_HeightMap : Empty{
       
   void setup2D(Screen screen){
     writefln("[ G ] setup2D");
-    text = new Text(10,10,"",screen);
+    text = new Text(screen, 10, 10);
     screen.add(text);
   }
 

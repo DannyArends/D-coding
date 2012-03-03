@@ -11,9 +11,13 @@ import gui.widgets.object2d;
 
 class Text : Object2D{
 public:
-  this(double x, double y, string text, Object2D parent){
-    super(x,y,8*text.length,16,parent);
-    if(text != "") this.lines ~= text;
+  this(Object2D parent, int x = 0, int y = 0, string text = ""){
+    super(x , y, 8*text.length, 16, parent);
+    if(text != "") lines ~= text;
+  }
+
+  this(Object2D parent, int x, int y, int sx, int sy){
+    super(x, y, sx, sy, parent);
   }
   
   void render(){

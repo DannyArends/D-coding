@@ -19,7 +19,7 @@ import sfx.formats.wav;
 class TriggerPull : Game{
 
   void setup2D(Screen screen){
-    text = new Text(10,10,"",screen);
+    text = new Text(screen, 10, 10);
     screen.add(text);
   }
 

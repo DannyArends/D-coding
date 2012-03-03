@@ -24,7 +24,7 @@ public:
   this(double x, double y, double sx, double sy, string btnname, Object2D parent){
     super(x, y, sx, sy, parent);
     buttonname = btnname;
-    name = new Text(1,1,btnname,this);
+    name = new Text(this,1,1,btnname);
     bg = new Square(0,0,sx,sy,this);
     bg.setColor(0.50,0.50,0.50);
   }

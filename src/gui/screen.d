@@ -118,13 +118,13 @@ class Screen : Object2D{
     }
 
     void showMainMenu(){
-      addObject(new Text(100,100,"Menu",this));
+      addObject(new Text(this, 100, 100, "Menu"));
       addObject(new GameButton(100,120,"Empty",engine.game,new Empty(),this));
       addObject(new GameButton(100,140,"Triggerpull",engine.game,new TriggerPull(),this));
       addObject(new GameButton(100,160,"MapMove",engine.game,new MapMove(),this));
       addObject(new GameButton(100,180,"ServerGame",engine.game,new ServerGame(),this));
       
-      addObject(new Text(400,100,"Test",this));
+      addObject(new Text(this, 400, 100, "Test"));
       addObject(new GameButton(400,120,"2D objects",engine.game,new Test_Objects2D(),this));
       addObject(new GameButton(400,140,"Line Quad Triangle",engine.game,new Test_LQT(),this));
       addObject(new GameButton(400,160,"Spheres",engine.game,new Test_Spheres(),this));
