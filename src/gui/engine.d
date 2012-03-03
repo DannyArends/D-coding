@@ -57,7 +57,7 @@ class GFXEngine : ClockEventHandler{
     _sound = sound;
     _game = game;
     _screen = new Screen(this);
-    _hud = new HudHandler(screen);
+    _hud = new HudHandler(this);
     _network = new GameClient(this);
     _game.startRendering(this);
   }
@@ -147,7 +147,7 @@ class GFXEngine : ClockEventHandler{
       setT0();
     }else{ _fps.cnt++; }
   }
-
+  
   @property int         frametime(){ return cast(int)(1000.0/screen_fps); }  
   @property string      fps(){ return to!string(_fps.fps); }
   @property int         width(int w = -1){ if(w > 0){ screen_width=w;} return screen_width; }
@@ -159,6 +159,12 @@ class GFXEngine : ClockEventHandler{
   @property GameClient  network(GameClient g = null){ if(g !is null){ _network=g; } return _network; }
   
   void handle(Event e){
+    if(e.getEventType() == EventType.NETWORK){
+      NetworkEvent n_evt = cast(NetworkEvent) e;
+      if(network !is null && !n_evt.incomming){
+        network.send(n_evt.full);
+      }
+    }
     if(game.gamestage == Stage.PLAYING){
       game.handle(e);
     }

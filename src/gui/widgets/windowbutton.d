@@ -8,6 +8,7 @@ import gl.gl_1_0;
 import gl.gl_1_1;
 import sdl.sdlstructs;
 
+import io.events.engine;
 import io.events.keyevent;
 
 import gui.widgets.object2d;
@@ -26,6 +27,6 @@ class WindowButton : Button{
   }
   
   void onDrag(int x, int y){ }
-  void handleKeyPress(KeyEvent key){ }
-private:
+  Event handleKeyPress(KeyEvent key){ return new Event(); }
+  private:
 }

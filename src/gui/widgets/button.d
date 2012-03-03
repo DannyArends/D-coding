@@ -8,6 +8,7 @@ import sdl.sdlstructs;
 import gl.gl_1_0;
 import gl.gl_1_1;
 
+import io.events.engine;
 import io.events.keyevent;
 
 import gui.widgets.object2d;
@@ -28,9 +29,9 @@ public:
     bg.setColor(0.50,0.50,0.50);
   }
   
-  abstract void onClick(int x, int y);
-  abstract void onDrag(int x, int y);
-  abstract void handleKeyPress(KeyEvent key);
+  abstract void  onClick(int x, int y);
+  abstract void  onDrag(int x, int y);
+  abstract Event handleKeyPress(KeyEvent key);
   
   void render(){
     glLoadIdentity();
@@ -87,7 +88,7 @@ class CloseButton : Button{
   }
   
   void onDrag(int x, int y){ }
-  void handleKeyPress(KeyEvent key){ }
+  Event handleKeyPress(KeyEvent key){ return new Event(); }
 }
 
 class MinMaxButton : Button{
@@ -101,7 +102,7 @@ class MinMaxButton : Button{
   }
   
   void onDrag(int x, int y){ }
-  void handleKeyPress(KeyEvent key){ }
+  Event handleKeyPress(KeyEvent key){ return new Event(); }
 }
 
 class DragBar : Button{
@@ -124,7 +125,7 @@ class DragBar : Button{
     if(getWindow().isDragging())getWindow().move(x,y,0);
   }
   
-  void handleKeyPress(KeyEvent key){ }
+  Event handleKeyPress(KeyEvent key){ return new Event(); }
   
   Object2DType getType(){ return Object2DType.DRAGBAR; }
 }

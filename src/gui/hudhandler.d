@@ -12,7 +12,7 @@ import io.events.engine;
 import io.events.mouseevent;
 import io.events.keyevent;
 import game.engine;
-import gui.screen;
+import gui.engine;
 import gui.enginefunctions;
 import gui.widgets.object2d;
 import gui.widgets.textinput;
@@ -20,15 +20,15 @@ import gui.widgets.button;
 
 class HudHandler : EventHandler{
   public:    
-    this(Screen screen){
-      this.screen = screen;
+    this(GFXEngine engine){
+      this.engine = engine;
     }
     
     void handle(Event e){
       if(e is null) return;
       if(e.getEventType() == EventType.MOUSE){
         MouseEvent evt = cast(MouseEvent) e;
-        Object2D hit = screen.getObjectAt(evt.sx, evt.sy);
+        Object2D hit = engine.screen.getObjectAt(evt.sx, evt.sy);
         if(hit !is null && !hit.isScreen()){
           switch(hit.getType){
             case Object2DType.BUTTON:
@@ -57,14 +57,17 @@ class HudHandler : EventHandler{
         }else{
           if(key.getKeyEventType() == KeyEventType.DOWN){
             key.setShift(shiftStatus);
-            if(keyhandler !is null) keyhandler.handleKeyPress(key);
+            if(keyhandler !is null){
+              Event passe = keyhandler.handleKeyPress(key);
+              engine.handle(passe);
+            }
           }
         }
       }
     }
     
   private:
-    Screen      screen;
+    GFXEngine   engine;
     TextInput   keyhandler;
     bool        shiftStatus;
 }

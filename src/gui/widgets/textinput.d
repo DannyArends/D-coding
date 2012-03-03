@@ -10,6 +10,7 @@ import sdl.sdlstructs;
 
 import core.typedefs.types;
 
+import io.events.engine;
 import io.events.keyevent;
 
 import gui.widgets.object2d;
@@ -33,10 +34,12 @@ class TextInput : Button{
   
   void onDrag(int x, int y){ }
   
-  void handleKeyPress(KeyEvent key){
+  Event handleKeyPress(KeyEvent key){
+    Event e = new Event();
     switch(key.getSDLkey()){
       case SDLK_RETURN:
         onClick(0,0);
+        e = new NetworkEvent(NetEvent.CHAT ~ input ~ "\0", false);
         input = "";
       break;
       case SDLK_BACKSPACE:
@@ -47,6 +50,7 @@ class TextInput : Button{
       break;
     }
     inputtext.setText(input);
+    return e;
   }
   
   void render(){
