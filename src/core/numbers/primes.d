@@ -15,10 +15,10 @@ import std.math;
 import std.string;
 import std.random;
 
-bool prime(long n){
+bool prime(real n){
   if(n < 2) return false;
   if(n == 2) return true;
-  for(long t=2;t <= sqrt(n);t++){
+  for(real t=2;t <= sqrt(n);t++){
     if(n % t == 0) return false;
   }
   return true;
