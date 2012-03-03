@@ -67,7 +67,7 @@ private:
     lastBeat = Clock.currTime();  
     while(online){
       if((Clock.currTime() - lastBeat).total!"msecs" >= 5000) {
-        sock.send(NetEvent.HEARTBEAT ~ server.servertime ~ to!string('\0'));
+        sock.send(NetEvent.HEARTBEAT ~ server.servertime ~ "\0");
         lastBeat = Clock.currTime();
       }else{
         Thread.sleep( dur!("msecs")( 20 ) );

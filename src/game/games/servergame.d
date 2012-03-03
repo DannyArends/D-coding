@@ -23,7 +23,6 @@ class ServerGame : Game{
   public:
   void setup2D(Screen screen){
     writefln("[ G ] setup2D");
-    hudHandler(new HudHandler(screen));
     text = new Text(10, 10, "", screen);
     commandline = new TextInput(screen,30,30);
     screen.add(text);
@@ -47,6 +46,7 @@ class ServerGame : Game{
     writefln("[ G ] load");
     engine.requestUpdate(1.0);
     engine.network.start();
+    hudHandler(new HudHandler(engine.gfxengine));
   }
   
   void save(){
@@ -60,9 +60,18 @@ class ServerGame : Game{
   void handle(Event e){
     if(e.getEventType() == EventType.NETWORK){
       NetworkEvent n_evt = cast(NetworkEvent) e;
-      if(n_evt.getNetEvent() == NetEvent.HEARTBEAT){
-        writeln("[ G ] Network sync");
-        servertime.fromString(n_evt.msg);
+      switch(n_evt.getNetEvent()){
+        case NetEvent.HEARTBEAT:
+          writeln("[ G ] Network sync");
+          servertime.fromString(n_evt.msg);
+          e.handled=true;
+        break;
+        case NetEvent.GAME:
+          writeln("[ G ] Network game event");
+          e.handled=true;
+        break;
+        default:
+        break;
       }
     }
   }

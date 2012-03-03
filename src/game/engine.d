@@ -148,6 +148,7 @@ class GameEngine : ClockEventHandler{
   }
   
   @property GameClient network(){ return engine.network; }
+  @property GFXEngine  gfxengine(){ return engine; }
   
   private:
     GFXEngine   engine;
