@@ -30,7 +30,7 @@ class Test_Liquid : Empty{
 
   void setup3D(Screen screen){
     writefln("[ G ] setup 3D movement");
-    setCameraMotion(new FPMotion(screen));
+    cameraMotion(new FPMotion(screen));
     writefln("[ G ] setup 3D scene");
     Texture map = screen.getTexture("map");
     liquid = new Liquid(-50, -10,-100, map);

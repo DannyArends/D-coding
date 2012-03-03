@@ -23,8 +23,11 @@ class ServerGame : Game{
   public:
   void setup2D(Screen screen){
     writefln("[ G ] setup2D");
+    hudHandler(new HudHandler(screen));
     text = new Text(10, 10, "", screen);
+    commandline = new TextInput(screen,30,30);
     screen.add(text);
+    screen.add(commandline);
   }
 
   void setup3D(Screen screen){
@@ -71,4 +74,5 @@ class ServerGame : Game{
   private:
     TimeTracker servertime;
     Text        text;
+    TextInput   commandline;
 }

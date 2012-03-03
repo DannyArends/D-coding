@@ -30,7 +30,7 @@ class Test_Spheres : Empty{
     spheres[2].setSize(20,20,20);
     spheres[2].setTexture(screen.getTextureID("sky"));
     screen.add(spheres);
-    setCameraMotion(new ObjectMotion(screen,spheres[2],30));
+    cameraMotion(new ObjectMotion(screen,spheres[2],30));
   }
   
   void render(GFXEngine engine){

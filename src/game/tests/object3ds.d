@@ -28,7 +28,7 @@ class Test_Object3DS : Empty{
 
   void setup3D(Screen screen){
     writefln("[ G ] setup 3D movement");
-    setCameraMotion(new FPMotion(screen));
+    cameraMotion(new FPMotion(screen));
     writefln("[ G ] setup 3D scene");
     objects ~= new Model3DS(-3, -1,-8,"data/objects/object_3.3ds");
     objects ~= new Skeleton(-1, -1,-5);

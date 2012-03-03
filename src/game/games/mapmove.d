@@ -29,7 +29,7 @@ class MapMove : Game{
   void setup3D(Screen screen){
     writefln("[ G ] setup3D");
     player = new Skeleton(100, -1, 100);
-    setCameraMotion(new ObjectMotion(screen,player));
+    cameraMotion(new ObjectMotion(screen,player));
     map = new HeightMap(0, -5, 0, screen.getTexture("map"));
     screen.add(map);
     screen.add(player);

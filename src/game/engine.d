@@ -18,6 +18,7 @@ import io.events.clockevents;
 import gui.engine;
 import gui.screen;
 import gui.motion;
+import gui.hudhandler;
 import sfx.engine;
 
 import game.tilemap;
@@ -37,17 +38,19 @@ abstract class Game : EventHandler{
   abstract void quit(GameEngine engine);
   abstract void render(GFXEngine engine);
   
-  void setCameraMotion(CameraMotion m){
-    this.motion=m;
+  @property CameraMotion cameraMotion(CameraMotion m = null){ 
+    if(m !is null){ motion=m; }
+    return motion; 
   }
   
-  CameraMotion getCameraMotion(){ 
-    if(motion is null) motion = new NoMotion();
-    return motion; 
+  @property HudHandler hudHandler(HudHandler h = null){ 
+    if(h !is null){ hud=h; }
+    return hud; 
   }
 
 private:
   CameraMotion motion;
+  HudHandler   hud;
 }
 
 class GameEngine : ClockEventHandler{
@@ -116,7 +119,8 @@ class GameEngine : ClockEventHandler{
       return;
     }
     if(stage==Stage.PLAYING){
-      game.getCameraMotion().handle(e);
+      if(!e.handled && game.hudHandler()) game.hudHandler().handle(e); 
+      if(!e.handled && game.cameraMotion()) game.cameraMotion().handle(e);
       if(!e.handled)game.handle(e);
     }
     e.handled=true;
@@ -127,7 +131,7 @@ class GameEngine : ClockEventHandler{
   void update(){
     super.update();
     if(stage==Stage.PLAYING){
-      game.getCameraMotion().update();
+      if(game.cameraMotion()) game.cameraMotion().update();
       if(updateFrequency > 0.0){
         if((getTN()-getT0()).total!"msecs" > cast(long)(1000*updateFrequency)){
           setT0();

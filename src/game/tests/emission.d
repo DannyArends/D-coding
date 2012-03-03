@@ -26,7 +26,7 @@ class Test_PE : Game{
 
   void setup3D(Screen screen){
     writefln("[ G ] setup3D motion");
-    setCameraMotion(new FPMotion(screen));
+    cameraMotion(new FPMotion(screen));
     writefln("[ G ] setup3D");
     object = new PE(-50, -10,-100);
     object.addForce(new Gravity());
