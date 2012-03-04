@@ -1,3 +1,12 @@
+/******************************************************************//**
+ * \file src/gui/formats/an8types.d
+ * \brief AN8 type definitions
+ *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Mar, 2012<br>
+ * First written Dec, 2011<br>
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module gui.formats.an8types;
 
 import std.stdio;
@@ -11,6 +20,10 @@ import core.typedefs.types;
 
 enum An8SphereType{LONGLAT, GEODESIC}
 
+/*! \brief Anim8tor chunk
+ *
+ *  Representation of an anim8tor chunk
+ */
 struct An8Chunk{
   string     name;
   int        start;
@@ -19,6 +32,10 @@ struct An8Chunk{
   An8Chunk[] subchunks;
 }
 
+/*! \brief Anim8tor file
+ *
+ *  Representation of an anim8tor file
+ */
 struct An8{
   string     filename;
   FileStatus status;
@@ -27,6 +44,10 @@ struct An8{
   Figure[]   figures;
 }
 
+/*! \brief Anim8tor cylinder
+ *
+ *  Representation of an anim8tor cylinder
+ */
 struct An8Cylinder{
   string material = " -- default --";
   int    lon =12;
@@ -37,6 +58,10 @@ struct An8Cylinder{
   bool   startcap,endcap;
 }
 
+/*! \brief Anim8tor sphere
+ *
+ *  Representation of an anim8tor sphere
+ */
 struct An8Sphere{
   string         material = " -- default --";
   float          diameter = 1;
@@ -45,6 +70,10 @@ struct An8Sphere{
   An8SphereType  type     = An8SphereType.LONGLAT;
 }
 
+/*! \brief Anim8tor cube
+ *
+ *  Representation of an anim8tor cube
+ */
 struct An8Cube{
   string material = " -- default --";
   int    x=10;
