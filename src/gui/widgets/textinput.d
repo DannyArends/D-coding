@@ -1,3 +1,12 @@
+/******************************************************************//**
+ * \file src/gui/widgets/textinput.d
+ * \brief 2D widget for text input definition
+ *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Mar, 2012<br>
+ * First written Dec, 2012<br>
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module gui.widgets.textinput;
 
 import std.array;
@@ -14,11 +23,7 @@ import io.events.engine;
 import io.events.keyevent;
 import io.events.networkevent;
 
-import gui.widgets.object2d;
-import gui.widgets.window;
-import gui.widgets.text;
-import gui.widgets.square;
-import gui.widgets.button;
+import gui.stdinc;
 
 class TextInput : Button{
 

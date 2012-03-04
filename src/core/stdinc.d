@@ -1,9 +1,10 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/core/stdinc.d
+ * \brief Import file to import many common std libraries
  *
- * copyright (c) 2012 Danny Arends
- * last modified Feb, 2012
- * first written May, 2011
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Mar, 2012<br>
+ * First written May, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module core.stdinc;
