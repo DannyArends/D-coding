@@ -45,7 +45,7 @@ class HudHandler : EventHandler{
             }
           }else{
             double[3] loc = evt.getXYZ();
-            engine.handle(new NetworkEvent(NetEvent.MOVEMENT ~ to!string(loc) ~ "\0", false));
+            engine.handle(new NetworkEvent(NetEvent.MOVEMENT ~ arrayToString(loc,":") ~ "\0", false));
             //writeln("S:" ~ to!string(evt.sx) ~ ";" ~ to!string(evt.sy));
           }
         }

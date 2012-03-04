@@ -29,6 +29,15 @@ T[] stringArrayToType(T)(string[] entities){
   return rowleveldata;
 }
 
+string arrayToString(T)(T[] entities, string sep = ":"){
+  string retdata;
+  for(auto e=0;e < entities.length; e++){
+    if(e != 0) retdata ~= sep;
+    retdata ~= to!string(entities[e]);
+  }
+  return retdata;
+}
+
 /*
  * Splits a string by sep, and transforms each element to types of T
  */
