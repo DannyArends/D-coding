@@ -59,7 +59,7 @@ class GFXEngine : ClockEventHandler{
     _game = game;
     _screen = new Screen(this);
     _hud = new HudHandler(this);
-    _network = new GameClient(this,"www.dannyarends.nl");
+    _network = new GameClient(this,"localhost");
     _game.startRendering(this);
   }
   

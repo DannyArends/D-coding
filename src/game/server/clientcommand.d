@@ -9,13 +9,14 @@
 module game.server.clientcommand;
 
 import std.stdio;
+import std.file;
 import std.conv;
 import std.socket;
 import core.memory;
 
 import game.server.gameserver;
 
-void processSync(GameServer server, Socket sock, ubyte[] command){
+void processSync(GameServer server, Socket sock, string command){
   
 }
 
@@ -33,7 +34,7 @@ bool doCreation(GameServer server, string creationstring){
   return false;
 }
 
-void processIdentification(GameServer server, Socket sock, ubyte[] command){
+void processIdentification(GameServer server, Socket sock, string command){
   if(command.length > 0){
     switch(to!char(command[0])){
       case 'C':
@@ -68,10 +69,10 @@ void processIdentification(GameServer server, Socket sock, ubyte[] command){
   }
 }
 
-void processMovement(GameServer server, Socket sock, ubyte[] command){
+void processMovement(GameServer server, Socket sock, string command){
   
 }
 
-void processChat(GameServer server, Socket sock, ubyte[] command){
+void processChat(GameServer server, Socket sock, string command){
     
 }

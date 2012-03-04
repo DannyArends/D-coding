@@ -43,6 +43,7 @@ class Server(Client) : core.thread.Thread{
     }
     
     @property string  servertime(){ return _servertime.val; }
+    @property string  serverday(){ return _servertime.day; }
     @property int     max_clients(){ return _max_clients; }
     @property int     port(){return _port; }
     @property string  hostname(){return _hostname; }

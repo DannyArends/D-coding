@@ -29,11 +29,15 @@ T[] stringArrayToType(T)(string[] entities){
   return rowleveldata;
 }
 
-string arrayToString(T)(T[] entities, string sep = ":"){
+string arrayToString(T)(T[] entities, string sep = ":", bool conv=false){
   string retdata;
   for(auto e=0;e < entities.length; e++){
     if(e != 0) retdata ~= sep;
-    retdata ~= to!string(entities[e]);
+    if(conv){
+      retdata ~= to!char(entities[e]);
+    }else{
+      retdata ~= to!string(entities[e]);
+    }
   }
   return retdata;
 }
@@ -162,6 +166,9 @@ struct TimeTracker{
     @property string val(){
       return  toD(mytime[3],2) ~ "-" ~ toD(mytime[4],2) ~ "-" ~ toD(mytime[5],4) ~ " " ~
               toD(mytime[2],2) ~ ":" ~ toD(mytime[1],2) ~ ":" ~ toD(mytime[0],2);
+    }
+    @property string day(){
+      return  toD(mytime[3],2) ~ "-" ~ toD(mytime[4],2) ~ "-" ~ toD(mytime[5],4);
     }
 }
 

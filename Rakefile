@@ -216,8 +216,8 @@ namespace :app do
   end
   
   desc "Server for a multiplayer network mud"
-  task "gameserver" => ['lib:core','lib:web','lib:game'] do
-    sh "dmd src/main/server.d #{bd}/core.#{libext} #{bd}/web.#{libext} #{bd}/game.#{libext} -Isrc/ -od#{bd} -ofserver.#{execext}"
+  task "gameserver" => ['lib:core','lib:web','lib:game','lib:sdl'] do
+    sh "dmd src/main/server.d #{bd}/core.#{libext} #{bd}/web.#{libext} #{bd}/game.#{libext} #{bd}/sdl.#{libext} -Isrc/ -Ideps/ -od#{bd} -ofserver.#{execext}"
   end
 
   desc "Decode voynich"

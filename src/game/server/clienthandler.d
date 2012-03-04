@@ -28,24 +28,28 @@ class ClientHandler : Thread {
     this.online = true;
   }
   
-  void processCommand(ubyte[] command){
-    if(command.length > 0){
+  void processCommand(ubyte[] cmd){
+    if(cmd.length > 0){
+      string command = arrayToString(cmd[0..($-1)],"",true);
       try{
-      switch(to!char(command[0])){
-        case 'S':
+      switch(command[0]){
+        case NetEvent.HEARTBEAT:
           processSync(server, sock, command[1..$]);
         break;
         case 'I':
           processIdentification(server, sock, command[1..$]);
         break;
-        case 'M':
+        case NetEvent.MOVEMENT:
+          log(server,"Client " ~ address() ~ " movement: " ~ command);
           processMovement(server, sock, command[1..$]);
         break;
-        case 'C':
+        case NetEvent.CHAT:
+          log(server,"Client " ~ address() ~ " chat: " ~ command);
           processChat(server, sock, command[1..$]);
         break;
         default:
-          writeln("Unknown command type:" ~ to!char(command[0]));
+          log(server,"Client " ~ address() ~ " unknown command: " ~ to!string(command));
+          writeln("Unknown command type:" ~ command[0]);
         break;
       }
       }catch(Throwable exception){
@@ -54,19 +58,36 @@ class ClientHandler : Thread {
     }
   }
 
-  @property public Socket socket() { return sock; }
-  
+  @property Socket socket(){ return sock; }
+  @property string address(){
+    Address remote = sock.remoteAddress();
+    return remote.toAddrString();
+  }
   void offline(){ online = false; }
-  void close() { sock.close(); }
+  
+  void log(GameServer server, string msg){
+    string logfilename = "log"~server.serverday~".SAVE";
+    auto f = new File(logfilename,"a");
+    f.writeln("[" ~ server.servertime ~ "] " ~ msg);
+    f.close();
+  }
+  
+  void close() { 
+    log(server,"Client " ~ address() ~ " on " ~ to!string(id) ~ " offline");
+    sock.close(); 
+  }
   
 private:
 
   void payload() {
     writeln("[CLIENT] Client",id,": starting");
+    log(server,"Client " ~ address() ~ " on " ~ to!string(id) ~ " online");
+    sock.send(NetEvent.HEARTBEAT ~ server.servertime ~ "\0");
+    Thread.sleep( dur!("msecs")( 20 ) );
     sock.send(NetEvent.GAME ~ "Welcome to the server\0");
     Thread.sleep( dur!("msecs")( 20 ) );
     sock.send(NetEvent.GAME ~ "Please login or create a new character\0");
-    lastBeat = Clock.currTime();  
+    lastBeat = Clock.currTime();
     while(online){
       if((Clock.currTime() - lastBeat).total!"msecs" >= 5000) {
         sock.send(NetEvent.HEARTBEAT ~ server.servertime ~ "\0");
@@ -75,6 +96,7 @@ private:
         Thread.sleep( dur!("msecs")( 20 ) );
       }
     }
+    
   }
   
   SysTime    lastBeat;
