@@ -13,6 +13,7 @@ import core.stdinc;
 
 import core.typedefs.webtypes;
 import io.events.engine;
+import io.events.networkevent;
 import web.socketclient;
 
 alias core.thread.Thread Thread;

@@ -5,12 +5,13 @@ import std.stdio;
 import std.conv;
 
 import sdl.sdlstructs;
-
-
 import core.typedefs.types;
+
 import io.events.engine;
-import io.events.mouseevent;
 import io.events.keyevent;
+import io.events.mouseevent;
+import io.events.networkevent;
+
 import game.engine;
 import gui.engine;
 import gui.enginefunctions;

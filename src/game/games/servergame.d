@@ -15,6 +15,7 @@ import core.typedefs.types;
 import core.arrays.algebra;
 
 import io.events.engine;
+import io.events.networkevent;
 import game.engine;
 import gui.stdinc;
 import sfx.engine;

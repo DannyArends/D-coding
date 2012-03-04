@@ -12,6 +12,7 @@ import core.typedefs.types;
 
 import io.events.engine;
 import io.events.keyevent;
+import io.events.networkevent;
 
 import gui.widgets.object2d;
 import gui.widgets.window;

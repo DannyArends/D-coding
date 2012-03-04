@@ -24,8 +24,9 @@ import game.engine;
 import game.users.gameclient;
 import io.events.engine;
 import io.events.clockevents;
-import io.events.mouseevent;
 import io.events.keyevent;
+import io.events.mouseevent;
+import io.events.networkevent;
 
 import gui.enginefunctions;
 import gui.screen;
