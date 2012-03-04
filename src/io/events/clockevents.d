@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/io/events/clockevent.d
+ * \file src/io/events/clockevents.d
  * \brief Periodic Event and ClockEventHandler
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>

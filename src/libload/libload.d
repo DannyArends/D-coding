@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/core/libload/libload.d
+ * \file src/libload/libload.d
  * \brief Shared library loader
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
