@@ -9,7 +9,6 @@
 module game.path;
 
 import core.typedefs.types;
-import core.thread;
 import std.array;
 import std.conv;
 

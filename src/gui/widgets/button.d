@@ -1,3 +1,12 @@
+/******************************************************************//**
+ * \file src/gui/widgets/button.d
+ * \brief 2D button definition
+ *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Feb, 2012<br>
+ * First written Dec, 2011<br>
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module gui.widgets.button;
 
 import std.array;
@@ -15,6 +24,11 @@ import gui.widgets.object2d;
 import gui.widgets.text;
 import gui.widgets.square;
 
+/*! \brief 2D button definition
+ *
+ * Definition of a generic 2D widget: The Button class is the parent class of 
+ * all clickable 2D widgets (e.g. Slider, TextInput, Window).
+ */
 class Button : Object2D{
 public:
   this(double x, double y, string btnname, Object2D parent){
