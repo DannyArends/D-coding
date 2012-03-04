@@ -8,11 +8,8 @@
  **********************************************************************/
 module game.server.clientcommand;
 
-import std.stdio;
-import std.file;
-import std.conv;
-import std.socket;
-import core.memory;
+import core.stdinc;
+import core.typedefs.types;
 
 import game.server.gameserver;
 
@@ -38,33 +35,33 @@ void processIdentification(GameServer server, Socket sock, string command){
   if(command.length > 0){
     switch(to!char(command[0])){
       case 'C':
-        sock.send("C:Starting new character creation"~ to!string('\0'));
+        sock.send(NetEvent.GAME ~ "Starting new character creation"~ to!string('\0'));
         sock.send("S:W:CREATE"~ to!string('\0'));
       break;
       case 'A':
         string login = to!string(command[1..$]);
-        sock.send("C:Attempting login process"~ to!string('\0'));
+        sock.send(NetEvent.GAME ~ "Attempting login process"~ to!string('\0'));
         if(doLogin(server, login)){
-          sock.send("C:Login OK"~ to!string('\0'));
+          sock.send(NetEvent.GAME ~ "Login OK"~ to!string('\0'));
         }else{
-          sock.send("C:Unable to login"~ to!string('\0'));
+          sock.send(NetEvent.GAME ~ "Unable to login"~ to!string('\0'));
         }
       break;
       case 'N':
         string newcharacter = to!string(command[1..$]);
-        sock.send("C:Attempting creation process"~ to!string('\0'));
+        sock.send(NetEvent.GAME ~ "Attempting creation process"~ to!string('\0'));
         if(doCreation(server,newcharacter)){
-          sock.send("C:Creation OK"~ to!string('\0'));
+          sock.send(NetEvent.GAME ~ "Creation OK"~ to!string('\0'));
         }else{
-          sock.send("C:Unable to create"~ to!string('\0'));
+          sock.send(NetEvent.GAME ~ "Unable to create"~ to!string('\0'));
         }
       break;
       default:
-        sock.send("C:HUH?"~ to!string('\0'));
+        sock.send(NetEvent.GAME ~ "wrong ID command\0");
       break;
     }
   }else{
-    sock.send("C:Welcome please login, or create a new account" ~ to!string('\0'));
+    sock.send(NetEvent.GAME ~ "Welcome please login, or create a new account" ~ to!string('\0'));
     sock.send("S:W:LOGIN"~ to!string('\0'));
   }
 }
@@ -74,5 +71,5 @@ void processMovement(GameServer server, Socket sock, string command){
 }
 
 void processChat(GameServer server, Socket sock, string command){
-    
+  sock.send(NetEvent.GAME ~ server.serverstamp ~ ": " ~ command ~ "\0");
 }

@@ -25,7 +25,8 @@ class ServerGame : Game{
   void setup2D(Screen screen){
     writefln("[ G ] setup2D");
     time = new Text(screen, 0, screen.height-32);
-    text = new Text(screen, 0, 16, screen.width, 64);
+    text = new Text(screen, 0, 0, screen.width, 64);
+    text.setMaxLines(7);
     commandline = new TextInput(screen,0,screen.height-16,screen.width,16);
     screen.add(time);
     screen.add(text);

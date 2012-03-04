@@ -29,27 +29,32 @@ class ClientHandler : Thread {
   }
   
   void processCommand(ubyte[] cmd){
-    if(cmd.length > 0){
-      string command = arrayToString(cmd[0..($-1)],"",true);
+    if(cmd.length > 1){
+      string command = arrayToString(cmd[1..($-1)],"",true);
       try{
-      switch(command[0]){
+      switch(cmd[0]){
         case NetEvent.HEARTBEAT:
-          processSync(server, sock, command[1..$]);
+          processSync(server, sock, command);
         break;
         case 'I':
-          processIdentification(server, sock, command[1..$]);
+          processIdentification(server, sock, command);
         break;
         case NetEvent.MOVEMENT:
-          log(server,"Client " ~ address() ~ " movement: " ~ command);
-          processMovement(server, sock, command[1..$]);
+          processMovement(server, sock, command);
         break;
         case NetEvent.CHAT:
-          log(server,"Client " ~ address() ~ " chat: " ~ command);
-          processChat(server, sock, command[1..$]);
+          log(server, "Client " ~ address() ~ " chat: " ~ command, "chat");
+          if(cmd.length > 2 && command[0]=='#'){
+            writeln("User commandline command:",);
+            processCommand(cmd[2..$]);
+          }else{
+            if(command.length > 1) processChat(server, sock, command);
+          }
         break;
         default:
           log(server,"Client " ~ address() ~ " unknown command: " ~ to!string(command));
-          writeln("Unknown command type:" ~ command[0]);
+          sock.send(NetEvent.GAME ~ "Unknown command: " ~ cmd[0] ~ "\0");
+          writeln("[HANDLER] Unknown command type:" ~ cmd[0]);
         break;
       }
       }catch(Throwable exception){
@@ -65,8 +70,8 @@ class ClientHandler : Thread {
   }
   void offline(){ online = false; }
   
-  void log(GameServer server, string msg){
-    string logfilename = "log"~server.serverday~".SAVE";
+  void log(GameServer server, string msg, string log="server"){
+    string logfilename = log ~ server.serverday ~ ".SAVE";
     auto f = new File(logfilename,"a");
     f.writeln("[" ~ server.servertime ~ "] " ~ msg);
     f.close();

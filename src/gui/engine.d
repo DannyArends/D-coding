@@ -162,8 +162,12 @@ class GFXEngine : ClockEventHandler{
   void handle(Event e){
     if(e.getEventType() == EventType.NETWORK){
       NetworkEvent n_evt = cast(NetworkEvent) e;
-      if(network !is null && !n_evt.incomming){
-        network.send(n_evt.full);
+      if(network !is null){
+        if(n_evt.incomming){
+          writeln("[ENG] NetEvent" ~ n_evt.full);
+        }else{
+          network.send(n_evt.full);
+        }
       }
     }
     if(game.gamestage == Stage.PLAYING){
