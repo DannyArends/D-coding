@@ -9,13 +9,7 @@
  **********************************************************************/
 module core.typedefs.manuscript;
 
-import core.thread;
-import std.file;
-import std.path;
-import std.conv;
-import std.string;
-import std.socket;
-import std.stdio;
+import core.stdinc;
 import core.typedefs.types;
 
 struct Paragraph{

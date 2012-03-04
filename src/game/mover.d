@@ -10,10 +10,7 @@
 
 module game.mover;
 
-import core.thread;
 import std.array;
-import std.conv;
-import std.string;
 
 import game.tile;
 

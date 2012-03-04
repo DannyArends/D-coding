@@ -9,7 +9,6 @@
  **********************************************************************/
 module game.searchnode;
 
-import core.thread;
 import std.array;
 import std.conv;
 
