@@ -29,6 +29,10 @@ import game.users.gameclient;
 
 enum Stage{STARTUP, MENU, PLAYING};
 
+/*! \brief Abstract game class
+ *
+ *  Defines a game that is runnable inside out GFXEngine 
+ */
 abstract class Game : EventHandler{
   abstract void setup2D(Screen screen);
   abstract void setup3D(Screen screen);
@@ -53,6 +57,11 @@ private:
   HudHandler   hud;
 }
 
+/*! \brief GameEngine handles the current Game
+ *
+ *  GameEngine handles the current Game, and 
+ *  provides resources and events to the current Game
+ */
 class GameEngine : ClockEventHandler{
   public:
     void startRendering(GFXEngine engine){

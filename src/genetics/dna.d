@@ -17,6 +17,10 @@ import std.random;
 
 import core.arrays.search;
 
+/*! \brief DNA type definition
+ *
+ *  DNA type definition
+ */
 struct DNA{
 public:
   this(char base){

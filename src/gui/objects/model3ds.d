@@ -23,6 +23,10 @@ private import gl.gl_1_1;
 private import gl.gl_1_5;
 private import gl.gl_ext;
 
+/*! \brief Wrapper to render a 3DS model
+ *
+ *  Wrapper to render a 3DS model
+ */
 class Model3DS : Object3D{
 public:  
   this(string filename){
