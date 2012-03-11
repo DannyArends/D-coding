@@ -88,6 +88,7 @@ public:
         }
       }
     }
+    fp.close();
     writefln("Done map-file: %s",filename);
   }
   
@@ -126,6 +127,7 @@ public:
       fp.write("\n");
     }
     fp.writeln("# --- Data tiles end");
+    fp.close();
     writefln("Done map-file: %s",filename);    
   }
   

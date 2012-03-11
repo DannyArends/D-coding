@@ -13,11 +13,11 @@ import std.stdio;
 import std.conv;
 import core.memory;
 import core.typedefs.location;
+import game.tilemap;
 
 struct GameObj{
   uint           obj_uid;
   uint           creator_uid;
-  Location       location;
 }
 
 struct GameItem{
@@ -27,10 +27,10 @@ struct GameItem{
 }
 
 struct GameUser{
-  uint           user_uid;
   string         name;
-  string         password;
+  string         pass;
   Location       location;
+  TileMap        map;
   GameItem[12]   clothing;
   GameItem[25]   inventory;
   GameItem[500]  storage;

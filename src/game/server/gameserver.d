@@ -13,9 +13,9 @@ import core.typedefs.types;
 import core.typedefs.webtypes;
 
 import web.server;
+import game.player;
 import game.tilemap;
 import game.server.clientcommand;
-import game.server.usermanagment;
 import game.server.clienthandler;
 
 T[] load(T)(string dir = "data/maps/", string ext = ".map"){
@@ -36,19 +36,19 @@ T[] load(T)(string dir = "data/maps/", string ext = ".map"){
 
 class GameServer : Server!ClientHandler{
   private:
-    UserManagment  usermngr;
-    TileMap[]      maps;
+    Player[]  users;
+    TileMap[] maps;
+    
   public:
     this(){
       super();
-      maps = load!TileMap();
-      usermngr = new UserManagment();
+      users = load!Player("data/users/",".usr");
+      maps = load!TileMap("data/maps/",".map");
     }
     
     void shutdown(){ 
       super.shutdown();
-      foreach(TileMap m; maps){
-        m.save();
-      }
+      foreach(TileMap m; maps){ m.save(); }
+      foreach(Player p; users){ p.save(); }
     }
 }
