@@ -49,6 +49,7 @@ class Player{
           while(fp.readln(buffer)){
             if(chomp(buffer) == "# --- Data inventory end"){
             writeln("[USR] inventory done");
+            _status = FileStatus.OK;
             break;
           }
           if(buffer[0] == '#') continue;
@@ -87,6 +88,9 @@ class Player{
     fp.close();
     writefln("Done player-file: %s",filename);
   }
+  
+   @property string name(){ return userinfo.name; }
+   @property string password(){ return userinfo.pass; }
   
   private:
     GameUser     userinfo;

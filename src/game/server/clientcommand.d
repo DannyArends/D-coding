@@ -12,64 +12,66 @@ import core.stdinc;
 import core.typedefs.types;
 
 import game.server.gameserver;
+import game.server.clienthandler;
 
-void processSync(GameServer server, Socket sock, string command){
-  
+void processSync(GameServer server, ClientHandler handler, string command){
+
 }
 
-//This should be a Server Object function
-bool doLogin(GameServer server, string loginstring){
-  if(loginstring[0]== '[' && loginstring[$-1]== ']'){
-    return true;
+void processCreate(GameServer server, ClientHandler handler, string[] params){
+  if(params.length != 3){
+    handler.send(NetEvent.GAME ~ "Usage: create <name> <pass>\0");
   }else{
-    return false;
+    if(handler.loggedin){
+      handler.send(NetEvent.GAME ~ "Already logged in as '"~handler.username~"'\0");
+    }else{
+      if(server.createUser(params[1],params[2])){
+        handler.username(params[1]);
+        handler.send(NetEvent.GAME ~ "Created, you are known as '" ~ params[1] ~ "'\0");
+      }else{
+        handler.send(NetEvent.GAME ~ "Unable to create user\0");
+      }
+    }
   }
 }
 
-//This should be a Server Object function
-bool doCreation(GameServer server, string creationstring){
-  return false;
+void processLogin(GameServer server, ClientHandler handler, string[] params){
+  if(params.length != 3){
+    handler.send(NetEvent.GAME ~ "Usage: login <name> <pass>\0");
+  }else{
+    if(!server.userExists(params[1])){
+      handler.send(NetEvent.GAME ~ "No user named '"~params[1]~"'\0");
+    }else{
+      if(server.validatePass(params[1],params[2])){
+        handler.username(params[1]);
+        handler.send(NetEvent.GAME ~ "Welcome back '" ~ params[1] ~ "'\0");
+      }else{
+        handler.send(NetEvent.GAME ~ "Invalid password\0");
+      }
+    }
+  }
 }
 
-void processIdentification(GameServer server, Socket sock, string command){
+void processClientCommand(GameServer server, ClientHandler handler, string command){
   if(command.length > 0){
-    switch(to!char(command[0])){
-      case 'C':
-        sock.send(NetEvent.GAME ~ "Starting new character creation"~ to!string('\0'));
-        sock.send("S:W:CREATE"~ to!string('\0'));
-      break;
-      case 'A':
-        string login = to!string(command[1..$]);
-        sock.send(NetEvent.GAME ~ "Attempting login process"~ to!string('\0'));
-        if(doLogin(server, login)){
-          sock.send(NetEvent.GAME ~ "Login OK"~ to!string('\0'));
-        }else{
-          sock.send(NetEvent.GAME ~ "Unable to login"~ to!string('\0'));
-        }
-      break;
-      case 'N':
-        string newcharacter = to!string(command[1..$]);
-        sock.send(NetEvent.GAME ~ "Attempting creation process"~ to!string('\0'));
-        if(doCreation(server,newcharacter)){
-          sock.send(NetEvent.GAME ~ "Creation OK"~ to!string('\0'));
-        }else{
-          sock.send(NetEvent.GAME ~ "Unable to create"~ to!string('\0'));
-        }
-      break;
+    auto plist = split(command," ");
+    writeln("[CLN] Command: ",plist[0]);
+    if(plist.length > 1) writeln(", args:",plist[1..$]);
+    switch(plist[0]){
+      case "create": processCreate(server,handler,plist); break;
+      case "login" : processLogin(server,handler,plist); break;
+      case "logout": if(handler.loggedin) handler.logout(); break;
       default:
-        sock.send(NetEvent.GAME ~ "wrong ID command\0");
+        handler.send(NetEvent.GAME ~ "command '" ~ command ~ "' unknown\0");
       break;
     }
-  }else{
-    sock.send(NetEvent.GAME ~ "Welcome please login, or create a new account" ~ to!string('\0'));
-    sock.send("S:W:LOGIN"~ to!string('\0'));
   }
 }
 
-void processMovement(GameServer server, Socket sock, string command){
+void processMovement(GameServer server, ClientHandler handler, string command){
   
 }
 
-void processChat(GameServer server, Socket sock, string command){
-  sock.send(NetEvent.GAME ~ server.serverstamp ~ ": " ~ command ~ "\0");
+void processChat(GameServer server, ClientHandler handler, string command){
+  handler.send(NetEvent.GAME ~ server.serverstamp ~ ":" ~ handler.username ~": " ~ command ~ "\0");
 }

@@ -14,6 +14,7 @@ import core.typedefs.webtypes;
 
 import game.server.clientcommand;
 import game.server.gameserver;
+import game.player;
 import web.server;
 
 alias core.thread.Thread Thread;
@@ -34,26 +35,29 @@ class ClientHandler : Thread {
       try{
       switch(cmd[0]){
         case NetEvent.HEARTBEAT:
-          processSync(server, sock, command);
+          processSync(server, this, command);
         break;
-        case 'I':
-          processIdentification(server, sock, command);
+        case '#':
+          processClientCommand(server, this, command);
         break;
         case NetEvent.MOVEMENT:
-          processMovement(server, sock, command);
+          processMovement(server, this, command);
         break;
         case NetEvent.CHAT:
           log(server, "Client " ~ address() ~ " chat: " ~ command, "chat");
           if(cmd.length > 2 && command[0]=='#'){
-            writeln("User commandline command:",);
-            processCommand(cmd[2..$]);
+            processCommand(cmd[1..$]);
           }else{
-            if(command.length > 1) processChat(server, sock, command);
+            if(command.length > 1 && loggedin){
+              processChat(server, this, command);
+            }else{
+              send(NetEvent.GAME ~ "Please login first '#login <name> <password>'\0");
+            }
           }
         break;
         default:
           log(server,"Client " ~ address() ~ " unknown command: " ~ to!string(command));
-          sock.send(NetEvent.GAME ~ "Unknown command: " ~ cmd[0] ~ "\0");
+          send(NetEvent.GAME ~ "Unknown command: " ~ cmd[0] ~ "\0");
           writeln("[HANDLER] Unknown command type:" ~ cmd[0]);
         break;
       }
@@ -64,6 +68,7 @@ class ClientHandler : Thread {
   }
 
   @property Socket socket(){ return sock; }
+  @property void send(string cmd){ sock.send(cmd); }
   @property string address(){
     Address remote = sock.remoteAddress();
     return remote.toAddrString();
@@ -80,6 +85,22 @@ class ClientHandler : Thread {
   void close() { 
     log(server,"Client " ~ address() ~ " on " ~ to!string(id) ~ " offline");
     sock.close(); 
+  }
+  
+  @property string username(string user = ""){ 
+    if(user != ""){ _username=user; }
+    if(_username == "") return "GUEST"~to!string(id);
+    return _username; 
+  }
+  
+  @property bool loggedin(){ 
+    if(_username == "") return false;
+    return true;
+  }
+  
+  void logout(){ 
+    send(NetEvent.GAME ~ "You are now logged out\0");
+    _username = ""; 
   }
   
 private:
@@ -107,6 +128,7 @@ private:
   SysTime    lastBeat;
   GameServer server;
   Socket     sock;
+  string     _username = "";
   uint       id;
   bool       online;
 }

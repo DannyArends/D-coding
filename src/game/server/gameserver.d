@@ -46,9 +46,35 @@ class GameServer : Server!ClientHandler{
       maps = load!TileMap("data/maps/",".map");
     }
     
+    bool createUser(string name, string pass){
+      if(userExists(name)) return false;
+      users ~= new Player("data/users/",name ~ ".usr", name, pass);
+      return true;
+    }
+    
+    bool validatePass(string name, string pass){
+      if(!userExists(name)) return false;
+      if(users[getUserSlot(name)].password == pass) return true;
+      return false;
+    }
+    
     void shutdown(){ 
       super.shutdown();
       foreach(TileMap m; maps){ m.save(); }
       foreach(Player p; users){ p.save(); }
+    }
+    
+    uint getUserSlot(string name){
+      foreach(uint cnt, Player p; users){
+        if(toLower(p.name) == toLower(name)) return cnt;
+      }
+      return -1;
+    }
+    
+    bool userExists(string name){
+      foreach(Player p; users){
+        if(toLower(p.name) == toLower(name)) return true;
+      }
+      return false;
     }
 }
