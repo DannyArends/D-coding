@@ -99,7 +99,8 @@ class ClientHandler : Thread {
     return true;
   }
   
-  void logout(){ 
+  void logout(){
+    server.saveUser(_username);
     send(NetEvent.GAME ~ "You are now logged out\0");
     _username = ""; 
   }

@@ -31,8 +31,12 @@ struct GameUser{
   string         pass;
   Location       location;
   TileMap        map;
+  string         created;
+  string         lastloggedin;
   GameItem[12]   clothing;
   GameItem[25]   inventory;
   GameItem[500]  storage;
   GameObj[300]   assets;
 }
+
+GameUser EMPTYUSER   = GameUser();

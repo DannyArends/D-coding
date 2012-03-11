@@ -57,13 +57,15 @@ class GameServer : Server!ClientHandler{
         userid++;
         filename = "user" ~ toD(userid,6) ~ ".usr";
       }
-      users ~= new Player(user_dir, filename, name, pass);
+      users ~= new Player(user_dir, filename, name, pass, servertime);
       return true;
     }
     
     bool validatePass(string name, string pass){
       if(!userExists(name)) return false;
-      if(users[getUserSlot(name)].password == pass) return true;
+      if(users[getUserSlot(name)].password == pass){
+        return true;
+      }
       return false;
     }
     
@@ -92,6 +94,8 @@ class GameServer : Server!ClientHandler{
       }
       return GameUser();
     }
+    
+    void setUserLogin(string name){ users[getUserSlot(name)].lastloggedin = servertime; }
     
     bool userExists(string name){
       foreach(Player p; users){

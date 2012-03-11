@@ -17,14 +17,16 @@ import game.tilemap;
 
 class Player{
   public:  
-    this(string dir, string name, string username = "", string password = ""){
+    this(string dir, string name, string username = "", string password = "", string servertime = ""){
       filename = dir ~ name;
       if(!exists(filename) || !isFile(filename)){
         //Creating a new player
-        userinfo.name     = username;
-        userinfo.pass     = password;
-        userinfo.location = new Location(0,0,0);
-        userinfo.map      = new TileMap("data/maps/", name);
+        userinfo.name         = username;
+        userinfo.pass         = password;
+        userinfo.location     = new Location(0,0,0);
+        userinfo.map          = new TileMap("data/maps/", name);
+        userinfo.created      = servertime;
+        userinfo.lastloggedin = servertime;
         save();
       }else{
         //load the player from file
@@ -42,6 +44,8 @@ class Player{
       fp.readln(buffer); userinfo.pass = chomp(buffer);
       fp.readln(buffer); userinfo.location = new Location(chomp(buffer));
       fp.readln(buffer); userinfo.map = new TileMap("data/maps/", chomp(buffer));
+      fp.readln(buffer); userinfo.created = chomp(buffer);
+      fp.readln(buffer); userinfo.lastloggedin = chomp(buffer);
       while(fp.readln(buffer)){
         if(chomp(buffer) == "# --- Data inventory begin"){
           writeln("[USR] inventory definitions");
@@ -72,6 +76,8 @@ class Player{
     fp.writeln(userinfo.pass);
     fp.writeln(userinfo.location);
     fp.writeln(userinfo.map.name);
+    fp.writeln(userinfo.created);
+    fp.writeln(userinfo.lastloggedin);
     fp.writeln("# --- Data clothing begin");
     foreach(GameItem clo; userinfo.clothing){ fp.writeln(clo); }
     fp.writeln("# --- Data clothing end");
@@ -91,6 +97,10 @@ class Player{
    @property GameUser info(){ return userinfo; }
    @property string   name(){ return userinfo.name; }
    @property string   password(){ return userinfo.pass; }
+   @property string   lastloggedin(string time = ""){
+      if(time != "") userinfo.lastloggedin = time;
+      return userinfo.lastloggedin; 
+    }
   
   private:
     GameUser     userinfo;

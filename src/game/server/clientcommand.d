@@ -61,6 +61,7 @@ void processLogin(GameServer server, ClientHandler handler, string[] params){
       if(server.validatePass(params[1],params[2])){
         handler.username(params[1]);
         handler.send(NetEvent.GAME ~ "Welcome back '" ~ params[1] ~ "'\0");
+        server.setUserLogin(params[1]);
         sendLocation(server, handler);
       }else{
         handler.send(NetEvent.GAME ~ "Invalid password\0");
