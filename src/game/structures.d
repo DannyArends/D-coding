@@ -1,9 +1,10 @@
 /**********************************************************************
  * \file src/game/structures.d
+ * \brief Game structure definitions
  *
- * copyright (c) 2012 Danny Arends
- * last modified Feb, 2012
- * first written May, 2011
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Mar, 2012<br>
+ * First written Dec, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module game.structures;
@@ -11,17 +12,12 @@ module game.structures;
 import std.stdio;
 import std.conv;
 import core.memory;
-
-struct GameLoc{
-  uint           map_uid;
-  uint           x;
-  uint           y;
-}
+import core.typedefs.location;
 
 struct GameObj{
   uint           obj_uid;
   uint           creator_uid;
-  GameLoc        location;
+  Location       location;
 }
 
 struct GameItem{
@@ -34,7 +30,7 @@ struct GameUser{
   uint           user_uid;
   string         name;
   string         password;
-  GameLoc        location;
+  Location       location;
   GameItem[12]   clothing;
   GameItem[25]   inventory;
   GameItem[500]  storage;
