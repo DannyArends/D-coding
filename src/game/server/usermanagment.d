@@ -10,6 +10,7 @@ module game.server.usermanagment;
 
 import core.stdinc;
 import core.typedefs.types;
+import core.typedefs.location;
 import core.typedefs.color;
 
 enum Race { RBC, WBC, FUNGUS, YEAST, BACTERIUM };
@@ -149,11 +150,7 @@ private:
     writeln("Saved new login credentials");
     return saveUser(user);
   }
-};
-
-struct XZLocation{
-  int[2] xz;
-};
+}
 
 struct UserInfo{
   this(uint id, string name, string password){
@@ -216,7 +213,7 @@ struct UserLocation{
   int          heading;      //Which way are we looking
   int          req_xz[2];    //The tile we want to move to
   int          req_heading;  //The way we want to look
-  XZLocation[] cur_path;     //The current path we're traveling on
+  Location[]   cur_path;     //The current path we're traveling on
   
   string toString(){
     string location = to!string(mapid) ~ "\t";

@@ -20,9 +20,7 @@ import game.tile;
 import game.mover;
 
 class TileMap{
-public:
-  string filename;
-  
+public:  
   this(string dir, string name, uint x = 10, uint y = 10){
     filename = dir ~ name;
     if(!exists(filename) || !isFile(filename)){
@@ -142,6 +140,7 @@ public:
   }
 
   private:
+    string       filename;
     TileType[][] tiles;
     TileType[]   tiledefs;
     FileStatus   _status = FileStatus.NO_SUCH_FILE;
