@@ -73,6 +73,12 @@ class GameServer : Server!ClientHandler{
       foreach(Player p; users){ p.save(); }
     }
     
+    bool saveUser(string name){
+      if(!userExists(name)) return false;
+      users[getUserSlot(name)].save();
+      return true;
+    }
+    
     uint getUserSlot(string name){
       foreach(uint cnt, Player p; users){
         if(toLower(p.name) == toLower(name)) return cnt;

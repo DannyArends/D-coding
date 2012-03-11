@@ -22,9 +22,10 @@ void displayHelp(ClientHandler handler){
   handler.send(NetEvent.GAME ~ "Server v0.1\0");
   handler.send(NetEvent.GAME ~ "#help                       Shows this help\0");
   if(handler.loggedin){
-    handler.send(NetEvent.GAME ~ "#stats                      Server statistics\0");
-    handler.send(NetEvent.GAME ~ "#chpass <old> <new> <new>   Change password\0");
-    handler.send(NetEvent.GAME ~ "#chname <new> <pass>        Change name\0");
+    handler.send(NetEvent.GAME ~ "#save                       Ask the server to save your user\0");
+    handler.send(NetEvent.GAME ~ "#stats                      Print some server statistics\0");
+    handler.send(NetEvent.GAME ~ "#chpass <old> <new> <new>   Changes your password\0");
+    handler.send(NetEvent.GAME ~ "#chname <new> <pass>        Changes your username\0");
     handler.send(NetEvent.GAME ~ "#logout                     Logout from the game\0");
   }else{
     handler.send(NetEvent.GAME ~ "#create <name> <pass>       Create a new user\0");
@@ -55,7 +56,7 @@ void processLogin(GameServer server, ClientHandler handler, string[] params){
     handler.send(NetEvent.GAME ~ "Usage: login <name> <pass>\0");
   }else{
     if(!server.userExists(params[1])){
-      handler.send(NetEvent.GAME ~ "No user named '"~params[1]~"'\0");
+      handler.send(NetEvent.GAME ~ "No such user '"~params[1]~"'\0");
     }else{
       if(server.validatePass(params[1],params[2])){
         handler.username(params[1]);
@@ -80,9 +81,10 @@ void processClientCommand(GameServer server, ClientHandler handler, string comma
       case "stats" : if(handler.loggedin) handler.send(NetEvent.GAME ~ "Not implemented yet"); break;
       case "chname": if(handler.loggedin) handler.send(NetEvent.GAME ~ "Not implemented yet"); break;
       case "chpass": if(handler.loggedin) handler.send(NetEvent.GAME ~ "Not implemented yet"); break;
-      case "help": displayHelp(handler); break;
+      case "save"  : if(handler.loggedin) handler.save(); break;
+      case "help"  : displayHelp(handler); break;
       default:
-        handler.send(NetEvent.GAME ~ "command '" ~ command ~ "' unknown\0");
+        handler.send(NetEvent.GAME ~ "Unkown command '" ~ command ~ "'\0");
       break;
     }
   }

@@ -103,6 +103,12 @@ class ClientHandler : Thread {
     send(NetEvent.GAME ~ "You are now logged out\0");
     _username = ""; 
   }
+
+  bool save(){ 
+    send(NetEvent.GAME ~ "Asking to save\0");
+    return server.saveUser(_username); 
+  }
+
   
   GameUser getGameUser(){ return server.getGameUser(_username); }
   
