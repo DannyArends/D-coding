@@ -20,12 +20,15 @@ void processSync(GameServer server, ClientHandler handler, string command){
 
 void displayHelp(ClientHandler handler){
   handler.send(NetEvent.GAME ~ "Server v0.1\0");
-  handler.send(NetEvent.GAME ~ "#help                    Shows this help\0");
+  handler.send(NetEvent.GAME ~ "#help                       Shows this help\0");
   if(handler.loggedin){
-    handler.send(NetEvent.GAME ~ "#logout                  Logout from the game\0");
+    handler.send(NetEvent.GAME ~ "#stats                      Server statistics\0");
+    handler.send(NetEvent.GAME ~ "#chpass <old> <new> <new>   Change password\0");
+    handler.send(NetEvent.GAME ~ "#chname <new> <pass>        Change name\0");
+    handler.send(NetEvent.GAME ~ "#logout                     Logout from the game\0");
   }else{
-    handler.send(NetEvent.GAME ~ "#create <name> <pass>    Create a new user\0");
-    handler.send(NetEvent.GAME ~ "#login <name> <pass>     Login as existing user\0");
+    handler.send(NetEvent.GAME ~ "#create <name> <pass>       Create a new user\0");
+    handler.send(NetEvent.GAME ~ "#login <name> <pass>        Login as existing user\0");
   }
 }
 
@@ -74,6 +77,9 @@ void processClientCommand(GameServer server, ClientHandler handler, string comma
       case "create": processCreate(server,handler,plist); break;
       case "login" : processLogin(server,handler,plist); break;
       case "logout": if(handler.loggedin) handler.logout(); break;
+      case "stats" : if(handler.loggedin) handler.send(NetEvent.GAME ~ "Not implemented yet"); break;
+      case "chname": if(handler.loggedin) handler.send(NetEvent.GAME ~ "Not implemented yet"); break;
+      case "chpass": if(handler.loggedin) handler.send(NetEvent.GAME ~ "Not implemented yet"); break;
       case "help": displayHelp(handler); break;
       default:
         handler.send(NetEvent.GAME ~ "command '" ~ command ~ "' unknown\0");

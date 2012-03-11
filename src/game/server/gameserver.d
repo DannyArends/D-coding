@@ -37,19 +37,27 @@ T[] load(T)(string dir = "data/maps/", string ext = ".map"){
 
 class GameServer : Server!ClientHandler{
   private:
+    string    user_dir = "data/users/";
+    string    maps_dir = "data/maps/";
     Player[]  users;
     TileMap[] maps;
     
   public:
     this(){
       super();
-      users = load!Player("data/users/",".usr");
-      maps = load!TileMap("data/maps/",".map");
+      users = load!Player(user_dir,".usr");
+      maps = load!TileMap(maps_dir,".map");
     }
     
     bool createUser(string name, string pass){
       if(userExists(name)) return false;
-      users ~= new Player("data/users/",name ~ ".usr", name, pass);
+      int userid = 0;
+      string filename = "user" ~ toD(userid,6) ~ ".usr";
+      while(exists(user_dir ~ filename)){
+        userid++;
+        filename = "user" ~ toD(userid,6) ~ ".usr";
+      }
+      users ~= new Player(user_dir, filename, name, pass);
       return true;
     }
     
