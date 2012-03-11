@@ -29,7 +29,6 @@ class Player{
       }else{
         //load the player from file
         load();
-        userinfo.map      = new TileMap("data/maps/", name);
       }
     }
   
@@ -39,10 +38,10 @@ class Player{
       writefln("Opening player-file: %s",filename);
       auto fp = new File(filename,"rb");
       string buffer;
-      fp.readln(buffer);
-      userinfo.name = chomp(buffer);
-      fp.readln(buffer);
-      userinfo.pass = chomp(buffer);
+      fp.readln(buffer); userinfo.name = chomp(buffer);
+      fp.readln(buffer); userinfo.pass = chomp(buffer);
+      fp.readln(buffer); userinfo.location = new Location(chomp(buffer));
+      fp.readln(buffer); userinfo.map = new TileMap("data/maps/", chomp(buffer));
       while(fp.readln(buffer)){
         if(chomp(buffer) == "# --- Data inventory begin"){
           writeln("[USR] inventory definitions");
@@ -72,7 +71,7 @@ class Player{
     fp.writeln(userinfo.name);
     fp.writeln(userinfo.pass);
     fp.writeln(userinfo.location);
-    fp.writeln(userinfo.map);
+    fp.writeln(userinfo.map.name);
     fp.writeln("# --- Data clothing begin");
     foreach(GameItem clo; userinfo.clothing){ fp.writeln(clo); }
     fp.writeln("# --- Data clothing end");
@@ -89,8 +88,9 @@ class Player{
     writefln("Done player-file: %s",filename);
   }
   
-   @property string name(){ return userinfo.name; }
-   @property string password(){ return userinfo.pass; }
+   @property GameUser info(){ return userinfo; }
+   @property string   name(){ return userinfo.name; }
+   @property string   password(){ return userinfo.pass; }
   
   private:
     GameUser     userinfo;

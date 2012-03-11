@@ -23,6 +23,13 @@ public:
     this(0.0, 0.0, 0.0);
   }
   
+  this(string input){
+    auto elements = input.split(":");
+    if(elements.length >= 1) loc[0] = to!double(elements[0]);
+    if(elements.length >= 2) loc[1] = to!double(elements[1]);
+    if(elements.length >= 3) loc[2] = to!double(elements[2]);
+  }
+  
   this(double x, double y, double z){
     loc[0]=x;
     loc[1]=y;
@@ -48,6 +55,10 @@ public:
   @property float y(){ return loc[1]; }
   @property float z(){ return loc[2]; }
   
+  string toString(){ 
+    return to!string(loc[0]) ~ ":" ~ to!string(loc[1]) ~ ":" ~ to!string(loc[2]); 
+  }
+  
 private:
-  double loc[3];
+  double loc[3] = [0.0, 0.0, 0.0];
 }

@@ -15,6 +15,7 @@ import core.typedefs.webtypes;
 import web.server;
 import game.player;
 import game.tilemap;
+import game.structures;
 import game.server.clientcommand;
 import game.server.clienthandler;
 
@@ -69,6 +70,13 @@ class GameServer : Server!ClientHandler{
         if(toLower(p.name) == toLower(name)) return cnt;
       }
       return -1;
+    }
+
+    GameUser getGameUser(string name){
+      foreach(uint cnt, Player p; users){
+        if(toLower(p.name) == toLower(name)) return p.info;
+      }
+      return GameUser();
     }
     
     bool userExists(string name){

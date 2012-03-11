@@ -22,33 +22,32 @@ import game.mover;
 class TileMap{
 public:  
   this(string dir, string name, uint x = 10, uint y = 10){
+    mapname = name;
     filename = dir ~ name;
     if(!exists(filename) || !isFile(filename)){
-      //Creating a new map
       tiles = newmatrix!TileType(x, y, BLOCKEDTILE);
-      save();
+      save();  // Creating a new map
     }else{
-      //load the map from file
-      load();
+      load();  // Load the map from file
     }
   }
-  
+
   double getMovementCost(Mover mover, uint x, uint y, uint xp, uint yp){
     return 1.0;
   }
-  
+
   bool isValidLocation(Mover mover, uint x,uint y, uint xp, uint yp){
     return false;
   }
-  
+
   TileType getTileType(uint x, uint y){
     return tiles[x][y]; 
   }
-  
+
   void pathFinderVisited(uint x, uint y){
   
   }
-  
+
   bool isBlocked(Mover mover, uint x, uint y){
     return true;
   }
@@ -74,7 +73,7 @@ public:
           parseTileDefs(chomp(buffer));
         }
       }
-    
+      
       if(chomp(buffer) == "# --- Data tiles begin"){
         writeln("[MAP] Tiles ");
         while(fp.readln(buffer)){
@@ -91,14 +90,14 @@ public:
     fp.close();
     writefln("Done map-file: %s",filename);
   }
-  
+
   void parseTileDefs(string buffer){
     auto fields = split(buffer,"\t");
     if(fields.length == 2){
       tiledefs ~= TileType(to!double(fields[1]),to!char(fields[0]));
     }
   }
-  
+
   void parseTiles(string buffer){
     auto fields = split(buffer,"\t");
     if(fields.length > 0){
@@ -109,7 +108,7 @@ public:
       tiles ~= rowoftiles;
     }
   }
-  
+
   void save(){
     writefln("Opening map-file: %s",filename);
     auto fp = new File(filename,"wb");
@@ -130,7 +129,7 @@ public:
     fp.close();
     writefln("Done map-file: %s",filename);    
   }
-  
+
   TileType[] uniqueTiles(){
     TileType[] uniques;
     for(size_t x = 0; x < tiles.length; x++){
@@ -141,7 +140,10 @@ public:
     return uniques;
   }
 
+  @property string name(){ return mapname; }
+  
   private:
+    string       mapname;
     string       filename;
     TileType[][] tiles;
     TileType[]   tiledefs;

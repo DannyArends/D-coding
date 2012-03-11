@@ -49,10 +49,14 @@ class GameClient : Thread{
     try{
       online = network.connect();
       while(online){
-        string s = network.read(1);
-        if(s !is null && s.length > 1){
+        string s = chomp(network.read(1));
+        if(s !is null && s.length >= 1){
           try{
-            handler.handle(new NetworkEvent(s));
+            foreach(string cmd ; s.split("\0")){
+              if(cmd !is null && cmd.length >= 1){
+                handler.handle(new NetworkEvent(cmd ~ "\0"));
+              }
+            }
           }catch(Throwable exception){
             writeln("[NET] Unable to handle command:",s,"\n",exception);
           }

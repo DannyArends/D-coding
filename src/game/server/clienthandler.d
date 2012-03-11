@@ -15,6 +15,7 @@ import core.typedefs.webtypes;
 import game.server.clientcommand;
 import game.server.gameserver;
 import game.player;
+import game.structures;
 import web.server;
 
 alias core.thread.Thread Thread;
@@ -48,8 +49,8 @@ class ClientHandler : Thread {
           if(cmd.length > 2 && command[0]=='#'){
             processCommand(cmd[1..$]);
           }else{
-            if(command.length > 1 && loggedin){
-              processChat(server, this, command);
+            if(loggedin){
+              if(command.length >= 1) processChat(server, this, command);
             }else{
               send(NetEvent.GAME ~ "Please login first '#login <name> <password>'\0");
             }
@@ -103,9 +104,11 @@ class ClientHandler : Thread {
     _username = ""; 
   }
   
+  GameUser getGameUser(){ return server.getGameUser(_username); }
+  
 private:
 
-  void payload() {
+  void payload(){
     writeln("[CLIENT] Client",id,": starting");
     log(server,"Client " ~ address() ~ " on " ~ to!string(id) ~ " online");
     sock.send(NetEvent.HEARTBEAT ~ server.servertime ~ "\0");
@@ -122,7 +125,6 @@ private:
         Thread.sleep( dur!("msecs")( 20 ) );
       }
     }
-    
   }
   
   SysTime    lastBeat;

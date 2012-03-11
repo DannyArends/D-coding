@@ -24,7 +24,7 @@ import gl.gl_1_2;
 
 import core.typedefs.types;
 
-Texture loadImageAsTexture(string filename, bool verbose = true){  
+Texture loadImageAsTexture(string filename, bool verbose = false){  
   Texture texture = Texture(filename);
   if(!exists(filename) || !filename.isFile){
     writefln("[GFX] No such file: %s",filename);
@@ -46,7 +46,7 @@ Texture loadImageAsTexture(string filename, bool verbose = true){
   int size       = texture.width*texture.height*texture.bpp;
   texture.data   = cast(ubyte[])image.pixels[0..size];
   texture.status = FileStatus.OK;
-  writefln("[GFX] Image %s loaded: %dx%d:", 
+  writefln("[GFX] Image %s (%d x %d) loaded", 
          filename, texture.width, texture.height);
   return texture;
 }
