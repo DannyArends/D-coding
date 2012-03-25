@@ -164,7 +164,7 @@ class GFXEngine : ClockEventHandler{
       NetworkEvent n_evt = cast(NetworkEvent) e;
       if(network !is null){
         if(n_evt.incomming){
-          writeln("[ENG] NetEvent [" ~ n_evt.full ~ "]");
+          writeln("[ENG] NetEvent: " ~ n_evt.full);
         }else{
           network.send(n_evt.full);
         }

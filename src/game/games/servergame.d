@@ -70,9 +70,20 @@ class ServerGame : Game{
           servertime.fromString(n_evt.msg);
           e.handled=true;
         break;
-        case NetEvent.GAME:
-          writeln("[ G ] Network game event");
+        case NetEvent.GAME:  writeln("[ G ] Game event");
+          e.handled=true;
+        break;
+        case NetEvent.CHAT:  writeln("[ G ] Chat event");
           text.addLine(n_evt.msg);
+          e.handled=true;
+        break;        
+        case NetEvent.SOUND: writeln("[ G ] Sound event");
+          e.handled=true;
+        break;
+        case NetEvent.GFX2D: writeln("[ G ] 2D object event");
+          e.handled=true;
+        break;
+        case NetEvent.GFX3D: writeln("[ G ] 3D object event");
           e.handled=true;
         break;
         default:

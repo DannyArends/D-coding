@@ -120,9 +120,9 @@ private:
     log(server,"Client " ~ address() ~ " on " ~ to!string(id) ~ " online");
     sock.send(NetEvent.HEARTBEAT ~ server.servertime ~ "\0");
     Thread.sleep( dur!("msecs")( 20 ) );
-    sock.send(NetEvent.GAME ~ "Welcome to the server\0");
+    sock.send(NetEvent.CHAT ~ "Welcome to the server\0");
     Thread.sleep( dur!("msecs")( 20 ) );
-    sock.send(NetEvent.GAME ~ "Please login or create a new character\0");
+    sock.send(NetEvent.CHAT ~ "Please login or create a new character\0");
     lastBeat = Clock.currTime();
     while(online){
       if((Clock.currTime() - lastBeat).total!"msecs" >= 5000) {

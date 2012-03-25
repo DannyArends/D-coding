@@ -19,33 +19,33 @@ void processSync(GameServer server, ClientHandler handler, string command){
 }
 
 void displayHelp(ClientHandler handler){
-  handler.send(NetEvent.GAME ~ "Server v0.1\0");
-  handler.send(NetEvent.GAME ~ "#help                       Shows this help\0");
+  handler.send(NetEvent.CHAT ~ "Server v0.1\0");
+  handler.send(NetEvent.CHAT ~ "#help                       Shows this help\0");
   if(handler.loggedin){
-    handler.send(NetEvent.GAME ~ "#save                       Ask the server to save your user\0");
-    handler.send(NetEvent.GAME ~ "#stats                      Print some server statistics\0");
-    handler.send(NetEvent.GAME ~ "#chpass <old> <new> <new>   Changes your password\0");
-    handler.send(NetEvent.GAME ~ "#chname <new> <pass>        Changes your username\0");
-    handler.send(NetEvent.GAME ~ "#logout                     Logout from the game\0");
+    handler.send(NetEvent.CHAT ~ "#save                       Ask the server to save your user\0");
+    handler.send(NetEvent.CHAT ~ "#stats                      Print some server statistics\0");
+    handler.send(NetEvent.CHAT ~ "#chpass <old> <new> <new>   Changes your password\0");
+    handler.send(NetEvent.CHAT ~ "#chname <new> <pass>        Changes your username\0");
+    handler.send(NetEvent.CHAT ~ "#logout                     Logout from the game\0");
   }else{
-    handler.send(NetEvent.GAME ~ "#create <name> <pass>       Create a new user\0");
-    handler.send(NetEvent.GAME ~ "#login <name> <pass>        Login as existing user\0");
+    handler.send(NetEvent.CHAT ~ "#create <name> <pass>       Create a new user\0");
+    handler.send(NetEvent.CHAT ~ "#login <name> <pass>        Login as existing user\0");
   }
 }
 
 void processCreate(GameServer server, ClientHandler handler, string[] params){
   if(params.length != 3){
-    handler.send(NetEvent.GAME ~ "Usage: create <name> <pass>\0");
+    handler.send(NetEvent.CHAT ~ "Usage: create <name> <pass>\0");
   }else{
     if(handler.loggedin){
-      handler.send(NetEvent.GAME ~ "Already logged in as '"~handler.username~"'\0");
+      handler.send(NetEvent.CHAT ~ "Already logged in as '"~handler.username~"'\0");
     }else{
       if(server.createUser(params[1],params[2])){
         handler.username(params[1]);
-        handler.send(NetEvent.GAME ~ "Created, you are known as '" ~ params[1] ~ "'\0");
+        handler.send(NetEvent.CHAT ~ "Created, you are known as '" ~ params[1] ~ "'\0");
         sendLocation(server, handler);
       }else{
-        handler.send(NetEvent.GAME ~ "Unable to create user\0");
+        handler.send(NetEvent.CHAT ~ "Unable to create user\0");
       }
     }
   }
@@ -53,18 +53,18 @@ void processCreate(GameServer server, ClientHandler handler, string[] params){
 
 void processLogin(GameServer server, ClientHandler handler, string[] params){
   if(params.length != 3){
-    handler.send(NetEvent.GAME ~ "Usage: login <name> <pass>\0");
+    handler.send(NetEvent.CHAT ~ "Usage: login <name> <pass>\0");
   }else{
     if(!server.userExists(params[1])){
-      handler.send(NetEvent.GAME ~ "No such user '"~params[1]~"'\0");
+      handler.send(NetEvent.CHAT ~ "No such user '"~params[1]~"'\0");
     }else{
       if(server.validatePass(params[1],params[2])){
         handler.username(params[1]);
-        handler.send(NetEvent.GAME ~ "Welcome back '" ~ params[1] ~ "'\0");
+        handler.send(NetEvent.CHAT ~ "Welcome back '" ~ params[1] ~ "'\0");
         server.setUserLogin(params[1]);
         sendLocation(server, handler);
       }else{
-        handler.send(NetEvent.GAME ~ "Invalid password\0");
+        handler.send(NetEvent.CHAT ~ "Invalid password\0");
       }
     }
   }
@@ -79,13 +79,13 @@ void processClientCommand(GameServer server, ClientHandler handler, string comma
       case "create": processCreate(server,handler,plist); break;
       case "login" : processLogin(server,handler,plist); break;
       case "logout": if(handler.loggedin) handler.logout(); break;
-      case "stats" : if(handler.loggedin) handler.send(NetEvent.GAME ~ "Not implemented yet"); break;
-      case "chname": if(handler.loggedin) handler.send(NetEvent.GAME ~ "Not implemented yet"); break;
-      case "chpass": if(handler.loggedin) handler.send(NetEvent.GAME ~ "Not implemented yet"); break;
+      case "stats" : if(handler.loggedin) handler.send(NetEvent.CHAT ~ "Not implemented yet"); break;
+      case "chname": if(handler.loggedin) handler.send(NetEvent.CHAT ~ "Not implemented yet"); break;
+      case "chpass": if(handler.loggedin) handler.send(NetEvent.CHAT ~ "Not implemented yet"); break;
       case "save"  : if(handler.loggedin) handler.save(); break;
       case "help"  : displayHelp(handler); break;
       default:
-        handler.send(NetEvent.GAME ~ "Unkown command '" ~ command ~ "'\0");
+        handler.send(NetEvent.CHAT ~ "Unkown command '" ~ command ~ "'\0");
       break;
     }
   }
@@ -95,7 +95,7 @@ void sendLocation(GameServer server, ClientHandler handler){
   if(handler.loggedin){
     handler.send(NetEvent.MOVEMENT ~ handler.getGameUser().map.name ~ "-" ~ to!string(handler.getGameUser().location) ~ "\0");
   }else{
-    handler.send(NetEvent.GAME ~ "Unauthorized request\0");  
+    handler.send(NetEvent.CHAT ~ "Unauthorized request\0");  
   }
 }
 
