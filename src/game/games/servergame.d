@@ -17,6 +17,7 @@ import core.arrays.algebra;
 import io.events.engine;
 import io.events.networkevent;
 import game.engine;
+import game.tilemap;
 import gui.stdinc;
 import sfx.engine;
 
@@ -73,6 +74,9 @@ class ServerGame : Game{
         case NetEvent.GAME:  writeln("[ G ] Game event");
           e.handled=true;
         break;
+        case NetEvent.MOVEMENT:  writeln("[ G ] Movement event");
+          e.handled=true;
+        break;
         case NetEvent.CHAT:  writeln("[ G ] Chat event");
           text.addLine(n_evt.msg);
           e.handled=true;
@@ -84,9 +88,11 @@ class ServerGame : Game{
           e.handled=true;
         break;
         case NetEvent.GFX3D: writeln("[ G ] 3D object event");
+          TileMap t = new TileMap(n_evt.msg);
           e.handled=true;
         break;
         default:
+          writeln("[ G ] Unknown net event: ",n_evt.getNetEvent());
         break;
       }
     }

@@ -110,7 +110,6 @@ class ClientHandler : Thread {
     return server.saveUser(_username); 
   }
 
-  
   GameUser getGameUser(){ return server.getGameUser(_username); }
   
 private:

@@ -40,6 +40,12 @@ class NetworkEvent : Event{
       case 'G':
         _evt=NetEvent.GAME;
       break;
+      case '2':
+        _evt=NetEvent.GFX2D;
+      break;
+      case '3':
+        _evt=NetEvent.GFX3D;
+      break;
       default:
         _evt=NetEvent.UNKNOWN;
       break;

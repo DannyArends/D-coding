@@ -11,6 +11,7 @@ module game.server.clientcommand;
 import core.stdinc;
 import core.typedefs.types;
 
+import game.tilemap;
 import game.server.gameserver;
 import game.server.clienthandler;
 
@@ -91,8 +92,18 @@ void processClientCommand(GameServer server, ClientHandler handler, string comma
   }
 }
 
+void sendMapData(GameServer server, ClientHandler handler){
+  if(handler.loggedin){
+    TileMap map = handler.getGameUser().map;
+    handler.send(NetEvent.GFX3D ~ map.toStringData() ~ "\0");
+  }else{
+    handler.send(NetEvent.CHAT ~ "Unauthorized request\0");  
+  }
+}
+
 void sendLocation(GameServer server, ClientHandler handler){
   if(handler.loggedin){
+    sendMapData(server,handler);
     handler.send(NetEvent.MOVEMENT ~ handler.getGameUser().map.name ~ "-" ~ to!string(handler.getGameUser().location) ~ "\0");
   }else{
     handler.send(NetEvent.CHAT ~ "Unauthorized request\0");  

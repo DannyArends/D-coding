@@ -20,7 +20,11 @@ import game.tile;
 import game.mover;
 
 class TileMap{
-public:  
+public:
+  this(string data){
+    fromStringData(data);
+  }
+
   this(string dir, string name, uint x = 10, uint y = 10){
     mapname = name;
     filename = dir ~ name;
@@ -58,36 +62,7 @@ public:
 
   void load(){
     writefln("Opening map-file: %s",filename);
-    auto fp = new File(filename,"rb");
-    string buffer;
-    int cnt=0;
-    while(fp.readln(buffer)){
-      if(chomp(buffer) == "# --- Data tiledef begin"){
-        writeln("[MAP] Tile definitions");
-        while(fp.readln(buffer)){
-          if(chomp(buffer) == "# --- Data tiledef end"){
-            writeln("[MAP] Tile definitions done");
-            break;
-          }
-          if(buffer[0] == '#') continue;
-          parseTileDefs(chomp(buffer));
-        }
-      }
-      
-      if(chomp(buffer) == "# --- Data tiles begin"){
-        writeln("[MAP] Tiles ");
-        while(fp.readln(buffer)){
-          if(chomp(buffer) == "# --- Data tiles end"){
-            _status = FileStatus.OK;
-            writeln("[MAP] Tiles done");
-            break;
-          }
-          if(buffer[0] == '#') continue;
-          parseTiles(chomp(buffer));
-        }
-      }
-    }
-    fp.close();
+    fromStringData(readText(filename));
     writefln("Done map-file: %s",filename);
   }
 
@@ -112,22 +87,65 @@ public:
   void save(){
     writefln("Opening map-file: %s",filename);
     auto fp = new File(filename,"wb");
-    fp.writeln("# --- Data tiledefs begin");
-    foreach(TileType t; uniqueTiles()){
-      fp.writeln(t.toDescription);
-    }
-    fp.writeln("# --- Data tiledefs end");
-    fp.writeln("# --- Data tiles begin");
-    for(size_t x = 0; x < tiles.length; x++){
-      for(size_t y = 0; y < tiles[x].length; y++){
-        if(y!=0)fp.write("\t");
-        fp.write(tiles[x][y]);
-      }
-      fp.write("\n");
-    }
-    fp.writeln("# --- Data tiles end");
+    fp.write(toStringData());
     fp.close();
     writefln("Done map-file: %s",filename);    
+  }
+  
+  void fromStringData(string data){
+    string[] lines = splitLines(data);
+    writeln("[MAP] Start of parsing ",lines.length," lines of data");
+    int currentline = 0;
+    while(currentline < lines.length){
+      if(chomp(lines[currentline]) == "# --- Data tiledefs begin"){
+        writeln("[MAP] Tile definitions");
+        currentline++;
+        while(currentline < lines.length){
+          if(chomp(lines[currentline]) == "# --- Data tiledefs end"){
+            writeln("[MAP] Tile definitions done");
+            break;
+          }
+          if(lines[currentline][0] == '#') continue;
+          parseTileDefs(chomp(lines[currentline]));
+          currentline++;
+        }
+      }
+      
+      if(chomp(lines[currentline]) == "# --- Data tiles begin"){
+        writeln("[MAP] Tiles");
+        currentline++;
+        while(currentline < lines.length){
+          if(chomp(lines[currentline]) == "# --- Data tiles end"){
+            _status = FileStatus.OK;
+            writeln("[MAP] Tiles done");
+            break;
+          }
+          if(lines[currentline][0] == '#') continue;
+          parseTiles(chomp(lines[currentline]));
+          currentline++;
+        }
+      }
+      currentline++;
+    }
+  }
+  
+  string toStringData(){
+    string s;
+    s ~= "# --- Data tiledefs begin\n";
+    foreach(TileType t; uniqueTiles()){
+      s ~= t.toDescription ~ "\n";
+    }
+    s ~= "# --- Data tiledefs end\n";
+    s ~= "# --- Data tiles begin\n";
+    for(size_t x = 0; x < tiles.length; x++){
+      for(size_t y = 0; y < tiles[x].length; y++){
+        if(y!=0) s ~= "\t";
+        s ~= to!string(tiles[x][y]);
+      }
+      s ~= "\n";
+    }
+    s ~= "# --- Data tiles end\n";
+    return s;
   }
 
   TileType[] uniqueTiles(){
