@@ -11,16 +11,13 @@ module gui.formats.csv;
 
 import core.stdinc;
 import core.typedefs.types;
+import core.typedefs.files;
 import core.typedefs.color;
 
 import gl.gl_1_0;
 import gl.gl_1_1;
 
-enum CsvType{ 
-  CSV_ERROR_NO_SUCH_FILE = -6, 
-  CSV_OK_HEADER = 0,
-  CSV_OK_NO_HEADER = 1
-}
+enum CsvType{ CSV_ERROR = -6, CSV_OK_HEADER = 0, CSV_OK_NO_HEADER = 1 }
 
 struct CsvInfo(T){
   string     name;
@@ -74,18 +71,16 @@ CsvInfo!T loadCsvFile(T)(string filename, bool header = false){
 
 CsvInfo!T loadCsvFile(T)(string filename, string sep="\t", bool header = false){
   CsvInfo!T csvData = CsvInfo!T(filename);
-  if(!exists(filename) || !isfile(filename)){
-    writefln("No such file: %s",filename);
-    csvData.status = CsvType.CSV_ERROR_NO_SUCH_FILE;
+  if(checkFile(filename) != FileStatus.IS_FILE){
+    csvData.status = CsvType.CSV_ERROR;
     return csvData;
   }
   writefln("Opening csv-file: %s",filename);
-  auto fp = new File(filename,"rb");
-  string buffer;
+  auto lines = splitLines(readText(filename));
+  
   int cnt=0;
-  while(fp.readln(buffer)){
-    buffer = chomp(buffer);
-    string[] entities = buffer.split(sep);
+  foreach(line; lines){
+    string[] entities = chomp(line).split(sep);
     if(header){
       if(entities.length <= 1){
         writeln("Unable to parse line: " ~ to!string(cnt));
