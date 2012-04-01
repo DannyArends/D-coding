@@ -42,12 +42,12 @@ class ServerGame : Game{
     writefln("[ G ] setupSound");    
   }
 
-  void quit(GameEngine engine){
+  void quit(){
     writefln("[ G ] quit");
     if(engine.network.isOnline()) engine.network.shutdown();
   }
   
-  void load(GameEngine engine){
+  void load(){
     writefln("[ G ] load");
     engine.requestUpdate(1.0);
     engine.network.start();
@@ -88,7 +88,10 @@ class ServerGame : Game{
           e.handled=true;
         break;
         case NetEvent.GFX3D: writeln("[ G ] 3D object event");
-          TileMap t = new TileMap(n_evt.msg);
+          cmap = new TileMap(n_evt.msg);
+          HeightMap h = new HeightMap(0,0,0,cmap.x,cmap.y);
+          engine.screen.add(h);
+          cameraMotion(new ObjectMotion(engine.screen,h));
           e.handled=true;
         break;
         default:
@@ -103,6 +106,7 @@ class ServerGame : Game{
   }
   
   private:
+    TileMap     cmap;
     TimeTracker servertime;
     Text        time;
     Text        text;

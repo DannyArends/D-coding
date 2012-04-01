@@ -21,9 +21,7 @@ import game.mover;
 
 class TileMap{
 public:
-  this(string data){
-    fromStringData(data);
-  }
+  this(string data){ fromStringData(data); }
 
   this(string dir, string name, uint x = 10, uint y = 10){
     mapname = name;
@@ -32,7 +30,9 @@ public:
       tiles = newmatrix!TileType(x, y, BLOCKEDTILE);
       save();  // Creating a new map
     }else{
-      load();  // Load the map from file
+      writefln("Opening map-file: %s",filename);
+      fromStringData(readText(filename));
+      writefln("Done map-file: %s",filename);    
     }
   }
 
@@ -56,14 +56,11 @@ public:
     return true;
   }
   
-  @property uint x(){ return tiles.length; }
-  @property uint y(){ return tiles[0].length; }
-  @property FileStatus status(){ return _status; }
-
-  void load(){
-    writefln("Opening map-file: %s",filename);
-    fromStringData(readText(filename));
-    writefln("Done map-file: %s",filename);
+  @property{
+    string     name(){ return mapname; }
+    uint       x(){ return tiles.length; }
+    uint       y(){ return tiles[0].length; }
+    FileStatus status(){ return _status; }
   }
 
   void parseTileDefs(string buffer){
@@ -158,8 +155,6 @@ public:
     return uniques;
   }
 
-  @property string name(){ return mapname; }
-  
   private:
     string       mapname;
     string       filename;

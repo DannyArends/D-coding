@@ -32,7 +32,7 @@ class Test_HeightMap : Empty{
     screen.add(heightmap);
   }
   
-  void load(GameEngine engine){
+  void load(){
     heightmap.buffer();
   }
   

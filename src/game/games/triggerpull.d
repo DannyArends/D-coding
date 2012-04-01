@@ -35,11 +35,11 @@ class TriggerPull : Game{
     gunsound = sound.getSound("gun");
   }
 
-  void quit(GameEngine engine){
+  void quit(){
     writefln("[ G ] Triggerpull bye");
   }
   
-  void load(GameEngine engine){
+  void load(){
     engine.requestUpdate(1.0);
     if(!exists(filename)){
       writefln("[ G ] No save game found: %s",filename);    

@@ -48,11 +48,11 @@ class Test_Objects2D : Game{
     writefln("[ G ] setupSound");    
   }
 
-  void quit(GameEngine engine){
+  void quit(){
     writefln("[ G ] quit");
   }
   
-  void load(GameEngine engine){
+  void load(){
     writefln("[ G ] load");
   }
   

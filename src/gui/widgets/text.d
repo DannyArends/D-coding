@@ -38,20 +38,20 @@ public:
   Object2DType getType(){ return Object2DType.TEXT; }
   
   void addLine(string line){ 
-    if(lines.length < maxlines || maxlines == -1){
-      lines ~= line; 
-    }
-    if(lines.length == maxlines){
-      removeLine();
-      lines ~= line; 
-    }
+    if(lines.length == maxlines) removeLine();
+    lines ~= line;
   }
   
   void setText(string text){
     lines = [text];
   }
   
-  void removeLine(){ if(lines != null) lines = lines[1..$]; }
+  void removeLine(){ 
+    if(lines != null){
+      backlog ~= lines[0];
+      lines = lines[1..$]; 
+    }
+  }
     
   void setScale(double scale){ this.scale = scale; }
 
@@ -76,4 +76,5 @@ private:
   double   scale = 0.8f;
   int      type=0;
   string[] lines;
+  string[] backlog;
 }

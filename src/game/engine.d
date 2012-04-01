@@ -37,9 +37,9 @@ abstract class Game : EventHandler{
   abstract void setup2D(Screen screen);
   abstract void setup3D(Screen screen);
   abstract void setupSound(SFXEngine sound);
-  abstract void load(GameEngine engine);
+  abstract void load();
   abstract void save();
-  abstract void quit(GameEngine engine);
+  abstract void quit();
   abstract void render(GFXEngine engine);
   
   @property CameraMotion cameraMotion(CameraMotion m = null){ 
@@ -51,8 +51,14 @@ abstract class Game : EventHandler{
     if(h !is null){ hud=h; }
     return hud; 
   }
+  
+  @property GameEngine engine(GameEngine e = null){ 
+    if(e !is null){ gameengine=e; }
+    return gameengine; 
+  }
 
 private:
+  GameEngine   gameengine;
   CameraMotion motion;
   HudHandler   hud;
 }
@@ -95,7 +101,7 @@ class GameEngine : ClockEventHandler{
     void cleanUpGame(){
       if(game !is null){
         game.save();
-        game.quit(this);
+        game.quit();
         updateFrequency = 0.0;
       }
     }
@@ -106,10 +112,11 @@ class GameEngine : ClockEventHandler{
       game = g;
       stage = Stage.PLAYING;
       engine.screen.clear();
+      game.engine(this);
       game.setupSound(engine.sound);
       game.setup2D(engine.screen);
       game.setup3D(engine.screen);
-      game.load(this);
+      game.load();
       setT0();
     }
     
@@ -123,7 +130,7 @@ class GameEngine : ClockEventHandler{
     if(e is null) return;
     if(e.getEventType() == EventType.QUIT){
       game.save();
-      game.quit(this);
+      game.quit();
       setMainMenuStage(0,0);
       return;
     }
@@ -134,8 +141,6 @@ class GameEngine : ClockEventHandler{
     }
     e.handled=true;
   }
-  
-  @property Stage gamestage(){ return stage; }
   
   void update(){
     super.update();
@@ -156,8 +161,12 @@ class GameEngine : ClockEventHandler{
     updateFrequency = seconds;
   }
   
-  @property GameClient network(){ return engine.network; }
-  @property GFXEngine  gfxengine(){ return engine; }
+  @property{
+    Stage      gamestage(){ return stage; }
+    GameClient network(){ return engine.network; }
+    Screen     screen(){ return engine.screen; }
+    GFXEngine  gfxengine(){ return engine; }
+  }
   
   private:
     GFXEngine   engine;
