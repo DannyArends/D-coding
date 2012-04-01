@@ -11,17 +11,24 @@ module plugins.generator.generator;
 
 import std.stdio;
 import std.math;
+import plugins.generator.algorithm;
+import plugins.generator.grammar;
 
+/*! \brief Interface to define a generator
+ *
+ *  Interface to define a generator
+ */
 interface AbstractGenerator{
 public:
-  bool generate(){
+  bool generate(Algorithm a, Grammar g){ 
   
   }
+  
 }
 
 class Generator : AbstractGenerator{
 public:
-  override bool generate(){
+  override bool generate(Algorithm a, Grammar g){
   
   }
   
