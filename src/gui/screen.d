@@ -44,6 +44,11 @@ import game.tests.liquid;
 import game.tests.object3ds;
 import game.tests.emission;
 
+struct SceneObject{
+  string   name;
+  Object3D object3d;
+}
+
 /*! \brief Rendering class for GFX objects
  *
  *  The Screen class is the main rendering class for GFX objects
@@ -66,10 +71,11 @@ class Screen : Object2D{
       glRotatef(camera.ry, 0.0, 1.0, 0.0);
       glRotatef(camera.rz, 0.0, 0.0, 1.0);
       glTranslatef(camera.x,camera.y,camera.z);
-      foreach(Object3D obj; objects3d){
+      foreach(SceneObject sceneobj; sceneobjects){
+        Object3D obj = sceneobj.object3d;
         obj.render(obj.getFaceType());
       }
-      if(verbose) writefln("[SCREEN] Rendered: %s objects", objects3d.length);
+      if(verbose) writefln("[SCREEN] Rendered: %s objects", sceneobjects.length);
     }
 
     void render(){
@@ -96,25 +102,29 @@ class Screen : Object2D{
       q.setTexture(textureloader.getTextureID("DGE"));
       q.setSize(2.0, 1.0, 1.0);
       q.setColor(1.0, 1.0, 1.0, 0.0);
-      add(q);
+      add(q,"logo");
     }
     
     void rotateLogo(int amount){
-      if(objects3d.length == 1){
-        objects3d[0].rotate(0.0,cast(double)amount,0.0);
+      size_t logoidx = getIndex("logo");
+      if(logoidx != -1){
+        sceneobjects[logoidx].object3d.rotate(0.0,cast(double)amount,0.0);
       }
     }
 
     void changeLogo(string name){
-      if(objects3d.length == 1){
-        objects3d[0].setRotation(0.0,-60.0,0.0);
-        (cast(Quad)objects3d[0]).setTexture(textureloader.getTextureID(name));
+      size_t logoidx = getIndex("logo");
+      if(logoidx != -1){
+        Quad logo = cast(Quad) sceneobjects[logoidx].object3d;
+        logo.setRotation(0.0,-60.0,0.0);
+        logo.setTexture(textureloader.getTextureID(name));
+        sceneobjects[logoidx].object3d = logo;
       }
     }
     
     void clear(){
       clearObjects();
-      objects3d.length=0;
+      sceneobjects.length=0;
     }
 
     void showMainMenu(){
@@ -134,15 +144,36 @@ class Screen : Object2D{
       addObject(new GameButton(400,240,"Emission",engine.game,new Test_PE(),this));
     }
 
-    void add(Object3D o){ objects3d ~= o; }
+    size_t getIndex(string name){
+      for(size_t x=0; x < sceneobjects.length; x++){
+        if(sceneobjects[x].name is name) return x;
+      }
+      return -1;
+    }
+    
+    void remove(string name){
+      size_t idx = getIndex(name);
+      if(idx != -1){
+        SceneObject[] nobjs;
+        for(size_t x=0; x < sceneobjects.length; x++){
+          if(idx != x) nobjs ~= sceneobjects[x];
+        }
+        sceneobjects = nobjs;
+      }
+    }
+    
+    void add(Object3D o, string name = ""){ 
+      sceneobjects ~= SceneObject(name, o); 
+    }
+    
     void add(Object3D[] objects){ 
       foreach(Object3D obj;objects){ add(obj); }      
     }
+    
     void add(Object2D o){ addObject(o); }
     
     @property int width(){ return engine.width; }
     @property int height(){ return engine.height; }
-
     
     GLuint getFontBase(){ return base; }
     Camera getCamera(){ return camera; }
@@ -156,6 +187,6 @@ private:
   GLuint        fontID;
   Camera        camera;
   TextureLoader textureloader;  
-  Object3D[]    objects3d;
+  SceneObject[] sceneobjects;
   GFXEngine     engine;
 }

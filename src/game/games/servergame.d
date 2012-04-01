@@ -9,8 +9,7 @@
  **********************************************************************/
 module game.games.servergame;
 
-import std.stdio;
-
+import core.stdinc;
 import core.typedefs.types;
 import core.arrays.algebra;
 
@@ -72,6 +71,15 @@ class ServerGame : Game{
           e.handled=true;
         break;
         case NetEvent.GAME:  writeln("[ G ] Game event");
+          if(n_evt.msg.length > 0){
+            auto plist = split(n_evt.msg," ");
+            writeln("[CLN] Command: ",plist[0]);
+            if(plist.length > 1) writeln(", args:",plist[1..$]);
+            switch(toLower(plist[0])){
+              case "logout": engine.screen.remove("map"); writeln("YAY"); break;
+              default: break;
+            }
+          }
           e.handled=true;
         break;
         case NetEvent.MOVEMENT:  writeln("[ G ] Movement event");
@@ -90,7 +98,7 @@ class ServerGame : Game{
         case NetEvent.GFX3D: writeln("[ G ] 3D object event");
           cmap = new TileMap(n_evt.msg);
           HeightMap h = new HeightMap(0,0,0,cmap.x,cmap.y);
-          engine.screen.add(h);
+          engine.screen.add(h,"map");
           cameraMotion(new ObjectMotion(engine.screen,h));
           e.handled=true;
         break;

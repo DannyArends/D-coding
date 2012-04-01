@@ -102,7 +102,7 @@ class ClientHandler : Thread {
   void logout(){
     server.saveUser(_username);
     send(NetEvent.CHAT ~ "You are now logged out\0");
-    send(NetEvent.GAME ~ "LOGOUT\0");
+    send(NetEvent.GAME ~ "logout\0");
     _username = ""; 
   }
 
