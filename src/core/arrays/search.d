@@ -44,30 +44,50 @@ T[] randomrange(T)(T[] range, int number){
   return s;
 }
 
+pure T[] removearray(T)(T[] haystack, size_t idx = -1){
+  if(idx == -1) return haystack;
+  T[] nobjs;
+  for(size_t x=0; x < haystack.length; x++){
+    if(idx != x) nobjs ~= haystack[x];
+  }
+  return nobjs;
+}
+
 pure bool searcharray(T)(T[] haystack, T needle){
-  foreach(T s; haystack){
+  return(getIndex(haystack,needle) != -1);
+}
+
+pure size_t getIndex(T)(T[] haystack, T needle){
+  foreach(idx, T s; haystack){
     if(s==needle){
-      return true;
+      return idx;
     }
   }
-  return false;
+  return -1;
 }
  
 pure bool binsearcharray(T)(T[] haystack, T needle) {
-  uint first = 0;
-  uint last = (haystack.length-1);
+  return(getIndexB(haystack,needle) != -1);
+}
+
+pure size_t getIndexB(T)(T[] haystack, T needle) {
+  size_t first = 0;
+  size_t last = (haystack.length-1);
   while (first <= last) {
-    if(last==first) return (needle==haystack[first]);
-    uint mid = (first + last) / 2;
+    if(last==first){
+      if(needle==haystack[first]) return first;
+      return -1;
+    }
+    size_t mid = (first + last) / 2;
     if (needle > haystack[mid]){
       first = mid + 1;
     }else if (needle < haystack[mid]){
       last = mid - 1;
     }else{
-      return true;
+      return mid;
     }
   }
-  return false;
+  return -1;
 }
 
 unittest{

@@ -18,6 +18,7 @@ import gl.gl_1_1;
 import gl.gl_1_5;
 import gl.gl_ext;
 
+import core.arrays.search;
 import core.typedefs.types;
 import core.typedefs.camera;
 
@@ -153,13 +154,7 @@ class Screen : Object2D{
     
     void remove(string name){
       size_t idx = getIndex(name);
-      if(idx != -1){
-        SceneObject[] nobjs;
-        for(size_t x=0; x < sceneobjects.length; x++){
-          if(idx != x) nobjs ~= sceneobjects[x];
-        }
-        sceneobjects = nobjs;
-      }
+      removearray(sceneobjects,idx);
     }
     
     void add(Object3D o, string name = ""){ 
