@@ -61,6 +61,13 @@ class ServerGame : Game{
     time.setText(servertime.val);
   }
   
+  void processGameCommand(string[] plist){
+    switch(toLower(plist[0])){
+      case "logout": engine.screen.reset3D(); break;
+      default: break;
+    }  
+  }
+  
   void handle(Event e){
     if(e.getEventType() == EventType.NETWORK){
       NetworkEvent n_evt = cast(NetworkEvent) e;
@@ -70,15 +77,12 @@ class ServerGame : Game{
           servertime.fromString(n_evt.msg);
           e.handled=true;
         break;
-        case NetEvent.GAME:  writeln("[ G ] Game event");
+        case NetEvent.GAME:  writeln("[ G ] Network game event");
           if(n_evt.msg.length > 0){
             auto plist = split(n_evt.msg," ");
-            writeln("[CLN] Command: ",plist[0]);
+            writeln("[CLN] From server: ",plist[0]);
             if(plist.length > 1) writeln(", args:",plist[1..$]);
-            switch(toLower(plist[0])){
-              case "logout": engine.screen.remove("map"); writeln("YAY"); break;
-              default: break;
-            }
+            processGameCommand(plist);
           }
           e.handled=true;
         break;
