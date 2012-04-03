@@ -105,11 +105,11 @@ class GFXEngine : ClockEventHandler{
             if(verbose) writefln("Mouse button %d pressed at (%d,%d)", event.button.button, xy);
           break;
           case SDL_KEYDOWN:
-            e = new KeyEvent(event.key.keysym, KeyEventType.DOWN);
+            e = new KeyEvent(event.key.keysym.sym, KeyEventType.DOWN);
             if(verbose) writefln("Key down");
           break;
           case SDL_KEYUP:
-            e = new KeyEvent(event.key.keysym, KeyEventType.UP);
+            e = new KeyEvent(event.key.keysym.sym, KeyEventType.UP);
             if(verbose) writefln("Key up");
           break;
           default:

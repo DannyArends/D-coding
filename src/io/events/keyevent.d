@@ -12,13 +12,11 @@ import std.array;
 import std.stdio;
 import std.conv;
 
-import sdl.sdlstructs;
-
 import core.typedefs.types;
 import io.events.engine;
 
 class KeyEvent : Event{
-  this(SDL_keysym key, KeyEventType type, bool shift = false){
+  this(int key, KeyEventType type, bool shift = false){
     this.key=key;
     this.type=type;
     this.shift=shift;
@@ -26,8 +24,8 @@ class KeyEvent : Event{
   
   char getKeyPress(){
     char c;
-    if((key.sym & 0xFF80) == 0 ){
-      c = to!char(key.sym & 0x7F);
+    if((key & 0xFF80) == 0 ){
+      c = to!char(key & 0x7F);
       if(shift) c = toShiftChar(c);
     }
     return c;
@@ -35,11 +33,11 @@ class KeyEvent : Event{
   
   void setShift(bool status){ shift=status; }
   
-  int getSDLkey(){ return key.sym; }
+  int getSDLkey(){ return key; }
   KeyEventType getKeyEventType(){ return type; }
   EventType getEventType(){ return EventType.KEYBOARD;}
 private:  
-  SDL_keysym   key;
+  int          key;
   KeyEventType type;
   bool         shift;
 }
