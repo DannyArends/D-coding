@@ -15,7 +15,6 @@ import std.conv;
 
 import core.typedefs.types;
 import io.events.engine;
-import gui.enginefunctions;
 
 class NetworkEvent : Event{
   this(string msg, bool incomming = true){

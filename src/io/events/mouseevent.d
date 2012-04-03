@@ -15,19 +15,21 @@ import std.conv;
 
 import core.typedefs.types;
 import io.events.engine;
-import gui.enginefunctions;
 
 class MouseEvent : Event{
-  this(MouseBtn btn, KeyEventType type, int x, int y, int xr = 0, int yr = 0, bool verbose = true){
+  alias double[3] function(int,int)LocToWorld;
+  
+  this(MouseBtn btn, KeyEventType type, LocToWorld fun, int[2] xy, int xr = 0, int yr = 0, bool verbose = true){
     this.btn=btn;
     this.type=type;
-    coords[0]=x;
-    coords[1]=y;
+    coords[0]=xy[0];
+    coords[1]=xy[1];
     coords[2]=xr;
     coords[3]=yr;
+    unproject = fun;
   }
   
-  double[3] getXYZ(){ return getUnproject(sx, sy); }
+  double[3] getXYZ(){ return unproject(sx, sy); }
   EventType getEventType(){ return EventType.MOUSE; }
   MouseBtn getBtn(){ return btn; }
   KeyEventType getType(){ return type; }
@@ -36,11 +38,10 @@ class MouseEvent : Event{
   @property int sy(){ return coords[1]; }
   @property int sxr(){ return coords[2]; }
   @property int syr(){ return coords[3]; }
-  @property double wx(){ return getUnproject(sx, sy)[0]; }
-  @property double wy(){ return getUnproject(sx, sy)[1]; }
-  @property double wz(){ return getUnproject(sx, sy)[2]; }
+
 private:
-  MouseBtn     btn;
-  KeyEventType type;
-  int          coords[4] = [0,0,0,0];
+  MouseBtn       btn;
+  KeyEventType   type;
+  LocToWorld     unproject;
+  int            coords[4] = [0,0,0,0];
 }
