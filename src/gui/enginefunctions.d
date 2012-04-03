@@ -43,20 +43,20 @@ bool initGL(){
   return true;
 }
 
-GLdouble[3] getUnproject(int x, int y){
+double[3] getUnproject(int x, int y){
   GLint viewport[4];
-  GLdouble modelview[16];
-  GLdouble projection[16];
-  GLfloat  winZ;
+  double modelview[16];
+  double projection[16];
+  float  winZ;
   
-  GLdouble pos[3];
+  double pos[3];
 
   glGetDoublev(GL_MODELVIEW_MATRIX, modelview.ptr);
   glGetDoublev(GL_PROJECTION_MATRIX, projection.ptr);
   glGetIntegerv(GL_VIEWPORT, viewport.ptr);
 
-  GLfloat winX = x;
-  GLfloat winY = viewport[3] - y;
+  float winX = x;
+  float winY = viewport[3] - y;
   glReadPixels(x, cast(int)winY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ );
   gluUnProject( winX, winY, winZ, modelview.ptr, projection.ptr, viewport.ptr, &pos[0], &pos[1], &pos[2]);
   //writefln("[ENG] World location: [%s, %s, %s]",to!string(pos[0]), to!string(pos[1]), to!string(pos[2]));

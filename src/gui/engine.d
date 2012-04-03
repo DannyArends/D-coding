@@ -90,16 +90,19 @@ class GFXEngine : ClockEventHandler{
             if(game.gamestage == Stage.MENU) rendering = false;
           break;
           case SDL_MOUSEMOTION:
-            handle(new MouseEvent(cast(MouseBtn)0, KeyEventType.NONE, event.button.x, event.button.y, event.motion.xrel, event.motion.yrel));
-            if(verbose) writefln("Mouse moved by %d,%d to (%d,%d)", event.motion.xrel, event.motion.yrel, event.motion.x, event.motion.y);
+            int[2] xy = [cast(int)event.button.x, cast(int)event.button.y];
+            handle(new MouseEvent(cast(MouseBtn)0, KeyEventType.NONE, &getUnproject, xy, event.motion.xrel, event.motion.yrel));
+            if(verbose) writefln("Mouse moved by %d,%d to (%d,%d)", event.motion.xrel, event.motion.yrel, xy);
           break;
           case SDL_MOUSEBUTTONDOWN:
-            e = new MouseEvent(cast(MouseBtn)event.button.button,KeyEventType.DOWN, event.button.x, event.button.y);
-            if(verbose) writefln("Mouse button %d pressed at (%d,%d)", event.button.button, event.button.x, event.button.y);
+            int[2] xy = [cast(int)event.button.x, cast(int)event.button.y];
+            e = new MouseEvent(cast(MouseBtn)event.button.button,KeyEventType.DOWN, &getUnproject, xy);
+            if(verbose) writefln("Mouse button %d pressed at (%d,%d)", event.button.button, xy);
           break;
           case SDL_MOUSEBUTTONUP:
-            e = new MouseEvent(cast(MouseBtn)event.button.button,KeyEventType.UP, event.button.x, event.button.y);
-            if(verbose) writefln("Mouse button %d pressed at (%d,%d)", event.button.button, event.button.x, event.button.y);
+            int[2] xy = [cast(int)event.button.x, cast(int)event.button.y];
+            e = new MouseEvent(cast(MouseBtn)event.button.button,KeyEventType.UP, &getUnproject, xy);
+            if(verbose) writefln("Mouse button %d pressed at (%d,%d)", event.button.button, xy);
           break;
           case SDL_KEYDOWN:
             e = new KeyEvent(event.key.keysym, KeyEventType.DOWN);
@@ -164,7 +167,7 @@ class GFXEngine : ClockEventHandler{
       NetworkEvent n_evt = cast(NetworkEvent) e;
       if(network !is null){
         if(n_evt.incomming){
-          writeln("[ENG] NetEvent: " ~ n_evt.full);
+          //writeln("[ENG] NetEvent: " ~ n_evt.full);
         }else{
           network.send(n_evt.full);
         }

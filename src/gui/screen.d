@@ -152,9 +152,14 @@ class Screen : Object2D{
       return -1;
     }
     
+    void reset3D(){
+      sceneobjects.length = 0;    
+    }
+    
     void remove(string name){
       size_t idx = getIndex(name);
-      removearray(sceneobjects,idx);
+      sceneobjects = removearray(sceneobjects,idx);
+      writeln(idx);
     }
     
     void add(Object3D o, string name = ""){ 
