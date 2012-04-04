@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/io/events/mouseevent.d
+ * \file src/core/events/mouseevent.d
  * \brief Mouse event definition
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
@@ -7,14 +7,14 @@
  * First written Dec, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module io.events.mouseevent;
+module core.events.mouseevent;
 
 import std.array;
 import std.stdio;
 import std.conv;
 
 import core.typedefs.types;
-import io.events.engine;
+import core.events.engine;
 
 class MouseEvent : Event{
   alias double[3] function(int,int)LocToWorld;

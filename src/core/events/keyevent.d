@@ -1,19 +1,19 @@
 /**********************************************************************
- * \file src/io/events/keyevent.d
+ * \file src/core/events/keyevent.d
  *
  * copyright (c) 2012 Danny Arends
  * last modified Feb, 2012
  * first written Dec, 2011
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module io.events.keyevent;
+module core.events.keyevent;
 
 import std.array;
 import std.stdio;
 import std.conv;
 
 import core.typedefs.types;
-import io.events.engine;
+import core.events.engine;
 
 class KeyEvent : Event{
   this(int key, KeyEventType type, bool shift = false){

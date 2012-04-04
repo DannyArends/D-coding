@@ -18,8 +18,8 @@ import sdl.sdlfunctions;
 
 import core.arrays.algebra;
 import core.typedefs.types;
-import io.events.engine;
-import io.events.mouseevent;
+import core.events.engine;
+import core.events.mouseevent;
 import game.engine;
 import gui.stdinc;
 import sfx.engine;

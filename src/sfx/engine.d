@@ -16,7 +16,7 @@ import openal.al_types;
 import openal.alc;
 import openal.alut;
 import openal.alut_types;
-import io.events.engine;
+import core.events.engine;
 import sfx.formats.wav;
 
 class SFXEngine : EventHandler{

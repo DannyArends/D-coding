@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/io/events/engine.d
+ * \file src/core/events/engine.d
  * \brief Event and EventHandler
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
@@ -7,7 +7,7 @@
  * First written Dec, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module io.events.engine;
+module core.events.engine;
 
 import std.stdio;
 import std.conv;

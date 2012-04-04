@@ -6,8 +6,8 @@ import std.conv;
 
 import sdl.sdlstructs;
 
-import io.events.engine;
-import io.events.keyevent;
+import core.events.engine;
+import core.events.keyevent;
 import gui.screen;
 
 class Physics : EventHandler{

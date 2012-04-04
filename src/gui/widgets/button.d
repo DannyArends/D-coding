@@ -17,8 +17,8 @@ import sdl.sdlstructs;
 import gl.gl_1_0;
 import gl.gl_1_1;
 
-import io.events.engine;
-import io.events.keyevent;
+import core.events.engine;
+import core.events.keyevent;
 
 import gui.widgets.object2d;
 import gui.widgets.text;

@@ -4,7 +4,7 @@ import std.stdio;
 import std.conv;
 
 import core.typedefs.types;
-import io.events.engine;
+import core.events.engine;
 import game.engine;
 import game.games.empty;
 import gui.stdinc;

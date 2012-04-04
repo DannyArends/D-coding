@@ -18,10 +18,9 @@ import gl.gl_1_1;
 import sdl.sdlstructs;
 
 import core.typedefs.types;
-
-import io.events.engine;
-import io.events.keyevent;
-import io.events.networkevent;
+import core.events.engine;
+import core.events.keyevent;
+import core.events.networkevent;
 
 import gui.stdinc;
 

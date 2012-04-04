@@ -7,9 +7,9 @@ import std.file;
 
 import core.typedefs.types;
 import core.arrays.algebra;
+import core.events.engine;
+import core.events.mouseevent;
 
-import io.events.engine;
-import io.events.mouseevent;
 import game.engine;
 import gui.stdinc;
 import gui.widgets.text;

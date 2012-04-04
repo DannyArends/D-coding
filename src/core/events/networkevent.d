@@ -1,5 +1,5 @@
 /*******************************************************************//**
- * \file src/io/events/networkevent.d
+ * \file src/core/events/networkevent.d
  * \brief Network event definition
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
@@ -7,14 +7,14 @@
  * First written Dec, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module io.events.networkevent;
+module core.events.networkevent;
 
 import std.array;
 import std.stdio;
 import std.conv;
 
 import core.typedefs.types;
-import io.events.engine;
+import core.events.engine;
 
 class NetworkEvent : Event{
   this(string msg, bool incomming = true){

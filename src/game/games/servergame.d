@@ -12,9 +12,8 @@ module game.games.servergame;
 import core.stdinc;
 import core.typedefs.types;
 import core.arrays.algebra;
-
-import io.events.engine;
-import io.events.networkevent;
+import core.events.engine;
+import core.events.networkevent;
 import game.engine;
 import game.tilemap;
 import gui.stdinc;

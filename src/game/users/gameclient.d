@@ -12,8 +12,8 @@ module game.users.gameclient;
 import core.stdinc;
 
 import core.typedefs.webtypes;
-import io.events.engine;
-import io.events.networkevent;
+import core.events.engine;
+import core.events.networkevent;
 import web.socketclient;
 
 alias core.thread.Thread Thread;

@@ -18,10 +18,9 @@ import sdl.sdlstructs;
 
 import core.typedefs.types;
 import core.typedefs.camera;
-
-import io.events.engine;
-import io.events.keyevent;
-import io.events.mouseevent;
+import core.events.engine;
+import core.events.keyevent;
+import core.events.mouseevent;
 import gui.screen;
 import gui.objects.object3d;
 

@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/io/events/clockevents.d
+ * \file src/core/events/clockevents.d
  * \brief Periodic Event and ClockEventHandler
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
@@ -7,7 +7,7 @@
  * First written Dec, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module io.events.clockevents;
+module core.events.clockevents;
 
 import std.array;
 import std.stdio;
@@ -15,7 +15,7 @@ import std.conv;
 import std.datetime;
 
 import core.typedefs.types;
-import io.events.engine;
+import core.events.engine;
 
 alias void delegate(int, int) FUN;
 

@@ -12,7 +12,7 @@ import std.stdio;
 
 import core.arrays.algebra;
 
-import io.events.engine;
+import core.events.engine;
 import game.engine;
 import gui.stdinc;
 import sfx.engine;

@@ -13,7 +13,7 @@ import std.conv;
 import std.random;
 
 import core.typedefs.types;
-import io.events.engine;
+import core.events.engine;
 import game.engine;
 import game.games.empty;
 import gui.stdinc;

@@ -14,8 +14,8 @@ import std.math;
 import core.typedefs.types;
 import core.arrays.algebra;
 
-import io.events.engine;
-import io.events.mouseevent;
+import core.events.engine;
+import core.events.mouseevent;
 import game.engine;
 import gui.stdinc;
 import sfx.engine;

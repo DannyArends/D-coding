@@ -12,9 +12,9 @@ module game.engine;
 import std.stdio;
 
 import core.typedefs.types;
+import core.events.engine;
+import core.events.clockevents;
 
-import io.events.engine;
-import io.events.clockevents;
 import gui.engine;
 import gui.screen;
 import gui.motion;
