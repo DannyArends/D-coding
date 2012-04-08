@@ -89,7 +89,7 @@ double likelihoodbyem(uint nvariables,uint nsamples, dmatrix x, dvector w, dvect
 
 double nullmodel(uint nvariables, uint nsamples, dmatrix x, dvector w, dvector y,ivector nullmodellayout,int verbose){
   dvector Fy = newvector!double(nsamples);
-  return multivariateregression(nvariables,nsamples,x,w,y,Fy,true,nullmodellayout,verbose);;
+  return multivariateregression(nvariables,nsamples,x,w,y,Fy,true,nullmodellayout,verbose);
 }
 
 double multivariateregression(uint nvariables, uint nsamples, dmatrix x, dvector w, dvector y, dvector Fy, bool nullmodel, ivector nullmodellayout,int verbose){

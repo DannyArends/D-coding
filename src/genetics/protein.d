@@ -98,35 +98,31 @@ AA RNAcodon_to_AA(RNAcodon sequence){
             return AA.Phe;
           }
           return AA.Leu;
-          break;
-        case RNA.C: return AA.Ser; break;
+        case RNA.C: return AA.Ser;
         case RNA.A:
           if(sequence[2] == RNA.U || sequence[2] == RNA.C  ){
             return AA.Tyr;
           }
           return AA.STOP;
-          break;
         case RNA.G:
           if(sequence[2] == RNA.U || sequence[2] == RNA.C  ){
             return AA.Cys;
           }
           if(sequence[2] == RNA.G) return AA.Trp;
           return AA.STOP;
-          break;
           default: break;          
       }
     break;
     case RNA.C:
       switch(sequence[1]){
-        case RNA.U: return AA.Leu;break;
-        case RNA.C: return AA.Pro; break;
+        case RNA.U: return AA.Leu;
+        case RNA.C: return AA.Pro;
         case RNA.A:
           if(sequence[2] == RNA.U || sequence[2] == RNA.C  ){
             return AA.His;
           }
           return AA.Gln;
-          break;        
-        case RNA.G: return AA.Arg; break;
+        case RNA.G: return AA.Arg;
         default: break;
       }
     break;
@@ -137,34 +133,30 @@ AA RNAcodon_to_AA(RNAcodon sequence){
             return AA.Ile;
           }
           return AA.Met;
-          break;      
-        case RNA.C: return AA.Thr; break;
+        case RNA.C: return AA.Thr;
         case RNA.A:
           if(sequence[2] == RNA.U || sequence[2] == RNA.C  ){
             return AA.Asn;
           }
           return AA.Lys;
-          break;            
         case RNA.G:
           if(sequence[2] == RNA.U || sequence[2] == RNA.C  ){
             return AA.Ser;
           }
           return AA.Arg;
-          break;
           default: break;          
       }
     break;
     case RNA.G:
       switch(sequence[1]){
-        case RNA.U: return AA.Val; break;
-        case RNA.C: return AA.Ala; break;
+        case RNA.U: return AA.Val;
+        case RNA.C: return AA.Ala;
         case RNA.A:
           if(sequence[2] == RNA.U || sequence[2] == RNA.C  ){
             return AA.Asp;
           }
           return AA.Glu;
-          break;           
-        case RNA.G: return AA.Gly; break;
+        case RNA.G: return AA.Gly;
         default: break;
       }
     break;

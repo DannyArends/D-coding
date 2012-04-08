@@ -20,10 +20,10 @@ alias RNA[3]  RNAcodon;
 
 pure RNA RNA_from_DNA(DNA base){
   switch(base.getBase()){
-    case DNABASES.T.getBase(): return RNA.A; break;
-    case DNABASES.C.getBase(): return RNA.G; break;
-    case DNABASES.A.getBase(): return RNA.U; break;
-    case DNABASES.G.getBase(): return RNA.C; break;
+    case DNABASES.T.getBase(): return RNA.A;
+    case DNABASES.C.getBase(): return RNA.G;
+    case DNABASES.A.getBase(): return RNA.U;
+    case DNABASES.G.getBase(): return RNA.C;
     default: break;
   }
   assert(0);

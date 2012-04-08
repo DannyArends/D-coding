@@ -19,7 +19,7 @@ def bd;return "build";end
 
 def windows?;return RUBY_PLATFORM =~ /(:?mswin|mingw)/;end
 
-comp_args  = "-O -w"
+comp_args  = "-w"
 link_args = ""
 
 if ! windows? then
@@ -93,9 +93,6 @@ namespace :lib do
   
   desc "The library with libload functionality"
   task "libload" do
-    if ! windows? then
-      link_args += " -L-ldl"
-    end
     sh "dmd -lib -c #{libload_files} -of#{bd}/libload.#{libext}"
   end
   
@@ -159,88 +156,93 @@ end
 namespace :app do
   desc "Build all applications and libraries"
   task :all => BIN
-  
-  desc "Fileloader application"
+
+  desc "Caesar subsitution cipher in ASM"
+  task "csc" do
+    sh "dmd #{comp_args} src/main/csc.d -od#{bd} -ofcsc.#{execext}"
+  end
+
+  desc "File load test application"
   task "fileloader" do
-    sh "dmd src/main/fileloader.d #{core_files} #{io_files} -od#{bd} -offileloader.#{execext}"
+    sh "dmd #{comp_args} src/main/fileloader.d #{core_files} #{io_files} -od#{bd} -offileloader.#{execext}"
   end
 
   desc "Large file splitter"
   task "filesplitter" do
-    sh "dmd src/main/filesplitter.d #{core_files} #{io_files} -od#{bd} -offilesplit.#{execext}"
+    sh "dmd #{comp_args} src/main/filesplitter.d #{core_files} #{io_files} -od#{bd} -offilesplit.#{execext}"
   end
 
   desc "DNA sequence alignment using blastn"
   task "aligner" do
-    sh "dmd src/main/aligner.d #{core_files} #{io_files} -od#{bd} -ofaligner.#{execext}"
+    sh "dmd #{comp_args} src/main/aligner.d #{core_files} #{io_files} -od#{bd} -ofaligner.#{execext}"
   end
   
   desc "Actor example from D"
   task "actor" do
-    sh "dmd src/main/actor.d #{core_files} -od#{bd} -ofactor.#{execext}"
+    sh "dmd #{comp_args} src/main/actor.d #{core_files} -od#{bd} -ofactor.#{execext}"
   end
 
-  desc "os test"
+  desc "Testing operating system cmdline functionality"
   task "ostest" do
-    sh "dmd src/main/ostest.d #{core_files} #{io_files} -od#{bd} -ofostest.#{execext}"
+    sh "dmd #{comp_args} src/main/ostest.d #{core_files} #{io_files} -od#{bd} -ofostest.#{execext}"
   end
   
   desc "Extract probes mapping to a single genome location"
   task "single_map_probes" do
-    sh "dmd src/main/single_map_probes.d #{core_files} #{io_files} -od#{bd} -ofmap_probes.#{execext}"
+    sh "dmd #{comp_args} src/main/single_map_probes.d #{core_files} #{io_files} -od#{bd} -ofmap_probes.#{execext}"
   end
   
-  desc "Correlation test using the Statistics library"
+  desc "Correlation test using the statistics library"
   task "correlation" do
-    sh "dmd src/main/correlation.d #{core_files} #{libload_files} #{io_files} #{plugin_stats} #{deps_r} -od#{bd} -ofcorrelation.#{execext} -L-ldl"
+    sh "dmd #{comp_args} src/main/correlation.d #{core_files} #{libload_files} #{io_files} #{plugin_stats} #{deps_r} -od#{bd} -ofcorrelation.#{execext} #{link_args}"
   end
   
   desc "P'' language interpreter (see: http://en.wikipedia.org/wiki/P'')"
   task "plang" do
-    sh "dmd src/main/plang.d #{core_files} #{inter_files} -od#{bd} -ofplang.#{execext}"
+    sh "dmd #{comp_args} src/main/plang.d #{core_files} #{inter_files} -od#{bd} -ofplang.#{execext}"
   end
 
-  desc "Start the JVM"
+  desc "Example on how to start the JVM"
   task "startJVM" do
-    sh "dmd src/main/startJVM.d #{core_files} #{libload_files} #{deps_jni} -od#{bd} -ofstartJVM.#{execext} -L-ldl"
+    sh "dmd #{comp_args} src/main/startJVM.d #{core_files} #{libload_files} #{deps_jni} -od#{bd} -ofstartJVM.#{execext} #{link_args}"
   end
   
   desc "Basic HTTP response slurper"
   task "httpreader" do
-    sh "dmd src/main/httpreader.d #{core_files} #{web_files} -od#{bd} -ofhttpreader.#{execext}"
+    sh "dmd #{comp_args} src/main/httpreader.d #{core_files} #{web_files} -od#{bd} -ofhttpreader.#{execext}"
   end
   
   desc "Multiple lineair regression"
   task "regression" do
-    sh "dmd src/main/regression.d #{core_files} #{libload_files} #{plugin_stats} #{deps_r} -od#{bd} -ofregression.#{execext} -L-ldl"
+    sh "dmd #{comp_args} src/main/regression.d #{core_files} #{libload_files} #{plugin_stats} #{deps_r} -od#{bd} -ofregression.#{execext} #{link_args}"
   end
   
   desc "HTPPserver supporting D as CGI"
   task "httpserver" do
-    sh "dmd src/main/httpserver.d #{core_files} #{web_files} -od#{bd} -ofhttpserver.#{execext}"
+    sh "dmd #{comp_args} src/main/httpserver.d #{core_files} #{web_files} -od#{bd} -ofhttpserver.#{execext}"
   end
   
   desc "Server for a multiplayer network mud"
   task "gameserver" do
-    sh "dmd src/main/server.d #{core_files} #{libload_files} #{web_files} #{game_files} #{plugin_gui} #{sfx_files} #{deps_sdl} #{deps_opengl} #{deps_openal} -od#{bd} -ofserver.#{execext} -L-ldl"
+    sh "dmd #{comp_args} src/main/server.d #{core_files} #{libload_files} #{web_files} #{game_files} #{plugin_gui} #{sfx_files} #{deps_sdl} #{deps_opengl} #{deps_openal} -od#{bd} -ofserver.#{execext} #{link_args}"
   end
 
-  desc "Decode voynich"
-  task "voynich" => 'lib:core' do
-    sh "dmd src/main/voynich.d #{core_files} -od#{bd} -ofvoynich.#{execext}"
+  desc "Decode the voynich manuscript"
+  task "voynich" do
+    sh "dmd #{comp_args} src/main/voynich.d #{core_files} -od#{bd} -ofvoynich.#{execext}"
   end
   
   desc "Scan for proteins in DNA code"
   task "dnacode" do
-    sh "dmd src/main/dnacode.d #{core_files} #{genetic_files} -od#{bd} -ofdnacode.#{execext}"
+    sh "dmd #{comp_args} src/main/dnacode.d #{core_files} #{genetic_files} -od#{bd} -ofdnacode.#{execext}"
   end
 
-  desc "Test openAL bindings"
+  desc "Test sound via openAL bindings"
   task "testal" do
-    sh "dmd src/main/testal.d #{core_files} #{libload_files} #{deps_openal} -od#{bd} -oftestal.#{execext} -L-ldl"
+    sh "dmd #{comp_args} src/main/testal.d #{core_files} #{libload_files} #{deps_openal} -od#{bd} -oftestal.#{execext} #{link_args}"
   end
 
-  desc "SDL engine"
+  desc "GUI application using the DGE graphics engine"
   task "sdl" do
     sh "dmd #{comp_args} src/main/sdlengine.d #{core_files} #{libload_files} #{web_files} #{game_files} #{plugin_gui} #{sfx_files} #{deps_sdl} #{deps_opengl} #{deps_openal} -od#{bd} -ofsdltest.#{execext} #{link_args}"
   end

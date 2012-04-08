@@ -70,11 +70,11 @@ DNAstrand DNA_from_string(string seq){
 
 pure DNA DNA_to_Anti(DNA base){
   switch(base.getBase()){
-    case DNABASES.T.getBase(): return DNABASES.A; break;
-    case DNABASES.C.getBase(): return DNABASES.G; break;
-    case DNABASES.A.getBase(): return DNABASES.T; break;
-    case DNABASES.G.getBase(): return DNABASES.C; break;
-    case DNABASES.ANY.getBase(): return DNABASES.ANY; break;
+    case DNABASES.T.getBase(): return DNABASES.A;
+    case DNABASES.C.getBase(): return DNABASES.G;
+    case DNABASES.A.getBase(): return DNABASES.T;
+    case DNABASES.G.getBase(): return DNABASES.C;
+    case DNABASES.ANY.getBase(): return DNABASES.ANY;
     default: break;
   }
   assert(0);
@@ -91,10 +91,10 @@ DNA randomBase(DNA base){
     default: z = dice(25, 25, 25, 25);
   }
   switch(z){
-    case 0: return DNABASES.A; break;
-    case 1: return DNABASES.G; break;
-    case 2: return DNABASES.T; break;
-    case 3: return DNABASES.C; break;
+    case 0: return DNABASES.A;
+    case 1: return DNABASES.G;
+    case 2: return DNABASES.T;
+    case 3: return DNABASES.C;
     default: break;
   }
   assert(0);
