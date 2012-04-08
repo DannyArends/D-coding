@@ -157,53 +157,53 @@ namespace :app do
   task :all => BIN
   
   desc "Fileloader application"
-  task "fileloader" => ['lib:core','lib:io'] do
-    sh "dmd src/main/fileloader.d #{bd}/core.#{libext} #{bd}/io.#{libext} -Isrc/ -od#{bd} -offileloader.#{execext}"
+  task "fileloader" do
+    sh "dmd src/main/fileloader.d #{core_files} #{io_files} -od#{bd} -offileloader.#{execext}"
   end
 
   desc "Large file splitter"
-  task "filesplitter" => ['lib:core','lib:io'] do
-    sh "dmd src/main/filesplitter.d #{bd}/core.#{libext} #{bd}/io.#{libext} -Isrc/ -od#{bd} -offilesplit.#{execext}"
+  task "filesplitter" do
+    sh "dmd src/main/filesplitter.d #{core_files} #{io_files} -od#{bd} -offilesplit.#{execext}"
   end
 
   desc "DNA sequence alignment using blastn"
-  task "aligner" => ['lib:core','lib:io'] do
-    sh "dmd src/main/aligner.d #{bd}/core.#{libext} #{bd}/io.#{libext} -Isrc/ -od#{bd} -ofaligner.#{execext}"
+  task "aligner" do
+    sh "dmd src/main/aligner.d #{core_files} #{io_files} -od#{bd} -ofaligner.#{execext}"
   end
   
   desc "Actor example from D"
-  task "actor" => 'lib:core' do
-    sh "dmd src/main/actor.d #{bd}/core.#{libext} -Isrc/ -od#{bd} -ofactor.#{execext}"
+  task "actor" do
+    sh "dmd src/main/actor.d #{core_files} -od#{bd} -ofactor.#{execext}"
   end
 
   desc "os test"
-  task "ostest" => ['lib:core','lib:io'] do
-    sh "dmd src/main/ostest.d #{bd}/core.#{libext} #{bd}/io.#{libext} -Isrc/ -od#{bd} -ofostest.#{execext}"
+  task "ostest" do
+    sh "dmd src/main/ostest.d #{core_files} #{io_files} -od#{bd} -ofostest.#{execext}"
   end
   
   desc "Extract probes mapping to a single genome location"
-  task "single_map_probes" => ['lib:core','lib:io'] do
-    sh "dmd src/main/single_map_probes.d #{bd}/core.#{libext} #{bd}/io.#{libext} -Isrc/ -od#{bd} -ofmap_probes.#{execext}"
+  task "single_map_probes" do
+    sh "dmd src/main/single_map_probes.d #{core_files} #{io_files} -od#{bd} -ofmap_probes.#{execext}"
   end
   
   desc "Correlation test using the Statistics library"
-  task "correlation" => [ 'lib:core','lib:stats','lib:io'] do
-    sh "dmd src/main/correlation.d #{bd}/core.#{libext} #{bd}/io.#{libext} #{bd}/stats.#{libext} -Isrc/ -od#{bd} -ofcorrelation.#{execext}"
+  task "correlation" do
+    sh "dmd src/main/correlation.d #{core_files} #{libload_files} #{io_files} #{plugin_stats} #{deps_r} -od#{bd} -ofcorrelation.#{execext} -L-ldl"
   end
   
   desc "P'' language interpreter (see: http://en.wikipedia.org/wiki/P'')"
-  task "plang" => ['lib:core','lib:inter'] do
-    sh "dmd src/main/plang.d #{bd}/core.#{libext} #{bd}/interpreters.#{libext} -Isrc/ -od#{bd} -ofplang.#{execext}"
+  task "plang" do
+    sh "dmd src/main/plang.d #{core_files} #{inter_files} -od#{bd} -ofplang.#{execext}"
   end
 
   desc "Start the JVM"
-  task "startJVM" => 'lib:jni' do
-    sh "dmd src/main/startJVM.d #{bd}/core.#{libext} #{bd}/jni.#{libext} -Isrc/ -Ideps/ -od#{bd} -ofstartJVM.#{execext} #{link_args}"
+  task "startJVM" do
+    sh "dmd src/main/startJVM.d #{core_files} #{libload_files} #{deps_jni} -od#{bd} -ofstartJVM.#{execext} -L-ldl"
   end
   
   desc "Basic HTTP response slurper"
-  task "httpreader" => ['lib:core','lib:web'] do
-    sh "dmd src/main/httpreader.d #{bd}/core.#{libext} #{bd}/web.#{libext} -Isrc/ -od#{bd} -ofhttpreader.#{execext}"
+  task "httpreader" do
+    sh "dmd src/main/httpreader.d #{core_files} #{web_files} -od#{bd} -ofhttpreader.#{execext}"
   end
   
   desc "Multiple lineair regression"
@@ -213,7 +213,7 @@ namespace :app do
   
   desc "HTPPserver supporting D as CGI"
   task "httpserver" do
-    sh "dmd src/main/httpserver.d #{core_files} #{web_files} -Isrc/ -od#{bd} -ofhttpserver.#{execext}"
+    sh "dmd src/main/httpserver.d #{core_files} #{web_files} -od#{bd} -ofhttpserver.#{execext}"
   end
   
   desc "Server for a multiplayer network mud"
@@ -238,7 +238,7 @@ namespace :app do
 
   desc "SDL engine"
   task "sdl" do
-    sh "dmd src/main/sdlengine.d #{core_files} #{libload_files} #{io_files} #{inter_files} #{game_files} #{web_files} #{sfx_files} #{plugin_gui} #{deps_sdl} #{deps_opengl} #{deps_openal} -od#{bd} -ofsdltest.#{execext} -L-ldl"
+    sh "dmd src/main/sdlengine.d #{core_files} #{libload_files} #{web_files} #{game_files} #{plugin_gui} #{sfx_files} #{deps_sdl} #{deps_opengl} #{deps_openal} -od#{bd} -ofsdltest.#{execext} -L-ldl"
   end
 end
 
