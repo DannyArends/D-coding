@@ -34,7 +34,7 @@ Compile using rake and dmd on your %PATH%:
 Applications
 ------------
 The provided applications are itself are not that interesting, and sometimes far from finished, 
-however here a short description on what they are supposed to do is provided:
+however here a short description on what they are supposed to do:
 
     - actor : Testing D2.0 actors
     - aligner: Performs blastn on raw DNA sequences to a whole genome sequences in a fasta file
