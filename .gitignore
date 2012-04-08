@@ -13,6 +13,7 @@ data/
 .project
 *.o
 *.save
+*.SAVE
 *.class
 .externalToolBuilders/
 
