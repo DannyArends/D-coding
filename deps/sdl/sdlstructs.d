@@ -2,7 +2,6 @@ module sdl.sdlstructs;
 
 private import std.stdio;
 private import std.conv;
-private import std.intrinsic;
 private import std.c.stdio;
 
 enum : Uint32{
@@ -174,7 +173,7 @@ int MSF_TO_FRAMES(int M, int S, int F){
     return (M * 60 * CD_FPS + S * CD_FPS + F);
 }
 
-// SDL_endian.h
+/* SDL_endian.h
 Uint16 SDL_Swap16(Uint16 val){
     return cast(Uint16)((val<<8)|(val>>8));
 }
@@ -254,7 +253,7 @@ version(LittleEndian){
         return val;
     }
 }
-
+*/
 // SDL_events.h
 enum{
     SDL_NOEVENT = 0,

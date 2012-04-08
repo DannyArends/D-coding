@@ -207,38 +207,38 @@ namespace :app do
   end
   
   desc "Multiple lineair regression"
-  task "regression" => [ 'lib:core',  'lib:stats',  'lib:r' ] do
-    sh "dmd src/main/regression.d #{bd}/core.#{libext} #{bd}/stats.#{libext} #{bd}/r.#{libext} -Isrc/ -Ideps/ -od#{bd} -ofregression.#{execext} #{link_args}"
+  task "regression" do
+    sh "dmd src/main/regression.d #{core_files} #{libload_files} #{plugin_stats} #{deps_r} -od#{bd} -ofregression.#{execext} -L-ldl"
   end
   
   desc "HTPPserver supporting D as CGI"
-  task "httpserver" => ['lib:core','lib:web'] do
-    sh "dmd src/main/httpserver.d #{bd}/core.#{libext} #{bd}/web.#{libext} -Isrc/ -od#{bd} -ofhttpserver.#{execext}"
+  task "httpserver" do
+    sh "dmd src/main/httpserver.d #{core_files} #{web_files} -Isrc/ -od#{bd} -ofhttpserver.#{execext}"
   end
   
   desc "Server for a multiplayer network mud"
-  task "gameserver" => ['lib:core','lib:web','lib:game','lib:sdl'] do
-    sh "dmd src/main/server.d #{bd}/core.#{libext} #{bd}/web.#{libext} #{bd}/game.#{libext} #{bd}/sdl.#{libext} -Isrc/ -Ideps/ -od#{bd} -ofserver.#{execext}"
+  task "gameserver" do
+    sh "dmd src/main/server.d #{core_files} #{libload_files} #{web_files} #{game_files} #{plugin_gui} #{sfx_files} #{deps_sdl} #{deps_opengl} #{deps_openal} -od#{bd} -ofserver.#{execext} -L-ldl"
   end
 
   desc "Decode voynich"
   task "voynich" => 'lib:core' do
-    sh "dmd src/main/voynich.d #{bd}/core.#{libext} -Isrc/ -od#{bd} -ofvoynich.#{execext}"
+    sh "dmd src/main/voynich.d #{core_files} -od#{bd} -ofvoynich.#{execext}"
   end
   
   desc "Scan for proteins in DNA code"
-  task "dnacode" => ['lib:core','lib:genetics'] do
-    sh "dmd src/main/dnacode.d #{bd}/core.#{libext} #{bd}/genetics.#{libext} -Isrc/ -od#{bd} -ofdnacode.#{execext}"
+  task "dnacode" do
+    sh "dmd src/main/dnacode.d #{core_files} #{genetic_files} -od#{bd} -ofdnacode.#{execext}"
   end
 
   desc "Test openAL bindings"
-  task "testal" => 'lib:openAL' do
-    sh "dmd src/main/testal.d #{bd}/core.#{libext} #{bd}/openAL.#{libext} -Isrc/ -Ideps/ -od#{bd} -oftestal.#{execext} #{link_args}"
+  task "testal" do
+    sh "dmd src/main/testal.d #{core_files} #{libload_files} #{deps_openal} -od#{bd} -oftestal.#{execext} -L-ldl"
   end
 
   desc "SDL engine"
-  task "sdl" => ['lib:core', 'lib:sdl','lib:openAL','lib:openGL','lib:sfx','lib:web','lib:gui','lib:game'] do
-    sh "dmd src/main/sdlengine.d #{bd}/core.#{libext} #{bd}/sfx.#{libext} #{bd}/sdl.#{libext} #{bd}/web.#{libext} #{bd}/gui.#{libext} #{bd}/openGL.#{libext} #{bd}/openAL.#{libext} #{bd}/game.#{libext}  -Isrc/ -Ideps/ -od#{bd} -ofsdltest.#{execext} #{link_args}"
+  task "sdl" do
+    sh "dmd src/main/sdlengine.d #{core_files} #{libload_files} #{io_files} #{inter_files} #{game_files} #{web_files} #{sfx_files} #{plugin_gui} #{deps_sdl} #{deps_opengl} #{deps_openal} -od#{bd} -ofsdltest.#{execext} -L-ldl"
   end
 end
 
