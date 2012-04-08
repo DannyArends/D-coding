@@ -184,36 +184,25 @@ char toShiftChar(char c){
     switch(to!int(to!string(c))){
       case 0:
         return ')';
-      break;
       case 1:
         return '!';
-      break;
       case 2:
         return '@';
-      break;
       case 3:
         return '#';
-      break;      
       case 4:
         return '$';
-      break;
       case 5:
         return '%';
-      break;
       case 6:
         return '^';
-      break;
       case 7:
         return '&';
-      break;
       case 8:
         return '*';
-      break;
       case 9:
         return '(';
-      break;
-      default:
-      break;
+      default: break;
     }
     return to!char(toUpper(to!string(c)));
   }catch{

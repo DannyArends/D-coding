@@ -21,13 +21,13 @@ import sfx.engine;
 
 class Test_LQT : Empty{
   public:
-  void setup2D(Screen screen){
+  override void setup2D(Screen screen){
     writefln("[ G ] setup2D");
     text = new Text(screen, 10, 10);
     screen.add(text);
   }
 
-  void setup3D(Screen screen){
+  override void setup3D(Screen screen){
     writefln("[ G ] setup3D");
     Texture map = screen.getTexture("map");
     objects ~= new Line(-1, -1,-5, 0, -1,2);
@@ -46,17 +46,17 @@ class Test_LQT : Empty{
     screen.add(objects);
   }
   
-  void render(GFXEngine engine){
+  override void render(GFXEngine engine){
     text.setText("FPS: " ~ engine.fps);
   }
   
-  void update(){
+  override void update(){
     for(int x=0;x<30;x++){
       objects[3+x].rotate(1,x,x/10.0);
     }
   }
   
   private:
-  Object3D[] objects;
-  Text   text;
+    Object3D[] objects;
+    Text   text;
 }

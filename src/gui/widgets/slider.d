@@ -35,7 +35,7 @@ class Slider : DragBar{
     range[1] = stop;
   }
   
-  void onClick(int cx, int cy){
+  override void onClick(int cx, int cy){
     if(cx >= this.x() && (cx+16) <= (this.x()+this.sx())){
       slider.setLocation(cx-this.x(),0,0);
       setNewValue();
@@ -44,7 +44,7 @@ class Slider : DragBar{
     dragging = !dragging;
   }
   
-  void onDrag(int cx, int cy){
+  override void onDrag(int cx, int cy){
     if(dragging && (slider.x()+cx) >= this.x() && (slider.x()+cx+16) <= (this.x()+this.sx())){
       slider.move(cx,0,0);
       setNewValue();
@@ -54,7 +54,7 @@ class Slider : DragBar{
     setName(to!string(value) ~ "");
   }
   
-  void render(){
+  override void render(){
     super.render();
     slider.render();
   }
@@ -63,9 +63,9 @@ class Slider : DragBar{
     value = to!int((((slider.x()-x())/(sx()-16))) * (range[1]-range[0])) + range[0];
   }
   
-  Event handleKeyPress(KeyEvent key){ return new Event(); }
+  override Event handleKeyPress(KeyEvent key){ return new Event(); }
   
-  Object2DType getType(){ return Object2DType.SLIDER; }
+  override Object2DType getType(){ return Object2DType.SLIDER; }
 private:
   int[2]     range;
   int        value;

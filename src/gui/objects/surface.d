@@ -44,9 +44,9 @@ class HeightMap : Surface{
     highlight_color  = new Color(1.0,0.0,0.0);
   }
   
-  float getHeight(int x, int y){ return map[x][y]; }
+  override float getHeight(int x, int y){ return map[x][y]; }
   
-  Color getColor(int x, int y){ 
+  override Color getColor(int x, int y){ 
     if(highlight[0] == x && highlight[1] == y){
         return highlight_color;
     }else{
@@ -78,7 +78,7 @@ class Surface : Object3D{
     size[1] = sy;
   }
   
-  void buffer(){ 
+  override void buffer(){ 
     if(displaylist)glDeleteLists(displaylist,1);
     displaylist = glGenLists(1);
     glNewList(displaylist, GL_COMPILE);
@@ -91,7 +91,7 @@ class Surface : Object3D{
   abstract float  getHeight(int x, int y);
   abstract Color  getColor(int x, int y);
 
-  void render(int faceType = GL_TRIANGLE_STRIP){
+  override void render(int faceType = GL_TRIANGLE_STRIP){
     glToLocation();
     if(buffered){
       glCallList(displaylist);
@@ -119,7 +119,7 @@ class Surface : Object3D{
   
   int getMapX(){ return size[0]; }
   int getMapY(){ return size[1]; }
-  int getFaceType(){ return GL_TRIANGLE_STRIP; }
+  override int getFaceType(){ return GL_TRIANGLE_STRIP; }
   
   private:
     int[2] size;

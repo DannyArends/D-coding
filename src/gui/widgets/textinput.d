@@ -32,14 +32,14 @@ class TextInput : Button{
     inputtext = new Text(this,1+label.length*15,1,value);
   }
   
-  void onClick(int x, int y){
+  override void onClick(int x, int y){
     input="";
     inputtext.setText(input);
   }
   
-  void onDrag(int x, int y){ }
+  override void onDrag(int x, int y){ }
   
-  Event handleKeyPress(KeyEvent key){
+  override Event handleKeyPress(KeyEvent key){
     Event e = new Event();
     switch(key.getSDLkey()){
       case SDLK_RETURN:
@@ -57,7 +57,7 @@ class TextInput : Button{
     return e;
   }
   
-  void render(){
+  override void render(){
     super.render();
     inputtext.render();
   }
@@ -67,7 +67,7 @@ class TextInput : Button{
   }
   
   string getInput(){ return input; }
-  Object2DType getType(){ return Object2DType.TEXTINPUT; }
+  override Object2DType getType(){ return Object2DType.TEXTINPUT; }
 
 private:
   string input;

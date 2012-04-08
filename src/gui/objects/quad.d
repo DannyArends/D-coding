@@ -22,9 +22,9 @@ class Quad : Object3D{
   public:
     this(double x, double y, double z){ super(x,y,z); }
     
-    void buffer(){ }
+    override void buffer(){ }
     
-    void render(int faceType = GL_QUADS){
+    override void render(int faceType = GL_QUADS){
       glToLocation();
       glColor4f(r(), g(),  b(), alpha());
       if(textureid != -1){
@@ -48,5 +48,5 @@ class Quad : Object3D{
       glPopMatrix();
     }
 
-    int getFaceType(){ return GL_QUADS; }
+    override int getFaceType(){ return GL_QUADS; }
 }

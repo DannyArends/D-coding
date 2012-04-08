@@ -20,7 +20,7 @@ public:
     super(x, y, sx, sy, parent);
   }
   
-  void render(){
+  override void render(){
     foreach(int cnt, string line; lines){
       glLoadIdentity();
       glTranslatef(x(),y()+cnt*16,0.0f);
@@ -35,7 +35,7 @@ public:
     }
   }
   
-  Object2DType getType(){ return Object2DType.TEXT; }
+  override Object2DType getType(){ return Object2DType.TEXT; }
   
   void addLine(string line){ 
     if(lines.length == maxlines) removeLine();
@@ -60,8 +60,8 @@ public:
     if(maxlines < 0) this.maxlines = -1;
   }
   
-  @property GLfloat sy(){ return 16*lines.length; }
-  @property GLfloat sx(){
+  @property override GLfloat sy(){ return 16*lines.length; }
+  @property override GLfloat sx(){
     int size = 0;
     foreach(string l;lines){
       if(to!int(l.length)*to!int(16*scale) > size) size = to!int(l.length)*to!int(16*scale);

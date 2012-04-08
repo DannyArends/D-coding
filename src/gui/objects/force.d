@@ -23,7 +23,7 @@ class NullForce : Force{
     super(0.0,0.0,0.0,0.0,0.0,0.0);
   }
   
-  void act(Object3D origin, Object3D target){ }
+  override void act(Object3D origin, Object3D target){ }
 }
 
 class Gravity : Force{
@@ -31,7 +31,7 @@ class Gravity : Force{
     super(0.0,0.0,0.0,0.0,-9.8,0.0);
   }
   
-  void act(Object3D origin, Object3D target){
+  override void act(Object3D origin, Object3D target){
     if(target.location[1] >= origin.location[1]){
       target.addImpulse(getDirection(), getMagnitude());
     }else{
@@ -46,7 +46,7 @@ class Fountain : Force{
     setRandomness(1000,20,500);
   }
   
-  void act(Object3D origin, Object3D target){
+  override void act(Object3D origin, Object3D target){
     //writefln("Distance between objects: %f",magnitude(subtract!double(origin.location,target.location)));
     if(magnitude(subtract!double(origin.location,target.location)) < 3){
       target.addImpulse(getDirection(), getMagnitude());

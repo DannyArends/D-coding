@@ -126,47 +126,47 @@ class GameEngine : ClockEventHandler{
       }
     }
     
-  void handle(Event e){
-    if(e is null) return;
-    if(e.getEventType() == EventType.QUIT){
-      game.save();
-      game.quit();
-      setMainMenuStage(0,0);
-      return;
+    override void handle(Event e){
+      if(e is null) return;
+      if(e.getEventType() == EventType.QUIT){
+        game.save();
+        game.quit();
+        setMainMenuStage(0,0);
+        return;
+      }
+      if(stage==Stage.PLAYING){
+        if(!e.handled && game.hudHandler()) game.hudHandler().handle(e); 
+        if(!e.handled && game.cameraMotion()) game.cameraMotion().handle(e);
+        if(!e.handled)game.handle(e);
+      }
+      e.handled=true;
     }
-    if(stage==Stage.PLAYING){
-      if(!e.handled && game.hudHandler()) game.hudHandler().handle(e); 
-      if(!e.handled && game.cameraMotion()) game.cameraMotion().handle(e);
-      if(!e.handled)game.handle(e);
-    }
-    e.handled=true;
-  }
   
-  void update(){
-    super.update();
-    if(stage==Stage.PLAYING){
-      if(game.cameraMotion()) game.cameraMotion().update();
-      if(updateFrequency > 0.0){
-        if((getTN()-getT0()).total!"msecs" > cast(long)(1000*updateFrequency)){
-          setT0();
+    override void update(){
+      super.update();
+      if(stage==Stage.PLAYING){
+        if(game.cameraMotion()) game.cameraMotion().update();
+        if(updateFrequency > 0.0){
+          if((getTN()-getT0()).total!"msecs" > cast(long)(1000*updateFrequency)){
+            setT0();
+            return game.update();
+          }
+        }else{  //Update game every cycle
           return game.update();
         }
-      }else{  //Update game every cycle
-        return game.update();
       }
     }
-  }
-  
-  void requestUpdate(double seconds){
-    updateFrequency = seconds;
-  }
-  
-  @property{
-    Stage      gamestage(){ return stage; }
-    GameClient network(){ return engine.network; }
-    Screen     screen(){ return engine.screen; }
-    GFXEngine  gfxengine(){ return engine; }
-  }
+    
+    void requestUpdate(double seconds){
+      updateFrequency = seconds;
+    }
+    
+    @property{
+      Stage      gamestage(){ return stage; }
+      GameClient network(){ return engine.network; }
+      Screen     screen(){ return engine.screen; }
+      GFXEngine  gfxengine(){ return engine; }
+    }
   
   private:
     GFXEngine   engine;

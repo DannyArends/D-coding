@@ -27,9 +27,7 @@ class Event{
 }
 
 class QuitEvent : Event{
-  EventType getEventType(){
-    return EventType.QUIT;
-  }
+  override EventType getEventType(){ return EventType.QUIT; }
 }
 
 abstract class EventHandler{

@@ -19,35 +19,35 @@ import sfx.engine;
 
 class Empty : Game{
   public:
-  void setup2D(Screen screen){
+  override void setup2D(Screen screen){
     writefln("[ G ] setup2D");
   }
 
-  void setup3D(Screen screen){
+  override void setup3D(Screen screen){
     writefln("[ G ] setup3D");
   }
   
-  void setupSound(SFXEngine sound){
+  override void setupSound(SFXEngine sound){
     writefln("[ G ] setupSound");    
   }
 
-  void quit(){
+  override void quit(){
     writefln("[ G ] quit");
   }
   
-  void load(){
+  override void load(){
     writefln("[ G ] load");
   }
   
-  void save(){
+  override void save(){
     writefln("[ G ] save");
   }
   
-  void render(GFXEngine engine){
+  override void render(GFXEngine engine){
 
   }
   
-  void handle(Event e){
+  override void handle(Event e){
     writefln("[ G ] event received");
   }
   

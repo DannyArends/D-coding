@@ -26,9 +26,9 @@ public:
     super(x,y,z);
   }
   
-  void buffer(){ }
+  override void buffer(){ }
   
-  void render(int faceType = GL_TRIANGLE_STRIP){
+  override void render(int faceType = GL_TRIANGLE_STRIP){
     glToLocation();
     glColor4f(r(), g(),  b(), alpha());
     if(textureid != -1){
@@ -65,7 +65,7 @@ public:
     glPopMatrix();
   }
   
-  int getFaceType(){ return GL_TRIANGLE_STRIP; }
+  override int getFaceType(){ return GL_TRIANGLE_STRIP; }
 
 private:
   uint subdivisions = 70;

@@ -55,7 +55,7 @@ public:
   @property float y(){ return loc[1]; }
   @property float z(){ return loc[2]; }
   
-  string toString(){ 
+  override string toString(){ 
     return to!string(loc[0]) ~ ":" ~ to!string(loc[1]) ~ ":" ~ to!string(loc[2]); 
   }
   

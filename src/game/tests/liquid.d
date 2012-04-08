@@ -22,13 +22,13 @@ import sfx.engine;
 class Test_Liquid : Empty{
   public:
     
-  void setup2D(Screen screen){
+  override void setup2D(Screen screen){
     writefln("[ G ] setup2D");
     text = new Text(screen, 10, 10);
     screen.add(text);
   }
 
-  void setup3D(Screen screen){
+  override void setup3D(Screen screen){
     writefln("[ G ] setup 3D movement");
     cameraMotion(new FPMotion(screen));
     writefln("[ G ] setup 3D scene");
@@ -38,27 +38,22 @@ class Test_Liquid : Empty{
     screen.add(liquid);
   }
   
-  void load(GameEngine engine){
-   // engine.requestUpdate(1.0);
-   // liquid.buffer();
-  }
-  
-  void render(GFXEngine engine){
+  override void render(GFXEngine engine){
     text.setText("FPS: " ~ engine.fps);
   }
   
-  void handle(Event e){
+  override void handle(Event e){
     writefln("[ G ] event received");
     if(e.getEventType() == EventType.MOUSE){
       liquid.effect(uniform(0, liquid.getMapX()),uniform(0, liquid.getMapY()),uniform(0, 100));
     }
   }
   
-  void update(){
+  override void update(){
     liquid.update();
   }
   
   private:
-  Liquid liquid;
-  Text   text;
+    Liquid liquid;
+    Text   text;
 }

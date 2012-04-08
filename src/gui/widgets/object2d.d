@@ -88,7 +88,7 @@ abstract class Object2D : Location{
   @property GLfloat b(){ return color.b(); }
   @property GLfloat alpha(){ return color.alpha(); }
   
-  @property GLfloat x(){
+  override @property GLfloat x(){
     if(isScreen()) return 0.0;
     if(getParent().isScreen()){
       return super.x(); 
@@ -97,7 +97,7 @@ abstract class Object2D : Location{
     }
   }
   
-  @property GLfloat y(){ 
+  override @property GLfloat y(){ 
     if(isScreen()) return 0.0;
     if(getParent().isScreen()){
       return super.y(); 

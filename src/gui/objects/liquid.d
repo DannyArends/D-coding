@@ -47,7 +47,7 @@ class Liquid : HeightMap{
     return n;
   }
 
-  void update(){
+  override void update(){
     int x, y;
     float n;
     for(x = 1; x < getMapX()-1; x++) {
@@ -75,7 +75,7 @@ class Liquid : HeightMap{
     int tmp = t; t = f; f = tmp;
   }
 
-  float getHeight(int x, int y){
+  override float getHeight(int x, int y){
     float sm = super.getHeight(x,y);
     if(dampmap[x][y]){
       return sm;
@@ -83,7 +83,7 @@ class Liquid : HeightMap{
     return sm+liquid[t][x][y];    
   }
   
-  Color getColor(int x, int y){
+  override Color getColor(int x, int y){
     Color c = super.getColor(x,y);
     if(dampmap[x][y]) return c;
     c.updateColor(2,liquid[t][x][y]+0.6);

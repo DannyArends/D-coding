@@ -35,7 +35,7 @@ class KeyEvent : Event{
   
   int getSDLkey(){ return key; }
   KeyEventType getKeyEventType(){ return type; }
-  EventType getEventType(){ return EventType.KEYBOARD;}
+  override EventType getEventType(){ return EventType.KEYBOARD;}
 private:  
   int          key;
   KeyEventType type;

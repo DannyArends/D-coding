@@ -25,7 +25,7 @@ class HudHandler : EventHandler{
       this.engine = engine;
     }
     
-    void handle(Event e){
+    override void handle(Event e){
       if(e is null) return;
       if(e.getEventType() == EventType.MOUSE){
         MouseEvent evt = cast(MouseEvent) e;

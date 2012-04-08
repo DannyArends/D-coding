@@ -69,7 +69,7 @@ class GameServer : Server!ClientHandler{
       return false;
     }
     
-    void shutdown(){ 
+    override void shutdown(){ 
       super.shutdown();
       foreach(TileMap m; maps){ m.save(); }
       foreach(Player p; users){ p.save(); }

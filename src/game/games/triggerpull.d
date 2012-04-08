@@ -17,12 +17,12 @@ import sfx.formats.wav;
 
 class TriggerPull : Game{
 
-  void setup2D(Screen screen){
+  override void setup2D(Screen screen){
     text = new Text(screen, 10, 10);
     screen.add(text);
   }
 
-  void setup3D(Screen screen){
+  override void setup3D(Screen screen){
     gun = new Quad(1.4,-0.4,0);
     gun.setRotation(0.0,0.0,0.0);
     gun.setTexture(screen.getTextureID("Gun"));
@@ -30,15 +30,15 @@ class TriggerPull : Game{
     screen.add(gun);
   }
   
-  void setupSound(SFXEngine sound){
+  override void setupSound(SFXEngine sound){
     gunsound = sound.getSound("gun");
   }
 
-  void quit(){
+  override void quit(){
     writefln("[ G ] Triggerpull bye");
   }
   
-  void load(){
+  override void load(){
     engine.requestUpdate(1.0);
     if(!exists(filename)){
       writefln("[ G ] No save game found: %s",filename);    
@@ -56,7 +56,7 @@ class TriggerPull : Game{
     writeln("[ G ] Triggerpull reloaded");
   }
   
-  void save(){
+  override void save(){
     auto fp = new File(filename,"wb");
     string buffer = "";
     int cnt = 0;
@@ -70,7 +70,7 @@ class TriggerPull : Game{
     writefln("[ G ] Saved game to %s", filename);
   }
   
-  void render(GFXEngine engine){
+  override void render(GFXEngine engine){
     text.setText("Playing: " ~ to!string(cnts.length) ~ " seconds");
     text.addLine("Rate Of Fire: " ~ to!string(click_cnt));
     text.addLine("Max ROF/sec: " ~ to!string(max!int(cnts)));
@@ -84,7 +84,7 @@ class TriggerPull : Game{
     text.addLine("Total / Avg ROF: " ~ to!string(total_clicks) ~ " / " ~ to!string(avg));
   }
   
-  void handle(Event e){
+  override void handle(Event e){
     if(e.getEventType() == EventType.MOUSE){
       MouseEvent m_evt = cast(MouseEvent) e;
       switch(m_evt.getBtn()){
@@ -99,7 +99,7 @@ class TriggerPull : Game{
     }
   }
   
-  void update(){
+  override void update(){
     cnts ~= click_cnt;
     click_cnt = 0;
   }

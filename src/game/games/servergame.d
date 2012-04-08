@@ -21,7 +21,7 @@ import sfx.engine;
 
 class ServerGame : Game{
   public:
-  void setup2D(Screen screen){
+  override void setup2D(Screen screen){
     writefln("[ G ] setup2D");
     time = new Text(screen, 0, screen.height-32);
     text = new Text(screen, 0, 0, screen.width, 64);
@@ -32,31 +32,31 @@ class ServerGame : Game{
     screen.add(commandline);
   }
 
-  void setup3D(Screen screen){
+  override void setup3D(Screen screen){
     writefln("[ G ] setup3D");
   }
   
-  void setupSound(SFXEngine sound){
+  override void setupSound(SFXEngine sound){
     writefln("[ G ] setupSound");    
   }
 
-  void quit(){
+  override void quit(){
     writefln("[ G ] quit");
     if(engine.network.isOnline()) engine.network.shutdown();
   }
   
-  void load(){
+  override void load(){
     writefln("[ G ] load");
     engine.requestUpdate(1.0);
     engine.network.start();
     hudHandler(new HudHandler(engine.gfxengine));
   }
   
-  void save(){
+  override void save(){
     writefln("[ G ] save");
   }
   
-  void render(GFXEngine engine){
+  override void render(GFXEngine engine){
     time.setText(servertime.val);
   }
   
@@ -67,7 +67,7 @@ class ServerGame : Game{
     }  
   }
   
-  void handle(Event e){
+  override void handle(Event e){
     if(e.getEventType() == EventType.NETWORK){
       NetworkEvent n_evt = cast(NetworkEvent) e;
       switch(n_evt.getNetEvent()){
@@ -112,7 +112,7 @@ class ServerGame : Game{
     }
   }
   
-  void update(){
+  override void update(){
     servertime.addSecond();
   }
   

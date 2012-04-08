@@ -32,11 +32,9 @@ class ClockEvent : Event {
     this.verbose = verbose;
   }
   
-  EventType getEventType(){
-    return EventType.CLOCK;
-  }
+  override EventType getEventType(){ return EventType.CLOCK; }
   
-  void resetAge(){
+  override void resetAge(){
     super.resetAge();
     checks = 0;
     times--;
@@ -55,7 +53,7 @@ class ClockEvent : Event {
 class ClockEventHandler : EventHandler{
   public:
     
-    void update(){
+    override void update(){
       super.update();
       for(auto x = 0; x < eventqueue.length;x++){
         if(eventqueue[x].getEventType()==EventType.CLOCK){

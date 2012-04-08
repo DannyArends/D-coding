@@ -22,11 +22,11 @@ import sfx.engine;
 
 class MapMove : Game{
   public:
-  void setup2D(Screen screen){
+  override void setup2D(Screen screen){
     writefln("[ G ] setup2D");
   }
 
-  void setup3D(Screen screen){
+  override void setup3D(Screen screen){
     writefln("[ G ] setup3D");
     player = new Skeleton(100, -1, 100);
     cameraMotion(new ObjectMotion(screen,player));
@@ -35,28 +35,28 @@ class MapMove : Game{
     screen.add(player);
   }
   
-  void setupSound(SFXEngine sound){
+  override void setupSound(SFXEngine sound){
     writefln("[ G ] setupSound");    
   }
 
-  void quit(){
+  override void quit(){
     writefln("[ G ] quit");
   }
   
-  void load(){
+  override void load(){
     writefln("[ G ] load");
     map.buffer();
   }
   
-  void save(){
+  override void save(){
     writefln("[ G ] save");
   }
   
-  void render(GFXEngine engine){
+  override void render(GFXEngine engine){
 
   }
   
-  void handle(Event e){
+  override void handle(Event e){
     if(e.getEventType() == EventType.MOUSE){
       MouseEvent m_evt = cast(MouseEvent) e;
       switch(m_evt.getBtn()){

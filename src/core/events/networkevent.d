@@ -51,7 +51,7 @@ class NetworkEvent : Event{
     }
   }
   
-  EventType getEventType(){ return EventType.NETWORK; }
+  override EventType getEventType(){ return EventType.NETWORK; }
   NetEvent  getNetEvent(){ return _evt; }
   
   @property string    msg(){ return _msg; }

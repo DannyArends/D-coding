@@ -27,7 +27,7 @@ import sfx.engine;
 
 class Test_Objects2D : Game{
   public:
-  void setup2D(Screen screen){
+  override void setup2D(Screen screen){
     writefln("[ G ] setup2D");
     text = new Text(screen, 10, 10);
     gun = new Square(0,200,300,300,screen);
@@ -40,39 +40,39 @@ class Test_Objects2D : Game{
     screen.add(target);
   }
 
-  void setup3D(Screen screen){
+  override void setup3D(Screen screen){
     writefln("[ G ] setup3D");
   }
   
-  void setupSound(SFXEngine sound){
+  override void setupSound(SFXEngine sound){
     writefln("[ G ] setupSound");    
   }
 
-  void quit(){
+  override void quit(){
     writefln("[ G ] quit");
   }
   
-  void load(){
+  override void load(){
     writefln("[ G ] load");
   }
   
-  void save(){
+  override void save(){
     writefln("[ G ] save");
   }
   
-  void render(GFXEngine engine){
+  override void render(GFXEngine engine){
     text.setText("FPS: " ~ engine.fps);
   }
   
-  void handle(Event e){
+  override void handle(Event e){
     writefln("[ G ] event received");
   }
   
-  void update(){
+  override void update(){
   }
   
   private:
-  Text   text;
-  Square gun;
-  Square target;
+    Text   text;
+    Square gun;
+    Square target;
 }

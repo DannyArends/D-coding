@@ -20,13 +20,9 @@ class SoundEvent : Event{
     this.name=name;
   }
 
-  string getSoundName(){
-    return name;
-  }
+  string getSoundName(){ return name; }
 
-  EventType getEventType(){
-    return EventType.SOUND;
-  }  
+  override EventType getEventType(){ return EventType.SOUND; }
 
 private:  
   string name;

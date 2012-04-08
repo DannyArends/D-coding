@@ -20,31 +20,31 @@ class Physics : EventHandler{
 }
 
 class SurfacePhysics : Physics{
-  void update(){
+  override void update(){
   
   }
   
-  void handle(Event e){
+  override void handle(Event e){
   
   }
 }
 
 class ClassicalPhysics : Physics{
-  void update(){
+  override void update(){
   
   }
   
-  void handle(Event e){
+  override void handle(Event e){
   
   }
 }
 
 class RelativePhysics : Physics{
-  void update(){
+  override void update(){
   
   }
   
-  void handle(Event e){
+  override void handle(Event e){
   
   }
 }

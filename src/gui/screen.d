@@ -82,7 +82,7 @@ class Screen : Object2D{
       if(verbose) writefln("[SCREEN] Rendered: %s objects", sceneobjects.length);
     }
 
-    void render(){
+    override void render(){
       glMatrixMode(GL_PROJECTION);
       glLoadIdentity();
       glOrtho(0.0f, sx(), sy(), 0.0f, 0.0f, 1.0f);
@@ -93,7 +93,7 @@ class Screen : Object2D{
       }
     }
     
-    void resize(int width, int height){
+    override void resize(int width, int height){
       setSize(width,height,false);
       textureloader.refreshAfterResize();
       fontID = textureloader.getTextureID("font");
@@ -178,12 +178,12 @@ class Screen : Object2D{
     @property int width(){ return engine.width; }
     @property int height(){ return engine.height; }
     
-    GLuint getFontBase(){ return base; }
+    override GLuint getFontBase(){ return base; }
     Camera getCamera(){ return camera; }
-    GLuint getFontId(){ return fontID; }
+    override GLuint getFontId(){ return fontID; }
     GLuint getTextureID(string name){ return textureloader.getTextureID(name); }
     Texture getTexture(string name){ return textureloader.getTexture(name); }
-    Object2DType getType(){ return Object2DType.SCREEN; }
+    override Object2DType getType(){ return Object2DType.SCREEN; }
 
 private:
   GLuint        base;

@@ -14,14 +14,14 @@ import sfx.engine;
 class Test_HeightMap : Empty{
   public:
       
-  void setup2D(Screen screen){
+  override void setup2D(Screen screen){
     writefln("[ G ] setup2D");
     text = new Text(screen, 10, 10);
     screen.add(text);
   }
 
   
-  void setup3D(Screen screen){
+  override void setup3D(Screen screen){
     writefln("[ G ] setup 3D movement");
     cameraMotion(new FPMotion(screen));
     writefln("[ G ] setup 3D scene");
@@ -31,11 +31,11 @@ class Test_HeightMap : Empty{
     screen.add(heightmap);
   }
   
-  void load(){
+  override void load(){
     heightmap.buffer();
   }
   
-  void handle(Event e){
+  override void handle(Event e){
     if(e.getEventType() == EventType.MOUSE){
       MouseEvent m_evt = cast(MouseEvent) e;
       switch(m_evt.getBtn()){
@@ -53,12 +53,12 @@ class Test_HeightMap : Empty{
     }
   }
   
-  void render(GFXEngine engine){
+  override void render(GFXEngine engine){
     text.setText("Buffered: " ~ to!string(heightmap.buffered) ~ "");
     text.addLine("FPS: " ~ engine.fps);
   }
    
   private:
-  HeightMap  heightmap;
-  Text   text;
+    HeightMap  heightmap;
+    Text   text;
 }

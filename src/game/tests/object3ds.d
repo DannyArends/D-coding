@@ -20,13 +20,13 @@ import sfx.engine;
 
 class Test_Object3DS : Empty{
   public:
-  void setup2D(Screen screen){
+  override void setup2D(Screen screen){
     writefln("[ G ] setup2D");
     text = new Text(screen, 10, 10);
     screen.add(text);
   }
 
-  void setup3D(Screen screen){
+  override void setup3D(Screen screen){
     writefln("[ G ] setup 3D movement");
     cameraMotion(new FPMotion(screen));
     writefln("[ G ] setup 3D scene");
@@ -36,7 +36,7 @@ class Test_Object3DS : Empty{
     screen.add(objects);
   }
   
-  void render(GFXEngine engine){
+  override void render(GFXEngine engine){
     text.setText("FPS: " ~ engine.fps);
   }
   

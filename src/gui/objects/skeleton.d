@@ -31,9 +31,9 @@ class Skeleton : Object3D{
       objects = loadAn8(name);
     }
     
-    void buffer(){ }
+    override void buffer(){ }
     
-    void render(int faceType = GL_LINES){
+    override void render(int faceType = GL_LINES){
       glToLocation();
       glColor4f(r(), g(),  b(), alpha());
       renderBone(objects.figures[0].root,0,faceType);
@@ -68,7 +68,7 @@ class Skeleton : Object3D{
       return r/scale; 
     }
 
-    int getFaceType(){ return GL_LINES; }
+    override int getFaceType(){ return GL_LINES; }
   
   private:
     An8 objects;

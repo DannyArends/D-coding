@@ -86,7 +86,7 @@ class ExecEnvironment{
     return false;
   }
   
-  string toString(){
+  override string toString(){
     string r = "Supported:\n";
     foreach(ExecProg p; progs){
       if(p.available) r ~= "- " ~ p.name ~ "\n";

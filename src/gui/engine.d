@@ -145,7 +145,7 @@ class GFXEngine : ClockEventHandler{
     return;
   }
   
-  void update(){
+  override void update(){
     super.update();
     game.update();
     sound.update();
@@ -166,7 +166,7 @@ class GFXEngine : ClockEventHandler{
   @property SFXEngine   sound(SFXEngine s = null){ if(s !is null){ _sound=s; } return _sound; }
   @property GameClient  network(GameClient g = null){ if(g !is null){ _network=g; } return _network; }
   
-  void handle(Event e){
+  override void handle(Event e){
     if(e.getEventType() == EventType.NETWORK){
       NetworkEvent n_evt = cast(NetworkEvent) e;
       if(network !is null){

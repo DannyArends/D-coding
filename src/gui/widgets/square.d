@@ -24,7 +24,7 @@ public:
     super(x,y,sx,sy,parent);
   }
   
-  void render(){
+  override void render(){
     glLoadIdentity();
     glTranslatef(x, y, 0.0f);
     glColor4f(r, g,  b, alpha);
@@ -49,5 +49,5 @@ public:
     if(getTexture() != -1) glDisable(GL_TEXTURE_2D);
   }
   
-  Object2DType getType(){ return Object2DType.SQUARE; }
+  override Object2DType getType(){ return Object2DType.SQUARE; }
 }

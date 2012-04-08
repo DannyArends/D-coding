@@ -24,9 +24,9 @@ public:
   this(){ super(); }
   this(double x, double y, double z, Object3D o = null){ super(x,y,z,o); }
   
-  void buffer(){ }
+  override void buffer(){ }
   
-  void render(int faceType = GL_TRIANGLES){
+  override void render(int faceType = GL_TRIANGLES){
     glToLocation();
     glColor4f(r(), g(),  b(), alpha());
     if(textureid != -1){
@@ -41,5 +41,5 @@ public:
     glPopMatrix();
   }
   
-  int getFaceType(){ return GL_TRIANGLES; }
+  override int getFaceType(){ return GL_TRIANGLES; }
 }

@@ -74,7 +74,7 @@ class SFXEngine : EventHandler{
   ALfloat* getSourcePos(){ return SourcePos.ptr; }
   ALfloat* getSourceVel(){ return SourceVel.ptr; }
   
-  void handle(Event e){ }
+  override void handle(Event e){ }
   
   private:
     string[]  sounds;

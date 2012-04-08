@@ -34,13 +34,13 @@ class CameraMotion : EventHandler{
 
 class NoMotion : CameraMotion {
   this(){ super(null); }  
-  void handle(Event e){ }
+  override void handle(Event e){ }
 }
 
 class FPMotion : CameraMotion {
   this(Screen screen){ super(screen); }
   
-  void handle(Event e){
+  override void handle(Event e){
     if(e.getEventType() == EventType.KEYBOARD){
       KeyEvent evt = cast(KeyEvent)e;
       switch(evt.getSDLkey()){
@@ -82,7 +82,7 @@ class ObjectMotion : CameraMotion {
     this.distancetotarget=distance;
   }
   
-  void handle(Event e){
+  override void handle(Event e){
     if(e.getEventType() == EventType.KEYBOARD){
       KeyEvent k_evt = cast(KeyEvent)e;
       switch(k_evt.getSDLkey()){
@@ -140,7 +140,7 @@ class ObjectMotion : CameraMotion {
     }
   }
   
-  void update(){
+  override void update(){
     double loc[3] = object.getLocation();
     Camera c = screen.getCamera();
     int h_rot = cast(int)c.getRotation()[0];

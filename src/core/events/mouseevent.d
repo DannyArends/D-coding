@@ -30,7 +30,7 @@ class MouseEvent : Event{
   }
   
   double[3] getXYZ(){ return unproject(sx, sy); }
-  EventType getEventType(){ return EventType.MOUSE; }
+  override EventType getEventType(){ return EventType.MOUSE; }
   MouseBtn getBtn(){ return btn; }
   KeyEventType getType(){ return type; }
   

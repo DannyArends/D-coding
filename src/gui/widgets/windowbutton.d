@@ -21,12 +21,12 @@ class WindowButton : Button{
     super(0,0, btnname.length*12+2, 16, btnname, parent);
   }
   
-  void onClick(int x, int y){
+  override void onClick(int x, int y){
     writeln("OnClick of a window button");
 //    getWindow().setVisible(false);
   }
   
-  void onDrag(int x, int y){ }
-  Event handleKeyPress(KeyEvent key){ return new Event(); }
+  override void onDrag(int x, int y){ }
+  override Event handleKeyPress(KeyEvent key){ return new Event(); }
   private:
 }

@@ -47,7 +47,7 @@ public:
   abstract void  onDrag(int x, int y);
   abstract Event handleKeyPress(KeyEvent key);
   
-  void render(){
+  override void render(){
     glLoadIdentity();
     glTranslatef(x(),y(),0.0f);
     glColor4f(r(), g(),  b(), alpha());
@@ -79,12 +79,12 @@ public:
     name.setText(btnname);
   }
   
-  void setSize(double sx, double sy, bool children = true){
+  override void setSize(double sx, double sy, bool children = true){
     super.setSize(sx,sy,children);
     if(bg !is null) bg.setSize(sx,sy);
   }
   
-  Object2DType getType(){ return Object2DType.BUTTON; }
+  override Object2DType getType(){ return Object2DType.BUTTON; }
 
 private:
   string   buttonname;
@@ -96,13 +96,14 @@ class CloseButton : Button{
   this(Object2D parent){
     super(parent.sx()-18,2,15,15,"X",parent);
   }
-  void onClick(int x, int y){
+  
+  override void onClick(int x, int y){
     writeln("OnClick of the CloseBtn");
     getWindow().setVisible(false);
   }
   
-  void onDrag(int x, int y){ }
-  Event handleKeyPress(KeyEvent key){ return new Event(); }
+  override void onDrag(int x, int y){ }
+  override Event handleKeyPress(KeyEvent key){ return new Event(); }
 }
 
 class MinMaxButton : Button{
@@ -110,13 +111,13 @@ class MinMaxButton : Button{
     super(parent.sx()-36,2,15,15,"-",parent);
   }
   
-  void onClick(int x, int y){
+  override void onClick(int x, int y){
     writeln("OnClick of the MinMaxBtn");
     getWindow().setMinimized(!getWindow().isMinimized());
   }
   
-  void onDrag(int x, int y){ }
-  Event handleKeyPress(KeyEvent key){ return new Event(); }
+  override void onDrag(int x, int y){ }
+  override Event handleKeyPress(KeyEvent key){ return new Event(); }
 }
 
 class DragBar : Button{
@@ -130,16 +131,16 @@ class DragBar : Button{
     bg.setColor(0.0,0.0,0.5);
   }
   
-  void onClick(int x, int y){
+  override void onClick(int x, int y){
     writeln("OnClick of the DragBar");
     getWindow().setDragging(!getWindow().isDragging());
   }
   
-  void onDrag(int x, int y){ 
+  override void onDrag(int x, int y){ 
     if(getWindow().isDragging())getWindow().move(x,y,0);
   }
   
-  Event handleKeyPress(KeyEvent key){ return new Event(); }
+  override Event handleKeyPress(KeyEvent key){ return new Event(); }
   
-  Object2DType getType(){ return Object2DType.DRAGBAR; }
+  override Object2DType getType(){ return Object2DType.DRAGBAR; }
 }

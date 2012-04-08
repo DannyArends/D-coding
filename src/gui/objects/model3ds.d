@@ -38,11 +38,11 @@ public:
     model = loadModelInfo3DS(filename);
   }
   
-  void buffer(){ 
+  override void buffer(){ 
     bufferModelInfo3DS(model);
   }
   
-  void render(int faceType = GL_TRIANGLES){
+  override void render(int faceType = GL_TRIANGLES){
     glToLocation();
     if(model.buffered){
       glEnableClientState(GL_VERTEX_ARRAY);                     // activate vertex coords array
@@ -92,7 +92,7 @@ public:
     }
   }
   
-  int getFaceType(){ return GL_TRIANGLES; }
+  override int getFaceType(){ return GL_TRIANGLES; }
 private:
   ModelInfo3DS* model;
 }

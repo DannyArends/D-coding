@@ -82,7 +82,7 @@ class FileServlet : Servlet{
     return false;
   }
 
-  bool serve(RequestHandler h, in Request request, in Header[] headers){
+  override bool serve(RequestHandler h, in Request request, in Header[] headers){
     handler = h;
     string rewritten_uri;
     bool found = false;

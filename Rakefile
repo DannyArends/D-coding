@@ -19,8 +19,12 @@ def bd;return "build";end
 
 def windows?;return RUBY_PLATFORM =~ /(:?mswin|mingw)/;end
 
-comp_args  = "-O"
+comp_args  = "-O -w"
 link_args = ""
+
+if ! windows? then
+  link_args = "-L-ldl"
+end
 
 def execext
   if windows? then
@@ -238,7 +242,7 @@ namespace :app do
 
   desc "SDL engine"
   task "sdl" do
-    sh "dmd -g src/main/sdlengine.d #{core_files} #{libload_files} #{web_files} #{game_files} #{plugin_gui} #{sfx_files} #{deps_sdl} #{deps_opengl} #{deps_openal} -od#{bd} -ofsdltest.#{execext} -L-ldl"
+    sh "dmd #{comp_args} src/main/sdlengine.d #{core_files} #{libload_files} #{web_files} #{game_files} #{plugin_gui} #{sfx_files} #{deps_sdl} #{deps_opengl} #{deps_openal} -od#{bd} -ofsdltest.#{execext} #{link_args}"
   end
 end
 

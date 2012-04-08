@@ -33,7 +33,7 @@ public:
     addObject(top);
   }
   
-  void render(){
+  override void render(){
     if(isVisible()){
       glLoadIdentity();
       glTranslatef(x,y,0.0f);
@@ -49,7 +49,7 @@ public:
     }
   }
   
-  Object2DType getType(){ return Object2DType.WINDOW; }
+  override Object2DType getType(){ return Object2DType.WINDOW; }
   
 private:
   DragBar     top;

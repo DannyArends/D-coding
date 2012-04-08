@@ -12,13 +12,13 @@ import sfx.engine;
 
 class Test_Spheres : Empty{
   public:
-  void setup2D(Screen screen){
+  override void setup2D(Screen screen){
     writefln("[ G ] setup2D");
     text = new Text(screen, 10, 10);
     screen.add(text);
   }
 
-  void setup3D(Screen screen){
+  override void setup3D(Screen screen){
     writefln("[ G ] setup3D");
     Texture map = screen.getTexture("map");
     spheres ~= new Sphere(-50, -10,-100);
@@ -33,7 +33,7 @@ class Test_Spheres : Empty{
     cameraMotion(new ObjectMotion(screen,spheres[2],30));
   }
   
-  void render(GFXEngine engine){
+  override void render(GFXEngine engine){
     text.setText("FPS: " ~ engine.fps);
   }
   

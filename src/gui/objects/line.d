@@ -27,9 +27,9 @@ class Line : Object3D{
       super(x,y,z,0.0,0.0,0.0,sx,sy,sz);
     }
     
-    void buffer(){ }
+    override void buffer(){ }
   
-    void render(int faceType = GL_LINES){
+    override void render(int faceType = GL_LINES){
       glToLocation();
       glColor4f(r(), g(),  b(), alpha());
       glBegin(GL_LINES);
@@ -39,5 +39,5 @@ class Line : Object3D{
       glPopMatrix();
     }
 
-    int getFaceType(){ return GL_LINES; }
+    override int getFaceType(){ return GL_LINES; }
 }

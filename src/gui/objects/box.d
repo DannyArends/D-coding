@@ -24,13 +24,8 @@ public:
     super(x,y,z);
   }
   
-  void render(Camera camera, int faceType = GL_QUADS){
-    glLoadIdentity();
-    glTranslatef(camera.x+x(),camera.y+y(),camera.z+z());
-
-    glRotatef(camera.rx+rx(), 1.0, 0.0, 0.0);
-    glRotatef(camera.ry+ry(), 0.0, 1.0, 0.0);
-    glRotatef(camera.rz+rz(), 0.0, 0.0, 1.0);
+  override void render(int faceType = GL_QUADS){
+    glToLocation();
     glColor4f(r(), g(),  b(), alpha());
     glBegin(faceType);
       glVertex3f(sx() ,sy(),-sz());        // Top Right Of The Quad (Top)
@@ -65,5 +60,5 @@ public:
     glEnd();
   }
   
-  int getFaceType(){ return GL_QUADS; }
+  override int getFaceType(){ return GL_QUADS; }
 }

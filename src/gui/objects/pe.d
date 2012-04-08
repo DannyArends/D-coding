@@ -28,10 +28,10 @@ class ParticleSystem : Object3D{
   public:
     this(double x, double y, double z){ super(x,y,z); }
   
-    void buffer(){ }
-    void update(){ }
-    void render(int faceType = GL_TRIANGLES){  }
-    int getFaceType(){ return GL_TRIANGLES; }
+    override void buffer(){ }
+    override void update(){ }
+    override void render(int faceType = GL_TRIANGLES){  }
+    override int getFaceType(){ return GL_TRIANGLES; }
   private:
     Physics  physics;
     PE[]     emitters;
@@ -58,9 +58,9 @@ public:
     this.forces ~= f;
   }
   
-  void buffer(){ }
+  override void buffer(){ }
   
-  void update(){
+  override void update(){
     for(auto p = 0; p < particles.length; p++){
       foreach(Force force; forces){
         force.act(this, particles[p]);
@@ -69,13 +69,13 @@ public:
     }
   }
   
-  void render(int faceType = GL_TRIANGLES){
+  override void render(int faceType = GL_TRIANGLES){
     for(auto x = 0; x < particles.length;x++){
       particles[x].render(particles[x].getFaceType());
     }
   }
   
-  int getFaceType(){ return GL_TRIANGLES; }
+  override int getFaceType(){ return GL_TRIANGLES; }
   private:
     Object3D[]  particles;
     Force[]     forces;
