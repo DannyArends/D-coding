@@ -9,7 +9,21 @@ external libraries:
 - (R for Statistics) Download and install R for your platform (http://www.r-project.org/)
 - (Aligner) Download and install BLAST (ftp://ftp.ncbi.nlm.nih.gov/blast/)
 
-Compile with using rake, dmd on your %PATH%:
+Dependencies
+============
+Under Linux run, switch to super user and install the following packages:
+
+    $ apt-get install r-base liblapack-dev libblas-dev 
+    $ apt-get install libsdl1.2-dev libopenal-dev libalut-dev libsdl-image1.2-dev
+
+In windows put the DLLs on your PATH by executing the provided .bat file:
+
+    $ cd <install-location>/D-coding
+    $ DLLonPATH.bat
+
+Compilation
+===========
+Compile using rake and dmd on your %PATH%:
 
     $ rake -T         #List all possible build and test options
     $ rake libs       #Build only the libraries
