@@ -255,13 +255,13 @@ task :default => 'app:all' do
   print "Build OK\n"
 end
 
-desc "Run the unit test"
+desc "Run the unit tests"
 task :unittest do
   sh "dmd -unittest src/main/empty.d #{core_files} #{libload_files} #{io_files} #{inter_files} #{game_files} #{web_files} #{sfx_files} #{genetic_files} #{plugin_gui} #{deps_sdl} #{deps_opengl} #{deps_openal}"
 end
 
 desc "Build all game-executables"
-task :game => ['app:gameserver', 'app:sdltest' ] do
+task :game => ['app:gameserver', 'app:sdl' ] do
   print "Game OK\n"
 end
 
