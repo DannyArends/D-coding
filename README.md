@@ -10,54 +10,60 @@ external libraries:
 - (Aligner) Download and install BLAST (ftp://ftp.ncbi.nlm.nih.gov/blast/)
 
 Dependencies
-============
+------------
 Under Linux run, switch to super user and install the following packages:
 
     $ apt-get install r-base liblapack-dev libblas-dev 
     $ apt-get install libsdl1.2-dev libopenal-dev libalut-dev libsdl-image1.2-dev
 
-In windows put the DLLs on your PATH by executing the provided .bat file:
+When using Windows put the 32bit DLLs on your PATH by executing the provided .bat file:
 
     $ cd <install-location>/D-coding
     $ DLLonPATH.bat
 
 Compilation
-===========
+-----------
 Compile using rake and dmd on your %PATH%:
 
-    $ rake -T         #List all possible build and test options
-    $ rake libs       #Build only the libraries
-    $ rake app:<name> #Build single standalone application
-    $ rake build      #Build all applications and libraries
+    $ rake -T         # List all possible build and test options
+    $ rake libs       # Build only the libraries
+    $ rake app:<name> # Build single standalone application
+    $ rake build      # Build all applications and libraries
+    $ rake unittest   # Run the unit tests
 
 Applications
 ------------
 The provided applications are itself are not that interesting, and sometimes far from finished, 
 however here a short description on what they are supposed to do is provided:
 
-    - sdltest: OS independent SDL OpenGL platform for testing D <-> SDL <-> OpenGL bindings
-    - Plang: implementation of a p'' interpreter
-    - Regression: Multiple regression adapted from MQM routine
-    - Fileloader: High speed big data file loading using the D language
-    - Aligner: Performs blastn on raw DNA sequences to a whole genome sequences in a fasta file
-    - Httpreader: Basic HTTP slurper
-    - Httpserver: Basic try at a HTTP server
-    - Httpserver: Basic try at a HTTP server
-    - DNAcode: Translates an input sequence in DNA to Anti, mRNA and possible proteins
+    - actor : Testing D2.0 actors
+    - aligner: Performs blastn on raw DNA sequences to a whole genome sequences in a fasta file
+    - correlation: Calculate correlation between vectors
+    - csc : Caesar subsitution cipher in ASM
+    - dnacode: Translates an input sequence in DNA to Anti, mRNA and possible proteins
+    - gameserver: Basic gameserver using a custom protocol
+    - sdl: OS independent SDL OpenGL platform for testing D <-> SDL <-> OpenGL bindings
+    - ostest: Testing operating system cmdline functionality
+    - plang: Implementation of a P'' interpreter
+    - regression: Multiple regression adapted from MQM routine
+    - fileloader: High speed big data file loading using the D language
+    - httpreader: Basic HTTP slurper
+    - httpserver: Basic try at a HTTP server
 
 To build an application simply run:
 
 ```
     $ rake app:aligner
     $ rake app:correlation
+    $ rake app:csc
+    $ rake app:dnacode
     $ rake app:ostest
     $ rake app:plang
     $ rake app:startJVM
     $ rake app:regression
     $ rake app:correlation
+    $ rake app:gameserver
     $ rake app:sdl
-    $ rake app:sdltest
-    $ rake app:dnacode
 ```
 
 Want to contribute? Great!
