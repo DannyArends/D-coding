@@ -19,7 +19,7 @@ import sdl.sdlfunctions;
 
 //Load the functions when the module is loaded
 static this(){
-  HXModule lib = load_library("sdl","SDL-1.2.so.0","",false);
+  HXModule lib = load_library("sdl","SDL","");
   
   // active.d
   load_function(SDL_GetAppState)(lib, "SDL_GetAppState");

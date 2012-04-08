@@ -17,7 +17,7 @@ import openal.alc;
 import openal.alut_types;
 
 static this(){
-  HXModule lib = load_library("alut", "", "");
+  HXModule lib = load_library("alut", "alut", "");
   
   load_function(alutInit)(lib, "alutInit");
   load_function(alutInitWithoutContext)(lib, "alutInitWithoutContext");
@@ -70,3 +70,4 @@ extern (C){
   void  function(ALbyte *buffer, ALenum *format, void **data, ALsizei *size, ALsizei *frequency, ALboolean *loop)alutLoadWAVMemory;
   void  function(ALenum format, ALvoid *data, ALsizei size, ALsizei frequency)alutUnloadWAV;
 }
+

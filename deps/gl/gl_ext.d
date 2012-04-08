@@ -99,3 +99,4 @@ extern(System){
   void function(GLenum, GLenum, GLint*) glGetBufferParameterivARB;
   void function(GLenum, GLenum, GLvoid*) glGetBufferPointervARB;
 }
+

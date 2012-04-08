@@ -22,12 +22,16 @@ import sfx.formats.wav;
 class SFXEngine : EventHandler{
   
   this(){
-    alutInit(null, cast(char**)0);
-    if(alGetError() == AL_NO_ERROR){
-      writeln("[SFX] Sound initialized.");
+    try{
+      alutInit(cast(int*)0, cast(char**)"");
+      if(alGetError() == AL_NO_ERROR){
+        writeln("[SFX] Sound initialized.");
+      }
+      listDevices();
+      checkEAX();
+    }catch(Throwable t){
+      writeln("This means we bound ALUT, but it fails to load");
     }
-    listDevices();
-    checkEAX();
   }
   
   void load(){

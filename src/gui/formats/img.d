@@ -24,7 +24,7 @@ import gl.gl_1_2;
 
 import core.typedefs.types;
 
-Texture loadImageAsTexture(string filename, bool verbose = false){  
+Texture loadImageAsTexture(string filename, bool verbose = true){  
   Texture texture = Texture(filename);
   if(!exists(filename) || !filename.isFile){
     writefln("[GFX] No such file: %s",filename);
@@ -33,7 +33,16 @@ Texture loadImageAsTexture(string filename, bool verbose = false){
   }
   filename = filename ~ "\0";
   if(verbose) writefln("[GFX] Opening file: %s",filename);
-  SDL_Surface* image = IMG_Load(filename.dup.ptr);
+  SDL_Surface* image;
+  try{
+    int flags=IMG_INIT_JPG|IMG_INIT_PNG;
+    IMG_Init(flags);
+    version(Windows){
+      image = IMG_Load(filename.dup.ptr);
+    }
+  }catch(Throwable t){
+    writeln("This means we bound SDL_image, but it fails to load");
+  }
   if(image is null){
     writefln("[GFX] No surface: %s",to!string(cast(char*)IMG_GetError()));
     texture.status = FileStatus.NO_SUCH_FILE;  

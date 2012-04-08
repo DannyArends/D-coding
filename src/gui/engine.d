@@ -47,20 +47,24 @@ class GFXEngine : ClockEventHandler{
     }
     
     videoFlags = initVideoFlags(videoInfo);
+    writeln("[GFX] videoFlags done");
     SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
     surface = SDL_SetVideoMode(screen_width, screen_height, screen_bpp, videoFlags );
     if(surface is null){ 
       writefln("Video mode set failed: %s", SDL_GetError()); 
       return; 
     }
+    writeln("[GFX] surface done");
     SDL_WM_SetCaption("Game", "Danny Arends");
     initGL();
+    writeln("[GFX] initGL done");
     _sound = sound;
     _game = game;
     _screen = new Screen(this);
     _hud = new HudHandler(this);
     _network = new GameClient(this,"localhost");
     _game.startRendering(this);
+    writeln("[GFX] Constructor done");
   }
   
   void start(bool verbose = false){
@@ -194,3 +198,4 @@ class GFXEngine : ClockEventHandler{
     SDL_Surface*        surface;
     SDL_VideoInfo*      videoInfo;
 }
+

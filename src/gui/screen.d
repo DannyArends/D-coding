@@ -58,12 +58,15 @@ class Screen : Object2D{
   public:
     this(GFXEngine engine){
       super(0,0,engine.width,engine.height);
+      writeln("[SCR] Screen constructor");
       this.engine = engine;
       this.camera = new Camera();
       textureloader = new TextureLoader();
       textureloader.load();
       fontID = textureloader.getTextureID("font");
+      writeln("[SCR] fontID:",fontID);
       base = loadTextureAsFont(fontID);
+      writeln("[SCR] Screen constructor done");
     }
     
     void render3D(bool verbose = false){

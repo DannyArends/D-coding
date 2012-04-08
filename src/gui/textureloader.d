@@ -22,9 +22,11 @@ class TextureLoader{
       if(isFile(e)){
         Texture texture;
         if(e.indexOf(".tga") > 0){
+          writeln("[TEX] TGA:",e);
           texture = loadTgaAsTexture(e);
         }
         if(e.indexOf(".png") > 0 || e.indexOf(".jpg") > 0){
+          writeln("[TEX] PNG/JPG:",e);
           texture = loadImageAsTexture(e);
         }
         if(texture.status == FileStatus.OK){

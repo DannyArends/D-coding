@@ -14,9 +14,13 @@ import sfx.engine;
 import game.engine;
 
 void main(string[] args){
+  writeln("[DBG] Starting game engine");
   GameEngine game = new GameEngine();
+  writeln("[DBG] Starting SFX engine");
   SFXEngine sound = new SFXEngine();
   sound.load();
+  writeln("[DBG] Starting GFX engine");
   GFXEngine graphics = new GFXEngine(game, sound);
   graphics.start();
+  writeln("[DBG] Finished");
 }

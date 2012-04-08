@@ -20,12 +20,13 @@ const SDL_IMAGE_PATCHLEVEL = 10;
 extern(C){
 
   static this(){
-    HXModule lib = load_library("SDL_image","SDL-1.2.so.0","",false);
+    HXModule lib = load_library("SDL_image","SDL_image","");
     
     load_function(IMG_Linked_Version)(lib, "IMG_Linked_Version");
     load_function(IMG_Init)(lib, "IMG_Init");
     load_function(IMG_Quit)(lib, "IMG_Quit");
     load_function(IMG_Load)(lib, "IMG_Load");
+    load_function(IMG_LoadTyped_RW)(lib, "IMG_LoadTyped_RW");
     
     writeln("[ D ] Mapped SDL_image functionality");
   }
@@ -34,15 +35,15 @@ extern(C){
 
   enum{
     IMG_INIT_JPG = 1,
-    IMG_INIT_PNG,
+    IMG_INIT_PNG = 2,
     IMG_INIT_TIF = 4,
   }
   
   alias int IMG_InitFlags;
   int  function(int flags)IMG_Init;
   void  function()IMG_Quit;
-  SDL_Surface* IMG_LoadTyped_RW(SDL_RWops *src, int freesrc, char *type);
-  SDL_Surface* function(char *file)IMG_Load;
+  SDL_Surface* function(SDL_RWops *src, int freesrc, char *type)IMG_LoadTyped_RW;
+  SDL_Surface* function(const char *file)IMG_Load;
   SDL_Surface* IMG_Load_RW(SDL_RWops *src, int freesrc);
   int  IMG_InvertAlpha(int on);
   int  IMG_isICO(SDL_RWops *src);
@@ -78,3 +79,4 @@ extern(C){
   alias SDL_SetError IMG_SetError;
   alias SDL_GetError IMG_GetError;
 }
+

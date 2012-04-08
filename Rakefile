@@ -238,7 +238,7 @@ namespace :app do
 
   desc "SDL engine"
   task "sdl" do
-    sh "dmd src/main/sdlengine.d #{core_files} #{libload_files} #{web_files} #{game_files} #{plugin_gui} #{sfx_files} #{deps_sdl} #{deps_opengl} #{deps_openal} -od#{bd} -ofsdltest.#{execext} -L-ldl"
+    sh "dmd -g src/main/sdlengine.d #{core_files} #{libload_files} #{web_files} #{game_files} #{plugin_gui} #{sfx_files} #{deps_sdl} #{deps_opengl} #{deps_openal} -od#{bd} -ofsdltest.#{execext} -L-ldl"
   end
 end
 
