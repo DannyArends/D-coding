@@ -1,9 +1,12 @@
-/**********************************************************************
- * \file deps/openal/al.d - Wrapper for openAL
+/******************************************************************//**
+ * \file deps/openal/al.d
+ * \brief Wrapper for openAL
  *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Apr, 2012<br>
+ * First written 2010<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
- **********************************************************************/ 
-
+ **********************************************************************/
 module openal.al;
 
 import std.loader;
@@ -12,7 +15,7 @@ import std.conv;
 import std.c.stdarg;
 
 import libload.libload;
-import openal.al_types;
+import openal.alstructs;
 
 template load_extension(T){
     ext_binding!(T) load_extension(ref T a) {

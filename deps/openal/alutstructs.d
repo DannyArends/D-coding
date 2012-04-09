@@ -1,4 +1,13 @@
-module openal.alut_types;
+/******************************************************************//**
+ * \file deps/openal/alutstruct.d
+ * \brief Structure and types definitions for ALUT
+ *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Mar, 2012<br>
+ * First written 2010<br>
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
+module openal.alutstructs;
 
 import std.stdio;
 

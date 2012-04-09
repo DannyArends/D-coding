@@ -1,8 +1,12 @@
-/**********************************************************************
- * \file deps/openal/alut.d - Wrapper for ALUT
+/******************************************************************//**
+ * \file deps/openal/alut.d
+ * \brief Wrapper for ALUT
  *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Apr, 2012<br>
+ * First written 2010<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
- **********************************************************************/ 
+ **********************************************************************/
 module openal.alut;
 
 import std.loader;
@@ -12,9 +16,9 @@ import std.c.stdarg;
 
 import libload.libload;
 import openal.al;
-import openal.al_types;
+import openal.alstructs;
 import openal.alc;
-import openal.alut_types;
+import openal.alutstructs;
 
 static this(){
   HXModule lib = load_library("alut", "alut", "");
@@ -70,4 +74,3 @@ extern (C){
   void  function(ALbyte *buffer, ALenum *format, void **data, ALsizei *size, ALsizei *frequency, ALboolean *loop)alutLoadWAVMemory;
   void  function(ALenum format, ALvoid *data, ALsizei size, ALsizei frequency)alutUnloadWAV;
 }
-
