@@ -143,8 +143,8 @@ class ObjectMotion : CameraMotion {
   override void update(){
     double loc[3] = object.getLocation();
     Camera c = screen.getCamera();
-    int h_rot = cast(int)c.getRotation()[0];
-    int v_rot = cast(int)c.getRotation()[1]+90;
+    int h_rot = cast(int)c.direction[0];
+    int v_rot = cast(int)c.direction[1]+90;
     float cameramod = distancetotarget*cos((h_rot*PI)/180);
     loc[0] += cameramod*(cos((v_rot*PI)/180));
     loc[1] += distancetotarget*sin((h_rot*PI)/180);

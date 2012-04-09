@@ -34,19 +34,19 @@ class Vector3D : Location{
     rot[1]=ry;
     rot[2]=rz;
   }
-  
-  double[] getRotation(){ return rot; }
-  
+    
   void rotate(double rx, double ry, double rz){
     rot[0]+=rx;
     rot[1]+=ry;
     rot[2]+=rz;
   }
 
-  @property double[] direction(){ return rot; }
-  @property float rx(){ return rot[0]; }
-  @property float ry(){ return rot[1]; }
-  @property float rz(){ return rot[2]; }
+  @property{
+    double[] direction(){ return rot; }
+    float rx(){ return rot[0]; }
+    float ry(){ return rot[1]; }
+    float rz(){ return rot[2]; }
+  }
   
   private:
     double[3] rot;

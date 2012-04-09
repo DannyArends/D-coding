@@ -66,11 +66,11 @@ class Force : Vector3D{
   abstract void act(Object3D origin, Object3D target);
   
   double[] getDirection(){
-    return normalize(applyRandomness(getRotation(), rnd));
+    return normalize(applyRandomness(direction, rnd));
   }
   
   double getMagnitude(){
-    return magnitude(applyRandomness(getRotation(), rnd));
+    return magnitude(applyRandomness(direction, rnd));
   }
   
   void setRandomness(int x, int y, int z){
