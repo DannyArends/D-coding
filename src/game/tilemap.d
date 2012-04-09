@@ -16,23 +16,19 @@ import core.arrays.types;
 import core.arrays.search;
 import core.typedefs.types;
 
+import game.engine;
 import game.tile;
 import game.mover;
 
-class TileMap{
+class TileMap : GameObject{
 public:
-  this(string data){ fromStringData(data); }
+  this(string data){ super(data); }
 
   this(string dir, string name, uint x = 10, uint y = 10){
-    mapname = name;
-    filename = dir ~ name;
-    if(!exists(filename) || !isFile(filename)){
+    super(dir, name);
+    if(!exists(filepath) || !isFile(filepath)){
       tiles = newmatrix!TileType(x, y, BLOCKEDTILE);
       save();  // Creating a new map
-    }else{
-      writefln("Opening map-file: %s",filename);
-      fromStringData(readText(filename));
-      writefln("Done map-file: %s",filename);    
     }
   }
 
@@ -57,7 +53,7 @@ public:
   }
   
   @property{
-    string     name(){ return mapname; }
+    string     name(){ return filename; }
     uint       x(){ return tiles.length; }
     uint       y(){ return tiles[0].length; }
     FileStatus status(){ return _status; }
@@ -80,16 +76,8 @@ public:
       tiles ~= rowoftiles;
     }
   }
-
-  void save(){
-    writefln("Opening map-file: %s",filename);
-    auto fp = new File(filename,"wb");
-    fp.write(toStringData());
-    fp.close();
-    writefln("Done map-file: %s",filename);    
-  }
   
-  void fromStringData(string data){
+  override void fromStringData(string data){
     string[] lines = splitLines(data);
     writeln("[MAP] Start of parsing ",lines.length," lines of data");
     int currentline = 0;
@@ -126,7 +114,7 @@ public:
     }
   }
   
-  string toStringData(){
+  override string toStringData(){
     string s;
     s ~= "# --- Data tiledefs begin\n";
     foreach(TileType t; uniqueTiles()){
@@ -156,8 +144,6 @@ public:
   }
 
   private:
-    string       mapname;
-    string       filename;
     TileType[][] tiles;
     TileType[]   tiledefs;
     FileStatus   _status = FileStatus.NO_SUCH_FILE;

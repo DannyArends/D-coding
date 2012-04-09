@@ -50,9 +50,9 @@ protected HXModule load_library(string win_name, string linux_name = "", string 
     if(extension) full_name = full_name ~ sh_lib_ext;
   }
   if((shared_library = ExeModule_Load(full_name)) is null){
-	throw new Exception("Unable to find shared library: " ~ full_name);
+    throw new Exception("[LIB] Unable to find shared library: " ~ full_name);
   }
-  writeln("Loaded shared library: " ~ full_name);
+  writeln("[LIB] Loaded shared library: " ~ full_name);
   return shared_library;
 }
 
@@ -63,10 +63,10 @@ package struct function_binding(T) {
   bool opCall(HXModule lib, string name) {
     try{
       *fptr = getFunctionThroughVoid(lib, name);
-      debug writeln("Loaded shared function: " ~ name);
+      debug writeln("[LIB] Loaded shared function: " ~ name);
       return true;
     }catch(Exception e){
-      writeln("Cannot bind function: " ~ name);
+      writeln("[LIB] Cannot bind function: " ~ name);
       return false;
     }
   }

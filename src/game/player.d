@@ -12,98 +12,94 @@ import core.stdinc;
 import core.typedefs.types;
 import core.typedefs.location;
 import core.typedefs.color;
+import game.engine;
 import game.structures;
 import game.tilemap;
 
-class Player{
-  public:  
+class Player : GameObject{
+  public:
+    this(string data){ super(data); }
+
     this(string dir, string name, string username = "", string password = "", string servertime = ""){
-      filename = dir ~ name;
-      if(!exists(filename) || !isFile(filename)){
-        //Creating a new player
+      super(dir,name);
+      if(!exists(filepath) || !isFile(filepath)){
         userinfo.name         = username;
         userinfo.pass         = password;
         userinfo.location     = new Location(0,0,0);
         userinfo.map          = new TileMap("data/maps/", name);
         userinfo.created      = servertime;
         userinfo.lastloggedin = servertime;
-        save();
-      }else{
-        //load the player from file
-        load();
+        save();        //Creating a new player
       }
     }
   
     @property FileStatus status(){ return _status; }
-
-    void load(){
-      writefln("Opening player-file: %s",filename);
-      auto fp = new File(filename,"rb");
-      string buffer;
-      fp.readln(buffer); userinfo.name = chomp(buffer);
-      fp.readln(buffer); userinfo.pass = chomp(buffer);
-      fp.readln(buffer); userinfo.location = new Location(chomp(buffer));
-      fp.readln(buffer); userinfo.map = new TileMap("data/maps/", chomp(buffer));
-      fp.readln(buffer); userinfo.created = chomp(buffer);
-      fp.readln(buffer); userinfo.lastloggedin = chomp(buffer);
-      while(fp.readln(buffer)){
-        if(chomp(buffer) == "# --- Data inventory begin"){
-          writeln("[USR] inventory definitions");
-          while(fp.readln(buffer)){
-            if(chomp(buffer) == "# --- Data inventory end"){
-            writeln("[USR] inventory done");
-            _status = FileStatus.OK;
-            break;
-          }
-          if(buffer[0] == '#') continue;
-          parseGameItem(chomp(buffer));
-        }
-      }
-    }
-    fp.close();
-    writefln("Done player-file: %s",filename);
-  }
   
   void parseGameItem(string buffer){
     auto fields = split(buffer,"\t");
     if(fields.length == 2){ }
   }
   
-  void save(){
-    writefln("Saving player-file: %s",filename);
-    auto fp = new File(filename,"wb");
-    fp.writeln(userinfo.name);
-    fp.writeln(userinfo.pass);
-    fp.writeln(userinfo.location);
-    fp.writeln(userinfo.map.name);
-    fp.writeln(userinfo.created);
-    fp.writeln(userinfo.lastloggedin);
-    fp.writeln("# --- Data clothing begin");
-    foreach(GameItem clo; userinfo.clothing){ fp.writeln(clo); }
-    fp.writeln("# --- Data clothing end");
-    fp.writeln("# --- Data inventory begin");
-    foreach(GameItem inv; userinfo.inventory){ fp.writeln(inv); }
-    fp.writeln("# --- Data inventory end");
-    fp.writeln("# --- Data storage begin");
-    foreach(GameItem sto; userinfo.storage){ fp.writeln(sto); }
-    fp.writeln("# --- Data storage end");
-    fp.writeln("# --- Data assets begin");
-    foreach(GameObj asset; userinfo.assets){ fp.writeln(asset); }
-    fp.writeln("# --- Data assets end");
-    fp.close();
+  override void fromStringData(string data){
+    string[] lines = splitLines(data);
+    userinfo.name = chomp(lines[0]);
+    userinfo.pass = chomp(lines[1]);
+    userinfo.location = new Location(chomp(lines[2]));
+    userinfo.map = new TileMap("data/maps/", chomp(lines[3]));
+    userinfo.created = chomp(lines[4]);
+    userinfo.lastloggedin = chomp(lines[5]);
+    int currentline = 6;
+    while(currentline < lines.length){
+      if(chomp(lines[currentline]) == "# --- Data inventory begin"){
+        writeln("[USR] inventory definitions");
+        currentline++;
+        while(currentline < lines.length){
+          if(chomp(lines[currentline]) == "# --- Data inventory end"){
+            writeln("[USR] inventory done");
+            _status = FileStatus.OK;
+            break;
+          }
+          if(lines[currentline][0] == '#') continue;
+          parseGameItem(chomp(lines[currentline]));
+          currentline++;
+        }
+      }
+      currentline++;
+    }
     writefln("Done player-file: %s",filename);
   }
   
-   @property GameUser info(){ return userinfo; }
-   @property string   name(){ return userinfo.name; }
-   @property string   password(){ return userinfo.pass; }
-   @property string   lastloggedin(string time = ""){
-      if(time != "") userinfo.lastloggedin = time;
-      return userinfo.lastloggedin; 
-    }
+  override string toStringData(){
+    string s;
+    s ~= userinfo.name     ~ "\n" ~ userinfo.pass ~ "\n";
+    s ~= to!string(userinfo.location) ~ "\n" ~ userinfo.map.name ~ "\n";
+    s ~= userinfo.created  ~ "\n" ~ userinfo.lastloggedin ~ "\n";
+    s ~= "# --- Data clothing begin" ~ "\n";
+    foreach(GameItem clo; userinfo.clothing){ s ~= to!string(clo) ~ "\n"; }
+    s ~= "# --- Data clothing end\n";
+    s ~= "# --- Data inventory begin\n";
+    foreach(GameItem inv; userinfo.inventory){ s ~= to!string(inv) ~ "\n"; }
+    s ~= "# --- Data inventory end\n";
+    s ~= "# --- Data storage begin\n";
+    foreach(GameItem sto; userinfo.storage){ s ~= to!string(sto) ~ "\n"; }
+    s ~= "# --- Data storage end\n";
+    s ~= "# --- Data assets begin\n";
+    foreach(GameObj asset; userinfo.assets){ s ~= to!string(asset) ~ "\n"; }
+    s ~= "# --- Data assets end\n";
+    return s;
+  }
+  
+  @property{
+    GameUser info(){ return userinfo; }
+    string   name(){ return userinfo.name; }
+    string   password(){ return userinfo.pass; }
+    string   lastloggedin(string time = ""){
+        if(time != "") userinfo.lastloggedin = time;
+        return userinfo.lastloggedin; 
+      }
+  }
   
   private:
     GameUser     userinfo;
-    string       filename;
     FileStatus   _status = FileStatus.NO_SUCH_FILE;
 }

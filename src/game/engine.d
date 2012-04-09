@@ -9,7 +9,7 @@
  **********************************************************************/
 module game.engine;
 
-import std.stdio;
+import core.stdinc;
 
 import core.typedefs.types;
 import core.events.engine;
@@ -28,6 +28,51 @@ import game.games.triggerpull;
 import game.users.gameclient;
 
 enum Stage{STARTUP, MENU, PLAYING};
+
+abstract class GameObject{
+  public:
+    this(string data){
+      fromStringData(data);
+    }
+
+    this(string dir, string name){
+      _filename = name;
+      _filepath = dir ~ name;
+      if(exists(filepath) && isFile(filepath)){
+        writefln("[OBJ] Loading GameObject-file: %s",filepath);
+        fromStringData(readText(filepath));
+        writefln("[OBJ] Done loading GameObject-file: %s",filepath);    
+      }
+    }
+    
+    void load(){
+      if(exists(filepath) && isFile(filepath)){
+        writefln("[OBJ] Loading GameObject-file: %s",filepath);
+        fromStringData(readText(filepath));
+        writefln("[OBJ] Done loading GameObject-file: %s",filepath);    
+      }
+    }
+
+    void save(){
+      writefln("[OBJ] Saving GameObject-file: %s",filepath);
+      auto fp = new File(filepath,"wb");
+      fp.write(toStringData());
+      fp.close();
+      writefln("[OBJ] Done saving GameObject-file: %s",filepath);  
+    }
+    
+    @property{
+      string     filepath(){ return _filepath; }
+      string     filename(){ return _filename; }
+    }
+
+    abstract void fromStringData(string data);
+    abstract string toStringData();
+
+  private:
+    string _filepath;
+    string _filename;
+}
 
 /*! \brief Abstract game class
  *
