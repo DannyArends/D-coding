@@ -24,7 +24,7 @@ class TriggerPull : Game{
 
   override void setup3D(Screen screen){
     gun = new Quad(1.4,-0.4,0);
-    gun.setRotation(0.0,0.0,0.0);
+    gun.direction = [0.0,0.0,0.0];
     gun.setTexture(screen.getTextureID("Gun"));
     gun.setSize(3.5, 1.5, 1.0);
     screen.add(gun);

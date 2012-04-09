@@ -26,13 +26,7 @@ class Vector3D : Location{
   
   this(double x, double y, double z, double rx, double ry, double rz){
     super(x,y,z);
-    setRotation(rx,ry,rz);
-  }
-
-  void setRotation(double rx, double ry, double rz){
-    rot[0]=rx;
-    rot[1]=ry;
-    rot[2]=rz;
+    direction = [rx,ry,rz];
   }
     
   void rotate(double rx, double ry, double rz){
@@ -42,7 +36,7 @@ class Vector3D : Location{
   }
 
   @property{
-    double[] direction(){ return rot; }
+    double[] direction(double[] r = null){ if(r !is null){ rot=r; } return rot; }
     float rx(){ return rot[0]; }
     float ry(){ return rot[1]; }
     float rz(){ return rot[2]; }

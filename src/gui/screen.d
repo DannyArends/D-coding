@@ -102,7 +102,7 @@ class Screen : Object2D{
     
     void showLoading(){
       Quad q = new Quad(1.5,-0.2,0);
-      q.setRotation(0.0,-60.0,0.0);
+      q.direction = [0.0, -60.0, 0.0];
       q.setTexture(textureloader.getTextureID("DGE"));
       q.setSize(2.0, 1.0, 1.0);
       q.setColor(1.0, 1.0, 1.0, 0.0);
@@ -120,7 +120,7 @@ class Screen : Object2D{
       size_t logoidx = getIndex("logo");
       if(logoidx != -1){
         Quad logo = cast(Quad) sceneobjects[logoidx].object3d;
-        logo.setRotation(0.0,-60.0,0.0);
+        logo.direction = [0.0, -60.0, 0.0];
         logo.setTexture(textureloader.getTextureID(name));
         sceneobjects[logoidx].object3d = logo;
       }
