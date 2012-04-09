@@ -1,5 +1,6 @@
 
 import std.stdio;
+import std.utf;
 
 import openal.al;
 import openal.al_types;
@@ -28,7 +29,7 @@ ALboolean LoadALData(){
     return AL_FALSE;
   }
 
-  alutLoadWAVFile("data/wav/cow.wav\0".dup.ptr, &format, &data, &size, &freq, &loop);
+  alutLoadWAVFile(toUTFz!(char*)("data/wav/cow.wav"), &format, &data, &size, &freq, &loop);
   alBufferData(Buffer, format, data, size, freq);
   alutUnloadWAV(format, data, size, freq);
   alGenSources(1, &Source);

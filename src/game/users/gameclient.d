@@ -55,7 +55,7 @@ class GameClient : Thread{
           try{
             foreach(string cmd ; s.split("\0")){
               if(cmd !is null && cmd.length >= 1){
-                handler.handle(new NetworkEvent(cmd ~ "\0"));
+                handler.handle(new NetworkEvent(cmd));
               }
             }
           }catch(Throwable exception){

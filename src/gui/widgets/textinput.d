@@ -43,7 +43,7 @@ class TextInput : Button{
     Event e = new Event();
     switch(key.getSDLkey()){
       case SDLK_RETURN:
-        e = new NetworkEvent(NetEvent.CHAT ~ input ~ "\0", false);
+        e = new NetworkEvent(NetEvent.CHAT ~ input, false);
         onClick(0,0);
       break;
       case SDLK_BACKSPACE:

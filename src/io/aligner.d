@@ -62,8 +62,8 @@ public:
           if(counter % batch_size == 0){
             ftmp.close();
             writef("Aligner: Starting blast on %d sequences",(counter+1));
-            string command = "blastn -subject=" ~ genome_name ~ " -query="~temp_filename~" -out="~temp_filename~".out -outfmt=6 -task="~task~" -evalue="~to!string(evalue) ~ "\0";
-            int status = system(command.dup.ptr);
+            string command = "blastn -subject=" ~ genome_name ~ " -query="~temp_filename~" -out="~temp_filename~".out -outfmt=6 -task="~task~" -evalue="~to!string(evalue);
+            int status = system(toUTFz!(char*)(command));
             if(status != 0){
               writefln("\n\nAligner ERROR: Blastn exit status: %d\n%s",status,command);
               break;

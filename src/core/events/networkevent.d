@@ -18,8 +18,9 @@ import core.events.engine;
 
 class NetworkEvent : Event{
   this(string msg, bool incomming = true){
+    if(msg[($-1)]=='\0') msg = msg[0..($-1)];
     _incomming=incomming;
-    _msg=msg[1..($-1)];
+    _msg=msg[1..$];
     switch(msg[0]){
       case 'H':
         _evt=NetEvent.HEARTBEAT;

@@ -13,6 +13,7 @@ import std.stdio;
 import std.string;
 import std.file;
 import std.conv;
+import std.utf;
 
 import sdl.sdlstructs;
 import sdl.sdlfunctions;
@@ -31,14 +32,13 @@ Texture loadImageAsTexture(string filename, bool verbose = true){
     texture.status = FileStatus.NO_SUCH_FILE;
     return texture;
   }
-  filename = filename ~ "\0";
   if(verbose) writefln("[GFX] Opening file: %s",filename);
   SDL_Surface* image;
   try{
     int flags=IMG_INIT_JPG|IMG_INIT_PNG;
     IMG_Init(flags);
     version(Windows){
-      image = IMG_Load(filename.dup.ptr);
+      image = IMG_Load(toUTFz!(char*)(filename));
     }
   }catch(Throwable t){
     writeln("This means we bound SDL_image, but it fails to load");
