@@ -257,7 +257,7 @@ end
 
 desc "Run the unit tests"
 task :unittest do
-  sh "dmd -unittest src/main/empty.d #{core_files} #{libload_files} #{io_files} #{inter_files} #{game_files} #{web_files} #{sfx_files} #{genetic_files} #{plugin_gui} #{deps_sdl} #{deps_opengl} #{deps_openal} -od#{bd} -ofunittest.#{execext} #{link_args}"
+  sh "dmd -unittest #{comp_args} src/main/empty.d #{core_files} #{libload_files} #{io_files} #{inter_files} #{game_files} #{web_files} #{sfx_files} #{genetic_files} #{plugin_gui} #{deps_sdl} #{deps_opengl} #{deps_openal} -od#{bd} -ofunittest.#{execext} #{link_args}"
 end
 
 desc "Build all game-executables"
