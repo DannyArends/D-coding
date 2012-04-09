@@ -1,9 +1,12 @@
-/**********************************************************************
- * \file deps/gl/gl.d - Wrapper for openGL
+/******************************************************************//**
+ * \file deps/gl/gl.d
+ * \brief Wrapper for openGL
  *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Apr, 2012<br>
+ * First written 2010<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
- **********************************************************************/ 
-
+ **********************************************************************/
 module gl.gl;
 
 import std.loader;
@@ -33,6 +36,7 @@ version(Windows){
 }else{
   void* function(char*) glXGetProcAddress;
 }
+
 /* Binding of a single openGL extension */
 package struct ext_binding(T) {
   bool opCall(string name,bool verbose = false, string msg = "Bound extension"){

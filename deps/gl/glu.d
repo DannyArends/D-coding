@@ -1,9 +1,12 @@
-/**********************************************************************
- * \file deps/gl/glu.d - Wrapper for GLUT
+/******************************************************************//**
+ * \file deps/gl/glu.d
+ * \brief Wrapper for GLUT
  *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Apr, 2012<br>
+ * First written 2010<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
- **********************************************************************/ 
-
+ **********************************************************************/
 module gl.glu;
 
 import std.loader;
@@ -48,3 +51,4 @@ extern(System){
 	GLint function(GLdouble,GLdouble,GLdouble,GLdouble*,GLdouble*,GLint*,GLdouble*,GLdouble*,GLdouble*) gluProject;
 	GLint function(GLdouble,GLdouble,GLdouble,GLdouble*,GLdouble*,GLint*,GLdouble*,GLdouble*,GLdouble*) gluUnProject;
 }
+

@@ -24,29 +24,29 @@ bool load_VBO_extensions(){
   writeln("[VBO] Start loading VBO extension");
   if(!load_extension(glBindBufferARB)("glBindBufferARB")){
     if(!load_extension(glBindBufferARB)("glBindBuffer",true,"OpenGL 1.5 fail-safe")){  
-      return false;
+      arb_buffer_enabled = false;
     }
   }
-  if(!load_extension(glDeleteBuffersARB)("glDeleteBuffersARB")) return false;
+  if(!load_extension(glDeleteBuffersARB)("glDeleteBuffersARB")) arb_buffer_enabled = false;
   if(!load_extension(glGenBuffersARB)("glGenBuffersARB")){ //fall over to opengl 1.5
     if(!load_extension(glGenBuffersARB)("glGenBuffers",true,"OpenGL 1.5 fail-safe")){
-      return false;
+      arb_buffer_enabled = false;
     }
   }
   if(!load_extension(glIsBufferARB)("glIsBufferARB")) arb_buffer_enabled= false;
   if(!load_extension(glBufferDataARB)("glBufferDataARB")){ //fall over to opengl 1.5
     if(!load_extension(glBufferDataARB)("glBufferData",true,"OpenGL 1.5 fail-safe")){
-      return false;
+      arb_buffer_enabled = false;
     }
   }
-  if(!load_extension(glBufferSubDataARB)("glBufferSubDataARB")) return false;
-  if(!load_extension(glMapBufferARB)("glMapBufferARB")) return false;
-  if(!load_extension(glUnmapBufferARB)("glUnmapBufferARB")) return false;
-  if(!load_extension(glGetBufferParameterivARB)("glGetBufferParameterivARB")) return false;
-  if(!load_extension(glGetBufferPointervARB)("glGetBufferPointervARB")) return false;
+  if(!load_extension(glBufferSubDataARB)("glBufferSubDataARB")) arb_buffer_enabled = false;
+  if(!load_extension(glMapBufferARB)("glMapBufferARB")) arb_buffer_enabled = false;
+  if(!load_extension(glUnmapBufferARB)("glUnmapBufferARB")) arb_buffer_enabled = false;
+  if(!load_extension(glGetBufferParameterivARB)("glGetBufferParameterivARB")) arb_buffer_enabled = false;
+  if(!load_extension(glGetBufferPointervARB)("glGetBufferPointervARB")) arb_buffer_enabled = false;
   arb_buffer_enabled=true;
   writeln("[VBO] Mapped ARB buffers");
-  return true;
+  return arb_buffer_enabled;
 }
 
 alias ptrdiff_t GLintptrARB;
