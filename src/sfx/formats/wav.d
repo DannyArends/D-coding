@@ -16,10 +16,10 @@ import std.file;
 import std.regex;
 
 import openal.al;
-import openal.al_types;
+import openal.alstructs;
 import openal.alc;
 import openal.alut;
-import openal.alut_types;
+import openal.alutstructs;
 
 import sfx.engine;
 
