@@ -1,12 +1,22 @@
+/******************************************************************//**
+ * \file src/main/testal.d
+ * \brief File containing the main for the testAL executable
+ *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Apr, 2012<br>
+ * First written 2010<br>
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
+module main.testal;
 
 import std.stdio;
 import std.utf;
 
 import openal.al;
-import openal.al_types;
+import openal.alstructs;
 import openal.alc;
 import openal.alut;
-import openal.alut_types;
+import openal.alutstructs;
 
 ALuint Buffer;
 ALuint Source;
