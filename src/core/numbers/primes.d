@@ -11,6 +11,7 @@ module core.numbers.primes;
 
 import std.stdio;
 import std.conv;
+import std.datetime;
 import std.math;
 import std.string;
 import std.random;
@@ -18,7 +19,8 @@ import std.random;
 bool prime(real n){
   if(n < 2) return false;
   if(n == 2) return true;
-  for(real t=2;t <= sqrt(n);t++){
+  real sqrtn = sqrt(n);
+  for(real t=2;t <= sqrtn;t++){
     if(n % t == 0) return false;
   }
   return true;
@@ -44,9 +46,11 @@ uint[] xthprime(uint[] x){
 unittest{
   writeln("Unit test: ",__FILE__);
   try{
-    for(uint t=2;t < 50;t++){
-      if(prime(t)) write(" ",t);
+    SysTime t_s = Clock.currTime();
+    for(uint t=2;t < 500_000;t++){
+      prime(t); //write(" ",t);
     }
+    writefln("2 .. 500k checked for primes in %s msecs",(Clock.currTime()-t_s).total!"msecs"());
     writeln("\n [1000,10000,20000] = ",xthprime([1000,10000,20000]));
     writeln("OK: ",__FILE__);  
   }catch(Throwable e){
