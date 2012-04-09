@@ -76,7 +76,7 @@ void processClientCommand(GameServer server, ClientHandler handler, string comma
   if(command.length > 0){
     auto plist = split(command," ");
     writeln("[CLN] Command: ",plist[0]);
-    if(plist.length > 1) writeln(", args:",plist[1..$]);
+    if(plist.length > 1) writeln("[CLN] Command args:",plist[1..$]);
     switch(toLower(plist[0])){
       case "create": processCreate(server,handler,plist); break;
       case "login" : processLogin(server,handler,plist); break;
