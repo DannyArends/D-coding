@@ -28,13 +28,20 @@ template load_extension(T){
   }
 }
 
-
-void* function(char*) wglGetProcAddress;
-
+version(Windows){
+  void* function(char*) wglGetProcAddress;
+}else{
+  void* function(char*) glXGetProcAddress;
+}
 /* Binding of a single openGL extension */
 package struct ext_binding(T) {
   bool opCall(string name,bool verbose = false, string msg = "Bound extension"){
-    void* func = wglGetProcAddress(&name.dup[0]);
+    void* func;
+    version(Windows){
+      func = wglGetProcAddress(&name.dup[0]);
+    }else{
+      func = glXGetProcAddress(&name.dup[0]);
+    }
     if(!func){
       writeln("Cannot bind extension: " ~ name);
       return false;
@@ -52,28 +59,11 @@ package struct ext_binding(T) {
 //Load the functions when the module is loaded
 static this(){
   HXModule lib = load_library("opengl32","GL","");
-  /*
-  load_function(wglCopyContext)(lib, "wglCopyContext");
-  load_function(wglCreateContext)(lib, "wglCreateContext");
-  load_function(wglCreateLayerContext)(lib, "wglCreateLayerContext");
-  load_function(wglDeleteContext)(lib, "wglDeleteContext");
-  load_function(wglDescribeLayerPlane)(lib, "wglDescribeLayerPlane");
-  load_function(wglGetCurrentContext)(lib, "wglGetCurrentContext");
-  load_function(wglGetCurrentDC)(lib, "wglGetCurrentDC");
-  load_function(wglGetLayerPaletteEntries)(lib, "wglGetLayerPaletteEntries");
-  */
-  load_function(wglGetProcAddress)(lib, "wglGetProcAddress");
-  /*
-  load_function(wglMakeCurrent)(lib, "wglMakeCurrent");
-  load_function(wglRealizeLayerPalette)(lib, "wglRealizeLayerPalette");
-  load_function(wglSetLayerPaletteEntries)(lib, "wglSetLayerPaletteEntries");
-  load_function(wglShareLists)(lib, "wglShareLists");
-  load_function(wglSwapLayerBuffers)(lib, "wglSwapLayerBuffers");
-  load_function(wglUseFontBitmapsA)(lib, "wglUseFontBitmapsA");
-  load_function(wglUseFontOutlinesA)(lib, "wglUseFontOutlinesA");
-  load_function(wglUseFontBitmapsW)(lib, "wglUseFontBitmapsW");
-  load_function(wglUseFontOutlinesW)(lib,"wglUseFontOutlinesW");
-  */
+  version(Windows){
+    load_function(wglGetProcAddress)(lib, "wglGetProcAddress");
+  }else{
+    load_function(glXGetProcAddress)(lib,"glXGetProcAddress");
+  }
   load_function(glClearIndex)(lib, "glClearIndex");
   load_function(glClearColor)(lib, "glClearColor");
   load_function(glClear)(lib, "glClear");
