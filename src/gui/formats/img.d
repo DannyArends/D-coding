@@ -37,9 +37,7 @@ Texture loadImageAsTexture(string filename, bool verbose = true){
   try{
     int flags=IMG_INIT_JPG|IMG_INIT_PNG;
     IMG_Init(flags);
-    version(Windows){
-      image = IMG_Load(toUTFz!(char*)(filename));
-    }
+    image = IMG_Load(toUTFz!(char*)(filename));
   }catch(Throwable t){
     writeln("This means we bound SDL_image, but it fails to load");
   }

@@ -17,7 +17,7 @@ const SDL_IMAGE_MAJOR_VERSION = 1;
 const SDL_IMAGE_MINOR_VERSION = 2;
 const SDL_IMAGE_PATCHLEVEL = 10;
 
-extern(C){
+extern(C++){
 
   static this(){
     HXModule lib = load_library("SDL_image","SDL_image","");
@@ -26,6 +26,7 @@ extern(C){
     load_function(IMG_Init)(lib, "IMG_Init");
     load_function(IMG_Quit)(lib, "IMG_Quit");
     load_function(IMG_Load)(lib, "IMG_Load");
+    load_function(IMG_Load_RW)(lib, "IMG_Load_RW");
     load_function(IMG_LoadTyped_RW)(lib, "IMG_LoadTyped_RW");
     
     writeln("[ D ] Mapped SDL_image functionality");
@@ -40,11 +41,12 @@ extern(C){
   }
   
   alias int IMG_InitFlags;
-  int  function(int flags)IMG_Init;
-  void  function()IMG_Quit;
+  int          function(int flags)IMG_Init;
+  void         function()IMG_Quit;
   SDL_Surface* function(SDL_RWops *src, int freesrc, char *type)IMG_LoadTyped_RW;
   SDL_Surface* function(const char *file)IMG_Load;
-  SDL_Surface* IMG_Load_RW(SDL_RWops *src, int freesrc);
+  SDL_Surface* function(SDL_RWops *src, int freesrc)IMG_Load_RW;
+  
   int  IMG_InvertAlpha(int on);
   int  IMG_isICO(SDL_RWops *src);
   int  IMG_isCUR(SDL_RWops *src);
