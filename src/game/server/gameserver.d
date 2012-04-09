@@ -88,11 +88,11 @@ class GameServer : Server!ClientHandler{
       return -1;
     }
 
-    GameUser getGameUser(string name){
+    Player getPlayer(string name){
       foreach(uint cnt, Player p; users){
-        if(toLower(p.name) == toLower(name)) return p.info;
+        if(toLower(p.name) == toLower(name)) return p;
       }
-      return GameUser();
+      return null;
     }
     
     void setUserLogin(string name){ users[getUserSlot(name)].lastloggedin = servertime; }

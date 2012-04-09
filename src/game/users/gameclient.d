@@ -38,6 +38,7 @@ class GameClient : Thread{
   ~this(){ network.disconnect(); }
   
   void send(string rawtext){
+    if(rawtext[($-1)] != '\0') rawtext ~= "\0";
     online = network.write(rawtext);
     writeln("[NET] Online:",online); 
   }
@@ -72,6 +73,6 @@ class GameClient : Thread{
   }
   
   void sendHeartbeat(int checks){
-    send("S:"~to!string(checks));
+    send("S:" ~ to!string(checks));
   }
 }

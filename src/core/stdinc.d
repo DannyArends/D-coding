@@ -18,6 +18,7 @@ public import std.concurrency;
 public import std.file;
 public import std.path;
 public import std.uni;
+public import std.utf;
 public import std.uri;
 public import std.regex;
 public import std.datetime;

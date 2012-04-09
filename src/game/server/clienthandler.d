@@ -52,13 +52,13 @@ class ClientHandler : Thread {
             if(loggedin){
               if(command.length >= 1) processChat(server, this, command);
             }else{
-              send(NetEvent.GAME ~ "Please login first '#login <name> <password>'\0");
+              send(NetEvent.GAME ~ "Please login first '#login <name> <password>'");
             }
           }
         break;
         default:
           log(server,"Client " ~ address() ~ " unknown command: " ~ to!string(command));
-          send(NetEvent.GAME ~ "Unknown command: " ~ cmd[0] ~ "\0");
+          send(NetEvent.GAME ~ "Unknown command: " ~ cmd[0]);
           writeln("[HANDLER] Unknown command type:" ~ cmd[0]);
         break;
       }
@@ -67,13 +67,30 @@ class ClientHandler : Thread {
       }
     }
   }
-
-  @property Socket socket(){ return sock; }
-  @property void send(string cmd){ sock.send(cmd); }
-  @property string address(){
-    Address remote = sock.remoteAddress();
-    return remote.toAddrString();
+  @property{
+    Socket socket(){ return sock; }
+    void send(string cmd){ 
+      if(cmd[($-1)] != '\0') cmd ~= "\0";
+      sock.send(cmd); 
+    }
+    
+    string address(){
+      Address remote = sock.remoteAddress();
+      return remote.toAddrString();
+    }
+    
+    string username(string user = ""){ 
+      if(user != ""){ _username=user; }
+      if(_username == "") return "GUEST"~to!string(id);
+      return _username; 
+    }
+  
+    bool loggedin(){ 
+      if(_username == "") return false;
+      return true;
+    }
   }
+  
   void offline(){ online = false; }
   
   void log(GameServer server, string msg, string log="server"){
@@ -87,46 +104,36 @@ class ClientHandler : Thread {
     log(server,"Client " ~ address() ~ " on " ~ to!string(id) ~ " offline");
     sock.close(); 
   }
-  
-  @property string username(string user = ""){ 
-    if(user != ""){ _username=user; }
-    if(_username == "") return "GUEST"~to!string(id);
-    return _username; 
-  }
-  
-  @property bool loggedin(){ 
-    if(_username == "") return false;
-    return true;
-  }
-  
+
   void logout(){
     server.saveUser(_username);
-    send(NetEvent.CHAT ~ "You are now logged out\0");
-    send(NetEvent.GAME ~ "logout\0");
+    send(NetEvent.CHAT ~ "You are now logged out");
+    send(NetEvent.GAME ~ "logout");
     _username = ""; 
   }
 
   bool save(){ 
-    send(NetEvent.CHAT ~ "Asking to save\0");
+    send(NetEvent.CHAT ~ "Asking to save");
     return server.saveUser(_username); 
   }
 
-  GameUser getGameUser(){ return server.getGameUser(_username); }
+  Player   getPlayer(){ return server.getPlayer(_username); }
+  GameUser getGameUser(){ return getPlayer().info; }
   
 private:
 
   void payload(){
     writeln("[CLIENT] Client",id,": starting");
     log(server,"Client " ~ address() ~ " on " ~ to!string(id) ~ " online");
-    sock.send(NetEvent.HEARTBEAT ~ server.servertime ~ "\0");
+    send(NetEvent.HEARTBEAT ~ server.servertime);
     Thread.sleep( dur!("msecs")( 20 ) );
-    sock.send(NetEvent.CHAT ~ "Welcome to the server\0");
+    send(NetEvent.CHAT ~ "Welcome to the server");
     Thread.sleep( dur!("msecs")( 20 ) );
-    sock.send(NetEvent.CHAT ~ "Please login or create a new character\0");
+    send(NetEvent.CHAT ~ "Please login or create a new character");
     lastBeat = Clock.currTime();
     while(online){
       if((Clock.currTime() - lastBeat).total!"msecs" >= 5000) {
-        sock.send(NetEvent.HEARTBEAT ~ server.servertime ~ "\0");
+        send(NetEvent.HEARTBEAT ~ server.servertime);
         lastBeat = Clock.currTime();
       }else{
         Thread.sleep( dur!("msecs")( 20 ) );

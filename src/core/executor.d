@@ -120,13 +120,13 @@ class Executor{
   
   ExecResult execute(string command, string arguments =""){
     version(Windows){
-      command = "\"call \"" ~ command ~ "\" " ~ arguments ~"\" > " ~ stdoutfile ~ " 2> "~ stderrfile ~ "\0";    
+      command = "\"call \"" ~ command ~ "\" " ~ arguments ~"\" > " ~ stdoutfile ~ " 2> "~ stderrfile;    
     }else{
-      command = command ~ " " ~ arguments ~ " > " ~ stdoutfile ~ " 2> "~ stderrfile ~ "\0"; 
+      command = command ~ " " ~ arguments ~ " > " ~ stdoutfile ~ " 2> "~ stderrfile;
     }
     ExecResult result;
     if(verbose) writeln("command: " ~ command);
-    result.status = system(command.dup.ptr);
+    result.status = system(toUTFz!(char*)(command));
     if(exists(stdoutfile)){
       result.std_out = readText(stdoutfile);
       remove(stdoutfile);
