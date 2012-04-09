@@ -64,7 +64,7 @@ extern(C++){
     writeln("[ D ] Mapped SDL_image functionality");
   }
 
-  enum{ IMG_INIT_JPG = 1, IMG_INIT_PNG = 2, IMG_INIT_TIF = 4,}
+  enum{ IMG_INIT_JPG = 1, IMG_INIT_PNG = 2, IMG_INIT_TIF = 4}
   
   SDL_version* function()IMG_Linked_Version;
   
