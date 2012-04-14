@@ -104,7 +104,7 @@ class RequestHandler{
   }
   
   string getMIMEType(string filename){
-    return extensionToMime(getExt(filename));
+    return extensionToMime(extension(filename));
   }
   
 }
