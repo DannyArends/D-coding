@@ -59,92 +59,115 @@ namespace :lib do
   
   desc "The library with core functionality"
   task "core" do
-    sh "#{compiler} -lib -c #{core_files} -of#{bd}/#{libpre}core.#{libext}"
-    if windows? then 
-      comp_args += " #{bd}/#{libpre}core.#{libext} -Isrc/"; 
-    else
-      link_args += "-L-I#{bd} -L-lcore"
-    end  
+    sh "#{compiler} -lib #{core_files} -of#{bd}/#{libpre}core.#{libext}"
+    if ! windows? then; link_args += " -L-L#{bd} -L-lcore"; end
+    comp_args += " -Isrc/"
+    comp_args += " #{bd}/#{libpre}core.#{libext}"
   end
 
   desc "The library with io functionality"
   task "io" => [ :core ] do
-    sh "#{compiler} -lib #{comp_args} -c #{io_files} -of#{bd}/#{libpre}io.#{libext} #{link_args}"
-    if windows? then 
-      comp_args += " #{bd}/#{libpre}io.#{libext}"; 
-    else
-      link_args += "-L-I#{bd} -L-lio"
-    end  
+    sh "#{compiler} -lib #{comp_args} #{io_files} -of#{bd}/#{libpre}io.#{libext} #{link_args}"
+    if ! windows? then; link_args += " -L-lio"; end
+    comp_args += " #{bd}/#{libpre}io.#{libext}";
   end
   
   desc "The library with sfx functionality"
   task "sfx" => ['lib:openAL'] do
-    sh "#{compiler} -lib -c #{sfx_files} -of#{bd}/#{libpre}sfx.#{libext} -Isrc/ -Ideps/"
+    sh "#{compiler} -lib #{comp_args} #{sfx_files} -of#{bd}/#{libpre}sfx.#{libext} #{link_args}"
+    if ! windows? then; link_args += " -L-lsfx"; end
+    comp_args += " #{bd}/#{libpre}sfx.#{libext}";
   end
   
   desc "The library providing interpreters"
-  task "inter" do
-    sh "#{compiler} -lib -c #{inter_files} -of#{bd}/#{libpre}interpreters.#{libext}"
+  task "inter" => ["lib:core"] do
+    sh "#{compiler} -lib #{comp_args} #{inter_files} -of#{bd}/#{libpre}interpreters.#{libext} #{link_args}"
+    if ! windows? then; link_args += " -L-linterpreters"; end
+    comp_args += " #{bd}/#{libpre}interpreters.#{libext}";
   end
   
   desc "The library with libload functionality"
-  task "libload" do
-    sh "#{compiler} -lib -c #{libload_files} -of#{bd}/#{libpre}libload.#{libext}"
+  task "libload" => ["lib:core"] do
+    sh "#{compiler} -lib #{comp_args} #{libload_files} -of#{bd}/#{libpre}libload.#{libext} #{link_args}"
+    if ! windows? then; link_args += " -L-llibload"; end
+    comp_args += " -Ideps/ #{bd}/#{libpre}libload.#{libext}";
   end
   
   desc "Library with game functionality (A* search)"
-  task "game" do
-    sh "#{compiler} -lib -c #{game_files} -of#{bd}/#{libpre}game.#{libext} -Isrc/ -Ideps/"
+  task "game" => ["lib:web"] do
+    sh "#{compiler} -lib #{comp_args} #{game_files} -of#{bd}/#{libpre}game.#{libext} #{link_args}"
+    if ! windows? then; link_args += " -L-lgame"; end
+    comp_args += " #{bd}/#{libpre}game.#{libext}";
   end
 
   desc "Library with http/web functionality"
-  task "web" do
-    sh "#{compiler} -lib -c #{web_files} -of#{bd}/#{libpre}web.#{libext} -Isrc/"
+  task "web" => ["lib:core"] do
+    sh "#{compiler} -lib #{comp_args} #{web_files} -of#{bd}/#{libpre}web.#{libext} #{link_args}"
+    if ! windows? then; link_args += " -L-lweb"; end
+    comp_args += " #{bd}/#{libpre}web.#{libext}";
   end
   
   desc "Library with genetics functionality"
-  task "genetics" do
-    sh "#{compiler} -lib -c #{genetic_files} -of#{bd}/#{libpre}genetics.#{libext} -Isrc/"
+  task "genetics" => ["lib:core"] do
+    sh "#{compiler} -lib #{comp_args} #{genetic_files} -of#{bd}/#{libpre}genetics.#{libext} #{link_args}"
+    if ! windows? then; link_args += " -L-lgenetics"; end
+    comp_args += " #{bd}/#{libpre}genetics.#{libext}";
   end
   
   desc "Libary with basic statistics functions"
   task "stats" do
-    sh "#{compiler} -lib -c #{plugin_stats} -of#{bd}/#{libpre}stats.#{libext} -Isrc/ -Ideps/"
+    sh "#{compiler} -lib #{comp_args} #{plugin_stats} -of#{bd}/#{libpre}stats.#{libext} #{link_args}"
+    if ! windows? then; link_args += " -L-lstats"; end
+    comp_args += " #{bd}/#{libpre}stats.#{libext}";
   end
   
   desc "Libary with basic option parsing functions"
   task "options" do
-    sh "#{compiler} -lib -c #{plugin_opts} -of#{bd}/#{libpre}options.#{libext} -Isrc/ -Ideps/"
+    sh "#{compiler} -lib #{comp_args} #{plugin_opts} -of#{bd}/#{libpre}options.#{libext} #{link_args}"
+    if ! windows? then; link_args += " -L-loptions"; end
+    comp_args += " #{bd}/#{libpre}options.#{libext}";
   end
 
   desc "Bindings for openGL"
-  task "openGL" => :libload do
-    sh "#{compiler} -lib -c #{deps_opengl} #{bd}/#{libpre}libload.#{libext} -of#{bd}/#{libpre}openGL.#{libext} -Ideps/ -Isrc/"
+  task "openGL" => ["lib:libload"] do
+    sh "#{compiler} -lib #{comp_args} #{deps_opengl} -of#{bd}/#{libpre}openGL.#{libext} #{link_args}"
+    if ! windows? then; link_args += " -L-lopenGL"; end
+    comp_args += " #{bd}/#{libpre}openGL.#{libext}";
   end
   
   desc "Bindings for openAL"
   task "openAL" => :libload do
-    sh "#{compiler} -lib -c #{deps_openal} #{bd}/libload.#{libext} -of#{bd}/#{libpre}openAL.#{libext} -Ideps/ -Isrc/"
+    sh "#{compiler} -lib #{comp_args} #{deps_openal} -of#{bd}/#{libpre}openAL.#{libext} #{link_args}"
+    if ! windows? then; link_args += " -L-lopenAL"; end
+    comp_args += " #{bd}/#{libpre}openAL.#{libext}";
   end
   
   desc "Bindings for R"
   task "r" => :libload do
-    sh "#{compiler} -lib -c #{deps_r} #{bd}/libload.#{libext} -of#{bd}/#{libpre}r.#{libext} -Ideps/ -Isrc/"
+    sh "#{compiler} -lib #{comp_args} #{deps_r} -of#{bd}/#{libpre}r.#{libext} #{link_args}"
+    if ! windows? then; link_args += " -L-lr"; end
+    comp_args += " #{bd}/#{libpre}r.#{libext}";
   end
 
   desc "Bindings for JNI"
   task "jni" => :libload do
-    sh "#{compiler} -lib -c #{deps_jni} #{bd}/libload.#{libext} -of#{bd}/#{libpre}jni.#{libext} -Ideps/ -Isrc/"
+    sh "#{compiler} -lib #{comp_args} #{deps_jni} -of#{bd}/#{libpre}jni.#{libext} #{link_args}"
+    if ! windows? then; link_args += " -L-ljni"; end
+    comp_args += " #{bd}/#{libpre}jni.#{libext}";
   end
   
   desc "Bindings for SDL"
   task "sdl" => :libload do
-    sh "#{compiler} -lib -c #{deps_sdl} #{bd}/libload.#{libext} -of#{bd}/#{libpre}sdl.#{libext} -Ideps/ -Isrc/"
+    sh "#{compiler} -lib #{comp_args} #{deps_sdl} -of#{bd}/#{libpre}sdl.#{libext} #{link_args}"
+    if ! windows? then; link_args += " -L-lsdl"; end
+    comp_args += " #{bd}/#{libpre}sdl.#{libext}";
   end
   
   desc "SDL GUI libary"
-  task "gui" do
-    sh "#{compiler} -lib -c #{plugin_gui} -of#{bd}/#{libpre}gui.#{libext} -Ideps/ -Isrc/"
+  task "gui" => ["lib:sdl","lib:game","lib:openGL","lib:sfx"]do
+    sh "#{compiler} -lib #{comp_args} #{plugin_gui} -of#{bd}/#{libpre}gui.#{libext} #{link_args}"
+    if ! windows? then; link_args += " -L-lgui"; end
+    comp_args += " #{bd}/#{libpre}gui.#{libext}";
   end
 end
 # ---- Applications ----
@@ -159,88 +182,88 @@ namespace :app do
   end
 
   desc "File load test application"
-  task "fileloader" => [ "lib:io" ]do
+  task "fileloader" => [ "lib:io" ] do
     sh "#{compiler} #{comp_args} src/main/fileloader.d -od#{bd} -offileloader.#{execext} #{link_args}"
   end
 
   desc "Large file splitter"
-  task "filesplitter" do
-    sh "#{compiler} #{comp_args} src/main/filesplitter.d #{core_files} #{io_files} -od#{bd} -offilesplit.#{execext}"
+  task "filesplitter" => [ "lib:io" ] do
+    sh "#{compiler} #{comp_args} src/main/filesplitter.d -od#{bd} -offilesplit.#{execext} #{link_args}"
   end
 
   desc "DNA sequence alignment using blastn"
-  task "aligner" do
-    sh "#{compiler} #{comp_args} src/main/aligner.d #{core_files} #{io_files} -od#{bd} -ofaligner.#{execext}"
+  task "aligner" => [ "lib:io" ] do
+    sh "#{compiler} #{comp_args} src/main/aligner.d -od#{bd} -ofaligner.#{execext} #{link_args}"
   end
   
   desc "Actor example from D"
-  task "actor" do
-    sh "#{compiler} #{comp_args} src/main/actor.d #{core_files} -od#{bd} -ofactor.#{execext}"
+  task "actor" => [ "lib:core" ]do
+    sh "#{compiler} #{comp_args} src/main/actor.d -od#{bd} -ofactor.#{execext} #{link_args}"
   end
 
   desc "Testing operating system cmdline functionality"
-  task "ostest" do
-    sh "#{compiler} #{comp_args} src/main/ostest.d #{core_files} #{io_files} -od#{bd} -ofostest.#{execext}"
+  task "ostest" => [ "lib:io" ] do
+    sh "#{compiler} #{comp_args} src/main/ostest.d -od#{bd} -ofostest.#{execext} #{link_args}"
   end
   
   desc "Extract probes mapping to a single genome location"
-  task "single_map_probes" do
-    sh "#{compiler} #{comp_args} src/main/single_map_probes.d #{core_files} #{io_files} -od#{bd} -ofmap_probes.#{execext}"
+  task "single_map_probes" => [ "lib:io" ] do
+    sh "#{compiler} #{comp_args} src/main/single_map_probes.d -od#{bd} -ofmap_probes.#{execext} #{link_args}"
   end
   
   desc "Correlation test using the statistics library"
-  task "correlation" do
-    sh "#{compiler} #{comp_args} src/main/correlation.d #{core_files} #{libload_files} #{io_files} #{plugin_stats} #{deps_r} -od#{bd} -ofcorrelation.#{execext} #{link_args}"
+  task "correlation" => [ "lib:io", "lib:r","lib:stats" ] do
+    sh "#{compiler} #{comp_args} src/main/correlation.d -od#{bd} -ofcorrelation.#{execext} #{link_args}"
   end
   
   desc "P'' language interpreter (see: http://en.wikipedia.org/wiki/P'')"
-  task "plang" do
-    sh "#{compiler} #{comp_args} src/main/plang.d #{core_files} #{inter_files} -od#{bd} -ofplang.#{execext}"
+  task "plang" => [ "lib:inter" ] do
+    sh "#{compiler} #{comp_args} src/main/plang.d -od#{bd} -ofplang.#{execext} #{link_args}"
   end
 
   desc "Example on how to start the JVM"
-  task "startJVM" do
-    sh "#{compiler} #{comp_args} src/main/startJVM.d #{core_files} #{libload_files} #{deps_jni} -od#{bd} -ofstartJVM.#{execext} #{link_args}"
+  task "startJVM" => ["lib:libload","lib:jni"] do
+    sh "#{compiler} #{comp_args} src/main/startJVM.d -od#{bd} -ofstartJVM.#{execext} #{link_args}"
   end
   
   desc "Basic HTTP response slurper"
-  task "httpreader" do
-    sh "#{compiler} #{comp_args} src/main/httpreader.d #{core_files} #{web_files} -od#{bd} -ofhttpreader.#{execext}"
+  task "httpreader" => ["lib:web"] do
+    sh "#{compiler} #{comp_args} src/main/httpreader.d -od#{bd} -ofhttpreader.#{execext} #{link_args}"
   end
   
   desc "Multiple lineair regression"
-  task "regression" do
-    sh "#{compiler} #{comp_args} src/main/regression.d #{core_files} #{libload_files} #{plugin_stats} #{deps_r} -od#{bd} -ofregression.#{execext} #{link_args}"
+  task "regression" => ["lib:libload","lib:stats","lib:r"]do
+    sh "#{compiler} #{comp_args} src/main/regression.d -od#{bd} -ofregression.#{execext} #{link_args}"
   end
   
   desc "HTPPserver supporting D as CGI"
-  task "httpserver" do
-    sh "#{compiler} #{comp_args} src/main/httpserver.d #{core_files} #{web_files} -od#{bd} -ofhttpserver.#{execext}"
+  task "httpserver" => ["lib:web"] do
+    sh "#{compiler} #{comp_args} src/main/httpserver.d -od#{bd} -ofhttpserver.#{execext} #{link_args}"
   end
   
   desc "Server for a multiplayer network mud"
-  task "gameserver" do
-    sh "#{compiler} #{comp_args} src/main/server.d #{core_files} #{libload_files} #{web_files} #{game_files} #{plugin_gui} #{sfx_files} #{deps_sdl} #{deps_opengl} #{deps_openal} -od#{bd} -ofserver.#{execext} #{link_args}"
+  task "gameserver" => ["lib:all"] do
+    sh "#{compiler} #{comp_args} src/main/server.d -od#{bd} -ofserver.#{execext} #{link_args}"
   end
 
   desc "Decode the voynich manuscript"
-  task "voynich" do
-    sh "#{compiler} #{comp_args} src/main/voynich.d #{core_files} -od#{bd} -ofvoynich.#{execext}"
+  task "voynich" => ["lib:core"] do
+    sh "#{compiler} #{comp_args} src/main/voynich.d -od#{bd} -ofvoynich.#{execext} #{link_args}"
   end
   
   desc "Scan for proteins in DNA code"
-  task "dnacode" do
-    sh "#{compiler} #{comp_args} src/main/dnacode.d #{core_files} #{genetic_files} -od#{bd} -ofdnacode.#{execext}"
+  task "dnacode" => ["lib:genetics"] do
+    sh "#{compiler} #{comp_args} src/main/dnacode.d -od#{bd} -ofdnacode.#{execext} #{link_args}"
   end
 
   desc "Test sound via openAL bindings"
-  task "testal" do
-    sh "#{compiler} #{comp_args} src/main/testal.d #{core_files} #{libload_files} #{deps_openal} -od#{bd} -oftestal.#{execext} #{link_args}"
+  task "testal" => ["lib:openAL"] do
+    sh "#{compiler} #{comp_args} src/main/testal.d -od#{bd} -oftestal.#{execext} #{link_args}"
   end
 
   desc "GUI application using the DGE graphics engine"
-  task "sdl" do
-    sh "#{compiler} #{comp_args} src/main/sdlengine.d #{core_files} #{libload_files} #{web_files} #{game_files} #{plugin_gui} #{sfx_files} #{deps_sdl} #{deps_opengl} #{deps_openal} -od#{bd} -ofsdltest.#{execext} #{link_args}"
+  task "sdl" => ["lib:gui"] do
+    sh "#{compiler} #{comp_args} src/main/sdlengine.d -od#{bd} -ofsdltest.#{execext} #{link_args}"
   end
 end
 
