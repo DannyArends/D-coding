@@ -56,24 +56,24 @@ directory bd  #Create the build dir
 namespace :lib do
   desc "Build all libraries"
   task :all => LIBS
-  
+
   desc "The library with core functionality"
   task "core" do
     sh "#{compiler} -lib #{core_files} -of#{bd}/#{libpre}core.#{libext}"
     if ! windows? then; link_args += " -L-L#{bd} -L-lcore"; end
-    comp_args += " -Isrc/"
+    comp_args = " -Isrc/"
     comp_args += " #{bd}/#{libpre}core.#{libext}"
   end
 
   desc "The library with io functionality"
-  task "io" => [ :core ] do
+  task "io" => [ "lib:core" ] do
     sh "#{compiler} -lib #{comp_args} #{io_files} -of#{bd}/#{libpre}io.#{libext} #{link_args}"
     if ! windows? then; link_args += " -L-lio"; end
     comp_args += " #{bd}/#{libpre}io.#{libext}";
   end
   
   desc "The library with sfx functionality"
-  task "sfx" => ['lib:openAL'] do
+  task "sfx" => ["lib:core",'lib:openAL'] do
     sh "#{compiler} -lib #{comp_args} #{sfx_files} -of#{bd}/#{libpre}sfx.#{libext} #{link_args}"
     if ! windows? then; link_args += " -L-lsfx"; end
     comp_args += " #{bd}/#{libpre}sfx.#{libext}";
@@ -90,6 +90,7 @@ namespace :lib do
   task "libload" => ["lib:core"] do
     sh "#{compiler} -lib #{comp_args} #{libload_files} -of#{bd}/#{libpre}libload.#{libext} #{link_args}"
     if ! windows? then; link_args += " -L-llibload"; end
+    if ! windows? then; link_args = " -L-ldl"; end
     comp_args += " -Ideps/ #{bd}/#{libpre}libload.#{libext}";
   end
   
@@ -115,14 +116,14 @@ namespace :lib do
   end
   
   desc "Libary with basic statistics functions"
-  task "stats" do
+  task "stats" => ["lib:core"] do
     sh "#{compiler} -lib #{comp_args} #{plugin_stats} -of#{bd}/#{libpre}stats.#{libext} #{link_args}"
     if ! windows? then; link_args += " -L-lstats"; end
     comp_args += " #{bd}/#{libpre}stats.#{libext}";
   end
   
   desc "Libary with basic option parsing functions"
-  task "options" do
+  task "options" => ["lib:core"] do
     sh "#{compiler} -lib #{comp_args} #{plugin_opts} -of#{bd}/#{libpre}options.#{libext} #{link_args}"
     if ! windows? then; link_args += " -L-loptions"; end
     comp_args += " #{bd}/#{libpre}options.#{libext}";
@@ -222,7 +223,7 @@ namespace :app do
   end
 
   desc "Example on how to start the JVM"
-  task "startJVM" => ["lib:libload","lib:jni"] do
+  task "startJVM" => ["lib:jni"] do
     sh "#{compiler} #{comp_args} src/main/startJVM.d -od#{bd} -ofstartJVM.#{execext} #{link_args}"
   end
   
@@ -242,7 +243,7 @@ namespace :app do
   end
   
   desc "Server for a multiplayer network mud"
-  task "gameserver" => ["lib:all"] do
+  task "gameserver" => ["lib:gui"] do
     sh "#{compiler} #{comp_args} src/main/server.d -od#{bd} -ofserver.#{execext} #{link_args}"
   end
 
@@ -270,7 +271,7 @@ end
 # ---- Default task ----
 
 desc "Default is to build all applications"
-task :default => 'app:all' do
+task :default => ["app:all"] do
   print "Build OK\n"
 end
 

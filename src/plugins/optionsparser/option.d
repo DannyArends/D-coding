@@ -59,7 +59,7 @@ class Value{
     return _value;
   }
   
-  string toString(){
+  override string toString(){
     return _type._id ~ "|" ~ value;
   }
   
