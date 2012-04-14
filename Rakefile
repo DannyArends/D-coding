@@ -9,7 +9,7 @@ BIN =   ['app:fileloader', 'app:filesplitter', 'app:aligner', 'app:actor',
          'app:single_map_probes', 'app:correlation', 'app:ostest', 'app:plang',
          'app:startJVM', 'app:httpreader', 'app:regression', 'app:httpserver',
          'app:gameserver', 'app:voynich', 'app:dnacode', 'app:testal', 'app:sdl']
-TESTS = ['test:plang', 'tests:dnacode', 'test:fileloader', 'test:correlation', 
+TESTS = ['test:plang', 'test:dnacode', 'test:fileloader', 'test:correlation', 
          'test:httpreader']
 
 def windows?; return RUBY_PLATFORM =~ /(:?mswin|mingw)/; end
@@ -173,6 +173,7 @@ namespace :test do
     sh "./plang.#{execext}"
     sh "./plang.#{execext} 'Rl(l)' 010"
   end
+
   desc "Test DNAcode"
   task :dnacode => [ 'app:dnacode' ] do 
     print "Testing DNA translation\n"
