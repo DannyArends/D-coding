@@ -140,6 +140,12 @@ namespace :app do
   task "sdl" do
     sh "#{compiler} #{comp_args} src/main/sdlengine.d #{core_files} #{libload_files} #{web_files} #{game_files} #{plugin_gui} #{sfx_files} #{deps_sdl} #{deps_opengl} #{deps_openal} -od#{bd} -ofsdltest.#{execext} #{link_args}"
   end
+  
+  desc "Server-tester"
+  task "stest" do
+    sh "#{compiler} #{comp_args} src/main/testserver.d src/web/socketclient.d -od#{bd} -ofstest.#{execext}"
+  end
+
 end
 
 # ---- Default task ----
@@ -155,7 +161,7 @@ task :unittest do
 end
 
 desc "Build all game-executables"
-task :game => ['app:gameserver', 'app:sdl' ] do
+task :game => ['app:gameserver', 'app:stest', 'app:sdl' ] do
   print "Game OK\n"
 end
 
