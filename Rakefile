@@ -21,8 +21,6 @@ link_args  = ""         #Arguments passed to linker
 
 if ! windows? then; link_args = "-L-ldl"; end
 def execext; if windows? then; return "exe"; else; return "bin"; end; end
-def libext; if windows? then; return "lib"; else; return "a"; end; end
-def libpre; if windows? then; return ""; else; return "lib"; end; end
 
 CLEAN.include("#{bd}*.*")
 CLEAN.include("#{bd}")
