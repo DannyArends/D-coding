@@ -1,4 +1,4 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/game/tilemap.d
  * \brief A game map in tiles
  *
@@ -17,6 +17,7 @@ import core.arrays.search;
 import core.typedefs.types;
 
 import game.engine;
+import game.structures;
 import game.tile;
 import game.mover;
 

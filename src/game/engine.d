@@ -29,51 +29,6 @@ import game.users.gameclient;
 
 enum Stage{STARTUP, MENU, PLAYING};
 
-abstract class GameObject{
-  public:
-    this(string data){
-      fromString(data);
-    }
-
-    this(string dir, string name){
-      _filename = name;
-      _filepath = dir ~ name;
-      if(exists(filepath) && isFile(filepath)){
-        writefln("[OBJ] Loading GameObject-file: %s",filepath);
-        fromString(readText(filepath));
-        writefln("[OBJ] Done loading GameObject-file: %s",filepath);    
-      }
-    }
-    
-    void load(){
-      if(exists(filepath) && isFile(filepath)){
-        writefln("[OBJ] Loading GameObject-file: %s",filepath);
-        fromString(readText(filepath));
-        writefln("[OBJ] Done loading GameObject-file: %s",filepath);    
-      }
-    }
-
-    void save(){
-      writefln("[OBJ] Saving GameObject-file: %s",filepath);
-      auto fp = new File(filepath,"wb");
-      fp.write(asString());
-      fp.close();
-      writefln("[OBJ] Done saving GameObject-file: %s",filepath);  
-    }
-    
-    @property{
-      string     filepath(){ return _filepath; }
-      string     filename(){ return _filename; }
-    }
-
-    abstract void fromString(string data);
-    abstract string asString();
-
-  private:
-    string _filepath;
-    string _filename;
-}
-
 /*! \brief Abstract game class
  *
  *  Defines a game that is runnable inside out GFXEngine 

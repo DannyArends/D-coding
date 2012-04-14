@@ -1,4 +1,4 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/game/structures.d
  * \brief Game structure definitions
  *
@@ -9,9 +9,7 @@
  **********************************************************************/
 module game.structures;
 
-import std.stdio;
-import std.conv;
-import core.memory;
+import core.stdinc;
 import core.typedefs.location;
 import game.tilemap;
 
@@ -40,3 +38,52 @@ struct GameUser{
 }
 
 GameUser EMPTYUSER   = GameUser();
+
+/*! \brief Abstract game object class
+ *
+ *  Defines an abstract gameobject with its properties
+ */
+abstract class GameObject{
+  public:
+    this(string data){
+      fromString(data);
+    }
+
+    this(string dir, string name){
+      _filename = name;
+      _filepath = dir ~ name;
+      if(exists(filepath) && isFile(filepath)){
+        writefln("[OBJ] Loading GameObject-file: %s",filepath);
+        fromString(readText(filepath));
+        writefln("[OBJ] Done loading GameObject-file: %s",filepath);    
+      }
+    }
+    
+    void load(){
+      if(exists(filepath) && isFile(filepath)){
+        writefln("[OBJ] Loading GameObject-file: %s",filepath);
+        fromString(readText(filepath));
+        writefln("[OBJ] Done loading GameObject-file: %s",filepath);    
+      }
+    }
+
+    void save(){
+      writefln("[OBJ] Saving GameObject-file: %s",filepath);
+      auto fp = new File(filepath,"wb");
+      fp.write(asString());
+      fp.close();
+      writefln("[OBJ] Done saving GameObject-file: %s",filepath);  
+    }
+    
+    @property{
+      string     filepath(){ return _filepath; }
+      string     filename(){ return _filename; }
+    }
+
+    abstract void fromString(string data);
+    abstract string asString();
+
+  private:
+    string _filepath;
+    string _filename;
+}

@@ -19,8 +19,12 @@ import openal.alutstructs;
 import core.events.engine;
 import sfx.formats.wav;
 
+/*! \brief EventHandler for all SFX related events
+ *
+ *  The SFXEngine class is the main EventHandler for all SFX related events
+ */
 class SFXEngine : EventHandler{
-  
+  public:
   this(){
     try{
       alutInit(cast(int*)0, cast(char**)"");
