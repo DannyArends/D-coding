@@ -26,9 +26,8 @@ Compilation
 Compile using rake and dmd on your %PATH%:
 
     $ rake -T         # List all possible build and test options
-    $ rake libs       # Build only the libraries
     $ rake app:<name> # Build single standalone application
-    $ rake build      # Build all applications and libraries
+    $ rake build      # Build all applications
     $ rake unittest   # Run the unit tests
 
 Applications
