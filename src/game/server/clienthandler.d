@@ -10,6 +10,7 @@ module game.server.clienthandler;
 
 import core.stdinc;
 import core.typedefs.types;
+import core.typedefs.location;
 import core.typedefs.webtypes;
 
 import game.server.clientcommand;
@@ -67,6 +68,11 @@ class ClientHandler : Thread {
       }
     }
   }
+  
+  void setReqLocation(Location loc){
+    server.updateUser!Location(_username, loc);
+  }
+  
   @property{
     Socket socket(){ return sock; }
     void send(string cmd){ 
@@ -117,8 +123,11 @@ class ClientHandler : Thread {
     return server.saveUser(_username); 
   }
 
-  Player   getPlayer(){ return server.getPlayer(_username); }
-  GameUser getGameUser(){ return getPlayer().info; }
+  Player getPlayer(string name){ 
+    if(name == ""){ name = _username; } return server.getPlayer(name); 
+  }
+
+  GameUser getGameUser(){ return getPlayer("").info; }
   
 private:
 

@@ -21,35 +21,7 @@ class NetworkEvent : Event{
     if(msg[($-1)]=='\0') msg = msg[0..($-1)];
     _incomming=incomming;
     _msg=msg[1..$];
-    switch(msg[0]){
-      case 'H':
-        _evt=NetEvent.HEARTBEAT;
-      break;
-      case 'R':
-        _evt=NetEvent.REGISTER;
-      break;
-      case 'L':
-        _evt=NetEvent.LOGIN;
-      break;
-      case 'C':
-        _evt=NetEvent.CHAT;
-      break;
-      case 'M':
-        _evt=NetEvent.MOVEMENT;
-      break;
-      case 'G':
-        _evt=NetEvent.GAME;
-      break;
-      case '2':
-        _evt=NetEvent.GFX2D;
-      break;
-      case '3':
-        _evt=NetEvent.GFX3D;
-      break;
-      default:
-        _evt=NetEvent.UNKNOWN;
-      break;
-    }
+    _evt=cast(NetEvent) msg[0];
   }
   
   override EventType getEventType(){ return EventType.NETWORK; }

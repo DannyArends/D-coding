@@ -10,6 +10,7 @@ module game.server.gameserver;
 
 import core.stdinc;
 import core.typedefs.types;
+import core.typedefs.location;
 import core.typedefs.webtypes;
 
 import web.server;
@@ -79,6 +80,12 @@ class GameServer : Server!ClientHandler{
       if(!userExists(name)) return false;
       users[getUserSlot(name)].save();
       return true;
+    }
+    
+    void updateUser(T)(string name, T newvalue){
+      if(typeid(T) == typeid(Location)){
+        users[getUserSlot(name)].info.location[1] = cast(Location)newvalue;
+      }
     }
     
     uint getUserSlot(string name){

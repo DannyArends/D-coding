@@ -11,10 +11,12 @@ module game.games.servergame;
 
 import core.stdinc;
 import core.typedefs.types;
+import core.typedefs.location;
 import core.arrays.algebra;
 import core.events.engine;
 import core.events.networkevent;
 import game.engine;
+import game.player;
 import game.tilemap;
 import gui.stdinc;
 import sfx.engine;
@@ -66,6 +68,34 @@ class ServerGame : Game{
       default: break;
     }  
   }
+
+  void createObject(string objectData){
+    int idx = objectData.indexOf(':');
+    if(idx > 0){
+      string objectType = objectData.split(":")[0];
+      objectData = objectData[idx+1..$];
+      switch(objectType){
+        case "Map":    writeln("[NG ] map"); 
+          TileMap map = new TileMap(objectData);
+          HeightMap hmap = new HeightMap(0,0,0,map.x,map.y);
+          engine.screen.add(hmap,"map");
+        break;
+        case "User":   writeln("[NG ] User"); 
+          Player p = new Player(objectData);
+          Location l = p.info.location[0];
+          Skeleton sk = new Skeleton(l.x, l.y, l.z);
+          cameraMotion(new ObjectMotion(engine.screen,sk));
+          engine.screen.add(sk,"player");
+        break;
+        case "Player": writeln("[NG ] Player"); break;
+        case "NPC":    writeln("[NG ] NPC"); break;
+        case "Struct": writeln("[NG ] Structure"); break;
+        default: writeln("[ G ] Unknown data");
+        break;
+      }
+    }
+  }
+
   
   override void handle(Event e){
     if(e.getEventType() == EventType.NETWORK){
@@ -95,14 +125,16 @@ class ServerGame : Game{
         case NetEvent.SOUND: writeln("[ G ] Sound event");
           e.handled=true;
         break;
+        case NetEvent.OBJECT: writeln("[ G ] object event");
+          createObject(n_evt.msg);
+          e.handled=true;
+        break;
         case NetEvent.GFX2D: writeln("[ G ] 2D object event");
           e.handled=true;
         break;
         case NetEvent.GFX3D: writeln("[ G ] 3D object event");
-          cmap = new TileMap(n_evt.msg);
-          HeightMap h = new HeightMap(0,0,0,cmap.x,cmap.y);
-          engine.screen.add(h,"map");
-          cameraMotion(new ObjectMotion(engine.screen,h));
+
+ //         cameraMotion(new ObjectMotion(engine.screen,h));
           e.handled=true;
         break;
         default:
@@ -117,7 +149,6 @@ class ServerGame : Game{
   }
   
   private:
-    TileMap     cmap;
     TimeTracker servertime;
     Text        time;
     Text        text;

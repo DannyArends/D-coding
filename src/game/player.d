@@ -25,7 +25,8 @@ class Player : GameObject{
       if(!exists(filepath) || !isFile(filepath)){
         userinfo.name         = username;
         userinfo.pass         = password;
-        userinfo.location     = new Location(0,0,0);
+        userinfo.location[0]  = new Location(0,0,0);
+        userinfo.location[1]  = new Location(0,0,0);
         userinfo.map          = new TileMap("data/maps/", name);
         userinfo.created      = servertime;
         userinfo.lastloggedin = servertime;
@@ -40,15 +41,16 @@ class Player : GameObject{
     if(fields.length == 2){ }
   }
   
-  override void fromStringData(string data){
+  override void fromString(string data){
     string[] lines = splitLines(data);
     userinfo.name = chomp(lines[0]);
     userinfo.pass = chomp(lines[1]);
-    userinfo.location = new Location(chomp(lines[2]));
-    userinfo.map = new TileMap("data/maps/", chomp(lines[3]));
-    userinfo.created = chomp(lines[4]);
-    userinfo.lastloggedin = chomp(lines[5]);
-    int currentline = 6;
+    userinfo.location[0] = new Location(chomp(lines[2]));
+    userinfo.location[1] = new Location(chomp(lines[3]));
+    userinfo.map = new TileMap("data/maps/", chomp(lines[4]));
+    userinfo.created = chomp(lines[5]);
+    userinfo.lastloggedin = chomp(lines[6]);
+    int currentline = 7;
     while(currentline < lines.length){
       if(chomp(lines[currentline]) == "# --- Data inventory begin"){
         writeln("[USR] inventory definitions");
@@ -68,15 +70,21 @@ class Player : GameObject{
     }
     writefln("Done player-file: %s",filename);
   }
-  
-  override string toStringData(){
+
+  string asLimited(){
     string s;
     s ~= userinfo.name     ~ "\n" ~ userinfo.pass ~ "\n";
-    s ~= to!string(userinfo.location) ~ "\n" ~ userinfo.map.name ~ "\n";
+    s ~= to!string(userinfo.location[0]) ~ "\n" ~ to!string(userinfo.location[1]) ~ "\n";
+    s ~= userinfo.map.name ~ "\n";
     s ~= userinfo.created  ~ "\n" ~ userinfo.lastloggedin ~ "\n";
     s ~= "# --- Data clothing begin" ~ "\n";
     foreach(GameItem clo; userinfo.clothing){ s ~= to!string(clo) ~ "\n"; }
     s ~= "# --- Data clothing end\n";
+    return s;
+  }
+
+  override string asString(){
+    string s = asLimited();
     s ~= "# --- Data inventory begin\n";
     foreach(GameItem inv; userinfo.inventory){ s ~= to!string(inv) ~ "\n"; }
     s ~= "# --- Data inventory end\n";
@@ -90,7 +98,7 @@ class Player : GameObject{
   }
   
   @property{
-    GameUser info(){ return userinfo; }
+    ref GameUser info(){ return userinfo; }
     string   name(){ return userinfo.name; }
     string   password(){ return userinfo.pass; }
     string   lastloggedin(string time = ""){

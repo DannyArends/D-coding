@@ -10,6 +10,7 @@ module game.server.clientcommand;
 
 import core.stdinc;
 import core.typedefs.types;
+import core.typedefs.location;
 
 import game.tilemap;
 import game.server.gameserver;
@@ -42,9 +43,8 @@ void processCreate(GameServer server, ClientHandler handler, string[] params){
       handler.send(NetEvent.CHAT ~ "Already logged in as '"~handler.username~"'");
     }else{
       if(server.createUser(params[1],params[2])){
-        handler.username(params[1]);
         handler.send(NetEvent.CHAT ~ "Created, you are known as '" ~ params[1] ~ "'");
-        sendLocation(server, handler);
+        handleLogin(server, handler, params[1]);
       }else{
         handler.send(NetEvent.CHAT ~ "Unable to create user");
       }
@@ -60,16 +60,20 @@ void processLogin(GameServer server, ClientHandler handler, string[] params){
       handler.send(NetEvent.CHAT ~ "No such user '"~params[1]~"'");
     }else{
       if(server.validatePass(params[1],params[2])){
-        handler.username(params[1]);
         handler.send(NetEvent.CHAT ~ "Welcome back '" ~ params[1] ~ "'");
-        server.setUserLogin(params[1]);
-        sendLocation(server, handler);
-        sendUserData(server, handler);
+        handleLogin(server, handler, params[1]);
       }else{
         handler.send(NetEvent.CHAT ~ "Invalid password");
       }
     }
   }
+}
+
+void handleLogin(GameServer server, ClientHandler handler, string name){
+  handler.username(name);
+  server.setUserLogin(name);
+  writeln("[CLN] Sending map & Location"); sendLocation(server, handler, true);
+  writeln("[CLN] Sending user data"); sendUserData(server, handler);
 }
 
 void processClientCommand(GameServer server, ClientHandler handler, string command){
@@ -96,15 +100,15 @@ void processClientCommand(GameServer server, ClientHandler handler, string comma
 void sendMapData(GameServer server, ClientHandler handler){
   if(handler.loggedin){
     TileMap map = handler.getGameUser().map;
-    handler.send(NetEvent.GFX3D ~ map.toStringData());
+    handler.send(NetEvent.OBJECT ~ "Map:" ~ map.asString());
   }else{
     handler.send(NetEvent.CHAT ~ "Unauthorized request");  
   }
 }
 
-void sendLocation(GameServer server, ClientHandler handler){
+void sendLocation(GameServer server, ClientHandler handler, bool mapChange = false){
   if(handler.loggedin){
-    sendMapData(server,handler);
+    if(mapChange) sendMapData(server,handler);
     handler.send(NetEvent.MOVEMENT ~ handler.getGameUser().map.name ~ "-" ~ to!string(handler.getGameUser().location));
   }else{
     handler.send(NetEvent.CHAT ~ "Unauthorized request");  
@@ -113,14 +117,18 @@ void sendLocation(GameServer server, ClientHandler handler){
 
 void sendUserData(GameServer server, ClientHandler handler){
   if(handler.loggedin){
-    handler.send(NetEvent.GAME ~ handler.getPlayer().toStringData());
+      handler.send(NetEvent.OBJECT ~ "User:" ~ handler.getPlayer("").asString());
   }else{
     handler.send(NetEvent.CHAT ~ "Unauthorized request");  
   }
 }
 
 void processMovement(GameServer server, ClientHandler handler, string command){
-  
+  if(handler.loggedin){
+    Location l = new Location(command);
+    writeln("Movement from client: ",l);
+    handler.setReqLocation(l);
+  }
 }
 
 void processChat(GameServer server, ClientHandler handler, string command){

@@ -29,7 +29,7 @@ struct GameItem{
 struct GameUser{
   string         name;
   string         pass;
-  Location       location;
+  Location[2]    location;
   TileMap        map;
   string         created;
   string         lastloggedin;

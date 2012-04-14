@@ -77,7 +77,7 @@ public:
     }
   }
   
-  override void fromStringData(string data){
+  override void fromString(string data){
     string[] lines = splitLines(data);
     writeln("[MAP] Start of parsing ",lines.length," lines of data");
     int currentline = 0;
@@ -114,7 +114,7 @@ public:
     }
   }
   
-  override string toStringData(){
+  override string asString(){
     string s;
     s ~= "# --- Data tiledefs begin\n";
     foreach(TileType t; uniqueTiles()){
