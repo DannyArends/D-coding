@@ -81,13 +81,52 @@ class GameServer : Server!ClientHandler{
       users[getUserSlot(name)].save();
       return true;
     }
-    
-    void updateUser(T)(string name, T newvalue){
-      if(typeid(T) == typeid(Location)){
-        users[getUserSlot(name)].info.location[1] = cast(Location)newvalue;
+
+    bool deleteUser(string name){
+      if(!userExists(name)) return false;
+      string userfile = user_dir ~ users[getUserSlot(name)].filename;
+      string mapsfile = maps_dir ~ users[getUserSlot(name)].filename;
+      if(exists(userfile)){
+        users = users[0..getUserSlot(name)] ~ users[getUserSlot(name)+1..$];
+        remove(userfile);
+        if(exists(mapsfile)) remove(mapsfile);
+        writeln("SEVERE: DELETED FILE:",userfile);
+        return true;
       }
+      return false;
     }
     
+    void updateUser(T)(string name, T newvalue, string what){
+      writeln("[UPD] Updating ",what);
+      static if(is(T == Location)){
+        writeln("[UPD] Updating user requested location");
+        users[getUserSlot(name)].info.location[1] = cast(Location)newvalue;
+      }
+      static if(is(T == TileMap)){
+        writeln("[UPD] Updating user current map");
+        users[getUserSlot(name)].info.map = cast(TileMap)newvalue;        
+      }
+      static if(is(T == string)){
+        switch(what){
+          case "name":
+            writeln("[UPD] Updating username");
+            users[getUserSlot(name)].info.name = cast(string)newvalue;
+          break;
+          case "pass":
+            writeln("[UPD] Updating password");
+            users[getUserSlot(name)].info.pass = cast(string)newvalue;
+          break;
+          case "lastloggedin":
+            writeln("[UPD] Updating lastloggedin");
+            users[getUserSlot(name)].info.lastloggedin = servertime;
+          break;
+          default:
+          writeln("[ERR] Request to update unknown string in user");
+          break;
+        }
+      }
+    }
+
     uint getUserSlot(string name){
       foreach(uint cnt, Player p; users){
         if(toLower(p.name) == toLower(name)) return cnt;
@@ -101,9 +140,7 @@ class GameServer : Server!ClientHandler{
       }
       return null;
     }
-    
-    void setUserLogin(string name){ users[getUserSlot(name)].lastloggedin = servertime; }
-    
+
     bool userExists(string name){
       foreach(Player p; users){
         if(toLower(p.name) == toLower(name)) return true;

@@ -70,7 +70,7 @@ class ClientHandler : Thread {
   }
   
   void setReqLocation(Location loc){
-    server.updateUser!Location(_username, loc);
+    server.updateUser!Location(_username, loc, "requested");
   }
   
   @property{
@@ -90,7 +90,7 @@ class ClientHandler : Thread {
       if(_username == "") return "GUEST"~to!string(id);
       return _username; 
     }
-  
+      
     bool loggedin(){ 
       if(_username == "") return false;
       return true;
@@ -128,6 +128,8 @@ class ClientHandler : Thread {
   }
 
   GameUser getGameUser(){ return getPlayer("").info; }
+  
+  bool       firsttimedelete = true;
   
 private:
 

@@ -62,7 +62,7 @@ string[] cmds = [ "C#help",
   "M4:0:9", "C#delete_me", "CSome random text",
   "C#delete_me", "C#delete_me",
   "C#help",
-  "C#login Test Test" /*Should fail*/ "C#create Test Test",
+  "C#login Test Test", /*Should fail*/ "C#create Test Test",
   "C#chpass Test Test1 Test1", "C#logout",
   "C#login Test Test1", "CChat by Test",
   "C#chname Tes Test1", "C#logout", "C#login Tes Test1",
@@ -79,7 +79,7 @@ void main(string[] args){
     if(cnt < cmds.length){
       writeln("\n--->>> ",cmds[cnt]);
       r.network.write(cmds[cnt] ~ "\0");
-      Thread.sleep( dur!("msecs")( 100 ) );
+      Thread.sleep( dur!("msecs")( 300 ) );
     }else{
 //      stdin.readln(buf);
 //      if(chomp(to!string(buf)) == "quit"){
