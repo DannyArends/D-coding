@@ -36,6 +36,7 @@ void displayHelp(ClientHandler handler){
 }
 
 void processCreate(GameServer server, ClientHandler handler, string[] params){
+  if(!handler.loggedin){
   if(params.length != 3){
     handler.send(NetEvent.CHAT ~ "Usage: create <name> <pass>");
   }else{
@@ -50,9 +51,13 @@ void processCreate(GameServer server, ClientHandler handler, string[] params){
       }
     }
   }
+  }else{
+    handler.send(NetEvent.CHAT ~ "Already logged in");  
+  }
 }
 
 void processLogin(GameServer server, ClientHandler handler, string[] params){
+  if(!handler.loggedin){
   if(params.length != 3){
     handler.send(NetEvent.CHAT ~ "Usage: login <name> <pass>");
   }else{
@@ -66,6 +71,9 @@ void processLogin(GameServer server, ClientHandler handler, string[] params){
         handler.send(NetEvent.CHAT ~ "Invalid password");
       }
     }
+  }
+  }else{
+    handler.send(NetEvent.CHAT ~ "Already logged in");
   }
 }
 
@@ -88,6 +96,7 @@ void processClientCommand(GameServer server, ClientHandler handler, string comma
       case "stats" : if(handler.loggedin) handler.send(NetEvent.CHAT ~ "Not implemented yet"); break;
       case "chname": if(handler.loggedin) handler.send(NetEvent.CHAT ~ "Not implemented yet"); break;
       case "chpass": if(handler.loggedin) handler.send(NetEvent.CHAT ~ "Not implemented yet"); break;
+      case "delete_me": if(handler.loggedin) handler.send(NetEvent.CHAT ~ "Not implemented yet"); break;
       case "save"  : if(handler.loggedin) handler.save(); break;
       case "help"  : displayHelp(handler); break;
       default:

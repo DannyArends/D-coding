@@ -59,14 +59,14 @@ string[] cmds = [ "C#help",
   "C#login Test Test", /*Should fail*/ "C#create Test Test",
   "C#login Test Test", /*Should fail*/ "C#help",
   "C#stats", "M-10:10:9", "C#logout", "C#login Test Test",
-  "M4:0:9", "C#delete me", "CSome random text",
-  "C#delete me", "C#delete me",
+  "M4:0:9", "C#delete_me", "CSome random text",
+  "C#delete_me", "C#delete_me",
   "C#help",
   "C#login Test Test" /*Should fail*/ "C#create Test Test",
   "C#chpass Test Test1 Test1", "C#logout",
   "C#login Test Test1", "CChat by Test",
   "C#chname Tes Test1", "C#logout", "C#login Tes Test1",
-  "CChat by Tes", "C#delete me", "C#delete me",
+  "CChat by Tes", "C#delete_me", "C#delete_me",
   "C#help"];
 
 void main(string[] args){

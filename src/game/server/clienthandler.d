@@ -53,13 +53,13 @@ class ClientHandler : Thread {
             if(loggedin){
               if(command.length >= 1) processChat(server, this, command);
             }else{
-              send(NetEvent.GAME ~ "Please login first '#login <name> <password>'");
+              send(NetEvent.CHAT ~ "Please login first '#login <name> <password>'");
             }
           }
         break;
         default:
           log(server,"Client " ~ address() ~ " unknown command: " ~ to!string(command));
-          send(NetEvent.GAME ~ "Unknown command: " ~ cmd[0]);
+          send(NetEvent.CHAT ~ "Unknown command: " ~ cmd[0]);
           writeln("[HANDLER] Unknown command type:" ~ cmd[0]);
         break;
       }
