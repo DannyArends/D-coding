@@ -87,6 +87,7 @@ class GameServer : Server!ClientHandler{
     bool logoutUser(string name){
       if(!userExists(name)) return false;
       users[getUserSlot(name)].save();
+      users[getUserSlot(name)].offline();
       log(this, "User '"~name~"' logged out","server");
       return true;
     }
@@ -130,7 +131,8 @@ class GameServer : Server!ClientHandler{
             log(this, "User '"~name~"' changed his password", "server");
           break;
           case "lastloggedin":
-            writeln("[UPD] Updating lastloggedin");
+            writeln("[UPD] Updating last logged in for " ~ name);
+            users[getUserSlot(name)].online();
             users[getUserSlot(name)].info.lastloggedin = servertime;
           break;
           default:

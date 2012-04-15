@@ -97,7 +97,10 @@ class Player : GameObject{
     return s;
   }
   
+  void offline(){ _online=false; }
+  
   @property{
+    bool     online(bool on = false){if(!on){ _online = on; } return _online;}
     ref GameUser info(){ return userinfo; }
     string   name(){ return userinfo.name; }
     string   password(){ return userinfo.pass; }
@@ -108,6 +111,7 @@ class Player : GameObject{
   }
   
   private:
+    bool         _online = true;
     GameUser     userinfo;
     FileStatus   _status = FileStatus.NO_SUCH_FILE;
 }
