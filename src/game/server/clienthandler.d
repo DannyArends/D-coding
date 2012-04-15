@@ -99,20 +99,13 @@ class ClientHandler : Thread {
   
   void offline(){ online = false; }
   
-  void log(GameServer server, string msg, string log="server"){
-    string logfilename = log ~ server.serverday ~ ".SAVE";
-    auto f = new File(logfilename,"a");
-    f.writeln("[" ~ server.servertime ~ "] " ~ msg);
-    f.close();
-  }
-  
   void close() { 
     log(server,"Client " ~ address() ~ " on " ~ to!string(id) ~ " offline");
     sock.close(); 
   }
 
   void logout(){
-    server.saveUser(_username);
+    server.logoutUser(_username);
     send(NetEvent.CHAT ~ "You are now logged out");
     send(NetEvent.GAME ~ "logout");
     _username = ""; 

@@ -59,6 +59,7 @@ class GameServer : Server!ClientHandler{
         filename = "user" ~ toD(userid,6) ~ ".usr";
       }
       users ~= new Player(user_dir, filename, name, pass, servertime);
+      log(this, "New user '" ~ name ~ "' in file: " ~ filename, "server");
       return true;
     }
     
@@ -74,11 +75,19 @@ class GameServer : Server!ClientHandler{
       super.shutdown();
       foreach(TileMap m; maps){ m.save(); }
       foreach(Player p; users){ p.save(); }
+      log(this, " ---- Game server shutdown ----","server");
     }
     
     bool saveUser(string name){
       if(!userExists(name)) return false;
       users[getUserSlot(name)].save();
+      return true;
+    }
+
+    bool logoutUser(string name){
+      if(!userExists(name)) return false;
+      users[getUserSlot(name)].save();
+      log(this, "User '"~name~"' logged out","server");
       return true;
     }
 
@@ -90,7 +99,8 @@ class GameServer : Server!ClientHandler{
         users = users[0..getUserSlot(name)] ~ users[getUserSlot(name)+1..$];
         remove(userfile);
         if(exists(mapsfile)) remove(mapsfile);
-        writeln("SEVERE: DELETED FILE:",userfile);
+        log(this, "User '"~name~"' permanently deleted: " ~ userfile,"server");
+        writeln("[SEVERE] Deleted  user files: ",userfile);
         return true;
       }
       return false;
@@ -104,17 +114,20 @@ class GameServer : Server!ClientHandler{
       }
       static if(is(T == TileMap)){
         writeln("[UPD] Updating user current map");
-        users[getUserSlot(name)].info.map = cast(TileMap)newvalue;        
+        users[getUserSlot(name)].info.map = cast(TileMap)newvalue;
+        log(this, "User "~name~" changed map", "server");
       }
       static if(is(T == string)){
         switch(what){
           case "name":
             writeln("[UPD] Updating username");
             users[getUserSlot(name)].info.name = cast(string)newvalue;
+            log(this, "User '"~name~"' changed name to "~ cast(string)newvalue, "server");
           break;
           case "pass":
             writeln("[UPD] Updating password");
             users[getUserSlot(name)].info.pass = cast(string)newvalue;
+            log(this, "User '"~name~"' changed his password", "server");
           break;
           case "lastloggedin":
             writeln("[UPD] Updating lastloggedin");

@@ -188,6 +188,13 @@ void sendUserData(GameServer server, ClientHandler handler){
   }
 }
 
+void log(GameServer server, string msg, string log="server"){
+  string logfilename = log ~ server.serverday ~ ".SAVE";
+  auto f = new File(logfilename,"a");
+  f.writeln("[" ~ server.servertime ~ "] " ~ msg);
+  f.close();
+}
+
 void processMovement(GameServer server, ClientHandler handler, string command){
   if(handler.loggedin){
     handler.firsttimedelete = true;
