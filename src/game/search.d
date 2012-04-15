@@ -95,16 +95,16 @@ class AStarSearch{
       auto t1 = Clock.currTime();
       while((t1-t0).total!"msecs" < msec){
         if((open.length != 0)){
-          writeln("Open length: ",open.length);
+          debug writeln("[SEARCH] Open length: ",open.length);
           Node current = getFirstInOpen();
-          if(current.x == tx && current.y==ty){ writeln("[SEARCH] At destination",(msec - (t1-t0).total!"msecs"));
+          if(current.x == tx && current.y==ty){ writeln("[SEARCH] DONE, at destination");
             return(msec - (t1-t0).total!"msecs");
           }
           removeFromOpen(current);
-          writeln("Open length: ",open.length);
+          debug writeln("[SEARCH] Open length: ",open.length);
           addToClosed(current);
-          writeln("Closed length: ",closed.length);
-          writeln("[SEARCH] Adding squares");
+          debug writeln("[SEARCH] Closed length: ",closed.length);
+          debug writeln("[SEARCH] Adding neighbouring squares");
           for(int x=-1;x<2;x++){
             for(int y=-1;y<2;y++){
               if((x == 0) && (y == 0)){ continue; } //Current tile
@@ -113,7 +113,6 @@ class AStarSearch{
               int yp = y + current.y;
               
               if(map.isValidLocation(mover,sx,sy,xp,yp)){
-//                writeln("[SEARCH] Valid location");
                 int nextStepCost = cast(int) (current.getCost() + map.getMovementCost(mover, current.x, current.y, xp, yp));
                 Node neighbour = nodes[xp][yp];
                 map.pathFinderVisited(xp, yp);
@@ -131,20 +130,18 @@ class AStarSearch{
                   neighbour.setEstimate(heuristic.getCost(mover, xp, yp, tx, ty));
                   open ~= neighbour;
                 }
-              }else{
-                writeln("[SEARCH] INValid location");
               }
             }
           }
-          writeln("[SEARCH] Resorting open:",open.length);
+          debug writeln("[SEARCH] Resorting open:",open.length);
           open = mostLikelyOnTop(open);
         }else{
-          writeln("[SEARCH] Done");
+          writeln("[SEARCH] DONE, no more options");
           return(msec - (t1-t0).total!"msecs");
         }
         t1 = Clock.currTime();
       }
-      writeln("[SEARCH] Done");
+      writeln("[SEARCH] DONE, search time expired");
       return 0;
     }
       

@@ -35,8 +35,7 @@ public:
     }
     return false;
   }
-  
+
 private:
   Step[] steps;
-
 }

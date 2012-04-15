@@ -199,7 +199,7 @@ void processMovement(GameServer server, ClientHandler handler, string command){
   if(handler.loggedin){
     handler.firsttimedelete = true;
     Location l = new Location(command);
-    writeln("Movement from client: ",l);
+    writeln("[CLN] Movement request from client: ",l);
     handler.setReqLocation(l);
   }
 }
