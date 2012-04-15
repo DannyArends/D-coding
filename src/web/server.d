@@ -47,6 +47,7 @@ class Server(Client) : core.thread.Thread{
     @property string  serverstamp(){ return _servertime.time; }
     @property int     max_clients(){ return _max_clients; }
     @property int     port(){return _port; }
+    @property bool    online(){return _online; }
     @property string  hostname(){return _hostname; }
     void  shutdown(){ _online = false; }
 

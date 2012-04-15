@@ -21,10 +21,9 @@ public:
   int   x;
   int   y;
   
-  this(){
-  }
-  
-  this(int c, int d){
+  this(int x, int y, int c=0, int d=0){
+    this.x=x;
+    this.y=y;
     cost=c;
     depth=d;
   }
@@ -43,7 +42,7 @@ public:
   
   double getEstimate(){ return hcost; }
   void setEstimate(double h){ hcost=h; }
-  
+
 private:
   double cost    = 0;
   double hcost   = 0;

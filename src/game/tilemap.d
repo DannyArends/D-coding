@@ -28,7 +28,7 @@ public:
   this(string dir, string name, uint x = 10, uint y = 10){
     super(dir, name);
     if(!exists(filepath) || !isFile(filepath)){
-      tiles = newmatrix!TileType(x, y, BLOCKEDTILE);
+      tiles = newmatrix!TileType(x, y, GRASSTILE);
       save();  // Creating a new map
     }
   }
@@ -38,6 +38,7 @@ public:
   }
 
   bool isValidLocation(Mover mover, uint x,uint y, uint xp, uint yp){
+    if(xp < this.x && xp >= 0 && yp < this.y && yp >= 0) return true;
     return false;
   }
 

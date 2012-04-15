@@ -100,7 +100,7 @@ class Player : GameObject{
   void offline(){ _online=false; }
   
   @property{
-    bool     online(bool on = false){if(!on){ _online = on; } return _online;}
+    bool     online(bool on = false){if(on){ _online = on; } return _online;}
     ref GameUser info(){ return userinfo; }
     string   name(){ return userinfo.name; }
     string   password(){ return userinfo.pass; }

@@ -12,6 +12,7 @@ module game.search;
 import core.thread;
 import std.array;
 import std.conv;
+import std.stdio;
 import std.math;
 import std.string;
 import std.datetime;
@@ -72,56 +73,79 @@ class AStarSearch{
     this(int sx, int sy, int tx, int ty, TileMap map, SearchHeuristic heuristic, int maxDepth){
       this.heuristic=heuristic;
       this.map=map;
-      nodes = newclassmatrix!Node(map.x, map.y);
-      nodes[sx][sy] = new Node(0, 0);
+      for(int x=0;x<map.x;x++){
+        Node[] nlist;
+        for(size_t y=0;y<map.y;y++){
+          nlist ~= new Node(x,y);
+        }
+        nodes ~= nlist;
+      }
       this.sx=sx;
       this.sy=sy;
       this.tx=tx;
       this.ty=ty;
       this.maxDepth=maxDepth;
       open ~= nodes[sx][sy];
+      writeln("[SEARCH] CONSTRUCTED [",sx," ",sy,"] [",tx," ",ty,"]");
     }
     
-    void searchPath(uint msec){
+    long searchPath(long msec){
+      writeln("[SEARCH] STARTED");
       auto t0 = Clock.currTime();
       auto t1 = Clock.currTime();
-      while((open.length != 0) && ((t1-t0) < dur!"msecs"(msec))) {
-        Node current = getFirstInOpen();
-        if(current == nodes[tx][ty]){ break; } // At destination tile
-        removeFromOpen(current);
-        addToClosed(current);
-        
-        for(int x=-1;x<2;x++){
-          for(int y=-1;y<2;y++){
-            if((x == 0) && (y == 0)){ continue; } //Current tile
-            
-            int xp = x + current.x;
-            int yp = y + current.y;
-            
-            if(map.isValidLocation(mover,sx,sy,xp,yp)){
-              int nextStepCost = cast(int) (current.getCost() + map.getMovementCost(mover, current.x, current.y, xp, yp));
-              Node neighbour = nodes[xp][yp];
-              map.pathFinderVisited(xp, yp);
-              if(nextStepCost < neighbour.getCost()){
-                if(inOpenList(neighbour)){
-                  removeFromOpen(neighbour);
+      while((t1-t0).total!"msecs" < msec){
+        if((open.length != 0)){
+          writeln("Open length: ",open.length);
+          Node current = getFirstInOpen();
+          if(current.x == tx && current.y==ty){ writeln("[SEARCH] At destination",(msec - (t1-t0).total!"msecs"));
+            return(msec - (t1-t0).total!"msecs");
+          }
+          removeFromOpen(current);
+          writeln("Open length: ",open.length);
+          addToClosed(current);
+          writeln("Closed length: ",closed.length);
+          writeln("[SEARCH] Adding squares");
+          for(int x=-1;x<2;x++){
+            for(int y=-1;y<2;y++){
+              if((x == 0) && (y == 0)){ continue; } //Current tile
+              
+              int xp = x + current.x;
+              int yp = y + current.y;
+              
+              if(map.isValidLocation(mover,sx,sy,xp,yp)){
+//                writeln("[SEARCH] Valid location");
+                int nextStepCost = cast(int) (current.getCost() + map.getMovementCost(mover, current.x, current.y, xp, yp));
+                Node neighbour = nodes[xp][yp];
+                map.pathFinderVisited(xp, yp);
+                if(nextStepCost < neighbour.getCost()){
+                  if(inOpenList(neighbour)){
+                    removeFromOpen(neighbour);
+                  }
+                  if(inClosedList(neighbour)){
+                    removeFromClosed(neighbour);
+                  }
                 }
-                if(inClosedList(neighbour)){
-                  removeFromClosed(neighbour);
+                if(!inOpenList(neighbour) && !(inClosedList(neighbour))){
+                  neighbour.setCost(nextStepCost);
+                  neighbour.setParent(current);
+                  neighbour.setEstimate(heuristic.getCost(mover, xp, yp, tx, ty));
+                  open ~= neighbour;
                 }
-              }
-              if(!inOpenList(neighbour) && !(inClosedList(neighbour))){
-                neighbour.setCost(nextStepCost);
-                neighbour.setParent(current);
-                neighbour.setEstimate(heuristic.getCost(mover, xp, yp, tx, ty));
-                open ~= neighbour;
+              }else{
+                writeln("[SEARCH] INValid location");
               }
             }
           }
+          writeln("[SEARCH] Resorting open:",open.length);
+          open = mostLikelyOnTop(open);
+        }else{
+          writeln("[SEARCH] Done");
+          return(msec - (t1-t0).total!"msecs");
         }
-        open = mostLikelyOnTop(open);
         t1 = Clock.currTime();
       }
+      writeln("[SEARCH] Done");
+      return 0;
     }
       
     Path getPath(){

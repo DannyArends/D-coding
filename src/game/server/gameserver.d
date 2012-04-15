@@ -19,6 +19,7 @@ import game.tilemap;
 import game.structures;
 import game.server.clientcommand;
 import game.server.clienthandler;
+import game.server.movementserver;
 
 T[] load(T)(string dir = "data/maps/", string ext = ".map"){
   T[] items;
@@ -38,16 +39,19 @@ T[] load(T)(string dir = "data/maps/", string ext = ".map"){
 
 class GameServer : Server!ClientHandler{
   private:
-    string    user_dir = "data/users/";
-    string    maps_dir = "data/maps/";
-    Player[]  users;
-    TileMap[] maps;
+    string         user_dir = "data/users/";
+    string         maps_dir = "data/maps/";
+    Player[]       users;
+    TileMap[]      maps;
+    MovementServer movement;
     
   public:
     this(){
       super();
       users = load!Player(user_dir,".usr");
       maps = load!TileMap(maps_dir,".map");
+      movement = new MovementServer(this);
+      movement.start();
     }
     
     bool createUser(string name, string pass){
@@ -132,7 +136,7 @@ class GameServer : Server!ClientHandler{
           break;
           case "lastloggedin":
             writeln("[UPD] Updating last logged in for " ~ name);
-            users[getUserSlot(name)].online();
+            users[getUserSlot(name)].online(true);
             users[getUserSlot(name)].info.lastloggedin = servertime;
           break;
           default:
@@ -155,6 +159,8 @@ class GameServer : Server!ClientHandler{
       }
       return null;
     }
+    
+    ref Player[] getUsers(){ return users; }
 
     bool userExists(string name){
       foreach(Player p; users){

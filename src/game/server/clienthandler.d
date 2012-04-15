@@ -24,11 +24,11 @@ alias core.thread.Thread Thread;
 class ClientHandler : Thread {
   public:
   this(Server!ClientHandler server, Socket sock, uint id) {
-    super(&payload);
     this.server = cast(GameServer)server;
     this.sock = sock;
     this.id = id;
     this.online = true;
+    super(&payload);
   }
   
   void processCommand(ubyte[] cmd){
