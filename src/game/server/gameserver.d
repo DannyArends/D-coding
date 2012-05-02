@@ -102,8 +102,8 @@ class GameServer : Server!ClientHandler{
       string mapsfile = maps_dir ~ users[getUserSlot(name)].filename;
       if(exists(userfile)){
         users = users[0..getUserSlot(name)] ~ users[getUserSlot(name)+1..$];
-        remove(userfile);
-        if(exists(mapsfile)) remove(mapsfile);
+        std.file.remove(userfile);
+        if(exists(mapsfile)) std.file.remove(mapsfile);
         log(this, "User '"~name~"' permanently deleted: " ~ userfile,"server");
         writeln("[SEVERE] Deleted  user files: ",userfile);
         return true;
