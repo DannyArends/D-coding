@@ -17,11 +17,14 @@ class RequestHandler{
   string ACCEPTOR = "HTTP 1.0 / 1.1 requestHandler in D v0.0.1 (c) 2011 Danny Arends";
   Socket socket;
   string root;
+  ubyte[] _request;
+  int     _request_cnt = 0;
   
   public:
-  this(string root_path, Socket client_socket){
-    socket = client_socket;
-    root = root_path;
+  this(string root_path, Socket client_socket, ubyte[] request){
+    socket   = client_socket;
+    root     = root_path;
+    _request = request.dup;
   }
   
   void sendErrorPage(in ResponseStatus status, in string message){
@@ -56,49 +59,68 @@ class RequestHandler{
   }
   
   string getLine(){
-    string line;
-    char[1] buffer, previous;
+    string line = "";
+    char buffer, previous;
     bool received_crlf;
-
-    while (socket.receive(buffer)){
-      if (previous == "\r" && buffer == "\n"){
-        received_crlf = true;
-        --line.length;
-        break;
-      }
-      line ~= buffer;
+    if(_request_cnt >= _request.length) return "";
+    while(_request_cnt < _request.length){
       previous = buffer;
+      buffer = _request[_request_cnt];
+      if (previous == '\r' && buffer == '\n'){
+        received_crlf = true;
+        if(line.length > 0) --line.length;
+        _request_cnt++;
+        writeln("[getLine] ", line);
+        return line;
+      }else{
+        line ~= buffer;
+      }
+      _request_cnt++;
     }
     if (!received_crlf) throw new Exception("Did not receive line ending");
+    --line.length;
     return line;
   }
   
-  Request getRequest(){
+  Request createRequest(){
+    writeln("[httphandler] createRequest() called");
     auto line = getLine();
     auto format_match = std.regex.match(line, regex(`(\w+) ([^ ]+) ([^ ]+)`));
-    if (line != format_match.hit()) throw new Exception("Request line has wrong format: " ~ line);
+    if (line != format_match.hit()){
+      sendErrorPage(STATUS_VERSION_NOT_SUPPORTED, "HTTP Version Not Supported");
+      throw new Exception("Request line has wrong format: " ~ line);
+    }
     if(!(format_match.captures[3] == HTTP_VERSION_1_1 || format_match.captures[3] == HTTP_VERSION_1_0)){
       sendErrorPage(STATUS_VERSION_NOT_SUPPORTED, "HTTP Version Not Supported");
       throw new Exception("Protocol not supported: " ~ format_match.captures[3]);
     }
     auto method = stringToRequestMethod(format_match.captures[1]);
     auto uri = std.uri.decodeComponent(format_match.captures[2]);
-    debug writef("Request: %s", line);
+    writef("[Request] Finished");
     return Request(method, uri);
   }
   
   
-  Header[] receiveHeaders(){
-    Header[] headers;
-    for (string line = getLine(); !line.empty; line = getLine()){
-      if (isWhite(line[0])){
-        if (headers.empty) throw new Exception("Header starting from whitespace is invalid: `" ~ line ~ "'");
-        headers.back.value ~= strip(line);
-      }else{
-        auto format_match = match(line, regex(`([^ ]+):(.+)`));
-        if (line != format_match.hit()) throw new Exception("Invalid header format: `" ~ line ~ "'");
-        headers ~= Header(format_match.captures[1], strip(format_match.captures[2]));
+  Header[] createHeaders(){
+    writeln("[httphandler] createHeaders() called");
+    Header[] headers;    
+    try{  
+      for(string line = getLine(); line != ""; line = getLine()){
+        writeln("[createHeaders on]",line);
+        if(isWhite(line[0])){
+          writeln("[whiteline]");
+         if (headers.empty) throw new Exception("Header starting from whitespace is invalid: `" ~ line ~ "'");
+          headers.back.value ~= strip(line);
+        }else{
+          writeln("[regeps]");
+          auto format_match = match(line, regex(`([^ ]+):(.+)`));
+          if (line != format_match.hit()) throw new Exception("Invalid header format: `" ~ line ~ "'");
+          headers ~= Header(format_match.captures[1], strip(format_match.captures[2]));
+        }
       }
+      writeln("[headers] Finished");
+    }catch (Throwable exception){
+      sendErrorPage(STATUS_INTERNAL_ERROR, "Internal server error");
     }
     return headers;
   }
@@ -136,3 +158,4 @@ RequestMethod stringToRequestMethod(string i){
     default: return RequestMethod.UNKNOWN;
   }
 }
+
