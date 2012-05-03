@@ -39,7 +39,7 @@ class Server(Client) : core.thread.Thread{
         listen(20);
       }
       clients = new Client[max_clients];
-      writeln("[Server] Constructed");
+      writeln("[Server] Constructed:",_hostname,":",_port," - (0/",_max_clients,")");
     }
     
     @property string  servertime(){ return _servertime.val; }
@@ -58,9 +58,14 @@ class Server(Client) : core.thread.Thread{
         assert(set !is null);
         set.reset();
         set.add(socket);
-        foreach(Client c; clients){
-          if(c !is null){
-            set.add(c.socket);
+        for(size_t index = 0; index < clients.length; index++) {
+          if(clients[index] !is null){
+            if(clients[index].online){
+               set.add(clients[index].socket);            
+             }else{
+                clients[index] = null;
+                writefln("[Server] Dropped connection %d",index);
+             }
           }
         }
         int result = Socket.select(set, null, null, 50000);
@@ -84,8 +89,11 @@ class Server(Client) : core.thread.Thread{
             }
           }
           foreach(uint index, ref Client fib; clients) {
+            
             if(fib is null) continue;
+            writeln("Not NULL");
             if(set.isSet(fib.socket)){
+              writeln("client");
               auto received = fib.socket.receive(buffer);
               if(received <= 0) {
                 clients[index].close();
@@ -99,6 +107,7 @@ class Server(Client) : core.thread.Thread{
               }
             }
           }
+          writeln("Next...");
         }
         if((Clock.currTime() - t0).total!"msecs" > 950){
           _servertime.addSecond();
@@ -109,3 +118,4 @@ class Server(Client) : core.thread.Thread{
       writeln("[Server] Shutdown");
     }
 }
+
