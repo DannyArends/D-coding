@@ -27,7 +27,7 @@ class ClientHandler : Thread {
     this.server = cast(GameServer)server;
     this.sock = sock;
     this.id = id;
-    this.online = true;
+    _online = true;
     super(&payload);
   }
   
@@ -91,13 +91,12 @@ class ClientHandler : Thread {
       return _username; 
     }
       
-    bool loggedin(){ 
-      if(_username == "") return false;
-      return true;
-    }
+    bool loggedin(){ if(_username == ""){ return false; } return true; }
+
+    bool online(){ return _online; }
   }
   
-  void offline(){ online = false; }
+  void offline(){ _online = false; }
   
   void close() { 
     log(server,"Client " ~ address() ~ " on " ~ to!string(id) ~ " offline");
@@ -135,7 +134,7 @@ private:
     Thread.sleep( dur!("msecs")( 20 ) );
     send(NetEvent.CHAT ~ "Please login or create a new character");
     lastBeat = Clock.currTime();
-    while(online){
+    while(_online){
       if((Clock.currTime() - lastBeat).total!"msecs" >= 5000) {
         send(NetEvent.HEARTBEAT ~ server.servertime);
         lastBeat = Clock.currTime();
@@ -150,5 +149,5 @@ private:
   Socket     sock;
   string     _username = "";
   uint       id;
-  bool       online;
+  bool       _online;
 }
