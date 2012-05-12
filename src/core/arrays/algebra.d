@@ -27,11 +27,10 @@ T sum(T)(T[] d){
 }
 
 /**
-* D-routine to get the max value of d1<br>
+* D-routine to get the min or max value of r<br>
 * bugs: none found<br>
-* @param d1 any type any length vector<br>
+* @param r any type any length vector<br>
 */
-
 T minmax(string op, T)(T[] r){
   assert(r.length >= 1);
   auto best = r[0];
@@ -41,10 +40,19 @@ T minmax(string op, T)(T[] r){
   return best;
 }
 
+/**
+* D-routine to get the max value of d1<br>
+* bugs: none found<br>
+* @param r any type any length vector<br>
+*/
+T max(T)(T[] r){ return minmax!(">",T)(r); }
 
-T max(T)(T[] d){ return minmax!(">",T)(d); }
-
-T min(T)(T[] d){ return minmax!("<",T)(d); }
+/**
+* D-routine to get the min value of r<br>
+* bugs: none found<br>
+* @param r any type any length vector<br>
+*/
+T min(T)(T[] r){ return minmax!("<",T)(r); }
 
 /**
 * D-routine to get the max value of a range within d1<br>
