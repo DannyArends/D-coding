@@ -31,11 +31,20 @@ T sum(T)(T[] d){
 * bugs: none found<br>
 * @param d1 any type any length vector<br>
 */
-T max(T)(T[] d){
-  T m = 0;
-  foreach(T e; d[0..$]){ if(m < e){ m = e; } }
-  return m;
+
+T minmax(string op, T)(T[] r){
+  assert(r.length >= 1);
+  auto best = r[0];
+  foreach(e; r){
+    mixin("if (e " ~ op ~ " best) best = e;");
+  }
+  return best;
 }
+
+
+T max(T)(T[] d){ return minmax!(">",T)(d); }
+
+T min(T)(T[] d){ return minmax!("<",T)(d); }
 
 /**
 * D-routine to get the max value of a range within d1<br>
@@ -43,8 +52,9 @@ T max(T)(T[] d){
 * @param d1 any type any length vector<br>
 * @param r range to consider<br>
 */
-T maxOf(T)(T[] d, T r){
-  T m = 0;
+T maxOf(T)(T[] d, uint r){
+  assert(d.length >= 1);
+  T m = d[0];
   for(int x=0;x<d.length-r;x++){ 
     T e = sum!T(d[x..x+r]);
     if(m < e){ m = e; } 
