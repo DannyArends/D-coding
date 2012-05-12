@@ -26,6 +26,7 @@ CLEAN.include("#{bd}*.*")
 CLEAN.include("#{bd}")
 CLEAN.include("*.#{execext}")
 CLEAN.include("*.save")
+CLEAN.include("*.SAVE")
 
 core_files    = Dir.glob("./src/core/**/*.d").join(' ')
 io_files      = Dir.glob("./src/io/**/*.d").join(' ')
