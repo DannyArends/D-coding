@@ -58,6 +58,17 @@ public:
     string     name(){ return filename; }
     uint       x(){ return tiles.length; }
     uint       y(){ return tiles[0].length; }
+    float[][]  heightmap(){
+      float[][] heights;
+      for(size_t x = 0; x < tiles.length; x++){
+        float[] r_heights;
+        for(size_t y = 0; y < tiles[x].length; y++){
+          r_heights ~= tiles[x][y].cost;
+        }
+        heights ~= r_heights;
+      }
+      return heights;
+    }
     FileStatus status(){ return _status; }
   }
 

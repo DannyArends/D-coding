@@ -39,8 +39,9 @@ T[] load(T)(string dir = "data/maps/", string ext = ".map"){
 
 class GameServer : Server!ClientHandler{
   private:
-    string         user_dir = "data/users/";
-    string         maps_dir = "data/maps/";
+    string         static_dir = "data/static/";
+    string         user_dir   = "data/users/";
+    string         maps_dir   = "data/maps/";
     Player[]       users;
     TileMap[]      maps;
     MovementServer movement;

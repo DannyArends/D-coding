@@ -15,22 +15,24 @@ import std.string;
 import std.math;
 import std.random;
 
-/**
-* D-routine to get the sum of values of d1<br>
-* bugs: none found<br>
-* @param d1 any type any length vector<br>
-*/
-T sum(T)(T[] d){
+/*! \brief Get the sum of the values in range r
+ * 
+ * D-routine to get the sum of the values in range r<br>
+ * bugs: none found<br>
+ * @param r any type any length vector<br>
+ */
+T sum(T)(T[] r){
   T s = 0;
-  foreach(T e; d[0..$]){ s += e; }
+  foreach(T e; r){ s += e; }
   return s;
 }
 
-/**
-* D-routine to get the min or max value of r<br>
-* bugs: none found<br>
-* @param r any type any length vector<br>
-*/
+/*! \brief Get the min or max value of the values in range r
+ *
+ * D-routine to get the min or max value of the values in range<br>
+ * bugs: none found<br>
+ * @param r any type any length vector<br>
+ */
 T minmax(string op, T)(T[] r){
   assert(r.length >= 1);
   auto best = r[0];
