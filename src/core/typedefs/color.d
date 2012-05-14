@@ -23,7 +23,18 @@ class Color{
     this(){
       random();
     }
-  
+
+    this(string colorname){
+      switch(colorname){
+        case "red":   color = [1,0,0,1]; break;
+        case "green": color = [0,1,0,1]; break;
+        case "blue":  color = [0,0,1,1]; break;
+        case "black": color = [0,0,0,1]; break;
+        case "white": color = [1,1,1,1]; break;
+        default:      color = [1,1,1,0.3]; break;
+      }
+    }
+    
     this(double r, double g, double b, double alpha = 1.0){
       color[0]=r;
       color[1]=g;

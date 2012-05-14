@@ -96,7 +96,10 @@ class ClientHandler : Thread {
     bool online(){ return _online; }
   }
   
-  void offline(){ _online = false; }
+  void offline(){ 
+    if(loggedin()) server.logoutUser(_username);
+    _online = false; 
+  }
   
   void close() { 
     log(server,"Client " ~ address() ~ " on " ~ to!string(id) ~ " offline");

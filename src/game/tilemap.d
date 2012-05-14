@@ -12,6 +12,7 @@ module game.tilemap;
 
 import core.stdinc;
 import std.algorithm;
+import core.typedefs.color;
 import core.arrays.types;
 import core.arrays.search;
 import core.typedefs.types;
@@ -69,6 +70,19 @@ public:
       }
       return heights;
     }
+
+    Color[][]  colormap(){
+      Color[][] colors;
+      for(size_t x = 0; x < tiles.length; x++){
+        Color[] r_colors;
+        for(size_t y = 0; y < tiles[x].length; y++){
+          r_colors ~= new Color("green");
+        }
+        colors ~= r_colors;
+      }
+      return colors;
+    }
+
     FileStatus status(){ return _status; }
   }
 

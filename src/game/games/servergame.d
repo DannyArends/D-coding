@@ -77,7 +77,7 @@ class ServerGame : Game{
       switch(objectType){
         case "Map":    writeln("[NG ] map"); 
           TileMap map = new TileMap(objectData);
-          HeightMap hmap = new HeightMap(0,0,0,map.heightmap);
+          HeightMap hmap = new HeightMap(0, 0, 0, map.heightmap, map.colormap);
           engine.screen.add(hmap,"map");
         break;
         case "User":   writeln("[NG ] User"); 

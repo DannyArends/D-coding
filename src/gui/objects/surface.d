@@ -30,10 +30,10 @@ import gui.objects.object3d;
  */
 class HeightMap : Surface{
 
-  this(double x, double y, double z, float[][] map){
+  this(double x, double y, double z, float[][] map, Color[][] colors){
     super(x, y, z, map.length, map[0].length);
     this.map         = map;
-    this.colormap    = newclassmatrix!Color(map.length, map[0].length);
+    this.colormap    = colors;
     highlight_color  = new Color(1.0,0.0,0.0);
   }
 
