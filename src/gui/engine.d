@@ -81,7 +81,7 @@ class GFXEngine : ClockEventHandler{
       SDL_Event event;
       if(SDL_PollEvent(&event)){
         switch(event.type){
-         case SDL_VIDEORESIZE:
+          case SDL_VIDEORESIZE:
             screen_width= event.resize.w;
             screen_height= event.resize.h;
             surface = SDL_SetVideoMode(screen_width, screen_height, screen_bpp, videoFlags);
