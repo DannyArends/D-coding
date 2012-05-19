@@ -10,11 +10,11 @@ import core.arrays.matrix;
 void main(string[] args){
   Fasta[] fastas = readFasta(args[1]);
   //writefln("Fastas: %s",fastas.length);
-  double[][] matrix;
+  Entropy[][] matrix;
   foreach(Fasta f;fastas){
     if(f.sequence.length > 0){
       matrix ~= entropy!char(f.sequence.dup,4);
     }
   }
-  writeFile!double(translate(matrix),"t.out",true,true);
+  writeFile!Entropy(translate(matrix),"t.out",true,true);
 }

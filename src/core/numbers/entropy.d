@@ -16,27 +16,35 @@ import core.memory;
 import core.arrays.ranges;
 import core.arrays.types;
 
-double[] entropy(T)(T[] bytes, uint base = 2, int size = 0){
+struct Entropy{
+  double val;
+  double max;
+  @property double ratio(){ return val/max; }
+}
+
+Entropy[] entropy(T)(T[] bytes, uint base = 2, int size = 0){
   assert(bytes.length > 0, "Entropy: No bytes");
   if(size == 0 || size > bytes.length) size = bytes.length;
-  double[] ret;
+  Entropy[] ret;
   uint block[2] = [0,0];
   uint[] counts;
   double p, logp;
   while(block[1] < bytes.length){
     counts = new uint[(T.max+1) - (T.min-1)];
-    double sum = 0;
+    double _entropy = 0;
     foreach(T i; bytes[block[1] .. getI(block[1]+size,bytes)]){
       if(i >= T.min && i <= T.max) counts[i-(T.min-1)]++;
     }
-  
+    int unique_elements = 0;
     for(size_t i=0; i <= (T.max-T.min); i++){
       if(counts[i] == 0) continue;
+      unique_elements++;
       p    = to!double(counts[i])/size;
       logp = log2(p) / log2(base);
-      sum -= p*logp;
+      _entropy -= p*logp;
     }
-    ret ~= sum;
+    double _m_entropy = log2(unique_elements) / log2(base);
+    ret ~= Entropy(_entropy,_m_entropy);
     block[0]++;
     block[1]=block[0]*size;
   }
@@ -48,7 +56,7 @@ void entropy(T)(string fn, File* fo, uint base = 2){
   assert(getSize(fn) > 0, "Entropy: Empty file");
   ulong fileSize = getSize(fn);
   T[] inputbuffer;
-  double[] e;
+  Entropy[] e;
   try{
     auto fp = new File(fn,"rb");
     scope(exit) fp.close();
@@ -59,7 +67,7 @@ void entropy(T)(string fn, File* fo, uint base = 2){
   if(inputbuffer.length > 0){
     e = entropy!T(inputbuffer, base);
     fo.writef("\"%s\"\t%s\t\"%s\"\t", fn, fileSize,fn[lastIndexOf(fn,".")..$]);
-    fo.writefln("%s\t%s", e[0], typeid(T));
+    fo.writefln("%s\t%s\t%s\t%s", e[0].val, e[0].max, e[0].ratio, typeid(T));
   }
   freevector(inputbuffer);
   freevector(e);

@@ -9,8 +9,7 @@
  **********************************************************************/
 module core.arrays.types;
 
-import core.memory;
-import std.random;
+import core.memory, std.random, std.conv;
 
 alias double[][] dmatrix;
 alias bool[][] bmatrix;
@@ -27,32 +26,31 @@ void freevector(T)(ref T[] v) {
   v = null;
 }
 
-T[][] newmatrix(T)(uint nrow, uint ncol, T init = cast(T)0, bool rf = false){
+T[][] randommatrix(T)(uint nrow, uint ncol){
+  T[][] x = newmatrix!T(nrow,ncol);
+  for(uint i=0;i<nrow;i++){
+    for(uint j=0;j<ncol;j++){      
+        x[i][j] = to!T(uniform(-4,4));
+    }
+  }
+  return x;
+}
+
+
+T[][] newmatrix(T)(uint nrow, uint ncol, T init = cast(T)0){
   T[][] x;
   x.length=nrow;
   for(uint i=0;i<nrow;i++){
     x[i].length=ncol;
     for(uint j=0;j<ncol;j++){      
-      if(rf){
-        x[i][j] = cast(T)uniform(-3,3); //TODO: Remove this HACKY bit
-      }else{
         x[i][j] = init;
-      }
     }
   }
   return x;
 }
 
 T[][] newclassmatrix(T)(uint nrow,uint ncol){
-  T[][] x;
-  x.length=nrow;
-  for(uint i=0;i<nrow;i++){
-    x[i].length=ncol;
-    for(uint j=0;j<ncol;j++){
-      x[i][j]= new T();
-    }
-  }
-  return x;
+  return newmatrix(nrow,ncol,new T());
 }
 
 T[] copyvector(T)(T[] c){

@@ -1,6 +1,7 @@
 *~
 *.obj
 *.dll
+*.out
 *.png
 *.svg
 *.dat
