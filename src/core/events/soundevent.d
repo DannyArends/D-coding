@@ -9,21 +9,16 @@
  **********************************************************************/
 module core.events.soundevent;
 
-import std.array;
-import std.stdio;
-
+import std.array, std.stdio;
 import core.typedefs.types;
 import core.events.engine;
 
 class SoundEvent : Event{
-  this(string name){
-    this.name=name;
-  }
+  this(string name){ _name=name; }
 
-  string getSoundName(){ return name; }
-
+  string getSoundName(){ return _name; }
   override EventType getEventType(){ return EventType.SOUND; }
 
 private:  
-  string name;
+  string _name;
 }

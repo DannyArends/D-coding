@@ -9,10 +9,7 @@
  **********************************************************************/
 module core.typedefs.color;
 
-import std.array;
-import std.stdio;
-import std.conv;
-import std.random;
+import std.array, std.stdio, std.conv, std.random;
 
 /*! \brief Internal representation of color
  *
@@ -20,9 +17,7 @@ import std.random;
  */
 class Color{
   public:
-    this(){
-      random();
-    }
+    this(){ random(); }
 
     this(string colorname){
       switch(colorname){

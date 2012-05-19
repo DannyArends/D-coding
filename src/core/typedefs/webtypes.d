@@ -9,9 +9,7 @@
  **********************************************************************/
 module core.typedefs.webtypes;
 
-import std.stdio;
-import std.conv;
-import core.memory;
+import std.stdio, std.conv, core.memory;
 
 enum RequestMethod { OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT, UNKNOWN }
 

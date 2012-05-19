@@ -9,10 +9,7 @@
  **********************************************************************/
 module core.typedefs.vector3d;
 
-import std.array;
-import std.stdio;
-import std.conv;
-
+import std.array, std.stdio, std.conv;
 import core.typedefs.location;
 
 /*! \brief 3D Vector class
@@ -20,9 +17,7 @@ import core.typedefs.location;
  *  3D Vector class
  */
 class Vector3D : Location{
-  this(double x, double y, double z){
-    this(x,y,z, 0.0, 0.0, 0.0);
-  }
+  this(double x, double y, double z){ this(x,y,z, 0.0, 0.0, 0.0); }
   
   this(double x, double y, double z, double rx, double ry, double rz){
     super(x,y,z);

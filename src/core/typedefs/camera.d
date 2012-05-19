@@ -9,10 +9,7 @@
  **********************************************************************/
 module core.typedefs.camera;
 
-import std.array;
-import std.stdio;
-import std.conv;
-
+import std.array, std.stdio, std.conv;
 import core.typedefs.vector3d;
 
 /*! \brief Camera
@@ -21,9 +18,7 @@ import core.typedefs.vector3d;
  */
 class Camera : Vector3D{
 public:
-  this(){
-    this(-1.5, 0.0, -6.0, 0.0, 0.0, 0.0);
-  }
+  this(){ this(-1.5, 0.0, -6.0, 0.0, 0.0, 0.0); }
   
   this(double x, double y, double z){
     this(x, y, z, 0.0, 0.0, 0.0);

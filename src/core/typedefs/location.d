@@ -9,9 +9,7 @@
  **********************************************************************/
 module core.typedefs.location;
 
-import std.array;
-import std.stdio;
-import std.conv;
+import std.array, std.stdio, std.conv;
 
 /*! \brief 3D Location class
  *
@@ -19,9 +17,7 @@ import std.conv;
  */
 class Location{
 public:
-  this(){
-    this(0.0, 0.0, 0.0);
-  }
+  this(){ this(0.0, 0.0, 0.0); }
   
   this(string input){
     auto elements = input.split(":");

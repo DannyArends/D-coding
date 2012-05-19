@@ -9,9 +9,7 @@
  **********************************************************************/
 module core.typedefs.mimetypes;
 
-import std.stdio;
-import std.string;
-import core.memory;
+import std.stdio, std.string, core.memory;
 
 string extensionToMime(string i){
   switch(i.toLower){

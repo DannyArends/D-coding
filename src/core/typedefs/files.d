@@ -9,9 +9,7 @@
  **********************************************************************/
 module core.typedefs.files;
 
-import std.stdio;
-import std.conv;
-import std.file;
+import std.stdio, std.conv, std.file;
 
 enum FileStatus{ NOTHING = 0, IS_FILE = 1, IS_DIR = 2 }
 

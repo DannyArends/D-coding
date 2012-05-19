@@ -9,14 +9,9 @@
  **********************************************************************/
 module core.numbers.primes;
 
-import std.stdio;
-import std.conv;
-import std.datetime;
-import std.math;
-import std.string;
-import std.random;
+import std.stdio, std.conv, std.datetime, std.math, std.string, std.random;
 
-bool prime(real n){
+pure bool prime(real n){
   if(n < 2) return false;
   if(n == 2) return true;
   real sqrtn = sqrt(n);
@@ -26,7 +21,7 @@ bool prime(real n){
   return true;
 }
 
-uint[] xthprime(uint[] x){
+pure uint[] xthprime(uint[] x){
   uint[] primes;
   uint   pn = 0;
   long   pp = 0;

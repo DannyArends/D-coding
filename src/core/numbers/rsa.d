@@ -9,16 +9,11 @@
  **********************************************************************/
 module core.numbers.rsa;
 
-import std.stdio;
-import std.conv;
-import std.math;
-import std.string;
-import std.random;
-
+import std.stdio, std.conv, std.math, std.string, std.random;
 import core.numbers.primes;
 import core.numbers.utils;
 
-long getE(long N, uint[] pq){
+pure long getE(long N, uint[] pq){
   long x = (N/2);
   long coprime = (pq[0]-1) * (pq[1]-1);
   while(x < N && gcd!long(x,coprime) != 1){
@@ -28,7 +23,7 @@ long getE(long N, uint[] pq){
   return x;
 }
 
-long getD(long e, uint[] pq){
+pure long getD(long e, uint[] pq){
   long coprime = (pq[0]-1) * (pq[1]-1);
   long d = 1;
   while((e*d) % coprime != 1){ d++; }

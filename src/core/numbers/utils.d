@@ -9,13 +9,9 @@
  **********************************************************************/
 module core.numbers.utils;
 
-import std.stdio;
-import std.conv;
-import std.math;
-import std.string;
-import std.random;
+import std.stdio, std.conv, std.math, std.string, std.random;
 
-T gcd(T)(T a, T b){ 
+pure T gcd(T)(T a, T b){ 
   while(a % b != 0){
     T tmp = a%b;
     a   = b;
@@ -24,7 +20,7 @@ T gcd(T)(T a, T b){
   return b;
 }
 
-T modpow(T)(T base, T exponent, T modulus){
+pure T modpow(T)(T base, T exponent, T modulus){
   T result = 1;
   while(exponent > 0){
     if((exponent & 1) == 1){

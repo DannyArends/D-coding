@@ -9,10 +9,7 @@
  **********************************************************************/
 module core.events.mouseevent;
 
-import std.array;
-import std.stdio;
-import std.conv;
-
+import std.array, std.stdio, std.conv;
 import core.typedefs.types;
 import core.events.engine;
 
