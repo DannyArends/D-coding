@@ -15,3 +15,7 @@ Example QTL plots:
 
 <img src="https://github.com/DannyArends/D-coding/raw/master/data/gnuplot/ex_m_qtl_1.png" width="256px" height="192px"/>
 <img src="https://github.com/DannyArends/D-coding/raw/master/data/gnuplot/ex_m_qtl_2.png" width="256px" height="192px"/>
+
+Disclaimer
+----------
+Copyright (c) 2012 [Danny Arends](http://www.dannyarends.nl)

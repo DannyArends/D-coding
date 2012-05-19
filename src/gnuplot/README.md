@@ -46,4 +46,4 @@ See the examples: [HERE](https://github.com/DannyArends/D-coding/tree/master/src
 
 Disclaimer
 ----------
-Copyright (c) 2012 Danny Arends
+Copyright (c) 2012 [Danny Arends](http://www.dannyarends.nl)
