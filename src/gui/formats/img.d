@@ -9,20 +9,9 @@
  **********************************************************************/
 module gui.formats.img;
 
-import std.stdio;
-import std.string;
-import std.file;
-import std.conv;
-import std.utf;
-
-import sdl.sdlstructs;
-import sdl.sdlfunctions;
-import sdl.sdlimage;
-
-import gl.gl_1_0;
-import gl.gl_1_1;
-import gl.gl_1_2;
-
+import std.stdio, std.string, std.file, std.conv, std.utf;
+import sdl.sdlstructs, sdl.sdlfunctions, sdl.sdlimage;
+import gl.gl_1_0, gl.gl_1_1, gl.gl_1_2;
 import core.typedefs.types;
 
 Texture loadImageAsTexture(string filename, bool verbose = true){  

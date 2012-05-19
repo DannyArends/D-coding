@@ -1,23 +1,17 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/gui/enginefunctions.d
+ * \brief GFXEngine class support functions
  *
- * copyright (c) 2012 Danny Arends
- * last modified Feb, 2012
- * first written Dec, 2011
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Feb, 2012<br>
+ * First written Dec, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module gui.enginefunctions;
 
-import std.array;
-import std.stdio;
-import std.conv;
-
-import sdl.sdlstructs;
-import sdl.sdlfunctions;
-
-import gl.gl_1_0;
-import gl.gl_1_1;
-import gl.glu;
+import std.array, std.stdio, std.conv;
+import sdl.sdlstructs, sdl.sdlfunctions;
+import gl.gl_1_0, gl.gl_1_1, gl.glu;
 
 bool resizeWindow(int width, int height){
   if(height == 0) height = 1;

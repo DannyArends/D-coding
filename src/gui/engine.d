@@ -9,35 +9,22 @@
  **********************************************************************/
 module gui.engine;
 
-import std.stdio;
-import std.conv;
-import std.datetime;
-
-import sdl.sdl;
-import sdl.sdlstructs;
-import sdl.sdlfunctions;
-
+import std.stdio, std.conv, std.datetime;
+import sdl.sdl, sdl.sdlstructs, sdl.sdlfunctions;
 import core.typedefs.types;
-
 import sfx.engine;
-import game.engine;
-import game.users.gameclient;
-import core.events.engine;
-import core.events.clockevents;
-import core.events.keyevent;
-import core.events.mouseevent;
+import game.engine, game.users.gameclient;
+import core.events.engine, core.events.clockevents;
+import core.events.keyevent, core.events.mouseevent;
 import core.events.networkevent;
-
-import gui.enginefunctions;
-import gui.screen;
-import gui.hudhandler;
+import gui.enginefunctions, gui.screen, gui.hudhandler;
 
 /*! \brief EventHandler for all GFX related events
  *
  *  The GFXEngine class is the main EventHandler for all GFX related events
  */
 class GFXEngine : ClockEventHandler{
-  
+  public:
   this(GameEngine game, SFXEngine sound, bool verbose = false){
     if(SDL_Init(SDL_INIT_VIDEO) < 0){ writefln("Video initialization failed: %s", SDL_GetError()); return; }
     videoInfo = SDL_GetVideoInfo();

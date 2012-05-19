@@ -9,22 +9,15 @@
  **********************************************************************/
 module gui.objects.liquid;
 
-import std.stdio;
-import std.conv;
-import std.math;
-import std.random;
-
-import gl.gl_1_0;
-import gl.gl_1_1;
-
+import std.stdio, std.conv, std.math, std.random;
+import gl.gl_1_0, gl.gl_1_1;
 import core.arrays.types;
-import core.typedefs.types;
-import core.typedefs.color;
+import core.typedefs.types, core.typedefs.color;
 import gui.formats.tga;
 import gui.objects.surface;
 
 class Liquid : HeightMap{
-
+  public:
   this(double x, double y, double z, Texture texture){
     super(x, y, z, texture);
     liquid[0]   = newmatrix!float(texture.width,texture.height);

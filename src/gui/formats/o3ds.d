@@ -3,21 +3,15 @@
  * \brief 3DS file format definition
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
- * Last modified Feb, 2012<br>
+ * Last modified May, 2012<br>
  * First written Dec, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module gui.formats.o3ds;
 
-import core.stdinc;
-import std.c.stdio;
-import std.cstream;
+import core.stdinc, std.c.stdio, std.cstream;
+import gl.gl_1_0, gl.gl_1_1, gl.gl_1_5, gl.gl_ext;
 import core.arrays.algebra;
-
-import gl.gl_1_0;
-import gl.gl_1_1;
-import gl.gl_1_5;
-import gl.gl_ext;
 
 struct vertextype{
   int boneID;

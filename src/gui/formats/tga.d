@@ -9,21 +9,11 @@
  **********************************************************************/
 module gui.formats.tga;
 
-import std.stdio;
-import std.array;
-import std.string;
-import std.c.stdio;
-import std.cstream;
-import std.conv;
-import std.file;
-import std.regex;
-
+import std.stdio, std.array, std.string, std.c.stdio, std.cstream;
+import std.conv, std.file, std.regex;
 import core.arrays.types;
-import core.typedefs.types;
-import core.typedefs.color;
-
-import gl.gl_1_0;
-import gl.gl_1_1;
+import core.typedefs.types, core.typedefs.color;
+import gl.gl_1_0, gl.gl_1_1;
 
 uint getDataSize(Texture texture){
  return texture.height * texture.width * texture.bpp;

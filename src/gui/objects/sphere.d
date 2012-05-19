@@ -9,22 +9,14 @@
  **********************************************************************/
 module gui.objects.sphere;
 
-import std.array;
-import std.stdio;
-import std.conv;
-import std.math;
-
-import gl.gl_1_0;
-import gl.gl_1_1;
-
+import std.array, std.stdio, std.conv, std.math;
+import gl.gl_1_0, gl.gl_1_1;
 import core.typedefs.camera;
 import gui.objects.object3d;
 
 class Sphere : Object3D{
-public:
-  this(double x, double y, double z){
-    super(x,y,z);
-  }
+  public:
+    this(double x, double y, double z){ super(x,y,z); }
   
   override void buffer(){ }
   

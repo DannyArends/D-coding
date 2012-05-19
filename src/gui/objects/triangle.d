@@ -9,23 +9,17 @@
  **********************************************************************/
 module gui.objects.triangle;
 
-import std.array;
-import std.stdio;
-import std.conv;
-
-import gl.gl_1_0;
-import gl.gl_1_1;
-
+import std.array, std.stdio, std.conv;
+import gl.gl_1_0, gl.gl_1_1;
 import gui.objects.object3d;
 
 class Triangle : Object3D{
-public:
+  public:
+    this(){ super(); }
+    this(double x, double y, double z, Object3D o = null){ super(x,y,z,o); }
+  
+    override void buffer(){ }
 
-  this(){ super(); }
-  this(double x, double y, double z, Object3D o = null){ super(x,y,z,o); }
-  
-  override void buffer(){ }
-  
   override void render(int faceType = GL_TRIANGLES){
     glToLocation();
     glColor4f(r(), g(),  b(), alpha());

@@ -9,13 +9,7 @@
  **********************************************************************/
 module gui.formats.an8types;
 
-import std.stdio;
-import std.array;
-import std.string;
-import std.conv;
-import std.file;
-import std.regex;
-
+import std.stdio, std.array, std.string, std.conv, std.file, std.regex;
 import core.typedefs.types;
 
 enum An8SphereType{LONGLAT, GEODESIC}

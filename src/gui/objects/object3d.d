@@ -9,18 +9,11 @@
  **********************************************************************/
 module gui.objects.object3d;
 
-import std.array;
-import std.stdio;
-import std.conv;
-import std.random;
-
-import core.typedefs.color;
+import std.array, std.stdio, std.conv, std.random;
+import core.typedefs.camera, core.typedefs.vector3d, core.typedefs.color;
 import core.arrays.algebra;
 import gl.gl_1_0;
-
 import gui.textureloader;
-import core.typedefs.camera;
-import core.typedefs.vector3d;
 
 /*! \brief Abstract 3D Object
  *
@@ -28,9 +21,7 @@ import core.typedefs.vector3d;
  */
 abstract class Object3D : Vector3D{
 public:  
-  this(Object3D parent = null){
-    this(0.0, 0.0, 0.0, parent);
-  }
+  this(Object3D parent = null){ this(0.0, 0.0, 0.0, parent); }
   
   this(double x, double y, double z, Object3D parent = null){
     this(x, y, z,0.0,0.0,0.0,parent);

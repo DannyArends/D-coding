@@ -9,20 +9,11 @@
  **********************************************************************/
 module gui.objects.pe;
 
-import std.array;
-import std.stdio;
-import std.random;
-import std.conv;
-
-import gl.gl_1_0;
-import gl.gl_1_1;
-
+import std.array, std.stdio, std.random, std.conv;
+import gl.gl_1_0, gl.gl_1_1;
 import core.typedefs.color;
-
-import gui.objects.object3d;
+import gui.objects.object3d, gui.objects.triangle, gui.objects.force;
 import gui.physics;
-import gui.objects.triangle;
-import gui.objects.force;
 
 class ParticleSystem : Object3D{
   public:

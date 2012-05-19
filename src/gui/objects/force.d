@@ -3,33 +3,24 @@
  * \brief Abstract concept of force
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
- * Last modified Feb, 2012<br>
+ * Last modified May, 2012<br>
  * First written Dec, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module gui.objects.force;
 
-import std.array;
-import std.stdio;
-import std.conv;
-
+import std.array, std.stdio, std.conv;
 import core.arrays.algebra;
 import core.typedefs.vector3d;
-
 import gui.objects.object3d;
 
 class NullForce : Force{
-  this(){
-    super(0.0,0.0,0.0,0.0,0.0,0.0);
-  }
-  
+  this(){ super(0.0,0.0,0.0,0.0,0.0,0.0); }
   override void act(Object3D origin, Object3D target){ }
 }
 
 class Gravity : Force{
-  this(){
-    super(0.0,0.0,0.0,0.0,-9.8,0.0);
-  }
+  this(){ super(0.0,0.0,0.0,0.0,-9.8,0.0); }
   
   override void act(Object3D origin, Object3D target){
     if(target.location[1] >= origin.location[1]){
@@ -55,9 +46,7 @@ class Fountain : Force{
 }
 
 class Force : Vector3D{
-  this(double x, double y, double z){
-    this(x,y,z, 1.0, 1.0, 1.0);
-  }
+  this(double x, double y, double z){ this(x,y,z, 1.0, 1.0, 1.0); }
   
   this(double x, double y, double z, double dx, double dy, double dz){
     super(x,y,z,dx,dy,dz);
@@ -80,5 +69,5 @@ class Force : Vector3D{
   }
   
   private:
-  int rnd[3] = [0, 0, 0];
+    int rnd[3] = [0, 0, 0];
 }

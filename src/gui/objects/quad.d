@@ -9,13 +9,8 @@
  **********************************************************************/
 module gui.objects.quad;
 
-import std.array;
-import std.stdio;
-import std.conv;
-
-import gl.gl_1_0;
-import gl.gl_1_1;
-
+import std.array, std.stdio, std.conv;
+import gl.gl_1_0, gl.gl_1_1;
 import gui.objects.object3d;
 
 class Quad : Object3D{

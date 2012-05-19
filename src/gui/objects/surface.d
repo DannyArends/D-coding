@@ -9,18 +9,10 @@
  **********************************************************************/
 module gui.objects.surface;
 
-import std.stdio;
-import std.conv;
-import std.math;
-import std.random;
-
-import gl.gl_1_0;
-import gl.gl_1_1;
-
+import std.stdio, std.conv, std.math, std.random;
+import gl.gl_1_0, gl.gl_1_1;
 import core.arrays.types;
-import core.typedefs.types;
-import core.typedefs.color;
-import core.typedefs.camera;
+import core.typedefs.types, core.typedefs.color, core.typedefs.camera;
 import gui.formats.tga;
 import gui.objects.object3d;
 
@@ -29,7 +21,7 @@ import gui.objects.object3d;
  *  Representation of a 3D HeightMap
  */
 class HeightMap : Surface{
-
+  public:
   this(double x, double y, double z, float[][] map, Color[][] colors){
     super(x, y, z, map.length, map[0].length);
     this.map         = map;

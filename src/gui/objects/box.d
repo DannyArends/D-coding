@@ -9,20 +9,14 @@
  **********************************************************************/
 module gui.objects.box;
 
-import std.array;
-import std.stdio;
-import std.conv;
-
+import std.array, std.stdio, std.conv;
 import gl.gl_1_0;
-
 import core.typedefs.camera;
 import gui.objects.object3d;
 
 class Box : Object3D{
 public:
-  this(double x, double y, double z){
-    super(x,y,z);
-  }
+  this(double x, double y, double z){ super(x,y,z); }
   
   override void render(int faceType = GL_QUADS){
     glToLocation();

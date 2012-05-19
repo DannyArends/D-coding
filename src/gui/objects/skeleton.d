@@ -9,20 +9,11 @@
  **********************************************************************/
 module gui.objects.skeleton;
 
-import std.array;
-import std.stdio;
-import std.math;
-import std.conv;
-
-import gl.gl_1_0;
-import gl.gl_1_1;
-
-import core.typedefs.types;
-
-import core.typedefs.camera;
+import std.array, std.stdio, std.math, std.conv;
+import gl.gl_1_0, gl.gl_1_1;
+import core.typedefs.types, core.typedefs.camera;
 import gui.objects.object3d;
-import gui.formats.an8;
-import gui.formats.an8types;
+import gui.formats.an8, gui.formats.an8types;
 
 class Skeleton : Object3D{
   public:

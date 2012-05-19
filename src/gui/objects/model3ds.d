@@ -9,19 +9,10 @@
  **********************************************************************/
 module gui.objects.model3ds;
 
-import std.array;
-import std.stdio;
-import std.conv;
-
-import gl.gl_1_0;
-
+import std.array, std.stdio, std.conv;
+import gl.gl_1_0, gl.gl_1_1, gl.gl_1_5, gl.gl_ext;
 import gui.objects.object3d;
 import gui.formats.o3ds;
-
-private import gl.gl_1_0;
-private import gl.gl_1_1;
-private import gl.gl_1_5;
-private import gl.gl_ext;
 
 /*! \brief Wrapper to render a 3DS model
  *
@@ -29,18 +20,14 @@ private import gl.gl_ext;
  */
 class Model3DS : Object3D{
 public:  
-  this(string filename){
-    this(0,0,0,filename);
-  }
+  this(string filename){ this(0,0,0,filename); }
   
   this(double x, double y, double z,string filename){
     super(x,y,z);
     model = loadModelInfo3DS(filename);
   }
   
-  override void buffer(){ 
-    bufferModelInfo3DS(model);
-  }
+  override void buffer(){ bufferModelInfo3DS(model); }
   
   override void render(int faceType = GL_TRIANGLES){
     glToLocation();
@@ -93,6 +80,7 @@ public:
   }
   
   override int getFaceType(){ return GL_TRIANGLES; }
-private:
-  ModelInfo3DS* model;
+  
+  private:
+    ModelInfo3DS* model;
 }
