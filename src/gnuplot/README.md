@@ -35,14 +35,14 @@ Create different plots
     gnuoutput.image(gnuplot);  //Heatmap
 ```
 
-<img src="https://github.com/DannyArends/DGNUplot/raw/master/examples/data/img/ex_m_qtl_2.png" width="256px" height="192px"/>
-<img src="https://github.com/DannyArends/DGNUplot/raw/master/examples/data/img/ex_heatmap_2.png" width="256px" height="192px"/>
-<img src="https://github.com/DannyArends/DGNUplot/raw/master/examples/data/img/ex_m_qtl_1.png" width="256px" height="192px"/>
+<img src="https://github.com/DannyArends/D-coding/raw/master/data/gnuplot/ex_m_qtl_2.png" width="256px" height="192px"/>
+<img src="https://github.com/DannyArends/D-coding/raw/master/data/gnuplot/ex_heatmap_2.png" width="256px" height="192px"/>
+<img src="https://github.com/DannyArends/D-coding/raw/master/data/gnuplot/ex_m_qtl_1.png" width="256px" height="192px"/>
 
 More examples
 -------------
 
-See the examples: [HERE](https://github.com/DannyArends/DGNUplot/tree/master/examples#examples-gnuplot-for-d)
+See the examples: [HERE](https://github.com/DannyArends/D-coding/tree/master/src/gnuplot/examples#examples-gnuplot-for-d)
 
 Disclaimer
 ----------
