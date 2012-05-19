@@ -41,7 +41,7 @@ however here a short description on what they are supposed to do:
     - correlation: Calculate correlation between vectors
     - csc : Caesar subsitution cipher in ASM
     - dnacode: Translates an input sequence in DNA to Anti, mRNA and possible proteins
-    - GNUplot: plot GNU objects see more: [HERE](https://github.com/DannyArends/D-coding/tree/master/src/gnuplot#gnu-plotting-for-d-20)
+    - GNUplot: plot GNU objects 
     - gameserver: Basic gameserver using a custom protocol
     - sdl: OS independent SDL OpenGL platform for testing D <-> SDL <-> OpenGL bindings
     - ostest: Testing operating system cmdline functionality
