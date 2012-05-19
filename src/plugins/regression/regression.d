@@ -1,9 +1,10 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/plugins/regression/regression.d
+ * \brief Basic weighted multiple regression by ML or ReML
  *
- * copyright (c) 1991-2010 Ritsert C Jansen, Danny Arends, Pjotr Prins, Karl Broman
- * last modified Feb, 2012
- * first written 2010
+ * <i>Copyright (c) 1991-2012</i>Ritsert C. Jansen, Danny Arends, Pjotr Prins, Karl W. Broman<br>
+ * Last modified May, 2012<br>
+ * First written 1991<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module plugins.regression.regression;
@@ -13,110 +14,76 @@ import std.conv;
 import std.math;
 
 import core.arrays.types;
+import core.arrays.matrix;
 import plugins.regression.support;
 
-void multipleregression_R(int* nvariables,int* nsamples, double* x, double* w, double* y,double* estparams, int* nullmodellayout,int* verbose, double* lodscore){
-  dvector xx = x[0..(*nvariables)*(*nsamples)];
-  dvector ww = w[0..(*nsamples)];
-  dvector yy = y[0..(*nsamples)];
-  ivector nullmodel = nullmodellayout[0..(*nvariables)];
+double multipleregression(double[][] designmatrix, double[] y, double[] weight, int[] nullmodellayout, bool verbose = true){
+  if (designmatrix.length != weight.length){ writeln("No weights for individuals found",designmatrix.length,weight.length); return 0.0; }
+  if (designmatrix.length != y.length) { writefln("No y variable for some individuals found"); return 0.0; }
   
-  dmatrix designmatrix = vectortomatrix!double((*nsamples),(*nvariables),xx);
-  
-  (*lodscore)  = multipleregression(designmatrix, yy, ww, nullmodel,(*verbose));
-  
-  dmatrix Xt   = translatematrix((*nvariables),(*nsamples),designmatrix,(*verbose));
-  dvector XtWY = calculateparameters((*nvariables),(*nsamples),Xt,ww,yy,(*verbose));
-  for (uint i=0; i < cast(uint)(*nvariables); i++){
-    estparams[i] = XtWY[i];    
+  double sum=0;
+  foreach(int i,double d; designmatrix[0]){ sum+=d; }
+  if(!sum == y.length){
+    writefln("NOTE: No estimate of constant in model");
   }
-  freematrix(Xt,(*nvariables));
-  freevector(XtWY);
-  if((*verbose)) writefln("lodscore: %f\n",(*lodscore));
+  double model_likelihood = 2*likelihoodbyem(designmatrix, weight, y, verbose).logL;
+  double null_likelihood = 2*nullmodel(designmatrix, weight, y, nullmodellayout, verbose).logL;
+  return ((model_likelihood - null_likelihood) / 4.60517);
 }
 
-double multipleregression(dmatrix designmatrix, dvector y, dvector weight, ivector nullmodellayout,int verbose){
-    if (designmatrix.length != weight.length) {
-      writefln("No weights for some individuals found");
-      return 0;
-    }
-    if (designmatrix.length != y.length) {
-      writefln("No y variable for some individuals found");
-      return 0;
-    }
-    double sum=0;
-    foreach(int i,double d; designmatrix[0]){
-      sum+=d;
-    }
-    if (!sum == y.length) {
-      writefln("No estimate of constant in model");
-    }
-    dvector estparams;
-    dvector wcopy = copyvector!double(weight);
-    return (2*likelihoodbyem(cast(uint)designmatrix[0].length,cast(uint) designmatrix.length, designmatrix, wcopy, y, verbose) - 
-            2*nullmodel(cast(uint)designmatrix[0].length,cast(uint) designmatrix.length, designmatrix, wcopy, y, nullmodellayout, verbose)) / 4.60517;
-}
-
-double likelihoodbyem(uint nvariables,uint nsamples, dmatrix x, dvector w, dvector y,int verbose){
+FITTED likelihoodbyem(double[][] x, double[] w, double[] y, bool verbose){
+  uint   nvariables = cast(uint)x[0].length;
+  uint   nsamples   = cast(uint)x.length;
   uint   maxemcycles = 1000;
   uint   emcycle     = 0;
   double delta       = 1.0f;
   double logL        = 0.0f;
   double logLprev    = 0.0f;
   
-  if(verbose){
-    writefln("Designmatrix: %s",x);
-  }
-  
-  dvector Fy = newvector!double(nsamples);
-  ivector nullmodellayout = newvector!int(nvariables);
-  
-  if(verbose > 1) writefln("Starting EM:");
+  FITTED f;
+  if(verbose) writefln("Starting EM:");
   while((emcycle<maxemcycles) && (delta > 1.0e-9)){
-    logL = multivariateregression(nvariables,nsamples,x,w,y,Fy,false,nullmodellayout,verbose);
+    f = multivariateregression(x, w, y);
+
     for(uint s=0;s<nsamples;s++){
-      if(w[s] != 0) w[s] = (w[s] + Fy[s])/w[s];
+      if(w[s] != 0) w[s] = (w[s] + f.Fy[s])/w[s];
     }
-    delta = fabs(logL-logLprev);
-    logLprev=logL;
+    delta = fabs(f.logL-logLprev);
+    logLprev=f.logL;
     emcycle++;
   }
   
-  writefln("EM took %d/%d cyclies", emcycle, maxemcycles);
-  multivariateregression(nvariables,nsamples,x,w,y,Fy,false,nullmodellayout,2);
-  return (logL);
+  if(verbose) writefln("EM took %d/%d cyclies", emcycle, maxemcycles);
+  f = multivariateregression(x,w,y);
+  return f;
 }
 
-double nullmodel(uint nvariables, uint nsamples, dmatrix x, dvector w, dvector y,ivector nullmodellayout,int verbose){
-  dvector Fy = newvector!double(nsamples);
-  return multivariateregression(nvariables,nsamples,x,w,y,Fy,true,nullmodellayout,verbose);
+FITTED nullmodel(double[][] x, double[] w, double[] y,int[] nullmodellayout,bool verbose){
+  return multivariateregression(x, w, y, nullmodellayout, verbose);
 }
 
-double multivariateregression(uint nvariables, uint nsamples, dmatrix x, dvector w, dvector y, dvector Fy, bool nullmodel, ivector nullmodellayout,int verbose){
-  dmatrix Xt   = translatematrix(nvariables,nsamples,x,verbose);
-  dvector XtWY = calculateparameters(nvariables,nsamples,Xt,w,y,verbose);
-
-  if(nullmodel){
-    for (uint i=1; i < nvariables; i++){
+FITTED multivariateregression(double[][] x, double[] w, double[] y, int[] nullmodellayout = [], bool verbose = false){
+  uint nvariables = cast(uint)x[0].length;
+  uint nsamples   = cast(uint)x.length;
+  double[][] Xt = translate!double(x);
+  double[] XtWY  = calculateparameters(nvariables,nsamples,Xt,w,y,verbose);
+  if(nullmodellayout.length != 0){
+    for(uint i=1; i < nvariables; i++){
       if(nullmodellayout[(i-1)] == 1){ //SHIFTED Because the nullmodel has always 1 parameter less (The first parameter estimated mean)
         XtWY[i] = 0.0;
       }
     }
   }
-
-  dvector fit = newvector!double(nsamples);
-  dvector residual = newvector!double(nsamples);
-  double  variance  = calculatestatistics(nvariables, nsamples, Xt, XtWY, y, w, &fit, &residual,verbose);
-  double  logLQTL   = calculateloglikelihood(nsamples, residual, w, variance, &Fy, verbose);
+  STATS s = calculatestatistics(nvariables, nsamples, Xt, XtWY, y, w,verbose);
+  FITTED f = calculateloglikelihood(nsamples, s.residual, w, s.variance, verbose);
   
-  if(verbose > 1){
-    writefln("Variance: %f",variance);
-    writefln("Weights: %f",w);
-    writefln("Estimated parameters: %f",XtWY);
-    writefln("Estimated fit: %f",fit);
-    writefln("Estimated residuals: %f",residual);
-    writefln("Loglikelihood: %f",logLQTL);
+  if(verbose){
+    writefln("Variance: %s",s.variance);
+    writefln("Weights: %s",w);
+    writefln("Estimated parameters: %s %s",XtWY);
+    writefln("Estimated fit: %s", s.fit);
+    writefln("Estimated residuals: %s" ,s.residual);
+    writefln("Loglikelihood: %s",f.logL);
   }
-
-  return logLQTL;
+  return f;
 }

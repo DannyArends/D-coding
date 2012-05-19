@@ -1,9 +1,10 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/plugins/regression/support.d
+ * \brief Regression supporting functions
  *
- * copyright (c) 1991-2010 Ritsert C Jansen, Danny Arends, Pjotr Prins, Karl Broman
- * last modified Feb, 2012
- * first written 2010
+ * <i>Copyright (c) 1991-2012</i>Ritsert C. Jansen, Danny Arends, Pjotr Prins, Karl W. Broman<br>
+ * Last modified May, 2012<br>
+ * First written 1991<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module plugins.regression.support;
@@ -16,17 +17,58 @@ import plugins.regression.LUdecomposition;
 import r.r;
 
 double Lnormal(double residual, double variance){
-  //return exp(-pow(residual/sqrt(variance),2.0)/2.0 - log(sqrt(2.0*PI*variance)));
-  return dnorm(residual,0,sqrt(variance),0);
+  return exp(-pow(residual/sqrt(variance),2.0)/2.0 - log(sqrt(2.0*acos(-1.0)*variance)));
 }
 
-dvector calculateparameters(uint nvariables, uint nsamples, dmatrix xt, dvector w, dvector y, int verbose){
+struct FITTED{
+  double logL = 0.0;
+  double[] Fy;
+}
+
+FITTED calculateloglikelihood(uint nsamples, double[] residual, double[] w, double variance, bool verbose = true){
+  FITTED f;
+  f.Fy   = newvector!double(nsamples);
+  double[] indL = newvector!double(nsamples);
+
+  for (uint i=0; i<nsamples; i++){
+    f.Fy[i]  = Lnormal(residual[i],variance);
+    indL[i]  += w[i] * f.Fy[i];
+    f.logL   += log(indL[i]);
+  }
+  return f;
+}
+
+struct STATS{
+  double   variance = 0.0;
+  double[] fit;
+  double[] residual;
+}
+
+STATS calculatestatistics(uint nvariables, uint nsamples, double[][] xt, double[] xtwy, double[] y, double[] w, bool verbose = true){
+  STATS s;
+  s.fit      = newvector!double(nsamples);
+  s.residual = newvector!double(nsamples);
+
+  for(uint i=0; i<nsamples; i++){
+    s.fit[i]      = 0.0;
+    s.residual[i] = 0.0;
+    for(uint j=0; j<nvariables; j++){
+      s.fit[i]     += xt[j][i] * xtwy[j];
+    }
+    s.residual[i]   = y[i]-s.fit[i];
+    s.variance     += w[i]*pow(s.residual[i],2.0);
+  }
+  s.variance /= nsamples;
+  return s;
+}
+
+double[] calculateparameters(uint nvariables, uint nsamples, double[][] xt, double[] w, double[] y, bool verbose = true){
   int d=0;
   double xtwj;
-  dmatrix XtWX = newmatrix!double(nvariables, nvariables);
-  dvector XtWY = newvector!double(nvariables);
-  ivector indx = newvector!int(nvariables);
-  if(verbose > 2) writefln("Calculating XtWX and XtWY");
+  double[][] XtWX = newmatrix!double(nvariables, nvariables);
+  double[]   XtWY = newvector!double(nvariables);
+  int[]      indx = newvector!int(nvariables);
+  if(verbose) writefln(" - Calculating XtWX and XtWY");
   for(uint i=0; i<nsamples; i++){
     for(uint j=0; j<nvariables; j++){
       xtwj     = xt[j][i] * w[i];
@@ -36,52 +78,9 @@ dvector calculateparameters(uint nvariables, uint nsamples, dmatrix xt, dvector 
       }
     }
   }
-  if(verbose > 2) writefln("XtWX: ",XtWX);
+  if(verbose) writeln(" - XtWX: ",XtWX);
   LUdecompose(XtWX, nvariables, indx, &d);
   LUsolve(XtWX, nvariables, indx, XtWY);
   
   return XtWY;
-}
-
-dmatrix translatematrix(int nvariables, int nsamples, dmatrix x, int verbose){
-  double[][] Xt = newmatrix!double(nvariables,nsamples);
-  if(verbose > 2) writefln("Calculating Xt");
-  for(uint i=0; i<nsamples; i++){
-    for(uint j=0; j<nvariables; j++){
-      Xt[j][i] = x[i][j];
-    }
-  }
-  return Xt;
-}
-
-double calculatestatistics(uint nvariables, uint nsamples, dmatrix xt, dvector xtwy, dvector y, dvector w, dvector* fit, dvector* residual,int verbose){
-  double variance = 0.0;
-  for (uint i=0; i<nsamples; i++){
-    (*fit)[i]      = 0.0;
-    (*residual)[i] = 0.0;
-    for (uint j=0; j<nvariables; j++){
-      (*fit)[i]     += xt[j][i] * xtwy[j];
-    }
-    (*residual)[i]   = y[i]-(*fit)[i];
-    variance        += w[i]*pow((*residual)[i],2.0);
-  }
-  variance /= nsamples;
-  return variance;
-}
-
-double calculateloglikelihood(uint nsamples, dvector residual,dvector w, double variance, dvector* Fy,int verbose){
-  double logL  = 0.0;
-  dvector indL = newvector!double(nsamples);
-
-  for (uint i=0; i<nsamples; i++){
-    (*Fy)[i]  = Lnormal(residual[i],variance);
-    indL[i]  += w[i] * (*Fy)[i];
-    logL     += log(indL[i]);
-  }
-  
-  return logL;
-}
-
-double inverseF(int df1, int df2, double alfa){
-  return qf(1-alfa,df1,df2,0,0);
 }

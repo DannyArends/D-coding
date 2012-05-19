@@ -1,9 +1,10 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/plugins/regression/augmentation.d
+ * \brief Missing data augmentation routine
  *
- * copyright (c) 1991-2010 Ritsert C Jansen, Danny Arends, Pjotr Prins, Karl Broman
- * last modified Feb, 2012
- * first written 2010
+ * <i>Copyright (c) 1991-2012</i>Ritsert C. Jansen, Danny Arends, Pjotr Prins, Karl W. Broman<br>
+ * Last modified May, 2012<br>
+ * First written 1991<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module plugins.regression.augmentation;
