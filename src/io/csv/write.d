@@ -1,17 +1,15 @@
-/**********************************************************************
- * src/io/csv/write.d
+/******************************************************************//**
+ * \file src/io/csv/write.d
+ * \brief CSV file writer
  *
- * copyright (c) 2012 Danny Arends
- * last modified Jan, 2012
- * first written Jan, 2012
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Mar, 2012<br>
+ * First written Jan, 2011<br>
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module io.csv.write;
 
-import std.stdio;
-import std.string;
-import std.file;
-import std.conv;
-
+import std.stdio, std.string, std.file, std.conv;
 import core.arrays.matrix;
 
 void writeFile(T)(T[][] m, string filename, bool overwrite = false, bool verbose = false){

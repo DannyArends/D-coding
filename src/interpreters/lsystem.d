@@ -1,17 +1,15 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/interpreters/lsystem.d
+ * \brief Interpreter for an L-system (http://en.wikipedia.org/wiki/Lsystem)
  *
- * copyright (c) 2012 Danny Arends
- * last modified Feb, 2012
- * first written May, 2011
- * Interpreter for an L-system (http://en.wikipedia.org/wiki/Lsystem)
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Mar, 2012<br>
+ * First written May, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module interpreters.lsystem;
 
-import std.array;
-import std.stdio;
-import std.conv;
+import std.array, std.stdio, std.conv;
 
 class lsystemrule(Element, Sequence){
 public:

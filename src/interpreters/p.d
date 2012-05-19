@@ -1,20 +1,16 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/interpreters/p.d
+ * \brief Interpreter for P'' (http://en.wikipedia.org/wiki/P'')
  *
- * copyright (c) 2012 Danny Arends
- * last modified Feb, 2012
- * first written 2010
- * Interpreter for P'' (http://en.wikipedia.org/wiki/P'')
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Mar, 2012<br>
+ * First written 2010<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module interpreters.p;
 
-import core.thread;
-import std.array;
-import std.stdio;
-import std.conv;
-import std.datetime;
-import core.time;
+import std.array, std.stdio, std.conv, std.datetime;
+import core.thread, core.time;
 
 enum OP : char {R = 'R', LAMBDA = 'l', START_BLOCK = '(', CLOSE_BLOCK = ')'};
 

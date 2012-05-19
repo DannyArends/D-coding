@@ -9,15 +9,8 @@
  **********************************************************************/
 module gui.screen;
 
-import std.array;
-import std.stdio;
-import std.conv;
-
-import gl.gl_1_0;
-import gl.gl_1_1;
-import gl.gl_1_5;
-import gl.gl_ext;
-
+import std.array, std.stdio, std.conv;
+import gl.gl_1_0, gl.gl_1_1, gl.gl_1_5, gl.gl_ext;
 import core.arrays.search;
 import core.typedefs.types;
 import core.typedefs.camera;

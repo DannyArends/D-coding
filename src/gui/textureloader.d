@@ -1,21 +1,20 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/gui/textureloader.d
+ * \brief Texture loader class
  *
- * copyright (c) 2012 Danny Arends
- * last modified Feb, 2012
- * first written Dec, 2011
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Mar, 2012<br>
+ * First written Dec, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module gui.textureloader;
 
 import core.stdinc;
 import core.typedefs.types;
-
-import gui.formats.tga;
-import gui.formats.img;
+import gui.formats.tga, gui.formats.img;
 
 class TextureLoader{
-
+  public:
   void load(){
     foreach(string e; dirEntries("data/textures", SpanMode.breadth)){
       e = e[e.indexOf("data/")..$];

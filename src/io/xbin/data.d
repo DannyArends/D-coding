@@ -1,17 +1,15 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/io/xbin/data.d
+ * \brief XBIN data definition
  *
- * copyright (c) 2012 Danny Arends
- * last modified Feb, 2012
- * first written Jun, 2011
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified May, 2012<br>
+ * First written Jun, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module io.xbin.data;
 
-import std.math; 
-import std.stdio;
-import std.array;
-import std.string;
+import std.math, std.stdio, std.array, std.string;
 
 enum Type : int { 
   EMPTY = 0, 
