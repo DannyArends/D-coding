@@ -1,3 +1,12 @@
+/******************************************************************//**
+ * \file src/gnuplot/data.d
+ * \brief GNU plot data container definitions
+ *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified May, 2012<br>
+ * First written 2012<br>
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module gnuplot.data;
 
 import std.stdio, std.string, std.conv, std.file;
