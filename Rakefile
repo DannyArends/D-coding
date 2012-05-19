@@ -8,7 +8,8 @@ require 'rake/clean'
 BIN =   ['app:fileloader', 'app:filesplitter', 'app:aligner', 'app:actor', 
          'app:single_map_probes', 'app:correlation', 'app:ostest', 'app:plang',
          'app:startJVM', 'app:httpreader', 'app:regression', 'app:httpserver',
-         'app:gameserver', 'app:voynich', 'app:dnacode', 'app:testal', 'app:sdl']
+         'app:gameserver', 'app:voynich', 'app:dnacode', 'app:testal', 'app:sdl',
+         'app:scanentropy']
 TESTS = ['test:plang', 'test:dnacode', 'test:fileloader', 'test:correlation', 
          'test:httpreader']
 
@@ -147,6 +148,12 @@ namespace :app do
     sh "#{compiler} #{comp_args} src/main/testserver.d src/web/socketclient.d -od#{bd} -ofstest.#{execext}"
   end
 
+  desc "Folder entropy scanner"
+  task "scanentropy" do
+    sh "#{compiler} #{comp_args} src/main/scanentropy.d #{core_files} #{io_files} -od#{bd} -ofstest.#{execext}"
+  end
+
+  
 end
 
 # ---- Default task ----
