@@ -10,7 +10,6 @@
 module genetics.rna;
 
 import std.stdio;
-
 import genetics.dna;
 
 enum RNA : char {U = 'U', G = 'G', A = 'A', C = 'C' };

@@ -1,20 +1,21 @@
+/******************************************************************//**
+ * \file src/game/tests/emission.d
+ * \brief Emission test class
+ *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified May, 2012<br>
+ * First written Jul, 2011<br>
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module game.tests.emission;
 
-import std.stdio;
-import std.string;
-import std.conv;
-import std.file;
-
+import std.stdio, std.string, std.conv, std.file;
 import core.typedefs.types;
 import core.arrays.algebra;
-import core.events.engine;
-import core.events.mouseevent;
-
+import core.events.engine, core.events.mouseevent;
 import game.engine;
-import gui.stdinc;
-import gui.widgets.text;
+import gui.stdinc, gui.widgets.text;
 import sfx.engine;
-
 
 class Test_PE : Game{
   public:

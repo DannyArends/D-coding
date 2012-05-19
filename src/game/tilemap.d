@@ -7,20 +7,13 @@
  * First written Dec, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-
 module game.tilemap;
 
 import core.stdinc;
 import std.algorithm;
-import core.typedefs.color;
-import core.arrays.types;
-import core.arrays.search;
-import core.typedefs.types;
-
-import game.engine;
-import game.structures;
-import game.tile;
-import game.mover;
+import core.typedefs.color, core.typedefs.types;
+import core.arrays.types, core.arrays.search;
+import game.engine, game.structures, game.tile, game.mover;
 
 class TileMap : GameObject{
 public:

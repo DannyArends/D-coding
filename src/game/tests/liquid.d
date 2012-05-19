@@ -1,16 +1,15 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/game/tests/liquid.d
+ * \brief Liquid map test class
  *
- * copyright (c) 2012 Danny Arends
- * last modified Feb, 2012
- * first written May, 2011
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified May, 2012<br>
+ * First written May, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module game.tests.liquid;
 
-import std.stdio;
-import std.conv;
-import std.random;
+import std.stdio, std.conv, std.random;
 
 import core.typedefs.types;
 import core.events.engine;
@@ -21,7 +20,6 @@ import sfx.engine;
 
 class Test_Liquid : Empty{
   public:
-    
   override void setup2D(Screen screen){
     writefln("[ G ] setup2D");
     text = new Text(screen, 10, 10);

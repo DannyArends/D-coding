@@ -1,15 +1,15 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/game/games/mapmove.d
+ * \brief Map move game definition
  *
- * copyright (c) 2012 Danny Arends
- * last modified Feb, 2012
- * first written May, 2011
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Feb, 2012<br>
+ * First written May, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module game.games.mapmove;
 
-import std.stdio;
-import std.math;
+import std.stdio, std.math;
 
 import core.typedefs.types;
 import core.arrays.algebra;

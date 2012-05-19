@@ -1,22 +1,19 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/game/server/gameserver.d
+ * \brief Gameserver class definition
  *
- * copyright (c) 2012 Danny Arends
- * last modified Feb, 2012
- * first written May, 2011
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified May, 2012<br>
+ * First written May, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
- **********************************************************************/ 
+ **********************************************************************/
 module game.server.gameserver;
 
 import core.stdinc;
-import core.typedefs.types;
-import core.typedefs.location;
-import core.typedefs.webtypes;
+import core.typedefs.types, core.typedefs.location, core.typedefs.webtypes;
 
 import web.server;
-import game.player;
-import game.tilemap;
-import game.structures;
+import game.player, game.tilemap, game.structures;
 import game.server.clientcommand;
 import game.server.clienthandler;
 import game.server.movementserver;

@@ -9,9 +9,7 @@
  **********************************************************************/
 module game.tile;
 
-import std.array;
-import std.conv;
-import std.string;
+import std.array, std.conv, std.string;
 
 struct TileType{
   double cost = 0.0;

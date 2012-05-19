@@ -9,8 +9,7 @@
  **********************************************************************/
 module game.searchnode;
 
-import std.array;
-import std.conv;
+import std.array, std.conv;
 
 /*! \brief A* search Node class
  *

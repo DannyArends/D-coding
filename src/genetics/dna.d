@@ -9,13 +9,7 @@
  **********************************************************************/
 module genetics.dna;
 
-import std.stdio;
-import std.math;
-import std.conv;
-import std.string;
-import std.algorithm;
-import std.random;
-
+import std.stdio, std.math, std.conv, std.string, std.algorithm, std.random;
 import core.arrays.search;
 
 /*! \brief DNA type definition
@@ -24,17 +18,10 @@ import core.arrays.search;
  */
 struct DNA{
 public:
-  this(char base){
-    this.base=base;
-  }
+  this(char base){ this.base=base; }
   
-  pure char getBase(){
-    return base;
-  }
-  
-  string toString(){
-    return to!string(base);
-  }
+  pure char getBase(){ return base; }
+  string toString(){ return to!string(base); }
   
   bool opCmp(DNA c){
     return base==c.base;

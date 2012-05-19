@@ -9,10 +9,7 @@
  **********************************************************************/
 module core.hex;
 
-import std.stdio;
-import std.conv;
-import std.math;
-import std.string;
+import std.stdio, std.conv, std.math, std.string;
 
 T fromhex(T)(string hexnr){
   T hexdigit(T)(char c){

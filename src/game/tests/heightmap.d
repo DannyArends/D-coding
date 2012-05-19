@@ -1,11 +1,17 @@
+/******************************************************************//**
+ * \file src/game/tests/heightmap.d
+ * \brief Height map test class
+ *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified May, 2012<br>
+ * First written May, 2011<br>
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module game.tests.heightmap;
 
-import std.stdio;
-import std.conv;
-
+import std.stdio, std.conv;
 import core.typedefs.types;
-import core.events.engine;
-import core.events.mouseevent;
+import core.events.engine, core.events.mouseevent;
 import game.engine;
 import game.games.empty;
 import gui.stdinc;
@@ -13,7 +19,6 @@ import sfx.engine;
 
 class Test_HeightMap : Empty{
   public:
-      
   override void setup2D(Screen screen){
     writefln("[ G ] setup2D");
     text = new Text(screen, 10, 10);

@@ -9,20 +9,10 @@
  **********************************************************************/
 module game.search;
 
-import core.thread;
-import std.array;
-import std.conv;
-import std.stdio;
-import std.math;
-import std.string;
-import std.datetime;
-import core.time;
-
+import core.thread, std.array, std.conv, std.stdio, std.math;
+import std.string, std.datetime, core.time;
 import core.arrays.types;
-import game.searchnode;
-import game.tilemap;
-import game.mover;
-import game.path;
+import game.searchnode, game.tilemap, game.mover,game.path;
 
 /*! \brief SearchHeuristic interface definition
  *

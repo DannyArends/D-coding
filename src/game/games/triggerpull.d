@@ -1,19 +1,22 @@
+/******************************************************************//**
+ * \file src/game/games/triggerpull.d
+ * \brief Triggerpull game definition
+ *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Feb, 2012<br>
+ * First written May, 2011<br>
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module game.games.triggerpull;
 
-import std.stdio;
-import std.string;
-import std.conv;
-import std.file;
+import std.stdio, std.string, std.conv, std.file;
 
 import core.typedefs.types;
 import core.arrays.algebra;
-import core.events.engine;
-import core.events.mouseevent;
+import core.events.engine, core.events.mouseevent;
 import game.engine;
 import gui.stdinc;
-import sfx.engine;
-import sfx.formats.wav;
-
+import sfx.engine, sfx.formats.wav;
 
 class TriggerPull : Game{
 

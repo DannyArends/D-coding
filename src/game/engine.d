@@ -3,27 +3,19 @@
  * \brief GameEngine and Game description
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
- * Last modified Feb, 2012<br>
+ * Last modified May, 2012<br>
  * First written Dec, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module game.engine;
 
 import core.stdinc;
-
 import core.typedefs.types;
 import core.events.engine;
 import core.events.clockevents;
-
-import gui.engine;
-import gui.screen;
-import gui.motion;
-import gui.hudhandler;
+import gui.engine, gui.screen, gui.motion, gui.hudhandler;
 import sfx.engine;
-
-import game.tilemap;
-import game.player;
-
+import game.tilemap, game.player;
 import game.games.triggerpull;
 import game.users.gameclient;
 

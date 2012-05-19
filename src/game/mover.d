@@ -3,15 +3,13 @@
  * \brief Mover class definition
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
- * Last modified Feb, 2012<br>
+ * Last modified May, 2012<br>
  * First written 2010<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-
 module game.mover;
 
 import std.array;
-
 import game.tile;
 
 /*! \brief A* representation of a moving object

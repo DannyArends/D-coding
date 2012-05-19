@@ -10,14 +10,10 @@
 module game.games.servergame;
 
 import core.stdinc;
-import core.typedefs.types;
-import core.typedefs.location;
+import core.typedefs.types, core.typedefs.location;
 import core.arrays.algebra;
-import core.events.engine;
-import core.events.networkevent;
-import game.engine;
-import game.player;
-import game.tilemap;
+import core.events.engine, core.events.networkevent;
+import game.engine, game.player, game.tilemap;
 import gui.stdinc;
 import sfx.engine;
 

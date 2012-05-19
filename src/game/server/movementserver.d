@@ -1,11 +1,12 @@
-/**********************************************************************
- * \file src/game/server/movementserver.d
+/******************************************************************//**
+ * \file src/game/games/movementserver.d
+ * \brief Movement server class definition
  *
- * copyright (c) 2012 Danny Arends
- * last modified Feb, 2012
- * first written May, 2011
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified May, 2012<br>
+ * First written Feb, 2012<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
- **********************************************************************/ 
+ **********************************************************************/
 module game.server.movementserver;
 
 import core.stdinc;
@@ -13,10 +14,8 @@ import core.typedefs.types;
 import core.typedefs.location;
 import core.typedefs.webtypes;
 
-import game.search;
-import game.tilemap;
+import game.search, game.tilemap, game.player;
 import game.server.gameserver;
-import game.player;
 
 alias core.thread.Thread Thread;
 
