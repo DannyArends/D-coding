@@ -21,10 +21,9 @@ alias double[] dvector;
 alias char[] cvector;
 alias int[] ivector;
 
-void freevector(T)(T[] v) {
-  auto c = new GC();
-  c.removeRange(cast(void*)v);
-  c.free(cast(void*)v);
+void freevector(T)(ref T[] v) {
+  GC.removeRange(cast(void*)v);
+  GC.free(cast(void*)v);
   v = null;
 }
 
