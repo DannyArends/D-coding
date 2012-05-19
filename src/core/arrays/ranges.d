@@ -19,6 +19,12 @@ pure uint[] dorange(int start, size_t length){
   return array;
 }
 
+T getIe(T)(size_t cnt,T[] range){
+  int l = range.length;
+  if(cnt < l) return range[cnt];
+  return getIe(cnt-l, range);
+}
+
 uint getI(T)(size_t cnt,T[] range){
   int l = range.length;
   if(cnt < l) return cnt;

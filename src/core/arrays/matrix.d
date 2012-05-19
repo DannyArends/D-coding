@@ -34,6 +34,16 @@ T[] unlist(T)(T[][] i){
   return m;
 }
 
+T[][] asmatrix(T)(T[] i){
+  T[][] m;
+  T[] row;
+  for(uint idx=0;idx<i.length;idx++){
+    row ~= i[idx];
+  }
+  m ~= row;
+  return m;
+}
+
 T[][] translate(T)(T[][] i){
   T[][] m = newmatrix!T(i[0].length,i.length);
   for(uint r=0;r<i.length;r++){
