@@ -9,7 +9,7 @@ BIN =   ['app:fileloader', 'app:filesplitter', 'app:aligner', 'app:actor',
          'app:single_map_probes', 'app:correlation', 'app:ostest', 'app:plang',
          'app:startJVM', 'app:httpreader', 'app:regression', 'app:httpserver',
          'app:gameserver', 'app:voynich', 'app:dnacode', 'app:testal', 'app:sdl',
-         'app:scanentropy']
+         'app:scanentropy', 'app:scanfasta']
 TESTS = ['test:plang', 'test:dnacode', 'test:fileloader', 'test:correlation', 
          'test:httpreader']
 
@@ -150,9 +150,13 @@ namespace :app do
 
   desc "Folder entropy scanner"
   task "scanentropy" do
-    sh "#{compiler} #{comp_args} src/main/scanentropy.d #{core_files} #{io_files} -od#{bd} -ofstest.#{execext}"
+    sh "#{compiler} #{comp_args} src/main/scanentropy.d #{core_files} #{io_files} -od#{bd} -ofscanentropy.#{execext}"
   end
 
+  desc "Fasta file entropy scanner"
+  task "scanfasta" do
+    sh "#{compiler} #{comp_args} src/main/scanfasta.d #{core_files} #{io_files} -od#{bd} -ofscanfasta.#{execext}"
+  end
   
 end
 
