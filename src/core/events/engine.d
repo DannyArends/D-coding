@@ -9,10 +9,7 @@
  **********************************************************************/
 module core.events.engine;
 
-import std.stdio;
-import std.conv;
-import std.datetime;
-
+import std.stdio, std.conv, std.datetime;
 import core.typedefs.types;
 
 class Event{

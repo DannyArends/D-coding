@@ -3,16 +3,13 @@
  * \brief Array search and ranges
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
- * Last modified Feb, 2012<br>
+ * Last modified May, 2012<br>
  * First written May, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module core.arrays.search;
 
-import std.stdio;
-import std.conv;
-import std.string;
-import std.random;
+import std.stdio, std.conv, std.string, std.random;
 
 pure T[] range(T)(T start, uint length){
   T array[];
@@ -38,9 +35,7 @@ T[] randomrange(T)(T start, uint length, int number){
 T[] randomrange(T)(T[] range, int number){
   assert(number < range.length);
   T[] s;
-  foreach(e;randomSample(range, number)){
-    s ~= e;
-  }
+  foreach(e;randomSample(range, number)){ s ~= e; }
   return s;
 }
 

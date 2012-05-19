@@ -11,29 +11,29 @@ module core.arrays.ranges;
 
 import std.math;
 
-pure uint[] dorange(int start, size_t length){
+pure uint[] dorange(uint start, size_t length){
   uint array[];
-  for(uint i = 0; i < (length-1); i++){
+  for(size_t i = 0; i < (length-1); i++){
     array ~= start+i;
   }
   return array;
 }
 
-T getIe(T)(size_t cnt,T[] range){
-  int l = range.length;
+pure T getIe(T)(size_t cnt,T[] range){
+  size_t l = range.length;
   if(cnt < l) return range[cnt];
   return getIe(cnt-l, range);
 }
 
-uint getI(T)(size_t cnt,T[] range){
-  int l = range.length;
+pure uint getI(T)(size_t cnt,T[] range){
+  size_t l = range.length;
   if(cnt < l) return cnt;
   return (l-1);
 }
 
-pure T[] doarray(T)(int length, T value){
+pure T[] doarray(T)(size_t length, T value){
   T array[];
-  for(int i = 0; i < (length-1); i++){
+  for(size_t i = 0; i < (length-1); i++){
    array ~= value;
   }
   return array;

@@ -9,13 +9,10 @@
  **********************************************************************/
 module core.arrays.matrix;
 
-import std.stdio;
-import std.conv;
-import std.math;
-
+import std.stdio, std.conv, std.math;
 import core.arrays.types;
 
-T[][] absmatrix(T)(T[][] i){
+pure T[][] absmatrix(T)(T[][] i){
   T[][] m = newmatrix!T(i.length,i[0].length);
   for(size_t r=0;r<i.length;r++){
     for(size_t c=0;c<i[0].length;c++){
@@ -25,7 +22,7 @@ T[][] absmatrix(T)(T[][] i){
   return m;
 }
 
-T[] unlist(T)(T[][] i){
+pure T[] unlist(T)(T[][] i){
   T[] m;
   for(size_t r=0;r<i.length;r++){
     for(size_t c=0;c<i[0].length;c++){
@@ -35,14 +32,14 @@ T[] unlist(T)(T[][] i){
   return m;
 }
 
-T[][] asmatrix(T)(T[] i){
+pure T[][] asmatrix(T)(T[] i){
   T[][] m; T[]   row;
   for(size_t idx=0;idx<i.length;idx++){ row ~= i[idx]; }
   m ~= row;
   return m;
 }
 
-T[][] translate(T)(T[][] i){
+pure T[][] translate(T)(T[][] i){
   T[][] m = newmatrix!T(i[0].length,i.length);
   for(size_t r=0;r<i.length;r++){
     for(size_t c=0;c<i[0].length;c++){
@@ -63,7 +60,6 @@ void printmatrix(T)(T[][] m) {
 
 T[] stringvectortotype(T)(string[] entities){
   T[] rowleveldata;
-  rowleveldata.reserve(entities.length);
   for(size_t e=0; e < entities.length; e++){
     try{
       rowleveldata ~= to!T(entities[e]);

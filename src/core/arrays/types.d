@@ -12,13 +12,13 @@ module core.arrays.types;
 import core.memory, std.random, std.conv;
 
 alias double[][] dmatrix;
-alias bool[][] bmatrix;
-alias char[][] cmatrix;
-alias int[][] imatrix;
+alias bool[][]   bmatrix;
+alias char[][]   cmatrix;
+alias int[][]    imatrix;
 
-alias double[] dvector;
-alias char[] cvector;
-alias int[] ivector;
+alias double[]   dvector;
+alias char[]     cvector;
+alias int[]      ivector;
 
 void freevector(T)(ref T[] v) {
   GC.removeRange(cast(void*)v);
@@ -35,8 +35,7 @@ T[][] randommatrix(T)(size_t nrow, size_t ncol){
   return x;
 }
 
-
-T[][] newmatrix(T)(size_t nrow, size_t ncol, T init = T.init){
+pure T[][] newmatrix(T)(size_t nrow, size_t ncol, T init = T.init){
   T[][] x;
   x.length=nrow;
   for(size_t i=0;i < nrow;i++){
@@ -45,7 +44,7 @@ T[][] newmatrix(T)(size_t nrow, size_t ncol, T init = T.init){
   return x;
 }
 
-T[] copyvector(T)(T[] c){
+pure T[] copyvector(T)(T[] c){
   T[] x;
   x.length = c.length;
   for(size_t j=0; j < c.length;j++){
@@ -76,8 +75,6 @@ pure T[][] vectortomatrix(T)(size_t nrow, size_t ncol, T[] invector){
 
 pure T[] newvector(T)(size_t length, T value = T.init){
   T[] x;
-  for(size_t j=0;j<length;j++){
-    x ~= value;
-  }
+  for(size_t j=0;j<length;j++){ x ~= value; }
   return x;
 }

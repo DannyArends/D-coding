@@ -3,17 +3,13 @@
  * \brief Periodic Event and ClockEventHandler
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
- * Last modified Feb, 2012<br>
+ * Last modified May, 2012<br>
  * First written Dec, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module core.events.clockevents;
 
-import std.array;
-import std.stdio;
-import std.conv;
-import std.datetime;
-
+import std.array, std.stdio, std.conv, std.datetime;
 import core.typedefs.types;
 import core.events.engine;
 

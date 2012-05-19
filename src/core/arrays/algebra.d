@@ -9,11 +9,7 @@
  **********************************************************************/
 module core.arrays.algebra;
 
-import std.stdio;
-import std.conv;
-import std.string;
-import std.math;
-import std.random;
+import std.stdio, std.conv, std.string, std.math, std.random;
 
 /*! \brief Get the sum of the values in range r
  * 

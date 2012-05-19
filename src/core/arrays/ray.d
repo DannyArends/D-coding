@@ -3,15 +3,15 @@
  * \brief Ray tracing definition
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
- * Last modified Feb, 2012<br>
+ * Last modified May, 2012<br>
  * First written 2010<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module core.arrays.ray;
 
+import std.math;
 import core.typedefs.camera;
 import core.arrays.algebra;
-import std.math;
 
 struct world{
   double[] right;
