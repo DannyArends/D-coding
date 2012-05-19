@@ -47,7 +47,7 @@ class HeightMap : Surface{
   this(double x, double y, double z, int sx, int sy){
     super(x, y, z, sx, sy);
     this.map         = randommatrix!float(sx,sy);
-    this.colormap    = newclassmatrix!Color(sx,sy);
+    this.colormap    = newmatrix!Color(sx,sy, new Color());
     highlight_color  = new Color(1.0,0.0,0.0);
   }
   

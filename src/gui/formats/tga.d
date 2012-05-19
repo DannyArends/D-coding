@@ -135,7 +135,7 @@ Texture loadTgaAsTexture(string filename, bool verbose = false){
 }
 
 Color[][] asColorMap(Texture texture){
-  Color[][] colormap = newclassmatrix!Color(texture.width, texture.height);
+  Color[][] colormap = newmatrix!Color(texture.width, texture.height, new Color());
   if(texture.status == FileStatus.OK){
     int x=0;
     int z=0;
