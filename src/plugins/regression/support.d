@@ -14,7 +14,6 @@ import std.math;
 
 import core.arrays.types;
 import plugins.regression.LUdecomposition;
-import r.r;
 
 double Lnormal(double residual, double variance){
   return exp(-pow(residual/sqrt(variance),2.0)/2.0 - log(sqrt(2.0*acos(-1.0)*variance)));

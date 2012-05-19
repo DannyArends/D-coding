@@ -9,9 +9,7 @@
  **********************************************************************/
 module plugins.regression.nrc;
 
-import std.stdio;
-import std.math;
-import std.mathspecial;
+import std.stdio, std.math, std.mathspecial;
 
 double inverseF(int df1, int df2, double alfa, bool verbose = false){
   double prob=0.0, minF=0.0, maxF=100.0, halfway=50.0, absdiff=1.0;
