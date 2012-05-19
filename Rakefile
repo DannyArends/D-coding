@@ -9,7 +9,7 @@ BIN =   ['app:fileloader', 'app:filesplitter', 'app:aligner', 'app:actor',
          'app:single_map_probes', 'app:correlation', 'app:ostest', 'app:plang',
          'app:startJVM', 'app:httpreader', 'app:regression', 'app:httpserver',
          'app:gameserver', 'app:voynich', 'app:dnacode', 'app:testal', 'app:sdl',
-         'app:scanentropy', 'app:scanfasta']
+         'app:scanentropy', 'app:scanfasta', 'app:gnuplot']
 TESTS = ['test:plang', 'test:dnacode', 'test:fileloader', 'test:correlation', 
          'test:httpreader']
 
@@ -27,10 +27,11 @@ CLEAN.include("#{bd}*.*")
 CLEAN.include("#{bd}")
 CLEAN.include("*.#{execext}")
 CLEAN.include("*.save")
-CLEAN.include("*.SAVE")
+CLEAN.include("*.SAVE",'*.map','*.svg','*.png','*.eps','*.ps','*.jpg','*.dat','*.scp')
 
 core_files    = Dir.glob("./src/core/**/*.d").join(' ')
 io_files      = Dir.glob("./src/io/**/*.d").join(' ')
+gnu_files     = Dir.glob("./src/gnuplot/**/*.d").join(' ')
 inter_files   = Dir.glob("./src/interpreters/*.d").join(' ')
 libload_files = Dir.glob("./src/libload/*.d").join(' ')
 game_files    = Dir.glob("./src/game/**/*.d").join(' ')
@@ -157,6 +158,12 @@ namespace :app do
   task "scanfasta" do
     sh "#{compiler} #{comp_args} src/main/scanfasta.d #{core_files} #{io_files} -od#{bd} -ofscanfasta.#{execext}"
   end
+
+  desc "GNUplot for D"
+  task "gnuplot" do
+    sh "#{compiler} #{comp_args} src/main/gnuplot_examples.d #{core_files} #{gnu_files} -od#{bd} -ofplot.#{execext}"
+  end
+
   
 end
 

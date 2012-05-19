@@ -1,6 +1,10 @@
 *~
 *.obj
 *.dll
+*.png
+*.svg
+*.dat
+*.scp
 *.exe
 *.map
 *.lib
