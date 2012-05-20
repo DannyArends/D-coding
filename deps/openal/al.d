@@ -9,11 +9,7 @@
  **********************************************************************/
 module openal.al;
 
-import std.loader;
-import std.stdio;
-import std.conv;
-import std.c.stdarg;
-
+import std.loader, std.stdio, std.conv, std.c.stdarg;
 import libload.libload;
 import openal.alstructs;
 

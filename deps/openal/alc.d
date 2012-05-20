@@ -5,21 +5,15 @@
  **********************************************************************/ 
 module openal.alc;
 
-import std.loader;
-import std.stdio;
-import std.conv;
-import std.c.stdarg;
+import std.loader, std.stdio, std.conv, std.c.stdarg;
 
 import libload.libload;
 
 const ALC_INVALID = 0;
 const ALC_VERSION_0_1 = 1;
 
-struct ALCdevice_struct{
-}
-
-struct ALCcontext_struct{
-}
+struct ALCdevice_struct{}
+struct ALCcontext_struct{}
 
 alias ALCdevice_struct ALCdevice;
 alias ALCcontext_struct ALCcontext;

@@ -9,16 +9,10 @@
  **********************************************************************/
 module openal.alut;
 
-import std.loader;
-import std.stdio;
-import std.conv;
-import std.c.stdarg;
-
+import std.loader, std.stdio, std.conv, std.c.stdarg;
 import libload.libload;
-import openal.al;
-import openal.alstructs;
-import openal.alc;
-import openal.alutstructs;
+import openal.al, openal.alstructs;
+import openal.alc, openal.alutstructs;
 
 static this(){
   HXModule lib = load_library("alut", "alut", "");
