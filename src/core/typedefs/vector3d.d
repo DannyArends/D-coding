@@ -11,10 +11,11 @@ module core.typedefs.vector3d;
 
 import std.array, std.stdio, std.conv;
 import core.typedefs.location;
+import core.arrays.algebra;
 
-/*! \brief 3D Vector class
+/*! \brief Abstract Vector3D class
  *
- *  3D Vector class
+ *  Defines a vector in 3D space 
  */
 class Vector3D : Location{
   this(double x, double y, double z){ this(x,y,z, 0.0, 0.0, 0.0); }
@@ -23,12 +24,10 @@ class Vector3D : Location{
     super(x,y,z);
     direction = [rx,ry,rz];
   }
-    
-  void rotate(double rx, double ry, double rz){
-    rot[0]+=rx;
-    rot[1]+=ry;
-    rot[2]+=rz;
-  }
+
+  /*! \brief Rotate this vector
+   *  \param r 3D rotation to add<br> */
+  void rotate(double[] r){ rot = add(rot,r); }
 
   @property{
     double[] direction(double[] r = null){ if(r !is null){ rot=r; } return rot; }

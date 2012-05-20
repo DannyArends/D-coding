@@ -13,11 +13,15 @@ import std.stdio;
 import std.parallelism : totalCPUs;
 import core.cpuid : threadsPerCPU;
 
+/*! \brief The CPUinfo structure
+ *
+ *  Structure holding information about the CPU
+ */
 struct CPUinfo{
-  @property{
-    int CPUs(){ return totalCPUs; }
-    int CPUthreads(){ return threadsPerCPU; }
-  }
+    /*! Number of CPUs */
+  @property int CPUs(){ return totalCPUs; }
+    /*! Number of threads per CPU */
+  @property int CPUthreads(){ return threadsPerCPU; }  
 }
 
 //  CPUinfo info;

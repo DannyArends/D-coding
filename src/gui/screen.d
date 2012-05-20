@@ -105,7 +105,7 @@ class Screen : Object2D{
     void rotateLogo(int amount){
       size_t logoidx = getIndex("logo");
       if(logoidx != -1){
-        sceneobjects[logoidx].object3d.rotate(0.0,cast(double)amount,0.0);
+        sceneobjects[logoidx].object3d.rotate([0.0,cast(double)amount,0.0]);
       }
     }
 

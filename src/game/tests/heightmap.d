@@ -32,7 +32,7 @@ class Test_HeightMap : Empty{
     writefln("[ G ] setup 3D scene");
     Texture map = screen.getTexture("map");
     heightmap = new HeightMap(-50, -10,-100, map);
-    heightmap.rotate(0,20,0);
+    heightmap.rotate([0,20,0]);
     screen.add(heightmap);
   }
   

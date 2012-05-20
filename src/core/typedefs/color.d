@@ -17,6 +17,7 @@ import std.array, std.stdio, std.conv, std.random;
  */
 class Color{
   public:
+    //! Constructor Color class, default random color.
     this(){ random(); }
 
     this(string colorname){
@@ -41,6 +42,7 @@ class Color{
       this(c[0]/255.0, c[1]/255.0, c[2]/255.0, alpha);
     }
   
+    //! Set the color to a random color.
     void random(){
       color[0]= uniform(0.0, 1.0);
       color[1]= uniform(0.0, 1.0);
@@ -60,10 +62,10 @@ class Color{
       color[i]=value;
     }
   
-    @property float r(){ return color[0]; }
-    @property float g(){ return color[1]; }
-    @property float b(){ return color[2]; }
-    @property float alpha(){ return color[3]; }
+    @property float r(){ return color[0]; }      //!< Red color component [0..1]
+    @property float g(){ return color[1]; }      //!< Green color component [0..1]
+    @property float b(){ return color[2]; }      //!< Blue color component [0..1]
+    @property float alpha(){ return color[3]; }  //!< Alpha color component [0..1]
   
   private:
     double[4] color;

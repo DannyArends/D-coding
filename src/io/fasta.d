@@ -13,10 +13,14 @@ import std.stdio, std.math, std.file, std.path, std.string, std.conv;
 import core.arrays.matrix;
 import core.arrays.ranges;
 
+/*! \brief Fasta sequence structure
+ *
+ *  Structure that holds a single fasta sequence 
+ */
 struct Fasta{
-  string description;
-  string sequence;
-  bool circular = false;
+  string description;     /*!< Fasta sequence description */
+  string sequence;        /*!< Fasta sequence */
+  bool circular = false;  /*!< Is the sequence circular ? */
 }
 
 Fasta[] readFasta(string fn, bool circular = false){

@@ -117,7 +117,7 @@ abstract class Object2D : Location{
     foreach(Object2D o;objects){
       toshift+=o.sy()+1;
     }
-    object.setLocation(1,toshift,0);
+    object.location = [1,toshift,0];
     objects ~= object;
   }
   

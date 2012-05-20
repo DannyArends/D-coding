@@ -15,7 +15,8 @@ import std.stdio, std.conv, std.string, std.math, std.random;
  * 
  * D-routine to get the sum of the values in range r<br>
  * bugs: none found<br>
- * @param r any type any length vector<br>
+ * \param r any type any length vector<br>
+ * \return The sum
  */
 T sum(T)(T[] r){
   T s = 0;
@@ -23,6 +24,13 @@ T sum(T)(T[] r){
   return s;
 }
 
+/*! \brief Get the mean of the values in range r
+ * 
+ * D-routine to get the mean of the values in range r<br>
+ * bugs: none found<br>
+ * \param r any type any length vector<br>
+ * \return The mean
+ */
 pure T mean(T)(T[] r){
   T mean = 0;
   for(size_t i = 0; i < r.length; i++){
@@ -35,7 +43,8 @@ pure T mean(T)(T[] r){
  *
  * D-routine to get the min or max value of the values in range<br>
  * bugs: none found<br>
- * @param r any type any length vector<br>
+ * \param r any type any length vector<br>
+ * \return The min or max based on op
  */
 T minmax(string op, T)(T[] r){
   assert(r.length >= 1);
@@ -46,26 +55,32 @@ T minmax(string op, T)(T[] r){
   return best;
 }
 
-/**
-* D-routine to get the max value of d1<br>
-* bugs: none found<br>
-* @param r any type any length vector<br>
-*/
+/*! \brief Get the max value of the values in range r
+ *
+ * D-routine to get the max value of the values in range<br>
+ * bugs: none found<br>
+ * \param r any type any length vector<br>
+ * \return The max
+ */
 T max(T)(T[] r){ return minmax!(">",T)(r); }
 
-/**
-* D-routine to get the min value of r<br>
-* bugs: none found<br>
-* @param r any type any length vector<br>
-*/
+/*! \brief Get the min value of the values in range r
+ *
+ * D-routine to get the min value of the values in range<br>
+ * bugs: none found<br>
+ * \param r any type any length vector<br>
+ * \return The min
+ */
 T min(T)(T[] r){ return minmax!("<",T)(r); }
 
-/**
-* D-routine to get the max value of a range within d1<br>
-* bugs: none found<br>
-* @param d1 any type any length vector<br>
-* @param r range to consider<br>
-*/
+/*! \brief Get the max value of range r inside d
+ *
+ * D-routine to get the max value of range r inside d<br>
+ * bugs: none found<br>
+ * \param d any type any length vector<br>
+ * \param r the number of items in d to sum<br>
+ * \return The maxOf
+ */
 T maxOf(T)(T[] d, size_t r){
   assert(d.length >= 1);
   T m = d[0];
@@ -89,22 +104,26 @@ T[] applyRandomness(T)(T[] d1, int[] rnd){
   return r;
 }
 
-/**
-* D-routine that substracts d1 from d2<br>
-* bugs: none found<br>
-* @param d1 any type any length vector<br>
-* @param d2 any type any length vector<br>
-*/
+/*! \brief Substract vector d2 from d1
+ *
+ * D-routine to substract vector d2 from d1<br>
+ * bugs: none found<br>
+ * \param d1 any type any length vector<br>
+ * \param d2 any type any length vector<br>
+ * \return The vector d1 - d2
+ */
 T[] subtract(T)(T[] d1,T[] d2){
   return add(d1,multiply(d2,-1.0));
 }
 
-/**
-* D-routine that adds d1 to d2<br>
-* bugs: none found<br>
-* @param d1 any type any length vector<br>
-* @param d2 any type any length vector<br>
-*/
+/*! \brief Add vector d2 to d1
+ *
+ * D-routine to add vector d2 to d1<br>
+ * bugs: none found<br>
+ * \param d1 any type any length vector<br>
+ * \param d2 any type any length vector<br>
+ * \return The vector d1 + d2
+ */
 T[] add(T)(T[] d1, T[] d2){
   assert(d1.length == d2.length, "Error: Should have same length");
   T[] sum;
@@ -113,12 +132,14 @@ T[] add(T)(T[] d1, T[] d2){
   return sum;
 }
 
-/**
-* D-routine that multiplies a vector with a constant<br>
-* bugs: none found<br>
-* @param d1 any type any length vector<br>
-* @param alpha float parameter holding the maginification factor<br>
-*/
+/*! \brief Multiply a vector with a constant
+ *
+ * D-routine to multiply a vector with a constant<br>
+ * bugs: none found<br>
+ * \param d1 any type any length vector<br>
+ * \param alpha parameter holding the multiplication factor<br>
+ * \return The vector d1 * alpha
+ */
 T[] multiply(T)(T[] d1, float alpha = 1.0){
   T[] factor;
   factor.length = d1.length;
@@ -126,33 +147,39 @@ T[] multiply(T)(T[] d1, float alpha = 1.0){
   return factor;
 }
 
-/**
-* D-routine that adds a multiple of another vector with a constant<br>
-* bugs: none found<br>
-* @param d1 any type any length vector<br>
-* @param d2 any type any length vector<br>
-* @param alpha float parameter holding the maginification factor<br>
-*/
+/*! \brief Multiply a vector with a constant and add it to another vector
+ *
+ * D-routine to multiply a vector with a constant and add it to another vector<br>
+ * bugs: none found<br>
+ * \param d1 any type any length vector<br>
+ * \param d2 any type any length vector<br>
+ * \param alpha parameter holding the multiplication factor<br>
+ * \return The vector d1 + ( d2 * alpha )
+ */
 T[] addnmultiply(T)(T[] d1,T[] d2, float alpha = 1.0){
   return add(d1, multiply(d2,alpha));
 }
 
-/**
-* D-routine that calculates the magintude of a vector<br>
-* bugs: none found<br>
-* @param d1 any type any length vector<br>
-*/
+/*! \brief Magnitude of a vector
+ *
+ * D-routine to get the magnitude of a vector<br>
+ * bugs: none found<br>
+ * \param d1 any type any length vector<br>
+ * \return Magnitude of d1
+ */
 float magnitude(T)(T[] d1){
   float f = 0.0;
   for(size_t x=0; x < d1.length; x++){ f += (d1[x] * d1[x]); }
   return sqrt(f);
 }
 
-/**
-* D-routine normalizes a vector<br>
-* bugs: none found<br>
-* @param d1 any type any length vector<br>
-*/
+/*! \brief Normalize a vector
+ *
+ * D-routine to normalize a vector<br>
+ * bugs: none found<br>
+ * \param d1 any type any length vector<br>
+ * \return normalized d1
+ */
 T[] normalize(T)(T[] d1){
   T[] normal;
   normal.reserve(d1.length);
@@ -165,11 +192,13 @@ T[] normalize(T)(T[] d1){
   return normal;
 }
 
-/**
-* D-routine that finds a normalized normal vector for a triangle<br>
-* bugs: none found<br>
-* @param v any type 3x3 holding the three points of the triangle<br>
-*/
+/*! \brief Get the (normalized) normal for a triangle
+ *
+ * D-routine that finds a normalized normal vector for a triangle<br>
+ * bugs: none found<br>
+ * \param v any type 3x3 holding the three points of the triangle<br>
+ * \return normalized normal of v
+ */
 T[] trianglefindnormal(T)(T[3][3] v){
   T[3] a;
   T[3] b;

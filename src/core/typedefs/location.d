@@ -10,14 +10,16 @@
 module core.typedefs.location;
 
 import std.array, std.stdio, std.conv;
+import core.arrays.algebra;
 
-/*! \brief 3D Location class
+/*! \brief Location class
  *
- *  3D Location class
+ *  Defines a Location in game 
  */
 class Location{
 public:
   this(){ this(0.0, 0.0, 0.0); }
+  this(double l[3]){ loc=l; }
   
   this(string input){
     auto elements = input.split(":");
@@ -25,28 +27,12 @@ public:
     if(elements.length >= 2) loc[1] = to!double(elements[1]);
     if(elements.length >= 3) loc[2] = to!double(elements[2]);
   }
+
+  this(double x, double y, double z){ this([x,y,z]); }
   
-  this(double x, double y, double z){
-    loc[0]=x;
-    loc[1]=y;
-    loc[2]=z;
-  }
+  void move(double x, double y, double z){ loc = add(loc,[x,y,z]); }
   
-  void move(double x, double y, double z){
-    loc[0]+=x;
-    loc[1]+=y;
-    loc[2]+=z;
-  }
-  
-  void setLocation(double x, double y, double z){
-    loc[0]=x;
-    loc[1]=y;
-    loc[2]=z;
-  }
-  
-  double[] getLocation(){ return loc; }
-  
-  @property double[] location(){ return loc; }
+  @property double[] location(double[] l = null){ if(l !is null){ loc=l; } return loc; }
   @property float x(){ return loc[0]; }
   @property float y(){ return loc[1]; }
   @property float z(){ return loc[2]; }

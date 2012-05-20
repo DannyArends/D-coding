@@ -32,7 +32,7 @@ class Test_Liquid : Empty{
     writefln("[ G ] setup 3D scene");
     Texture map = screen.getTexture("map");
     liquid = new Liquid(-50, -10,-100, map);
-    liquid.rotate(0,20,0);
+    liquid.rotate([0,20,0]);
     screen.add(liquid);
   }
   

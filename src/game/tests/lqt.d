@@ -49,7 +49,7 @@ class Test_LQT : Empty{
   }
   
   override void update(){
-    for(size_t x=0; x < 30; x++){ objects[3+x].rotate(1,x,x/10.0); }
+    for(size_t x=0; x < 30; x++){ objects[3+x].rotate([1, x, x/10.0]); }
   }
   
   private:

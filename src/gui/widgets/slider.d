@@ -26,7 +26,7 @@ class Slider : DragBar{
     setBgColor(0.3,0.3,0.3);
     setRange(0,100);
     value = 0;
-    this.getNameObject().setLocation(100,0,0);
+    getNameObject().location = [100,0,0];
     slider = new Square(0,0,16,16,this);
   }
   
@@ -37,7 +37,7 @@ class Slider : DragBar{
   
   override void onClick(int cx, int cy){
     if(cx >= this.x() && (cx+16) <= (this.x()+this.sx())){
-      slider.setLocation(cx-this.x(),0,0);
+      slider.location = [cx-this.x(),0,0];
       setNewValue();
     }
     setName(to!string(value) ~ "");

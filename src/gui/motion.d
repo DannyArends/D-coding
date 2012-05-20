@@ -95,11 +95,11 @@ class ObjectMotion : CameraMotion {
           e.handled=true;
           break;
         case SDLK_PAGEUP:
-          screen.getCamera().rotate(-2,0,0);
+          screen.getCamera().rotate([-2,0,0]);
           e.handled=true;
           break;
         case SDLK_PAGEDOWN:
-          screen.getCamera().rotate(2,0,0);
+          screen.getCamera().rotate([2,0,0]);
           e.handled=true;
           break;
         case SDLK_LEFT:
@@ -131,7 +131,7 @@ class ObjectMotion : CameraMotion {
         break;
         default: 
         if(dragging){
-          screen.getCamera().rotate(2*m_evt.syr,2*m_evt.sxr,0);
+          screen.getCamera().rotate([2*m_evt.syr,2*m_evt.sxr,0]);
           update();
           e.handled=true;
         }
@@ -141,7 +141,7 @@ class ObjectMotion : CameraMotion {
   }
   
   override void update(){
-    double loc[3] = object.getLocation();
+    double loc[3] = object.location;
     Camera c = screen.getCamera();
     int h_rot = cast(int)c.direction[0];
     int v_rot = cast(int)c.direction[1]+90;
@@ -149,7 +149,7 @@ class ObjectMotion : CameraMotion {
     loc[0] += cameramod*(cos((v_rot*PI)/180));
     loc[1] += distancetotarget*sin((h_rot*PI)/180);
     loc[2] += cameramod*(sin((v_rot*PI)/180));
-    c.setLocation(-loc[0],-loc[1],-loc[2]);
+    c.location = [-loc[0],-loc[1],-loc[2]];
   }
   
   private:

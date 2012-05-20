@@ -12,12 +12,13 @@ module core.typedefs.camera;
 import std.array, std.stdio, std.conv;
 import core.typedefs.vector3d;
 
-/*! \brief Camera
+/*! \brief Camera class
  *
  *  Representation of a Camera
  */
 class Camera : Vector3D{
 public:
+  //! Constructor Camera class, default at [-1.5, 0.0 , 6.0] looking at [0,0,0].
   this(){ this(-1.5, 0.0, -6.0, 0.0, 0.0, 0.0); }
   
   this(double x, double y, double z){
@@ -27,11 +28,15 @@ public:
   this(double x, double y, double z,double rx, double ry, double rz){
     super(x,y,z,rx,ry,rz);
   }
-  
+  //! Screen width used in ray-tracing.  
   @property double width(){ return _width; }
+  //! Screen height used in ray-tracing.  
   @property double height(){ return _height; }
+  //! Distance to screen used in ray-tracing.  
+  @property double toscreen(){ return _toscreen; }
   
-  double toscreen = 3;
-  double _height;
-  double _width;
+  private:
+    double _toscreen = 3;
+    double _height;
+    double _width;
 }
