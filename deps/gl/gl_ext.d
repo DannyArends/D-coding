@@ -9,20 +9,14 @@
  **********************************************************************/
 module gl.gl_ext;
 
-import std.loader;
-import std.stdio;
-import std.conv;
-import std.c.stdarg;
+import std.loader, std.stdio, std.conv, std.c.stdarg;
+import libload.libload;
 private import gl.gl;
 private import gl.gl_1_0;
 
-import libload.libload;
-
 private bool arb_buffer_enabled = false;
 
-static bool isArbBufferEnabled(){
-  return arb_buffer_enabled;
-}
+static bool isArbBufferEnabled(){ return arb_buffer_enabled; }
 
 bool load_VBO_extensions(){
   writeln("[VBO] Start loading VBO extension");

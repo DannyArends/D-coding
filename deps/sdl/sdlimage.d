@@ -1,71 +1,70 @@
-/**********************************************************************
- * \file deps/sdl/sdlimage.d - Wrapper for SDL
+/******************************************************************//**
+ * \file deps/sdl/sdlimage.d
+ * \brief SDLimage function prototypes
  *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified May, 2012<br>
+ * First written 2010<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
- **********************************************************************/ 
+ **********************************************************************/
 module sdl.sdlimage;
 
-import std.loader;
-import std.stdio;
-import std.conv;
-
+import std.loader, std.stdio, std.conv;
 import libload.libload;
-import sdl.sdlstructs;
-import sdl.sdlfunctions;
+import sdl.sdlstructs, sdl.sdlfunctions;
 
 const SDL_IMAGE_MAJOR_VERSION = 1;
 const SDL_IMAGE_MINOR_VERSION = 2;
 const SDL_IMAGE_PATCHLEVEL = 10;
 
-extern(C++){
+enum{ IMG_INIT_JPG = 1, IMG_INIT_PNG = 2, IMG_INIT_TIF = 4}
 
-  static this(){
-    HXModule lib = load_library("SDL_image","SDL_image","");
+static this(){
+  HXModule lib = load_library("SDL_image","SDL_image","");
 
-    load_function(IMG_Linked_Version)(lib, "IMG_Linked_Version");
+  load_function(IMG_Linked_Version)(lib, "IMG_Linked_Version");
 
-    load_function(IMG_Init)(lib, "IMG_Init");
-    load_function(IMG_Quit)(lib, "IMG_Quit");
-    load_function(IMG_Load)(lib, "IMG_Load");
-    load_function(IMG_Load_RW)(lib, "IMG_Load_RW");
-    load_function(IMG_LoadTyped_RW)(lib, "IMG_LoadTyped_RW");
+  load_function(IMG_Init)(lib, "IMG_Init");
+  load_function(IMG_Quit)(lib, "IMG_Quit");
+  load_function(IMG_Load)(lib, "IMG_Load");
+  load_function(IMG_Load_RW)(lib, "IMG_Load_RW");
+  load_function(IMG_LoadTyped_RW)(lib, "IMG_LoadTyped_RW");
 
-    load_function(IMG_InvertAlpha)(lib, "IMG_InvertAlpha");
-    load_function(IMG_isICO)(lib, "IMG_isICO");
-    load_function(IMG_isCUR)(lib, "IMG_isCUR");
-    load_function(IMG_isBMP)(lib, "IMG_isBMP");
-    load_function(IMG_isGIF)(lib, "IMG_isGIF");
-    load_function(IMG_isJPG)(lib, "IMG_isJPG");
-    load_function(IMG_isLBM)(lib, "IMG_isLBM");
-    load_function(IMG_isPCX)(lib, "IMG_isPCX");
-    load_function(IMG_isPNG)(lib, "IMG_isPNG");
-    load_function(IMG_isPNM)(lib, "IMG_isPNM");
-    load_function(IMG_isTIF)(lib, "IMG_isTIF");
-    load_function(IMG_isXCF)(lib, "IMG_isXCF");
-    load_function(IMG_isXPM)(lib, "IMG_isXPM");
-    load_function(IMG_isXV)(lib, "IMG_isXV");
+  load_function(IMG_InvertAlpha)(lib, "IMG_InvertAlpha");
+  load_function(IMG_isICO)(lib, "IMG_isICO");
+  load_function(IMG_isCUR)(lib, "IMG_isCUR");
+  load_function(IMG_isBMP)(lib, "IMG_isBMP");
+  load_function(IMG_isGIF)(lib, "IMG_isGIF");
+  load_function(IMG_isJPG)(lib, "IMG_isJPG");
+  load_function(IMG_isLBM)(lib, "IMG_isLBM");
+  load_function(IMG_isPCX)(lib, "IMG_isPCX");
+  load_function(IMG_isPNG)(lib, "IMG_isPNG");
+  load_function(IMG_isPNM)(lib, "IMG_isPNM");
+  load_function(IMG_isTIF)(lib, "IMG_isTIF");
+  load_function(IMG_isXCF)(lib, "IMG_isXCF");
+  load_function(IMG_isXPM)(lib, "IMG_isXPM");
+  load_function(IMG_isXV)(lib, "IMG_isXV");
 
-    load_function(IMG_LoadICO_RW)(lib, "IMG_LoadICO_RW");
-    load_function(IMG_LoadCUR_RW)(lib, "IMG_LoadCUR_RW");
-    load_function(IMG_LoadBMP_RW)(lib, "IMG_LoadBMP_RW");
-    load_function(IMG_LoadGIF_RW)(lib, "IMG_LoadGIF_RW");
-    load_function(IMG_LoadJPG_RW)(lib, "IMG_LoadJPG_RW");
-    load_function(IMG_LoadLBM_RW)(lib, "IMG_LoadLBM_RW");
-    load_function(IMG_LoadPCX_RW)(lib, "IMG_LoadPCX_RW");
-    load_function(IMG_LoadPNG_RW)(lib, "IMG_LoadPNG_RW");
-    load_function(IMG_LoadPNM_RW)(lib, "IMG_LoadPNM_RW");
-    load_function(IMG_LoadTGA_RW)(lib, "IMG_LoadTGA_RW");
-    load_function(IMG_LoadTIF_RW)(lib, "IMG_LoadTIF_RW");
-    load_function(IMG_LoadXCF_RW)(lib, "IMG_LoadXCF_RW");
-    load_function(IMG_LoadXPM_RW)(lib, "IMG_LoadXPM_RW");
-    load_function(IMG_LoadXV_RW)(lib, "IMG_LoadXV_RW");
-    load_function(IMG_ReadXPMFromArray)(lib, "IMG_ReadXPMFromArray");
+  load_function(IMG_LoadICO_RW)(lib, "IMG_LoadICO_RW");
+  load_function(IMG_LoadCUR_RW)(lib, "IMG_LoadCUR_RW");
+  load_function(IMG_LoadBMP_RW)(lib, "IMG_LoadBMP_RW");
+  load_function(IMG_LoadGIF_RW)(lib, "IMG_LoadGIF_RW");
+  load_function(IMG_LoadJPG_RW)(lib, "IMG_LoadJPG_RW");
+  load_function(IMG_LoadLBM_RW)(lib, "IMG_LoadLBM_RW");
+  load_function(IMG_LoadPCX_RW)(lib, "IMG_LoadPCX_RW");
+  load_function(IMG_LoadPNG_RW)(lib, "IMG_LoadPNG_RW");
+  load_function(IMG_LoadPNM_RW)(lib, "IMG_LoadPNM_RW");
+  load_function(IMG_LoadTGA_RW)(lib, "IMG_LoadTGA_RW");
+  load_function(IMG_LoadTIF_RW)(lib, "IMG_LoadTIF_RW");
+  load_function(IMG_LoadXCF_RW)(lib, "IMG_LoadXCF_RW");
+  load_function(IMG_LoadXPM_RW)(lib, "IMG_LoadXPM_RW");
+  load_function(IMG_LoadXV_RW)(lib, "IMG_LoadXV_RW");
+  load_function(IMG_ReadXPMFromArray)(lib, "IMG_ReadXPMFromArray");
 
-    writeln("[ D ] Mapped SDL_image functionality");
-  }
+  writeln("[ D ] Mapped SDL_image functionality");
+}
 
-  enum{ IMG_INIT_JPG = 1, IMG_INIT_PNG = 2, IMG_INIT_TIF = 4}
-  
+extern(C++){  
   SDL_version* function()IMG_Linked_Version;
   
   int          function(int flags)IMG_Init;

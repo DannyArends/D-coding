@@ -1,19 +1,17 @@
-/**********************************************************************
- * \file deps/r/lapack.d - Wrapper for R LApack
+/******************************************************************//**
+ * \file deps/r/lapack.d
+ * \brief Wrapper for R LApack
  *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Apr, 2012<br>
+ * First written 2010<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
- **********************************************************************/ 
+ **********************************************************************/
 module r.lapack;
 
-private import std.loader;
-private import std.stdio;
-private import std.conv;
-
+private import std.loader, std.stdio, std.conv;
+import std.c.stdlib, std.c.stdio, std.c.math;
 import libload.libload;
-
-import std.c.stdlib;
-import std.c.stdio;
-import std.c.math;
 
 immutable TOL = 1e-12;  // tolerance for linear regression
 

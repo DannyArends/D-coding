@@ -1,13 +1,15 @@
-/**********************************************************************
- * \file deps/sdl/sdlfunctions.d - Wrapper for SDL
+/******************************************************************//**
+ * \file deps/sdl/sdlfunctions.d
+ * \brief SDL function prototypes
  *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified May, 2012<br>
+ * First written 2010<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
- **********************************************************************/ 
+ **********************************************************************/
 module sdl.sdlfunctions;
 
-import std.stdio;
-import std.conv;
-import std.string;
+import std.stdio, std.conv, std.string;
 import sdl.sdlstructs;
 
 SDL_AudioSpec* SDL_LoadWAV(in char* file, SDL_AudioSpec* spec, Uint8** buf, Uint32* len){

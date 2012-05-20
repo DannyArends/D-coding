@@ -9,15 +9,10 @@
  **********************************************************************/
 module gl.glu;
 
-import std.loader;
-import std.stdio;
-import std.conv;
-import std.c.stdarg;
-
+import std.loader, std.stdio, std.conv, std.c.stdarg;
+import libload.libload;
 private import gl.gl_1_0;
 private import gl.gl_1_1;
-
-import libload.libload;
 
 static this(){
   HXModule lib = load_library("glu32","GLU","");

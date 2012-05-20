@@ -9,10 +9,7 @@
  **********************************************************************/
 module r.r;
 
-private import std.loader;
-private import std.stdio;
-private import std.conv;
-
+private import std.loader, std.stdio, std.conv;
 import libload.libload;
 
 extern(C){
@@ -40,4 +37,3 @@ static this(){//Load the functions when the module is loaded
 
   writeln("Loaded R functionality");
 }
-

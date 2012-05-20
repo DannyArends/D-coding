@@ -3,22 +3,17 @@
  * \brief Wrapper for SDL
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
- * Last modified Mar, 2012<br>
+ * Last modified May, 2012<br>
  * First written 2010<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module sdl.sdl;
 
-private import std.loader;
-private import std.stdio;
-private import std.conv;
-
+private import std.loader, std.stdio, std.conv;
 import libload.libload;
-import sdl.sdlstructs;
-import sdl.sdlfunctions;
+import sdl.sdlstructs, sdl.sdlfunctions;
 
-//Load the functions when the module is loaded
-static this(){
+static this(){  //Load the functions when the module is loaded
   HXModule lib = load_library("sdl","SDL","");
   
   // active.d
@@ -227,7 +222,5 @@ static this(){
   
   // syswm.d
   version(Windows) load_function(SDL_GetWMInfo)(lib,"SDL_GetWMInfo");
-
   writeln("[ D ] Mapped SDL functionality");
 }
-
