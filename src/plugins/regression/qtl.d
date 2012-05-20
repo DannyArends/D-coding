@@ -25,8 +25,8 @@ class SingleQTL{
     if(verbose) write(" ");
     for(size_t p = 0; p < phenotypes.length; p++){
       for(size_t m = 0; m < genotypes.length; m++){
-        double[] w = newvector!double(phenotypes[0].length,1.0);
-        int[] nm = newvector!int(1,1);
+        double[] w = newvector!double(phenotypes[0].length, 1.0);
+        int[] nm   = newvector!int(1,1);
         lodmatrix[p][m] = multipleregression(createdesignmatrix(genotypes, m, geno_cov), phenotypes[p], w, nm, false);
       }
       if(verbose) write(".");

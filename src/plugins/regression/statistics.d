@@ -9,28 +9,12 @@
  **********************************************************************/
 module plugins.regression.statistics;
  
-import std.math; 
-import std.stdio;
-import std.conv;
-
+import std.math, std.stdio, std.conv;
+import core.arrays.algebra;
 import core.arrays.search;
 
-pure T doMean(T)(T[] data){
-  T mean = 0;
-  for(size_t i = 0; i < (data.length-1); i++){
-    mean += (data[i] - mean) / (i + 1);
-  }
-  return mean;
-}
-
-pure T doSum(T)(T[] values ...){
-  T s = 0;
-  foreach(T x; values){ s += x; }
-  return s;
-}
-
 pure real doSumOfSquares(T)(T[] data){
-  T mean = doMean(data);
+  T mean = mean(data);
   real sumofsquares = 0;
   for(size_t i = 0; i < (data.length-1); i++){
     sumofsquares += pow((data[i]-mean),2);
@@ -45,23 +29,23 @@ pure real doVariance(T)(real sumofsquares,uint n){ return (sumofsquares/n); }
 pure real doStandardDeviation(T)(T[] data){ return sqrt(doVariance!T(data)); }
 
 real correlation_v1(T)(T[] d1, T[] d2){
-  if(d1.length!=d2.length) throw new Exception("Error: Should have same length "~ to!string(d1.length) ~ " !=" ~ to!string(d2.length));
+  assert(d1.length == d2.length, "Error: Should have same length");
   
   real sumofsquares = 0;
-  T mean1 = doMean(d1);
-  T mean2 = doMean(d2);
+  T mean1 = mean(d1);
+  T mean2 = mean(d2);
 
   for(size_t i = 0; i < (d1.length-1); i++){
     T delta1 = (d1[i] - mean1);
     T delta2 = (d2[i] - mean2);
     sumofsquares += (delta1 * delta2);
   }
-  real variance = doVariance!real(sumofsquares,cast(uint)d1.length);
-  return (variance / (doStandardDeviation(d1)*doStandardDeviation(d2)));
+  real variance = doVariance!real(sumofsquares, d1.length);
+  return (variance / (doStandardDeviation(d1) * doStandardDeviation(d2)));
 }
 
 double correlation_v2(T)(T[] x, T[] y){
-  assert(x.length == y.length);
+  assert(x.length == y.length, "Error: Should have same length");
   double XiYi = 0;
   double Xi = 0;
   double Yi = 0;

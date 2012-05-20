@@ -9,9 +9,7 @@
  **********************************************************************/
 module plugins.regression.support;
 
-import std.stdio;
-import std.math;
-
+import std.stdio, std.math;
 import core.arrays.types;
 import plugins.regression.LUdecomposition;
 
@@ -26,10 +24,10 @@ struct FITTED{
 
 FITTED calculateloglikelihood(uint nsamples, double[] residual, double[] w, double variance, bool verbose = true){
   FITTED f;
-  f.Fy   = newvector!double(nsamples);
-  double[] indL = newvector!double(nsamples);
+  f.Fy          = newvector!double(nsamples, 0.0);
+  double[] indL = newvector!double(nsamples, 0.0);
 
-  for (uint i=0; i<nsamples; i++){
+  for(size_t i=0; i < nsamples; i++){
     f.Fy[i]  = Lnormal(residual[i],variance);
     indL[i]  += w[i] * f.Fy[i];
     f.logL   += log(indL[i]);
@@ -45,13 +43,13 @@ struct STATS{
 
 STATS calculatestatistics(size_t nvariables, size_t nsamples, double[][] xt, double[] xtwy, double[] y, double[] w, bool verbose = true){
   STATS s;
-  s.fit      = newvector!double(nsamples);
-  s.residual = newvector!double(nsamples);
+  s.fit      = newvector!double(nsamples,0.0);
+  s.residual = newvector!double(nsamples,0.0);
 
-  for(size_t i=0; i<nsamples; i++){
+  for(size_t i=0; i < nsamples; i++){
     s.fit[i]      = 0.0;
     s.residual[i] = 0.0;
-    for(size_t j=0; j<nvariables; j++){
+    for(size_t j=0; j < nvariables; j++){
       s.fit[i]     += xt[j][i] * xtwy[j];
     }
     s.residual[i]   = y[i]-s.fit[i];
@@ -64,9 +62,9 @@ STATS calculatestatistics(size_t nvariables, size_t nsamples, double[][] xt, dou
 double[] calculateparameters(size_t nvariables, size_t nsamples, double[][] xt, double[] w, double[] y, bool verbose = true){
   int d=0;
   double xtwj;
-  double[][] XtWX = newmatrix!double(nvariables, nvariables);
-  double[]   XtWY = newvector!double(nvariables);
-  int[]      indx = newvector!int(nvariables);
+  double[][] XtWX = newmatrix!double(nvariables, nvariables, 0.0);
+  double[]   XtWY = newvector!double(nvariables, 0.0);
+  int[]      indx = newvector!int(nvariables, 0);
   if(verbose) writefln(" - Calculating XtWX and XtWY");
   for(size_t i=0; i < nsamples; i++){
     for(size_t j=0; j < nvariables; j++){

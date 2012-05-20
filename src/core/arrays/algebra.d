@@ -23,6 +23,14 @@ T sum(T)(T[] r){
   return s;
 }
 
+pure T mean(T)(T[] r){
+  T mean = 0;
+  for(size_t i = 0; i < r.length; i++){
+    mean += (data[i] - mean) / (i + 1);
+  }
+  return mean;
+}
+
 /*! \brief Get the min or max value of the values in range r
  *
  * D-routine to get the min or max value of the values in range<br>

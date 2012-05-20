@@ -26,7 +26,7 @@ double rf(double cmdistance){ return (0.5*(1.0-exp(-0.02*cmdistance))); }
 
 dvector calcrf(cvector position, dvector mapdistance){
   size_t nmarkers = position.length;
-  dvector r = newvector!double(nmarkers);
+  dvector r = newvector!double(nmarkers, 0.0);
   for(size_t m=0; m<nmarkers; m++) {
     r[m]= RFUNKNOWN;
     if((position[m]==MLEFT) || (position[m]==MMIDDLE)){
@@ -42,7 +42,7 @@ dvector calcrf(cvector position, dvector mapdistance){
 
 cvector markerpos(ivector chr){
   size_t nmarkers = chr.length;
-  cvector position = newvector!char(nmarkers);
+  cvector position = newvector!char(nmarkers,MUNLINKED);
   for(size_t m = 0; m < nmarkers; m++){
     if(m==0){
       if(chr[m]==chr[m+1]){

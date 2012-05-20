@@ -9,10 +9,7 @@
  **********************************************************************/
 module plugins.regression.regression;
  
-import std.stdio;
-import std.conv;
-import std.math;
-
+import std.stdio, std.conv, std.math;
 import core.arrays.types;
 import core.arrays.matrix;
 import plugins.regression.support;
