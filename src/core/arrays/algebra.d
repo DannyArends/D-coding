@@ -58,12 +58,12 @@ T min(T)(T[] r){ return minmax!("<",T)(r); }
 * @param d1 any type any length vector<br>
 * @param r range to consider<br>
 */
-T maxOf(T)(T[] d, uint r){
+T maxOf(T)(T[] d, size_t r){
   assert(d.length >= 1);
   T m = d[0];
-  for(int x=0;x<d.length-r;x++){ 
+  for(size_t x=0;x < (d.length-r); x++){ 
     T e = sum!T(d[x..x+r]);
-    if(m < e){ m = e; } 
+    if(m < e){ m = e; }
   }
   return m;
 }
@@ -71,7 +71,7 @@ T maxOf(T)(T[] d, uint r){
 T[] applyRandomness(T)(T[] d1, int[] rnd){
   T[] r;
   r.length = d1.length;
-  for(int x=0;x<d1.length;x++){
+  for(size_t x=0; x < d1.length;x++){
     if(rnd[x] != 0){
       r[x] = d1[x] + to!T(uniform(-rnd[x],rnd[x])/100.0);
     }else{
@@ -88,12 +88,10 @@ T[] applyRandomness(T)(T[] d1, int[] rnd){
 * @param d2 any type any length vector<br>
 */
 T[] subtract(T)(T[] d1,T[] d2){
-  if(d1.length!=d2.length) throw new Exception("Error: Should have same length");
+  assert(d1.length == d2.length, "Error: Should have same length");
   T[] diff;
   diff.length = d1.length;
-  for(int x=0;x<d1.length;x++){
-    diff[x] = d1[x] - d2[x];
-  }
+  for(size_t x=0; x < d1.length; x++){ diff[x] = d1[x] - d2[x]; }
   return diff;
 }
 
@@ -103,13 +101,11 @@ T[] subtract(T)(T[] d1,T[] d2){
 * @param d1 any type any length vector<br>
 * @param d2 any type any length vector<br>
 */
-T[] add(T)(T[] d1,T[] d2){
-  if(d1.length!=d2.length) throw new Exception("Error: Should have same length");
+T[] add(T)(T[] d1, T[] d2){
+  assert(d1.length == d2.length, "Error: Should have same length");
   T[] sum;
-  sum.reserve(d1.length);
-  for(int x=0;x<d1.length;x++){
-    sum ~= d1[x] + d2[x];
-  }
+  sum.length = d1.length;
+  for(size_t x=0;x<d1.length;x++){ sum[x] = d1[x] + d2[x]; }
   return sum;
 }
 
@@ -121,10 +117,8 @@ T[] add(T)(T[] d1,T[] d2){
 */
 T[] multiply(T)(T[] d1, float alpha = 1.0){
   T[] factor;
-  factor.reserve(d1.length);
-  for(int x=0;x<d1.length;x++){
-    factor ~= d1[x] * alpha;
-  }
+  factor.length = d1.length;
+  for(size_t x=0; x < d1.length; x++){ factor[x] = d1[x] * alpha; }
   return factor;
 }
 
@@ -136,11 +130,11 @@ T[] multiply(T)(T[] d1, float alpha = 1.0){
 * @param alpha float parameter holding the maginification factor<br>
 */
 T[] addnmultiply(T)(T[] d1,T[] d2, float alpha = 1.0){
-  if(d1.length!=d2.length) throw new Exception("Error: Should have same length");
+  assert(d1.length == d2.length, "Error: Should have same length");
   T[] factor;
-  factor.reserve(d1.length);
-  for(int x=0;x<d1.length;x++){
-    factor ~= d1[x] + d2[x] * alpha;
+  factor.length = d1.length;
+  for(size_t x=0;x < d1.length; x++){
+    factor[x] = d1[x] + d2[x] * alpha;
   }
   return factor;
 }
@@ -152,9 +146,7 @@ T[] addnmultiply(T)(T[] d1,T[] d2, float alpha = 1.0){
 */
 float magnitude(T)(T[] d1){
   float f = 0.0;
-  for(int x=0;x<d1.length;x++){
-    f += (d1[x] * d1[x]);
-  }
+  for(size_t x=0; x < d1.length; x++){ f += (d1[x] * d1[x]); }
   return sqrt(f);
 }
 
@@ -168,15 +160,12 @@ T[] normalize(T)(T[] d1){
   normal.reserve(d1.length);
   
   float len = magnitude!T(d1);
-  if (len == 0.0f) len = 1.0f;
+  if(len == 0.0f) len = 1.0f;
 
   // reduce to unit size
-  for(int x=0;x<d1.length;x++){
-    normal ~= d1[x] / len;
-  }
+  for(size_t x=0; x < d1.length; x++){ normal ~= d1[x] / len; }
   return normal;
 }
-
 
 /**
 * D-routine that finds a normalized normal vector for a triangle<br>
