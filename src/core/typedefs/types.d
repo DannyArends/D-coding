@@ -141,10 +141,10 @@ struct TimeTracker{
     void fromString(string msg){
       string[] dt = msg.split(" ");
       string[] entities = dt[1].split(":");
-      int cnt=0;
-      for(int x = 2; x>=0;x--){mytime[cnt] = to!int(entities[x]); cnt++; }
+      size_t cnt=0;
+      for(size_t x = 2; x>=0; x--){mytime[cnt] = to!int(entities[x]); cnt++; }
       entities = dt[0].split("-");
-      for(int x = 2; x>=0;x--){mytime[cnt] = to!int(entities[x]); cnt++; }
+      for(size_t x = 2; x>=0; x--){mytime[cnt] = to!int(entities[x]); cnt++; }
     }
     
     void save(string filename = "ST.save"){

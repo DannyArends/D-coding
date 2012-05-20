@@ -31,13 +31,13 @@ class Test_LQT : Empty{
     objects ~= new Line(-1, -1,-5, 0, -1,2);
     objects ~= new Line(-10, 2,-30, 0, 5, 5);
     objects ~= new Quad(0, 0,-30);
-    for(int x=0;x<30;x++){
+    for(size_t x=0; x < 30; x++){
       objects ~= new Triangle(-30+x, 5,-30);
     }
     objects[0].setSize(1,1,1);
     objects[1].setSize(1,1,1);
     objects[2].setSize(4,4,1);
-    for(int x=0;x<30;x++){
+    for(size_t x=0; x < 30; x++){
       objects[3+x].setSize(2,2,2);
       objects[3+x].setColor(1,x/30.0,0);
     }
@@ -49,9 +49,7 @@ class Test_LQT : Empty{
   }
   
   override void update(){
-    for(int x=0;x<30;x++){
-      objects[3+x].rotate(1,x,x/10.0);
-    }
+    for(size_t x=0; x < 30; x++){ objects[3+x].rotate(1,x,x/10.0); }
   }
   
   private:

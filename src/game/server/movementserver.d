@@ -29,7 +29,7 @@ class MovementServer : Thread{
   void run(){
     while(_server.online){
       Player[] players = _server.getUsers();
-      for(int x =0;x < players.length;x++){
+      for(size_t x = 0; x < players.length; x++){
         if(players[x].online){
           Location cur = players[x].info.location[0];
           Location req = players[x].info.location[1];

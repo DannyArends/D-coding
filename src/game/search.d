@@ -63,7 +63,7 @@ class AStarSearch{
     this(int sx, int sy, int tx, int ty, TileMap map, SearchHeuristic heuristic, int maxDepth){
       this.heuristic=heuristic;
       this.map=map;
-      for(int x=0;x<map.x;x++){
+      for(size_t x=0; x < map.x; x++){
         Node[] nlist;
         for(size_t y=0;y<map.y;y++){
           nlist ~= new Node(x,y);
@@ -95,8 +95,8 @@ class AStarSearch{
           addToClosed(current);
           debug writeln("[SEARCH] Closed length: ",closed.length);
           debug writeln("[SEARCH] Adding neighbouring squares");
-          for(int x=-1;x<2;x++){
-            for(int y=-1;y<2;y++){
+          for(size_t x = -1; x < 2; x++){
+            for(size_t y = -1; y < 2; y++){
               if((x == 0) && (y == 0)){ continue; } //Current tile
               
               int xp = x + current.x;

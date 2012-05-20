@@ -64,13 +64,13 @@ bool bufferModelInfo3DS(ModelInfo3DS* model){
   GLfloat[] verticesunpacked = new GLfloat[](9*model.npolygons);
   ubyte[] colorunpacked = new ubyte[](12*model.npolygons);
 
-  int vcnt=0;
-  int ccnt=0;
+  size_t vcnt=0;
+  size_t ccnt=0;
   foreach(Object3DS o3ds;model.objects){
-    for(int x=0;x<o3ds.polygon.length;x++){
-      for(int triside=0;triside<3;triside++){
-        for(int sideloc=0;sideloc<3;sideloc++){
-          int vertexnum = o3ds.polygon[x].p[triside];
+    for(size_t x = 0 ; x < o3ds.polygon.length; x++){
+      for(size_t triside = 0; triside < 3; triside++){
+        for(size_t sideloc = 0; sideloc < 3; sideloc++){
+          size_t vertexnum = o3ds.polygon[x].p[triside];
           if(vertexnum >= o3ds.vertex.length){
             writefln("[3DS] Model %s contains incomplete polygon at %d",o3ds.name,x);
             vertexnum=1;

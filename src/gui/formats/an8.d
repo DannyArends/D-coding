@@ -68,7 +68,7 @@ Figure chunkToFigure(An8Chunk chunk){
 
 An8Chunk[] parseChunks(string content){
   An8Chunk[] chunks = getChunks(content);
-  for(int x=0;x < chunks.length;x++){
+  for(size_t x=0;x < chunks.length;x++){
     chunks[x].content = content[chunks[x].start .. chunks[x].end];
     if(hasChunk(chunks[x].content)){
       chunks[x].subchunks = parseChunks(chunks[x].content);
