@@ -41,9 +41,9 @@ dvector calcrf(cvector position, dvector mapdistance){
 }
 
 cvector markerpos(ivector chr){
-  uint nmarkers = cast(uint)chr.length;
+  size_t nmarkers = chr.length;
   cvector position = newvector!char(nmarkers);
-  for(uint m=0; m<nmarkers; m++){
+  for(size_t m = 0; m < nmarkers; m++){
     if(m==0){
       if(chr[m]==chr[m+1]){
         position[m]=MLEFT;

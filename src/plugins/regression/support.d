@@ -43,15 +43,15 @@ struct STATS{
   double[] residual;
 }
 
-STATS calculatestatistics(uint nvariables, uint nsamples, double[][] xt, double[] xtwy, double[] y, double[] w, bool verbose = true){
+STATS calculatestatistics(size_t nvariables, size_t nsamples, double[][] xt, double[] xtwy, double[] y, double[] w, bool verbose = true){
   STATS s;
   s.fit      = newvector!double(nsamples);
   s.residual = newvector!double(nsamples);
 
-  for(uint i=0; i<nsamples; i++){
+  for(size_t i=0; i<nsamples; i++){
     s.fit[i]      = 0.0;
     s.residual[i] = 0.0;
-    for(uint j=0; j<nvariables; j++){
+    for(size_t j=0; j<nvariables; j++){
       s.fit[i]     += xt[j][i] * xtwy[j];
     }
     s.residual[i]   = y[i]-s.fit[i];
@@ -61,18 +61,18 @@ STATS calculatestatistics(uint nvariables, uint nsamples, double[][] xt, double[
   return s;
 }
 
-double[] calculateparameters(uint nvariables, uint nsamples, double[][] xt, double[] w, double[] y, bool verbose = true){
+double[] calculateparameters(size_t nvariables, size_t nsamples, double[][] xt, double[] w, double[] y, bool verbose = true){
   int d=0;
   double xtwj;
   double[][] XtWX = newmatrix!double(nvariables, nvariables);
   double[]   XtWY = newvector!double(nvariables);
   int[]      indx = newvector!int(nvariables);
   if(verbose) writefln(" - Calculating XtWX and XtWY");
-  for(uint i=0; i<nsamples; i++){
-    for(uint j=0; j<nvariables; j++){
+  for(size_t i=0; i < nsamples; i++){
+    for(size_t j=0; j < nvariables; j++){
       xtwj     = xt[j][i] * w[i];
-      XtWY[j] += xtwj    * y[i];
-      for(uint jj=0; jj<=j; jj++){
+      XtWY[j] += xtwj     * y[i];
+      for(size_t jj=0; jj <= j; jj++){
         XtWX[j][jj] += xtwj * xt[jj][i];
       }
     }
