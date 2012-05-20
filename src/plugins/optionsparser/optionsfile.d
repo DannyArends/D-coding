@@ -1,14 +1,15 @@
-
+/******************************************************************//**
+ * \file src/plugins/optionsparser/optionsfile.d
+ * \brief OptionsFile
+ *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified May, 2012<br>
+ * First written Jun, 2011<br>
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module plugins.optionsparser.optionsfile;
 
-
-import std.stdio;
-import std.math;
-import std.array;
-import std.conv;
-import std.file;
-import std.string;
-
+import std.stdio, std.math, std.array, std.conv, std.file, std.string;
 import plugins.optionsparser.option;
 
 class OptionsFile{
@@ -83,5 +84,4 @@ private:
   string   filename;
   bool     modified;
   Option[] options;
-
 }

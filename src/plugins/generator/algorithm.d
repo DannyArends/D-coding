@@ -9,8 +9,7 @@
  **********************************************************************/
 module plugins.generator.algorithm;
 
-import std.stdio;
-import std.math;
+import std.stdio, std.math;
 
 /*! \brief Context free representation of an algorithm
  *

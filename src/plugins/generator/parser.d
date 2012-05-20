@@ -9,8 +9,7 @@
  **********************************************************************/
 module plugins.generator.parser;
 
-import std.stdio;
-import std.math;
+import std.stdio, std.math;
 
 /*! \brief Interface to define a parser
  *

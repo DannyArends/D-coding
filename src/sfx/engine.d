@@ -10,11 +10,8 @@
 module sfx.engine;
 
 import core.stdinc;
-
-import openal.al;
+import openal.al, openal.alc, openal.alut;
 import openal.alstructs;
-import openal.alc;
-import openal.alut;
 import openal.alutstructs;
 import core.events.engine;
 import sfx.formats.wav;

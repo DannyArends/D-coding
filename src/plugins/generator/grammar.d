@@ -9,8 +9,7 @@
  **********************************************************************/
 module plugins.generator.grammer;
 
-import std.stdio;
-import std.math;
+import std.stdio, std.math;
 
 /*! \brief Basic grammar structure
  *

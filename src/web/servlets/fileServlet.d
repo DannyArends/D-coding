@@ -1,23 +1,16 @@
-/**********************************************************************
- * \file src/web/servlets/fileservlet.d
+/******************************************************************//**
+ * \file src/web/servlets/fileServlet.d
+ * \brief Implementation of an HTTP File servlet
  *
- * copyright (c) 2012 Danny Arends
- * last modified Feb, 2012
- * first written Jun, 2011
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Feb, 2012<br>
+ * First written Jun, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module web.servlets.fileServlet;
 
-import std.file;
-import std.random;
-import std.stdio;
-import std.string;
-import std.utf;
-import std.regex;
-import std.socket;
-import std.conv;
-import std.process;
-
+import std.file, std.random, std.stdio, std.string, std.utf;
+import std.regex, std.socket, std.conv, std.process;
 import core.typedefs.webtypes;
 import web.httphandler;
 import web.servlets.servlet;

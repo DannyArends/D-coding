@@ -9,18 +9,10 @@
  **********************************************************************/
 module sfx.formats.wav;
 
-import std.stdio;
-import std.string;
-import std.array;
-import std.file;
-import std.regex;
-
-import openal.al;
+import std.stdio, std.string, std.array, std.file, std.regex;
+import openal.al, openal.alc, openal.alut;
 import openal.alstructs;
-import openal.alc;
-import openal.alut;
 import openal.alutstructs;
-
 import sfx.engine;
 
 enum WavType{ 

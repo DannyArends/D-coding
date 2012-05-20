@@ -1,10 +1,15 @@
-
+/******************************************************************//**
+ * \file src/plugins/optionsparser/option.d
+ * \brief Option
+ *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified May, 2012<br>
+ * First written Jun, 2011<br>
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module plugins.optionsparser.option;
 
-import std.stdio;
-import std.math;
-import std.array;
-import std.conv;
+import std.stdio, std.math, std.array, std.conv;
 
 struct Type{
 public:
@@ -17,9 +22,7 @@ public:
     cppname=cpp;
   }
   
-  bool opCmp(Type t){
-    return _id == t._id;
-  }
+  bool opCmp(Type t){ return _id == t._id; }
   
 private:
   char   _id;
@@ -64,8 +67,8 @@ class Value{
   }
   
   private:
-  ValueType _type;
-  string    _value;
+    ValueType _type;
+    string    _value;
 }
 
 

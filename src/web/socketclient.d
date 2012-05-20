@@ -9,8 +9,7 @@
  **********************************************************************/
 module web.socketclient;
 
-import std.stdio;
-import std.socket;
+import std.stdio, std.socket;
 
 class SocketClient{
   private:

@@ -1,20 +1,18 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/web/httpreader.d
- * Loosly Based on: http://github.com/burjui/quarkHTTPd/
- * copyright (c) 2012 Danny Arends
- * last modified Feb, 2012
- * first written Jun, 2011
+ * \brief A HTTP reader
+ *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Feb, 2012<br>
+ * First written Jun, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module web.httpreader;
  
-import std.stdio;
-import std.math;
-import std.conv;
-
+import std.stdio, std.math, std.conv;
 import web.socketclient;
 
-class HttpReader {
+class HttpReader{
   SocketClient server;
   string host;
   string protocol = "HTTP/1.0";

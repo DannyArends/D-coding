@@ -9,8 +9,7 @@
  **********************************************************************/
 module plugins.generator.generator;
 
-import std.stdio;
-import std.math;
+import std.stdio, std.math;
 import plugins.generator.algorithm;
 import plugins.generator.grammar;
 
