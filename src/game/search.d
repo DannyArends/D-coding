@@ -103,10 +103,10 @@ class AStarSearch{
               int yp = y + current.y;
               
               if(map.isValidLocation(mover,sx,sy,xp,yp)){
-                int nextStepCost = cast(int) (current.getCost() + map.getMovementCost(mover, current.x, current.y, xp, yp));
+                int nextStepCost = cast(int) (current.cost + map.getMovementCost(mover, current.x, current.y, xp, yp));
                 Node neighbour = nodes[xp][yp];
                 map.pathFinderVisited(xp, yp);
-                if(nextStepCost < neighbour.getCost()){
+                if(nextStepCost < neighbour.cost){
                   if(inOpenList(neighbour)){
                     removeFromOpen(neighbour);
                   }
@@ -115,9 +115,9 @@ class AStarSearch{
                   }
                 }
                 if(!inOpenList(neighbour) && !(inClosedList(neighbour))){
-                  neighbour.setCost(nextStepCost);
+                  neighbour.cost = nextStepCost;
                   neighbour.setParent(current);
-                  neighbour.setEstimate(heuristic.getCost(mover, xp, yp, tx, ty));
+                  neighbour.estimate = (heuristic.getCost(mover, xp, yp, tx, ty));
                   open ~= neighbour;
                 }
               }

@@ -8,9 +8,8 @@
  **********************************************************************/
 module game.path;
 
+import std.array, std.conv;
 import core.typedefs.types;
-import std.array;
-import std.conv;
 
 alias Point Step;
 
