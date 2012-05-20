@@ -234,7 +234,7 @@ ModelInfo3DS* loadModelInfo3DS(string filename){
     case 0x4140:
       fread(&l_qty, ushort.sizeof, 1, f);
       model.mapcoord = new mapcoordtype[l_qty];
-      for (uint i=0; i<l_qty; i++){
+      for(size_t i=0; i < l_qty; i++){
         fread(&model.mapcoord[i].u, float.sizeof, 1, f);
         fread(&model.mapcoord[i].v, float.sizeof, 1, f);
       }

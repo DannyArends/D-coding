@@ -28,8 +28,8 @@ void writeFile(T)(T[][] m, string filename, bool overwrite = false, bool verbose
     if(!exists(dirname)) mkdirRecurse(dirname);
     auto fp = new File(filename,"wb");
     string      buffer;
-    for (int r=0; r<m.length; r++) {
-      for (int c=0; c<m[r].length; c++) {
+    for(size_t r=0; r < m.length; r++){
+      for(size_t c=0; c < m[r].length; c++){
         if(c!=0) fp.write("\t");
         fp.write(to!string(m[r][c]));
       }
