@@ -49,15 +49,15 @@ void unloadSound(wavInfo sound){
 wavInfo loadSound(SFXEngine engine, string filename, bool verbose){
   wavInfo sound = wavInfo(filename);
   if(!exists(filename) || !filename.isFile){
-    writefln("No such file: %s",filename);
+    writefln("[WAV] No such file: %s",filename);
     sound.status = WavType.NO_SUCH_FILE;
     return sound;
   }
-  if(verbose) writefln("Opening wav-file: %s",filename);
+  if(verbose) writefln("[WAV] Opening file: %s",filename);
 
   alGenBuffers(1, &sound.Buffer);
   if(alGetError() != AL_NO_ERROR){ 
-    writeln("No Buffer available for sound");
+    writeln("[WAV] No Buffer available for sound");
     sound.status = WavType.MEMORY;
     return sound;
   }
@@ -68,7 +68,7 @@ wavInfo loadSound(SFXEngine engine, string filename, bool verbose){
   alGenSources(1, &sound.Source);
 
   if(alGetError() != AL_NO_ERROR){
-    writeln("No Source available for sound");
+    writeln("[WAV] No Source available for sound");
     sound.status = WavType.READING_FILE;
     return sound;
   }
@@ -81,12 +81,12 @@ wavInfo loadSound(SFXEngine engine, string filename, bool verbose){
   alSourcei (sound.Source, AL_LOOPING,  sound.loop);
   
   if(alGetError() != AL_NO_ERROR){
-    writeln("Unable to bind sound source");
+    writeln("[WAV] Unable to bind sound source");
     sound.status = WavType.BINDING_FILE;
     return sound;
   }
   
-  if(verbose) writeln("Sound loaded");
+  if(verbose) writefln("[WAV] Sound %s loaded", filename);
   sound.status = WavType.OK;
   return sound;
 }

@@ -141,14 +141,14 @@ class AStarSearch{
       Path path = new Path();
       Node target = nodes[tx][ty];
       while (target != nodes[sx][sy]) {
-        path.prependStep(target.x, target.y);
+        path.prepend(Step(target.x, target.y));
         target = target.getParent();
       }
-      path.prependStep(sx,sy);
+      path.prepend(Step(sx,sy));
       return path;
     }
     
-  private:  
+  private:
     Node[] mostLikelyOnTop(Node[] nodelist){
       return nodelist;
     }

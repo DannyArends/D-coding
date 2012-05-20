@@ -15,27 +15,16 @@ import std.conv;
 alias Point Step;
 
 class Path{
-
-public:
-  uint getLength(){
-    return cast(uint)steps.length;
-  }
-
-  void appendStep(int x, int y){
-    steps = steps ~ Step(x,y);
-  }
+  public:
+    uint length(){ return cast(uint)steps.length; }
+    void append(Step step){ steps = steps ~ step; }
+    void prepend(Step step){ steps = step ~ steps; }
   
-  void prependStep(int x, int y){
-    steps = Step(x,y) ~ steps;
-  }
-  
-  bool contains(int x, int y){
-    foreach(Step s ; steps){
-      if(s.x==x && s.y==y) return true;
+    bool contains(Step step){
+      foreach(Step s ; steps){ if(s.x==step.x && s.y==step.y){ return true; } }
+      return false;
     }
-    return false;
-  }
-
-private:
-  Step[] steps;
+  
+  private:
+    Step[] steps;
 }

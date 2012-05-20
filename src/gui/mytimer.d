@@ -1,9 +1,15 @@
+/******************************************************************//**
+ * \file src/gui/mytimer.d
+ * \brief Definitions of TimedEvent and MyTimer
+ *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified May, 2012<br>
+ * First written Dec, 2011<br>
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 module gui.mytimer;
 
-import std.array;
-import std.stdio;
-import std.conv;
-
+import std.array, std.stdio, std.conv;
 import sdl.sdlfunctions;
 import gl.gl_1_0;
 

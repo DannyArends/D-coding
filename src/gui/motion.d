@@ -9,18 +9,10 @@
  **********************************************************************/
 module gui.motion;
 
-import std.array;
-import std.stdio;
-import std.math;
-import std.conv;
-
+import std.array, std.stdio, std.math, std.conv;
 import sdl.sdlstructs;
-
-import core.typedefs.types;
-import core.typedefs.camera;
-import core.events.engine;
-import core.events.keyevent;
-import core.events.mouseevent;
+import core.typedefs.types, core.typedefs.camera;
+import core.events.engine, core.events.keyevent, core.events.mouseevent;
 import gui.screen;
 import gui.objects.object3d;
 
@@ -29,7 +21,7 @@ class CameraMotion : EventHandler{
   
   @property Screen screen(){ return scr; }
   private:
-  Screen scr;
+    Screen scr;
 }
 
 class NoMotion : CameraMotion {

@@ -9,14 +9,9 @@
  **********************************************************************/
 module gui.physics;
 
-import std.array;
-import std.stdio;
-import std.conv;
-
+import std.array, std.stdio, std.conv;
 import sdl.sdlstructs;
-
-import core.events.engine;
-import core.events.keyevent;
+import core.events.engine, core.events.keyevent;
 import gui.screen;
 
 class Physics : EventHandler{
