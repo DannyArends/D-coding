@@ -88,11 +88,7 @@ T[] applyRandomness(T)(T[] d1, int[] rnd){
 * @param d2 any type any length vector<br>
 */
 T[] subtract(T)(T[] d1,T[] d2){
-  assert(d1.length == d2.length, "Error: Should have same length");
-  T[] diff;
-  diff.length = d1.length;
-  for(size_t x=0; x < d1.length; x++){ diff[x] = d1[x] - d2[x]; }
-  return diff;
+  return add(d1,multiply(d2,-1.0));
 }
 
 /**
@@ -130,13 +126,7 @@ T[] multiply(T)(T[] d1, float alpha = 1.0){
 * @param alpha float parameter holding the maginification factor<br>
 */
 T[] addnmultiply(T)(T[] d1,T[] d2, float alpha = 1.0){
-  assert(d1.length == d2.length, "Error: Should have same length");
-  T[] factor;
-  factor.length = d1.length;
-  for(size_t x=0;x < d1.length; x++){
-    factor[x] = d1[x] + d2[x] * alpha;
-  }
-  return factor;
+  return add(d1, multiply(d2,alpha));
 }
 
 /**
