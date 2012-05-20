@@ -12,10 +12,9 @@ module web.servlets.fileServlet;
 import std.file, std.random, std.stdio, std.string, std.utf;
 import std.regex, std.socket, std.conv, std.process;
 import core.typedefs.webtypes;
+import core.executor;
 import web.httphandler;
 import web.servlets.servlet;
-
-extern (C) int system(char *);  // Tango's process hangs sometimes
 
 class FileServlet : Servlet{
   RequestHandler handler;

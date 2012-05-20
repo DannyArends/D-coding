@@ -10,6 +10,7 @@
 module gnuplot.output;
 
 import std.stdio, std.string, std.conv, std.file;
+import core.executor;
 import core.arrays.ranges;
 import gnuplot.gnuaux, gnuplot.plot;
 

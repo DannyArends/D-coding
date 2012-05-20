@@ -10,10 +10,9 @@
 module io.aligner;
  
 import core.stdinc;
+import core.executor;
 import io.xbin.reader;
 import io.iofunctions;
-
-extern (C) int system(char *);
 
 /*! \brief Align DNA nucleotide sequences
  *

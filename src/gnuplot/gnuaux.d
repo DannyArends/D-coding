@@ -12,8 +12,6 @@ module gnuplot.gnuaux;
 import std.stdio, std.string, std.conv, std.file;
 import core.arrays.matrix;
 
-extern (C) int system(char *);
-
 struct GNUtype{
   string   type;
   string[] supports;
