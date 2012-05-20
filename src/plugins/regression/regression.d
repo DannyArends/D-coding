@@ -45,7 +45,7 @@ FITTED likelihoodbyem(double[][] x, double[] w, double[] y, bool verbose){
   while((emcycle<maxemcycles) && (delta > 1.0e-9)){
     f = multivariateregression(x, w, y);
 
-    for(uint s=0;s<nsamples;s++){
+    for(size_t s = 0; s < nsamples; s++){
       if(w[s] != 0) w[s] = (w[s] + f.Fy[s])/w[s];
     }
     delta = fabs(f.logL-logLprev);
@@ -53,7 +53,7 @@ FITTED likelihoodbyem(double[][] x, double[] w, double[] y, bool verbose){
     emcycle++;
   }
   
-  if(verbose) writefln("EM took %d/%d cyclies", emcycle, maxemcycles);
+  if(verbose) writefln("[REGRESSION] EM took %d/%d cyclies", emcycle, maxemcycles);
   f = multivariateregression(x,w,y);
   return f;
 }
@@ -63,12 +63,12 @@ FITTED nullmodel(double[][] x, double[] w, double[] y,int[] nullmodellayout,bool
 }
 
 FITTED multivariateregression(double[][] x, double[] w, double[] y, int[] nullmodellayout = [], bool verbose = false){
-  uint nvariables = cast(uint)x[0].length;
-  uint nsamples   = cast(uint)x.length;
+  size_t nvariables = x[0].length;
+  size_t nsamples   = x.length;
   double[][] Xt = translate!double(x);
   double[] XtWY  = calculateparameters(nvariables,nsamples,Xt,w,y,verbose);
   if(nullmodellayout.length != 0){
-    for(uint i=1; i < nvariables; i++){
+    for(size_t i=1; i < nvariables; i++){
       if(nullmodellayout[(i-1)] == 1){ //SHIFTED Because the nullmodel has always 1 parameter less (The first parameter estimated mean)
         XtWY[i] = 0.0;
       }

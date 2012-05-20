@@ -81,11 +81,10 @@ bool bufferModelInfo3DS(ModelInfo3DS* model){
       }
     }
 
-    for(int x=0;x<o3ds.polygon.length;x++){
+    for(size_t x=0; x < o3ds.polygon.length; x++){
       int matnum = findMaterial(o3ds.polygon[x].material,model.materials);   //Find material for this edge
-      for(int triside=0;triside<3;triside++){
-        for(int color=0;color<4;color++){
-          
+      for(size_t triside=0; triside < 3; triside++){
+        for(size_t color=0; color < 4; color++){
           if(matnum >= 0){
             colorunpacked[ccnt] = cast(ubyte)model.materials[matnum].ambient[color];   //Set color
           }else{
@@ -107,16 +106,11 @@ bool bufferModelInfo3DS(ModelInfo3DS* model){
 }
 
 int findMaterial(string name, Material3DS[] materials){
-  int cnt=0;
-  foreach(Material3DS o; materials){
-    if(o.name == name){
-      return cnt;
-    }
-    cnt++;
+  foreach(size_t cnt, Material3DS o; materials){
+    if(o.name == name){ return cnt; }
   }
   return -1;
 }
-
 
 ModelInfo3DS* loadModelInfo3DS(string filename){
   if(!exists(filename) || !filename.isFile){
@@ -140,7 +134,7 @@ ModelInfo3DS* loadModelInfo3DS(string filename){
   bool is_diffuse, is_specular, is_ambient;
   auto fp = new std.stdio.File(filename,"rb");
   auto f = fp.getFP();
-  while (fp.tell() < getSize(filename)){    //Loop to scan the whole file 
+  while(fp.tell() < getSize(filename)){    //Loop to scan the whole file 
     fread(&l_chunk_id, 2, 1, f);            //Read the chunk header
     fread(&l_chunk_length, 4, 1, f);        //Read the length of the chunk
     switch(l_chunk_id){
@@ -161,7 +155,7 @@ ModelInfo3DS* loadModelInfo3DS(string filename){
       fread(&l_qty, ushort.sizeof, 1, f);
       model.vertex = new vertextype[l_qty];
       fullmodel.nvertex += l_qty;
-      for(uint i=0; i<l_qty; i++){
+      for(size_t i=0; i<l_qty; i++){
         fread(&model.vertex[i].v[0], float.sizeof, 1, f);
         fread(&model.vertex[i].v[1], float.sizeof, 1, f);
         fread(&model.vertex[i].v[2], float.sizeof, 1, f);                            
@@ -171,7 +165,7 @@ ModelInfo3DS* loadModelInfo3DS(string filename){
       fread(&l_qty,ushort.sizeof, 1, f);
       model.polygon = new polygontype[l_qty];
       fullmodel.npolygons += l_qty;
-      for(uint i=0; i<l_qty; i++){
+      for(size_t i=0; i<l_qty; i++){
         fread(&model.polygon[i].p[0], ushort.sizeof, 1, f);
         fread(&model.polygon[i].p[1], ushort.sizeof, 1, f);
         fread(&model.polygon[i].p[2], ushort.sizeof, 1, f);
@@ -185,7 +179,7 @@ ModelInfo3DS* loadModelInfo3DS(string filename){
         materialname ~= l_char;
       }while(l_char != '\0');
       fread(&l_qty, ushort.sizeof, 1, f);            
-      for(uint i=0; i<l_qty; i++){
+      for(size_t i=0; i < l_qty; i++){
         fread(&temp, ushort.sizeof, 1, f);
         model.polygon[temp].material=materialname;
       }
@@ -194,7 +188,7 @@ ModelInfo3DS* loadModelInfo3DS(string filename){
     case 0xA000:
       if(!(materialname is "")) materialname = "";
       do{
-        fread (&l_char, 1, 1, f);
+        fread(&l_char, 1, 1, f);
         materialname ~= l_char;
       }while(l_char != '\0');
       if(material!=null) fullmodel.materials ~= (*material);
@@ -238,7 +232,7 @@ ModelInfo3DS* loadModelInfo3DS(string filename){
       }       
     break;
     case 0x4140:
-      fread (&l_qty, ushort.sizeof, 1, f);
+      fread(&l_qty, ushort.sizeof, 1, f);
       model.mapcoord = new mapcoordtype[l_qty];
       for (uint i=0; i<l_qty; i++){
         fread(&model.mapcoord[i].u, float.sizeof, 1, f);
@@ -255,10 +249,10 @@ ModelInfo3DS* loadModelInfo3DS(string filename){
   fp.close();
   writefln("[3DS] Loaded 3ds-file: %s, %d objects, %d materials",filename, fullmodel.objects.length,fullmodel.materials.length);
   foreach(Object3DS m;fullmodel.objects){
-    float     triangle[3][3];
-    for(int x=0;x<m.polygon.length;x++){
-      for(int triside=0;triside<3;triside++){
-        for(int sideloc=0;sideloc<3;sideloc++){
+    float triangle[3][3];
+    for(size_t x=0;x<m.polygon.length;x++){
+      for(size_t triside=0;triside<3;triside++){
+        for(size_t sideloc=0;sideloc<3;sideloc++){
           int vertexnum = m.polygon[x].p[triside];
           triangle[triside][sideloc] = m.vertex[vertexnum].v[sideloc];
           fullmodel.normals ~= trianglefindnormal!float(triangle);

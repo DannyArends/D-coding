@@ -15,7 +15,7 @@ import interpreters.p;
 void main(string[] args){
   string input = "";
   if(args.length >= 3){
-    for(int a=2; a < args.length; a++){
+    for(size_t a=2; a < args.length; a++){
       if(a > 2) input ~= " ";
       input ~= args[a];
     }

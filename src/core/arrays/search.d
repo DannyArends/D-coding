@@ -11,28 +11,24 @@ module core.arrays.search;
 
 import std.stdio, std.conv, std.string, std.random;
 
-pure T[] range(T)(T start, uint length){
+pure T[] range(T)(T start, size_t length){
   T array[];
-  for(uint i = 0; i < length; i++){
-   array ~= start+i;
-  }
+  for(size_t i = 0; i < length; i++){ array ~= start+i; }
   return array;
 }
 
-pure T[] array(T)(int length, T value){
+pure T[] array(T)(size_t length, T value){
   T array[];
-  for(int i = 0; i < length; i++){
-   array ~= value;
-  }
+  for(size_t i = 0; i < length; i++){ array ~= value; }
   return array;
 }
 
-T[] randomrange(T)(T start, uint length, int number){
+T[] randomrange(T)(T start, size_t length, size_t number){
   assert(number < length);
   return randomrange!T(range(start,length), number);
 }
 
-T[] randomrange(T)(T[] range, int number){
+T[] randomrange(T)(T[] range, size_t number){
   assert(number < range.length);
   T[] s;
   foreach(e;randomSample(range, number)){ s ~= e; }
@@ -54,9 +50,7 @@ pure bool searcharray(T)(T[] haystack, T needle){
 
 pure size_t getIndex(T)(T[] haystack, T needle){
   foreach(idx, T s; haystack){
-    if(s==needle){
-      return idx;
-    }
+    if(s==needle) return idx;
   }
   return -1;
 }

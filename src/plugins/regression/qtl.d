@@ -23,8 +23,8 @@ class SingleQTL{
     SysTime stime = Clock.currTime();
     double[][] lodmatrix = newmatrix!double(phenotypes.length, genotypes.length);
     if(verbose) write(" ");
-    for(uint p=0; p < phenotypes.length; p++){
-      for(uint m=0; m < genotypes.length; m++){
+    for(size_t p = 0; p < phenotypes.length; p++){
+      for(size_t m = 0; m < genotypes.length; m++){
         double[] w = newvector!double(phenotypes[0].length,1.0);
         int[] nm = newvector!int(1,1);
         lodmatrix[p][m] = multipleregression(createdesignmatrix(genotypes, m, geno_cov), phenotypes[p], w, nm, false);
@@ -39,9 +39,9 @@ class SingleQTL{
 double[][] createdesignmatrix(int[][] genotypes, int marker, int[] geno_cov = [], bool intercept = true){
   double[][] dm;
   dm.length = genotypes[0].length;
-  uint ncols = 1 + geno_cov.length + cast(int)intercept;
-  for(uint v=0; v < ncols; v++){
-    for(uint i=0; i < genotypes[0].length; i++){
+  size_t ncols = 1 + geno_cov.length + cast(int)intercept;
+  for(size_t v=0; v < ncols; v++){
+    for(size_t i=0; i < genotypes[0].length; i++){
       dm[i].length = 1 + geno_cov.length + cast(int)intercept;
       if(intercept && v==0){
         dm[i][v] = 1.0;

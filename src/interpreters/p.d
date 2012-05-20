@@ -101,9 +101,9 @@ class PInterpreter{
 
   /* Parses the code, removing any unknown operators */
   bool init_prog(string code){
-    for(int i=0; i < code.length; i++){
+    for(size_t i = 0; i < code.length; i++){
       char op = code[i];
-      if (is_valid_op(op)) p_program ~= cast(OP)op;
+      if(is_valid_op(op)) p_program ~= cast(OP)op;
     }
     p_ip = 0;
     return init_targets();
@@ -112,7 +112,7 @@ class PInterpreter{
   /* Initializes the memory */
   void init_memory(string input = ""){
     p_memory[0] = 0;
-    for(int i=1; i< p_max_memory; i++){
+    for(size_t i=1; i< p_max_memory; i++){
       if(i <= input.length){
         p_memory[i] = cast(int) input[i-1];
       }else{

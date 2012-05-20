@@ -34,21 +34,21 @@ int loadTextureAsFont(GLint id){
   glEnable(GL_TEXTURE_2D);
   auto base = glGenLists(256);
   glBindTexture(GL_TEXTURE_2D, id);
-  for(int offset=0; offset<256; offset++){
-    float cx=cast(float)(offset%16)/16.0f;					// X Position Of Current Character
-    float cy=cast(float)(offset/16)/16.0f;					// Y Position Of Current Character
-    glNewList(base+offset,GL_COMPILE);					    // Start Building A List
+  for(size_t offset=0; offset<256; offset++){
+    float cx=cast(float)(offset%16)/16.0f;          // X Position Of Current Character
+    float cy=cast(float)(offset/16)/16.0f;          // Y Position Of Current Character
+    glNewList(base+offset,GL_COMPILE);              // Start Building A List
     glBegin(GL_QUADS);
-      glTexCoord2f(cx,1.0f-cy-0.0625f);			        // Texture Coord (Bottom Left)
-      glVertex2d(0,16);							                // Vertex Coord (Bottom Left)
-      glTexCoord2f(cx+0.0625f,1.0f-cy-0.0625f);	    // Texture Coord (Bottom Right)
-      glVertex2i(16,16);							              // Vertex Coord (Bottom Right)
-      glTexCoord2f(cx+0.0625f,1.0f-cy-0.001f);	    // Texture Coord (Top Right)
-      glVertex2i(16,0);							                // Vertex Coord (Top Right)
-      glTexCoord2f(cx,1.0f-cy-0.001f);		        	// Texture Coord (Top Left)
-      glVertex2i(0,0);							                // Vertex Coord (Top Left)
+      glTexCoord2f(cx,1.0f-cy-0.0625f);             // Texture Coord (Bottom Left)
+      glVertex2d(0,16);                             // Vertex Coord (Bottom Left)
+      glTexCoord2f(cx+0.0625f,1.0f-cy-0.0625f);     // Texture Coord (Bottom Right)
+      glVertex2i(16,16);                            // Vertex Coord (Bottom Right)
+      glTexCoord2f(cx+0.0625f,1.0f-cy-0.001f);      // Texture Coord (Top Right)
+      glVertex2i(16,0);                             // Vertex Coord (Top Right)
+      glTexCoord2f(cx,1.0f-cy-0.001f);              // Texture Coord (Top Left)
+      glVertex2i(0,0);                              // Vertex Coord (Top Left)
     glEnd();
-    glTranslated(14,0,0);							              // Move To The Right Of The Character
+    glTranslated(14,0,0);                           // Move To The Right Of The Character
     glEndList();
   }
   glDisable(GL_TEXTURE_2D);
@@ -87,7 +87,7 @@ Texture loadTgaAsTexture(string filename, bool verbose = false){
   fread(&cGarbage, ubyte.sizeof, 1, f);
 
   if(tgatype == 1){
-    writefln("Unsupported tga format: %s",filename);
+    writefln("[TGA] Unsupported format: %s",filename);
     texture.status = FileStatus.INDEXED_COLOR;
     fp.close(); 
     return texture;
@@ -109,16 +109,15 @@ Texture loadTgaAsTexture(string filename, bool verbose = false){
   }
   fread(&(texture.data[0]),ubyte.sizeof,getDataSize(texture),f);
   if(texture.bpp >= 3){
-    for(uint i=0; i < getDataSize(texture); i+= texture.bpp) {
+    for(size_t i=0; i < getDataSize(texture); i+= texture.bpp) {
       aux = texture.data[i];
       texture.data[i] = texture.data[i+2];
       texture.data[i+2] = aux;
     }
   }
   if(verbose) writefln("[TGA] File '%s' in memory",filename);
-  if (texture.bpp == 3){
-    texture.type = GL_RGB;
-  }
+  if(texture.bpp == 3) texture.type = GL_RGB;
+  
   texture.status = FileStatus.OK;
   fp.close();
   return texture;
@@ -129,7 +128,7 @@ Color[][] asColorMap(Texture texture){
   if(texture.status == FileStatus.OK){
     int x=0;
     int z=0;
-    for(uint i=0; i < (getDataSize(texture)-texture.bpp); i+= texture.bpp) {
+    for(size_t i=0; i < (getDataSize(texture)-texture.bpp); i+= texture.bpp) {
       if(x < (texture.height-1)){
         x++;
       }else{
@@ -139,16 +138,15 @@ Color[][] asColorMap(Texture texture){
       colormap[z][x] = new Color(texture.data[i..i+3]);
     }
   }
-  
   return colormap;
 }
 
-T[][] heightFromAlpha(T)(Texture texture, float scale = 5.0, float add = 0){
+T[][] heightFromAlpha(T)(Texture texture, float scale = 5.0, float add = 0.0){
   T[][] map = newmatrix!T(texture.width, texture.height,cast(T)add);
   if(texture.status == FileStatus.OK){
     int x=0;
     int z=0;
-    for(uint i=0; i < (getDataSize(texture)-texture.bpp); i+= texture.bpp) {
+    for(size_t i=0; i < (getDataSize(texture)-texture.bpp); i+= texture.bpp) {
       if(x < (texture.height-1)){
         x++;
       }else{
@@ -189,7 +187,7 @@ void save(Texture texture, string filename) {
   fwrite(&cGarbage, ubyte.sizeof, 1, f);
 
   if(texture.bpp >= 3){ // convert the image data from RGB(a) to BGR(A)
-    for(int i=0; i < (getDataSize(texture)-texture.bpp) ; i+= texture.bpp) {
+    for(size_t i=0; i < (getDataSize(texture)-texture.bpp) ; i+= texture.bpp){
       aux = texture.data[i];
       texture.data[i] = texture.data[i+2];
       texture.data[i+2] = aux;
@@ -197,5 +195,5 @@ void save(Texture texture, string filename) {
   }
   fwrite(&texture.data[0], ubyte.sizeof, getDataSize(texture), f);
   fp.close();
-  writefln("Saved tga-file: %s",filename);
+  writefln("[TGA] Saved file: %s",filename);
 }

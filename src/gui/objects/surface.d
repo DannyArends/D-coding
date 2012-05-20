@@ -102,9 +102,9 @@ class Surface : Object3D{
 
   void printOGL(int faceType = GL_TRIANGLE_STRIP){
     Color color;
-    for(int i = 0; i < (size[0]-1); i++) {
+    for(size_t i = 0; i < (size[0]-1); i++){
       glBegin(faceType);
-      for(int j = 0; j < size[1]; j++) {
+      for(size_t j = 0; j < size[1]; j++){
         color = getColor(i,j);
         glColor4f(color.r(), color.g(), color.b(), color.alpha());
         glVertex3f(i*sx(), getHeight(i, j), j*sz());

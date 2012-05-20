@@ -41,7 +41,7 @@ class TextReader{
     T[][] dataslice = null;
     long rindex=0;
     long cindex=0;
-    for(int i = 0; i < _arguments.length; i++){
+    for(size_t i = 0; i < _arguments.length; i++){
       if (_arguments[i] == typeid(long) && i==0){
         rindex = va_arg!(long)(_argptr);
         debug writefln("\trindex: %d", rindex);
@@ -67,7 +67,7 @@ class TextReader{
     while(f.rawRead(inputbuffer)){
       uint tabsi = 0;
       uint tabei = 0;
-      foreach(int i,byte b ; inputbuffer){
+      foreach(size_t i, byte b ; inputbuffer){
         switch(cast(char)b){
           case '\n':
             /* Slice up and apply the item at rowindex, colindex*/
@@ -216,20 +216,20 @@ class TextReader{
     auto data = new T[][columns.length-1];
     ulong linecount = 0;
     if(filename.isFile){
-      debug writefln("Filesize: %d", getSize(filename));
+      debug writefln("[TEXT] Filesize: %d", getSize(filename));
       while(f.readln(buffer)){
-        entities = buffer.split("\t");
+        entities = chomp(buffer).split("\t");
         if(linecount == 0){
-          writefln("header: %s", buffer);
+          writefln("[TEXT] Header: %s", buffer);
         }else{
-          for(uint c=0;c < columns.length-1;c++){
+          for(size_t c=0;c < columns.length;c++){
             data[c] ~= to!T(entities[columns[c]]);
           }
         }
         linecount++;
       }
       f.close();
-      writefln("lines: %d", linecount);
+      writefln("[TEXT] Lines: %d", linecount);
     }
     return data;
   }
@@ -266,18 +266,18 @@ class TextReader{
     ulong linecount = 0;
     
     if(filename.isFile){
-      writefln("Filesize: %d", getSize(filename));
+      writefln("[TEXT] Filesize: %d", getSize(filename));
       while(f.readln(buffer)){
         entities = buffer.split("\t");
         if(linecount == 0){
-          writefln("header: %s", buffer);
+          writefln("[TEXT] Header: %s", buffer);
         }else{
           data ~= to!T(entities[column]);
         }
         linecount++;
       }
       f.close();
-      writefln("lines: %d", linecount);
+      writefln("[TEXT] Lines: %d", linecount);
     }
     return data;
   }
@@ -308,7 +308,7 @@ class TextReader{
           int[] pimp;
           int[] money;
           fout.writef("%d\t%s\t%s\t%s\t%s\t",linecount,entities[3],entities[5],entities[6],entities[7]);
-          foreach(int index,uint x; [8,15,16,17,18,19,9,10,11,12,13,14]){
+          foreach(size_t index,uint x; [8,15,16,17,18,19,9,10,11,12,13,14]){
             if(index == 0){
               fout.writef("%d",to!int(entities[x]));
             }else{
@@ -327,17 +327,8 @@ class TextReader{
       }
       f.close();
       fout.close();
-      writefln("lines: %d, entities: %d", linecount,entitycount);
+      writefln("[TEXT] Lines: %d, Entities: %d", linecount,entitycount);
     }
     return true;
-  }
- 
-  /**
-   *
-   * Unit test for the binary_reader class
-   *       
-   **/
-  unittest{
-  
   }
 }

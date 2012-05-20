@@ -42,9 +42,7 @@ unittest{
   writeln("Unit test: ",__FILE__);
   try{
     SysTime t_s = Clock.currTime();
-    for(uint t=2;t < 500_000;t++){
-      prime(t); //write(" ",t);
-    }
+    for(size_t t=2;t < 500_000;t++){ prime(t); }
     writefln("2 .. 500k checked for primes in %s msecs",(Clock.currTime()-t_s).total!"msecs"());
     writeln("\n [1000,10000,20000] = ",xthprime([1000,10000,20000]));
     writeln("OK: ",__FILE__);  

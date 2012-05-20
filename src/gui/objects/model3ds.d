@@ -50,7 +50,7 @@ public:
       glColor4f(r(), g(),  b(), alpha());
       foreach(Object3DS o3d;model.objects){
         int polygons = 0;
-        for(int x=0;x<o3d.polygon.length;x++){
+        for(size_t x=0; x < o3d.polygon.length; x++){
           glBegin(faceType);
           
           glNormal3f(model.normals[polygons][0], model.normals[polygons][1], model.normals[polygons][2]);

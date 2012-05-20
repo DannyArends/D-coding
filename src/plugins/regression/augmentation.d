@@ -9,15 +9,9 @@
  **********************************************************************/
 module plugins.regression.augmentation;
  
-import std.stdio;
-import std.math;
-
+import std.stdio, std.math;
 import core.arrays.types;
 import plugins.regression.support;
-
-double rf(double cmdistance){
-  return (0.5*(1.0-exp(-0.02*cmdistance)));
-}
 
 const int RFUNKNOWN = 999;
 
@@ -28,15 +22,17 @@ enum : char{
   MUNLINKED='U',
 }
 
+double rf(double cmdistance){ return (0.5*(1.0-exp(-0.02*cmdistance))); }
+
 dvector calcrf(cvector position, dvector mapdistance){
-  uint nmarkers = cast(uint)position.length;
+  size_t nmarkers = position.length;
   dvector r = newvector!double(nmarkers);
-  for(uint m=0; m<nmarkers; m++) {
+  for(size_t m=0; m<nmarkers; m++) {
     r[m]= RFUNKNOWN;
-    if ((position[m]==MLEFT)||(position[m]==MMIDDLE)) {
+    if((position[m]==MLEFT) || (position[m]==MMIDDLE)){
       r[m]= rf(mapdistance[m+1]-mapdistance[m]);
-      if (r[m]<0) {
-        writefln("ERROR: Position=",position[m]," r[m]=",r[m]);
+      if(r[m]<0){
+        writefln("[CALC_RF] ERROR: Position=",position[m]," r[m]=",r[m]);
         return r;
       }
     }
@@ -49,33 +45,35 @@ cvector markerpos(ivector chr){
   cvector position = newvector!char(nmarkers);
   for(uint m=0; m<nmarkers; m++){
     if(m==0){
-      if(chr[m]==chr[m+1]) 
+      if(chr[m]==chr[m+1]){
         position[m]=MLEFT;
-      else 
+      }else{
         position[m]=MUNLINKED;
-    } else if (m==nmarkers-1) {
-      if (chr[m]==chr[m-1]) 
+      }
+    }else if(m==nmarkers-1){
+      if(chr[m]==chr[m-1]){ 
         position[m]=MRIGHT;
-      else 
+      }else{
         position[m]=MUNLINKED;
-    } else if (chr[m]==chr[m-1]) {
-      if (chr[m]==chr[m+1]) 
+      }
+    }else if(chr[m]==chr[m-1]){
+      if(chr[m]==chr[m+1]){
         position[m]=MMIDDLE;
-      else 
+      }else{
         position[m]=MRIGHT;
-    } else {
-      if (chr[m]==chr[m+1]) 
+      }
+    }else{
+      if(chr[m]==chr[m+1]){
         position[m]=MLEFT;
-      else 
+      }else{
         position[m]=MUNLINKED;
+      }
     }
   }
   return position;
 }
 
 double augmentation(dmatrix markers, cvector positions, dvector rf, int verbose){
-  for(uint i=1; i < markers.length; i++){
-  
-  }
+  for(size_t i = 0; i < markers.length; i++){ }
   return 0.0;
 }

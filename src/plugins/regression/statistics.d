@@ -17,25 +17,22 @@ import core.arrays.search;
 
 pure T doMean(T)(T[] data){
   T mean = 0;
-  for(uint i = 0; i < (data.length-1); i++){
+  for(size_t i = 0; i < (data.length-1); i++){
     mean += (data[i] - mean) / (i + 1);
   }
   return mean;
 }
 
-pure int doSum(T)(T[] values ...){
+pure T doSum(T)(T[] values ...){
   T s = 0;
-
-  foreach (int x; values){
-    s += x;
-  }
+  foreach(T x; values){ s += x; }
   return s;
 }
 
 pure real doSumOfSquares(T)(T[] data){
   T mean = doMean(data);
   real sumofsquares = 0;
-  for(uint i = 0; i < (data.length-1); i++){
+  for(size_t i = 0; i < (data.length-1); i++){
     sumofsquares += pow((data[i]-mean),2);
   }
   return sumofsquares;
@@ -54,7 +51,7 @@ real correlation_v1(T)(T[] d1, T[] d2){
   T mean1 = doMean(d1);
   T mean2 = doMean(d2);
 
-  for(uint i = 0; i < (d1.length-1); i++){
+  for(size_t i = 0; i < (d1.length-1); i++){
     T delta1 = (d1[i] - mean1);
     T delta2 = (d2[i] - mean2);
     sumofsquares += (delta1 * delta2);
@@ -70,7 +67,7 @@ double correlation_v2(T)(T[] x, T[] y){
   double Yi = 0;
   double XiP2 = 0;
   double YiP2 = 0;
-  for(uint i = 0; i < x.length; i++){
+  for(size_t i = 0; i < x.length; i++){
     XiYi += x[i] * y[i];
     Xi += x[i]; 
     Yi += y[i];
@@ -80,5 +77,3 @@ double correlation_v2(T)(T[] x, T[] y){
   double onedivn = 1.0/x.length;
   return (XiYi - (onedivn*Xi*Yi)) / (sqrt(XiP2 - onedivn * pow(Xi, 2)) * sqrt(YiP2 - onedivn * pow(Yi, 2)));
 }
-
-

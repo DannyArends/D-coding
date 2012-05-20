@@ -37,10 +37,8 @@ public:
    
     Sequence replace(Element hd){
       Sequence seq;
-      for(int i = 0; i < rules.length; i++){
-         if(rules[i].isMatch(hd)){
-           return rules[i].getTail();
-         }
+      for(size_t i = 0; i < rules.length; i++){
+         if(rules[i].isMatch(hd)) return rules[i].getTail();
       }
       seq = hd ~ seq;
       return seq;
@@ -48,9 +46,9 @@ public:
     
     void iterate(){
       Sequence newstate;
-      for(int i = 0; i < state.length; i++){
+      for(size_t i = 0; i < state.length; i++){
          Sequence replacement = replace(state[i]);
-         for(int e = 0; e < replacement.length; e++){
+         for(size_t e = 0; e < replacement.length; e++){
             newstate = replacement[e] ~ newstate;
          }
      }
@@ -70,9 +68,7 @@ unittest{
     test.setState("X");
     test.addRule('X', "F-[[X]+X]+F[+FX]-X");
     test.addRule('F', "FF");
-    for(int i = 0; i < 5; i++){
-      test.iterate();
-    }
+    for(size_t i = 0; i < 5; i++){ test.iterate(); }
     writeln("OK: ",__FILE__);  
   }catch(Throwable e){
     string err = to!string(e).split("\n")[0];

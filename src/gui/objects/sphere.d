@@ -27,13 +27,13 @@ class Sphere : Object3D{
       glEnable(GL_TEXTURE_2D);
       glBindTexture(GL_TEXTURE_2D, textureid);
     }
-    for(uint i = 0; i <= subdivisions; i++ ){
+    for(size_t i = 0; i <= subdivisions; i++ ){
       glBegin(faceType);
       double si = i/2.0;
       double dip = 2*(i+1);
       theta[0] = ((si * twopi) / subdivisions) - PI_2;
       theta[1] = (((si + 1) * twopi) / subdivisions) - PI_2;
-      for(uint j = 0; j <= subdivisions; j++ ){
+      for(size_t j = 0; j <= subdivisions; j++ ){
         theta[2] = (subdivisions-j) * twopi / subdivisions;
         e[0] = cos(theta[1]) * cos(theta[2]);
         e[1] = sin(theta[1]);
