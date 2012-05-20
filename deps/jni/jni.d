@@ -1,18 +1,17 @@
-/**********************************************************************
- * \file deps/jni/jni.d - Wrapper for JNI
+/******************************************************************//**
+ * \file deps/jni/jni.d
+ * \brief Wrapper for jni
  *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified May, 2012<br>
+ * First written 2010<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
- **********************************************************************/ 
+ **********************************************************************/
 module jni.jni;
 
-import std.loader;
-import std.stdio;
-import std.c.stdio;
-import std.c.stdarg;
-
+import std.loader, std.stdio, std.c.stdio, std.c.stdarg;
 import libload.libload;
-import jni.jni_types;
-import jni.jni_structs;
+import jni.jnitypes, jni.jnistructs;
 
 const JNI_VERSION_1_1 = 0x00010001;
 const JNI_VERSION_1_2 = 0x00010002;

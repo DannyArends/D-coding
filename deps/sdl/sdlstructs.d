@@ -992,10 +992,7 @@ enum{
   SDL_GL_SWAP_CONTROL
 }
 
-enum : Uint8{
-  SDL_LOGPAL          = 0x01,
-  SDL_PHYSPAL         = 0x02,
-}
+enum : Uint8{ SDL_LOGPAL = 0x01, SDL_PHYSPAL = 0x02 }
 
 alias int SDL_GrabMode;
 enum{

@@ -1,26 +1,30 @@
-/* jni.h by htod */
-module jni.jni_structs;
+/******************************************************************//**
+ * \file deps/sdl/jnistructs.d
+ * \brief JNI structures
+ *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified May, 2012<br>
+ * First written 2010<br>
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
+module jni.jnistructs;
 
-import std.loader;
-import std.stdio;
-import std.c.stdio;
-import std.c.stdarg;
-
-import jni.jni_types;
+import std.loader, std.stdio, std.c.stdio, std.c.stdarg;
+import jni.jnitypes;
 
 extern(C){
 
-struct _N1{
+  struct _N1{
     char *name;
     char *signature;
     void *fnPtr;
-}
-alias _N1 JNINativeMethod;
+  }
 
-alias JNIEnv_ JNIEnv;
-alias JavaVM_ JavaVM;
+  alias _N1       JNINativeMethod;
+  alias JNIEnv_   JNIEnv;
+  alias JavaVM_   JavaVM;
 
-struct JNINativeInterface_{
+  struct JNINativeInterface_{
     void *reserved0;
     void *reserved1;
     void *reserved2;
@@ -254,31 +258,31 @@ struct JNINativeInterface_{
     void * function(JNIEnv_ *env, jobject buf)GetDirectBufferAddress;
     jlong  function(JNIEnv_ *env, jobject buf)GetDirectBufferCapacity;
     jobjectRefType  function(JNIEnv_ *env, jobject obj)GetObjectRefType;
-}
+  }
 
-struct JNIEnv_{
+  struct JNIEnv_{
     JNINativeInterface_ *functions;
-}
+  }
 
-struct JavaVMOption{
+  struct JavaVMOption{
     char *optionString;
     void *extraInfo;
-}
+  }
 
-struct JavaVMInitArgs{
+  struct JavaVMInitArgs{
     jint jvm_version;
     jint nOptions;
     JavaVMOption *options;
     jboolean ignoreUnrecognized;
-}
+  }
 
-struct JavaVMAttachArgs{
+  struct JavaVMAttachArgs{
     jint jvm_version;
     char *name;
     jobject group;
-}
+  }
 
-struct JNIInvokeInterface_{
+  struct JNIInvokeInterface_{
     void *reserved0;
     void *reserved1;
     void *reserved2;
@@ -287,10 +291,9 @@ struct JNIInvokeInterface_{
     jint  function(JavaVM_ *vm)DetachCurrentThread;
     jint  function(JavaVM_ *vm, void **penv, jint jvm_version)GetEnv;
     jint  function(JavaVM_ *vm, void **penv, void *args)AttachCurrentThreadAsDaemon;
-}
+  }
 
-struct JavaVM_{
+  struct JavaVM_{
     JNIInvokeInterface_ *functions;
-}
-
+  }
 }

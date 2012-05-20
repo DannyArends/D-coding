@@ -1,19 +1,14 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/main/startJVM.d
+ * \brief JNI structures
  *
- * copyright (c) 2012 Danny Arends
- * last modified Feb, 2012
- * first written May, 2011
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified May, 2012<br>
+ * First written 2010<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-import std.array;
-import std.stdio;
-import std.conv;
-import std.utf;
-
-import jni.jni;
-import jni.jni_types;
-import jni.jni_structs;
+import std.array, std.stdio, std.conv, std.utf;
+import jni.jni, jni.jnitypes, jni.jnistructs;
 
 JNIEnv* create_vm(){
   writeln("Start creating the Java VM");
