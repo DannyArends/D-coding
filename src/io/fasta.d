@@ -11,6 +11,7 @@ module io.fasta;
 
 import std.stdio, std.math, std.file, std.path, std.string, std.conv;
 import core.arrays.matrix;
+import core.arrays.types;
 import core.arrays.ranges;
 
 /*! \brief Fasta sequence structure
@@ -72,7 +73,7 @@ void shiftSequence(Fasta f, uint n = 0, bool verbose = true){
     if(n > 0) f.sequence = f.sequence[n..$] ~ f.sequence[0..n];
     if(n < 0) f.sequence = f.sequence[($-n)..$] ~ f.sequence[0..($-n)];
   }else{
-    string mask = to!string(doarray!char(n,'X'));
+    string mask = to!string(newvector!char(n,'X'));
     if(n > 0) f.sequence = f.sequence[n..$] ~ mask;
     if(n < 0) f.sequence = mask ~ f.sequence[0..($-n)];    
   }

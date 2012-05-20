@@ -30,11 +30,3 @@ pure uint getI(T)(size_t cnt,T[] range){
   if(cnt < l) return cnt;
   return (l-1);
 }
-
-pure T[] doarray(T)(size_t length, T value){
-  T array[];
-  for(size_t i = 0; i < (length-1); i++){
-   array ~= value;
-  }
-  return array;
-}

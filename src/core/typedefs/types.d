@@ -9,11 +9,7 @@
  **********************************************************************/
 module core.typedefs.types;
 
-import std.stdio;
-import std.file;
-import std.conv;
-import std.string;
-import std.random;
+import std.stdio, std.file, std.conv, std.string, std.random;
 import core.memory;
 
 enum EventType       { NULL, MOUSE, KEYBOARD, SOUND, GFX2D, GFX3D, CLOCK, NETWORK, QUIT }
@@ -53,11 +49,6 @@ T[] stringToArray(T)(string s, string sep= ","){
 struct Point{
   int x;
   int y;
-  
-  this(int x, int y){
-    this.x=x;
-    this.y=y;
-  }
 }
 
 struct Size {

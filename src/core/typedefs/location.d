@@ -20,6 +20,7 @@ class Location{
 public:
   this(){ this(0.0, 0.0, 0.0); }
   this(double l[3]){ loc=l; }
+  this(double x, double y, double z){ this([x,y,z]); }
   
   this(string input){
     auto elements = input.split(":");
@@ -27,8 +28,6 @@ public:
     if(elements.length >= 2) loc[1] = to!double(elements[1]);
     if(elements.length >= 3) loc[2] = to!double(elements[2]);
   }
-
-  this(double x, double y, double z){ this([x,y,z]); }
   
   void move(double x, double y, double z){ loc = add(loc,[x,y,z]); }
   
