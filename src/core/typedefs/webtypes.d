@@ -11,22 +11,26 @@ module core.typedefs.webtypes;
 
 import std.stdio, std.conv, core.memory;
 
+//! Enum of all possible HTTP request methods
 enum RequestMethod { OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT, UNKNOWN }
 
+//! Internal representation of an HTTP header
 struct Request{
-  RequestMethod method;
-  string uri;
+  RequestMethod method;  //!< HTTP RequestMethod used by the Request
+  string uri;            //!< URI requested
 }
 
+//! Internal representation of an HTTP header
 struct Header{
-  string name;
-  string value;
+  string name;           //!< HTTP header name
+  string value;          //!< Value of header with name
 }
 
+//! Internal representation of an HTTP response status
 struct ResponseStatus{
-  uint   code;
-  string reason;
-  string description;
+  uint   code;              //!< HTTP response code
+  string reason;            //!< Reason of the code (if there was an error)
+  string description;       //!< Description of the reason (if there was an error)
 }
 
 immutable string CRLF = "\r\n";

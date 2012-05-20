@@ -22,7 +22,7 @@ class Vector3D : Location{
   
   this(double x, double y, double z, double rx, double ry, double rz){
     super(x,y,z);
-    direction = [rx,ry,rz];
+    rot = [rx,ry,rz];
   }
 
   /*! \brief Rotate this vector
@@ -31,9 +31,9 @@ class Vector3D : Location{
 
   @property{
     double[] direction(double[] r = null){ if(r !is null){ rot=r; } return rot; }
-    float rx(){ return rot[0]; }
-    float ry(){ return rot[1]; }
-    float rz(){ return rot[2]; }
+    float rx(){ return rot[0]; }   //!< Rotation X component
+    float ry(){ return rot[1]; }   //!< Rotation Y component
+    float rz(){ return rot[2]; }   //!< Rotation Z component
   }
   
   private:
