@@ -46,7 +46,7 @@ class Slider : DragBar{
   
   override void onDrag(int cx, int cy){
     if(dragging && (slider.x()+cx) >= this.x() && (slider.x()+cx+16) <= (this.x()+this.sx())){
-      slider.move(cx,0,0);
+      slider.move([cx,0,0]);
       setNewValue();
     }else{
       dragging = false;

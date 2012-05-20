@@ -45,27 +45,27 @@ class FPMotion : CameraMotion {
       KeyEvent evt = cast(KeyEvent)e;
       switch(evt.getSDLkey()){
         case SDLK_UP:
-          screen().getCamera().move(0,0,2);
+          screen().getCamera().move([0,0,2]);
           e.handled=true;
           break;
         case SDLK_DOWN:
-          screen.getCamera().move(0,0,-2);
+          screen.getCamera().move([0,0,-2]);
           e.handled=true;
           break;
         case SDLK_PAGEUP:
-          screen.getCamera().move(0,2,0);
+          screen.getCamera().move([0,2,0]);
           e.handled=true;
           break;
         case SDLK_PAGEDOWN:
-          screen.getCamera().move(0,-2,0);
+          screen.getCamera().move([0,-2,0]);
           e.handled=true;
           break;
         case SDLK_LEFT:
-          screen.getCamera().move(-2,0,0);
+          screen.getCamera().move([-2,0,0]);
           e.handled=true;
           break;
         case SDLK_RIGHT:
-          screen.getCamera().move(2,0,0);
+          screen.getCamera().move([2,0,0]);
           e.handled=true;
           break;
         default: break;
@@ -87,11 +87,11 @@ class ObjectMotion : CameraMotion {
       KeyEvent k_evt = cast(KeyEvent)e;
       switch(k_evt.getSDLkey()){
         case SDLK_UP:
-          object.move(0,0,2);
+          object.move([0,0,2]);
           e.handled=true;
           break;
         case SDLK_DOWN:
-          object.move(0,0,-2);
+          object.move([0,0,-2]);
           e.handled=true;
           break;
         case SDLK_PAGEUP:
@@ -103,11 +103,11 @@ class ObjectMotion : CameraMotion {
           e.handled=true;
           break;
         case SDLK_LEFT:
-          object.move(-2,0,0);
+          object.move([-2,0,0]);
           e.handled=true;
           break;
         case SDLK_RIGHT:
-          object.move(2,0,0);
+          object.move([2,0,0]);
           e.handled=true;
           break;
         case SDLK_EQUALS:

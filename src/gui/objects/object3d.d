@@ -78,7 +78,7 @@ public:
   
   void update(){
     if(life[0] > 0){
-      move(ix()/100.0,iy()/100.0,iz()/100.0);
+      move([ix()/100.0,iy()/100.0,iz()/100.0]);
       life[1]--;
       if(life[1]==0){
         location = [parent.x,parent.y,parent.z];

@@ -29,12 +29,12 @@ public:
     if(elements.length >= 3) loc[2] = to!double(elements[2]);
   }
   
-  void move(double x, double y, double z){ loc = add(loc,[x,y,z]); }
+  void move(double[] m){ loc = add(loc, m); }
   
   @property double[] location(double[] l = null){ if(l !is null){ loc=l; } return loc; }
-  @property float x(){ return loc[0]; }
-  @property float y(){ return loc[1]; }
-  @property float z(){ return loc[2]; }
+  @property float x(){ return loc[0]; }  //!< X component (location[0])
+  @property float y(){ return loc[1]; }  //!< Y component (location[1])
+  @property float z(){ return loc[2]; }  //!< Z component (location[2])
   
   override string toString(){ 
     return to!string(loc[0]) ~ ":" ~ to!string(loc[1]) ~ ":" ~ to!string(loc[2]); 

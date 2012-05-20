@@ -137,7 +137,7 @@ class DragBar : Button{
   }
   
   override void onDrag(int x, int y){ 
-    if(getWindow().isDragging())getWindow().move(x,y,0);
+    if(getWindow().isDragging())getWindow().move([x,y,0]);
   }
   
   override Event handleKeyPress(KeyEvent key){ return new Event(); }
