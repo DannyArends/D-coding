@@ -24,9 +24,9 @@ enum : char{
 
 double rf(double cmdistance){ return (0.5*(1.0-exp(-0.02*cmdistance))); }
 
-dvector calcrf(cvector position, dvector mapdistance){
+double[] calcrf(char[] position, double[] mapdistance){
   size_t nmarkers = position.length;
-  dvector r = newvector!double(nmarkers, 0.0);
+  double[] r = newvector!double(nmarkers, 0.0);
   for(size_t m=0; m<nmarkers; m++) {
     r[m]= RFUNKNOWN;
     if((position[m]==MLEFT) || (position[m]==MMIDDLE)){
@@ -40,9 +40,9 @@ dvector calcrf(cvector position, dvector mapdistance){
   return r;
 }
 
-cvector markerpos(ivector chr){
+char[] markerpos(int[] chr){
   size_t nmarkers = chr.length;
-  cvector position = newvector!char(nmarkers,MUNLINKED);
+  char[] position = newvector!char(nmarkers,MUNLINKED);
   for(size_t m = 0; m < nmarkers; m++){
     if(m==0){
       if(chr[m]==chr[m+1]){
@@ -73,7 +73,7 @@ cvector markerpos(ivector chr){
   return position;
 }
 
-double augmentation(dmatrix markers, cvector positions, dvector rf, int verbose){
+double augmentation(double[][] markers, char[] positions, double[] rf, int verbose){
   for(size_t i = 0; i < markers.length; i++){ }
   return 0.0;
 }

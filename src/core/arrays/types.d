@@ -11,15 +11,6 @@ module core.arrays.types;
 
 import core.memory, std.random, std.conv;
 
-alias double[][] dmatrix;
-alias bool[][]   bmatrix;
-alias char[][]   cmatrix;
-alias int[][]    imatrix;
-
-alias double[]   dvector;
-alias char[]     cvector;
-alias int[]      ivector;
-
 void freevector(T)(ref T[] v) {
   GC.removeRange(cast(void*)v);
   GC.free(cast(void*)v);

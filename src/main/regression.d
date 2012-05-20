@@ -20,10 +20,10 @@ import plugins.regression.augmentation;
 
 void main(string[] args){
   writefln("Multiple linear regression in D");
-  dmatrix designmatrix = [[1,1],[1,1],[1,2],[1,2],[1,2],[1,2]];
-  dvector trait = [1,1,1,2000,2000,2000];
-  dvector weight = [1,1,1,1,1,1];
-  ivector nullmodellayout = [1,1];  //The D[][1] is dropped from the model to test its predictive value 
+  double[][] designmatrix = [[1,1],[1,1],[1,2],[1,2],[1,2],[1,2]];
+  double[]   trait = [1,1,1,2000,2000,2000];
+  double[]   weight = [1,1,1,1,1,1];
+  int[]      nullmodellayout = [1,1];  //The D[][1] is dropped from the model to test its predictive value 
   for(size_t i = 0; i < designmatrix.length; i++){
     writefln("[%s] = %s",trait[i],designmatrix[i]);
   }

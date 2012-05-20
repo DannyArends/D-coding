@@ -13,7 +13,7 @@ import std.stdio, std.math, std.mathspecial;
 
 double inverseF(int df1, int df2, double alfa, bool verbose = false){
   double prob=0.0, minF=0.0, maxF=100.0, halfway=50.0, absdiff=1.0;
- int count=0;
+  int count=0;
   while ((absdiff>0.001)&&(count<100)){
     count++;
     halfway= (maxF+minF)/2.0;
@@ -22,6 +22,6 @@ double inverseF(int df1, int df2, double alfa, bool verbose = false){
     else minF= halfway;
     absdiff= fabs(prob-alfa);
   }
-  if(verbose) writeln("prob=" , prob , "; alfa=" , alfa);
+  if(verbose) writeln("[inverseF] Prob=" , prob , "; Alfa=" , alfa);
   return halfway;
 }
