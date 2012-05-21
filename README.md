@@ -1,3 +1,8 @@
+D-coding
+--------
+Basic tools written in the D programming language, to learn the language and 
+test out idea's
+
 Installation
 ------------
 Download and install DMD for D language 2.0+ (http://dlang.org/download.html), 
