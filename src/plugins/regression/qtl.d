@@ -21,7 +21,7 @@ import plugins.regression.regression;
 class SingleQTL{
   double[][] analyse(int[][] genotypes, double[][] phenotypes, int[] geno_cov = [], bool verbose = true){
     SysTime stime = Clock.currTime();
-    double[][] lodmatrix = newmatrix!double(phenotypes.length, genotypes.length);
+    double[][] lodmatrix = newmatrix!double(phenotypes.length, genotypes.length , 0.0);
     if(verbose) write(" ");
     for(size_t p = 0; p < phenotypes.length; p++){
       for(size_t m = 0; m < genotypes.length; m++){
