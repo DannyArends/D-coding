@@ -9,7 +9,7 @@ BIN =   ['app:fileloader', 'app:filesplitter', 'app:aligner', 'app:actor',
          'app:single_map_probes', 'app:correlation', 'app:ostest', 'app:plang',
          'app:startJVM', 'app:httpreader', 'app:regression', 'app:httpserver',
          'app:gameserver', 'app:voynich', 'app:dnacode', 'app:testal', 'app:sdl',
-         'app:scanentropy', 'app:scanfasta', 'app:gnuplot']
+         'app:scanentropy', 'app:scanfasta', 'app:gnuplot', 'app:generator']
 TESTS = ['test:plang', 'test:dnacode', 'test:fileloader', 'test:correlation', 
          'test:httpreader']
 
@@ -39,6 +39,7 @@ sfx_files     = Dir.glob("./src/sfx/**/*.d").join(' ')
 web_files     = Dir.glob("./src/web/**/*.d").join(' ')
 genetic_files = Dir.glob("./src/genetics/*.d").join(' ')
 plugin_gui    = Dir.glob("./src/gui/**/*.d").join(' ')
+plugin_gen  = Dir.glob("./src/plugins/generator/*.d").join(' ')
 plugin_stats  = Dir.glob("./src/plugins/regression/*.d").join(' ')
 plugin_opts   = Dir.glob("./src/plugins/optionsparser/*.d").join(' ')
 deps_opengl   = Dir.glob("./deps/gl/*.d").join(' ')
@@ -163,7 +164,11 @@ namespace :app do
   task "gnuplot" do
     sh "#{compiler} #{comp_args} src/main/gnuplot_examples.d #{core_files} #{gnu_files} -od#{bd} -ofplot.#{execext}"
   end
-
+  
+  desc "Experimental Parser and Generator for D"
+  task "generator" do
+    sh "#{compiler} #{comp_args} src/main/generator.d #{core_files} #{plugin_gen} -od#{bd} -ofgen.#{execext}"
+  end
   
 end
 
