@@ -10,14 +10,17 @@
 module plugins.generator.parser;
 
 import std.stdio, std.math;
+import plugins.generator.grammar;
 
-/*! \brief Interface to define a parser
+/*! \brief Class/Interface to define a parser
  *
- *  Interface to define a parser
+ *  Class/Interface to define a parser
  */
-interface AbstractParser{
+class Parser{
 public:
-  bool parse(string input, Grammer g){
-  
+  bool parse(string input, Grammar g){
+    bool valid = true;
+    foreach(Rule r; g.rules){ valid = valid && r.apply!(bool,string,void*)(input,null); }
+    return valid;
   }
 }

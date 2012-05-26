@@ -12,6 +12,7 @@ module plugins.generator.generator;
 import std.stdio, std.math;
 import plugins.generator.algorithm;
 import plugins.generator.grammar;
+import plugins.generator.generatortemplate;
 
 /*! \brief Interface to define a generator
  *
@@ -19,20 +20,17 @@ import plugins.generator.grammar;
  */
 interface AbstractGenerator{
 public:
-  bool generate(Algorithm a, Grammar g){ 
-  
-  }
-  
+  bool generate(Algorithm a, Grammar g);
 }
 
 class Generator : AbstractGenerator{
 public:
   override bool generate(Algorithm a, Grammar g){
-  
+    return false;
   }
   
   bool loadTemplates(string path = "./data/templates"){
-  
+    return false;
   }
   
 private:

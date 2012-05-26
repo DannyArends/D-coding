@@ -7,7 +7,7 @@
  * First written Dec, 2012<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module plugins.generator.grammer;
+module plugins.generator.grammar;
 
 import std.stdio, std.math;
 
@@ -15,13 +15,15 @@ import std.stdio, std.math;
  *
  *  Defines a representation of grammar
  */
-struct Grammer{
+struct Grammar{
   Rule[] rules;
 }
 
-struct Rule(R,I,O){
-  R function(I,O) fun;
-  R apply(I input, O output){ 
+alias string function(string,string) Fun;
+
+struct Rule{
+  Fun fun;
+  string apply(R, I, O)(string input, string output){ 
     return fun(input,output);
   }
 }
