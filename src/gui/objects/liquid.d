@@ -20,15 +20,15 @@ class Liquid : HeightMap{
   public:
   this(double x, double y, double z, Texture texture){
     super(x, y, z, texture);
-    liquid[0]   = newmatrix!float(texture.width,texture.height);
-    liquid[1]   = newmatrix!float(texture.width,texture.height);
+    liquid[0]   = newmatrix!float(texture.width,texture.height,0);
+    liquid[1]   = newmatrix!float(texture.width,texture.height,0);
     dampmap     = dampFromAlpha(texture);
   }
 
   this(double x, double y, double z, int sx, int sy){
     super(x, y, z, sx, sy);
-    liquid[0]   = newmatrix!float(sx,sy);
-    liquid[1]   = newmatrix!float(sx,sy);
+    liquid[0]   = newmatrix!float(sx,sy,0);
+    liquid[1]   = newmatrix!float(sx,sy,0);
     dampmap     = newmatrix!bool(sx,sy,true);
   }
   
