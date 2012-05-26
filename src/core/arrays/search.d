@@ -44,22 +44,22 @@ pure T[] removearray(T)(T[] haystack, size_t idx = -1){
   return nobjs;
 }
 
-pure bool searcharray(T)(T[] haystack, T needle){
+pure bool searcharray(T)(in T[] haystack, T needle){
   return(getIndex(haystack,needle) != -1);
 }
 
-pure size_t getIndex(T)(T[] haystack, T needle){
+pure size_t getIndex(T)(in T[] haystack, T needle){
   foreach(idx, T s; haystack){
     if(s==needle) return idx;
   }
   return -1;
 }
  
-pure bool binsearcharray(T)(T[] haystack, T needle) {
+pure bool binsearcharray(T)(in T[] haystack, T needle) {
   return(getIndexB(haystack,needle) != -1);
 }
 
-pure size_t getIndexB(T)(T[] haystack, T needle) {
+pure size_t getIndexB(T)(in T[] haystack, T needle) {
   size_t first = 0;
   size_t last = (haystack.length-1);
   while (first <= last) {

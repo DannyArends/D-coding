@@ -12,7 +12,7 @@ module core.arrays.matrix;
 import std.stdio, std.conv, std.math;
 import core.arrays.types;
 
-pure T[][] absmatrix(T)(T[][] i){
+pure T[][] absmatrix(T)(in T[][] i){
   T[][] m = newmatrix!T(i.length,i[0].length);
   for(size_t r=0;r<i.length;r++){
     for(size_t c=0;c<i[0].length;c++){
@@ -22,7 +22,7 @@ pure T[][] absmatrix(T)(T[][] i){
   return m;
 }
 
-pure T[] unlist(T)(T[][] i){
+pure T[] unlist(T)(in T[][] i){
   T[] m;
   for(size_t r=0;r<i.length;r++){
     for(size_t c=0;c<i[0].length;c++){
@@ -32,14 +32,14 @@ pure T[] unlist(T)(T[][] i){
   return m;
 }
 
-pure T[][] asmatrix(T)(T[] i){
+pure T[][] asmatrix(T)(in T[] i){
   T[][] m; T[]   row;
   for(size_t idx=0;idx<i.length;idx++){ row ~= i[idx]; }
   m ~= row;
   return m;
 }
 
-pure T[][] translate(T)(T[][] i){
+pure T[][] translate(T)(in T[][] i){
   T[][] m = newmatrix!T(i[0].length,i.length);
   for(size_t r=0;r<i.length;r++){
     for(size_t c=0;c<i[0].length;c++){
@@ -49,7 +49,7 @@ pure T[][] translate(T)(T[][] i){
   return m;
 }
 
-void printmatrix(T)(T[][] m) {
+void printmatrix(T)(in T[][] m) {
   for(size_t r=0; r<m.length; r++) {
     for(size_t c=0; c<m[r].length; c++) {
       write(to!string(m[r][c])," ");
@@ -58,7 +58,7 @@ void printmatrix(T)(T[][] m) {
   }
 }
 
-T[] stringvectortotype(T)(string[] entities){
+T[] stringvectortotype(T)(in string[] entities){
   T[] rowleveldata;
   for(size_t e=0; e < entities.length; e++){
     try{

@@ -35,7 +35,7 @@ pure T[][] newmatrix(T)(size_t nrow, size_t ncol, T init = T.init){
   return x;
 }
 
-pure T[] copyvector(T)(T[] c){
+pure T[] copyvector(T)(in T[] c){
   T[] x;
   x.length = c.length;
   for(size_t j=0; j < c.length;j++){
@@ -52,7 +52,7 @@ void freematrix(T)(T[][] m, size_t rows) {
   GC.free(cast(void*)m);
 }
 
-pure T[][] vectortomatrix(T)(size_t nrow, size_t ncol, T[] invector){
+pure T[][] vectortomatrix(T)(size_t nrow, size_t ncol, in T[] invector){
   T[][] outmatrix;
   outmatrix.length=nrow;
   for(size_t r=0; r<nrow; r++){
