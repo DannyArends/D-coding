@@ -18,7 +18,7 @@ import std.stdio, std.conv, std.string, std.math, std.random;
  * \param r any type any length vector<br>
  * \return The sum
  */
-T sum(T)(T[] r){
+pure T sum(T)(in T[] r){
   T s = 0;
   foreach(T e; r){ s += e; }
   return s;
@@ -31,7 +31,7 @@ T sum(T)(T[] r){
  * \param r any type any length vector<br>
  * \return The mean
  */
-pure T mean(T)(T[] r){
+pure T mean(T)(in T[] r){
   T mean = 0;
   for(size_t i = 0; i < r.length; i++){
     mean += (data[i] - mean) / (i + 1);
@@ -46,9 +46,9 @@ pure T mean(T)(T[] r){
  * \param r any type any length vector<br>
  * \return The min or max based on op
  */
-T minmax(string op, T)(T[] r){
+pure T minmax(string op, T)(in T[] r){
   assert(r.length >= 1);
-  auto best = r[0];
+  T best = r[0];
   foreach(e; r){
     mixin("if (e " ~ op ~ " best) best = e;");
   }
@@ -62,7 +62,7 @@ T minmax(string op, T)(T[] r){
  * \param r any type any length vector<br>
  * \return The max
  */
-T max(T)(T[] r){ return minmax!(">",T)(r); }
+pure T max(T)(in T[] r){ return minmax!(">",T)(r); }
 
 /*! \brief Get the min value of the values in range r
  *
@@ -71,7 +71,7 @@ T max(T)(T[] r){ return minmax!(">",T)(r); }
  * \param r any type any length vector<br>
  * \return The min
  */
-T min(T)(T[] r){ return minmax!("<",T)(r); }
+pure T min(T)(in T[] r){ return minmax!("<",T)(r); }
 
 /*! \brief Get the max value of range r inside d
  *
@@ -81,7 +81,7 @@ T min(T)(T[] r){ return minmax!("<",T)(r); }
  * \param r the number of items in d to sum<br>
  * \return The maxOf
  */
-T maxOf(T)(T[] d, size_t r){
+pure T maxOf(T)(in T[] d, in size_t r){
   assert(d.length >= 1);
   T m = d[0];
   for(size_t x=0;x < (d.length-r); x++){ 
@@ -91,7 +91,7 @@ T maxOf(T)(T[] d, size_t r){
   return m;
 }
 
-T[] applyRandomness(T)(T[] d1, int[] rnd){
+T[] applyRandomness(T)(in T[] d1, in int[] rnd){
   T[] r;
   r.length = d1.length;
   for(size_t x=0; x < d1.length;x++){
@@ -112,7 +112,7 @@ T[] applyRandomness(T)(T[] d1, int[] rnd){
  * \param d2 any type any length vector<br>
  * \return The vector d1 - d2
  */
-T[] subtract(T)(T[] d1,T[] d2){
+pure T[] subtract(T)(in T[] d1, in T[] d2){
   return add(d1,multiply(d2,-1.0));
 }
 
@@ -124,7 +124,7 @@ T[] subtract(T)(T[] d1,T[] d2){
  * \param d2 any type any length vector<br>
  * \return The vector d1 + d2
  */
-T[] add(T)(T[] d1, T[] d2){
+pure T[] add(T)(in T[] d1, in T[] d2){
   assert(d1.length == d2.length, "Error: Should have same length");
   T[] sum;
   sum.length = d1.length;
@@ -140,7 +140,7 @@ T[] add(T)(T[] d1, T[] d2){
  * \param alpha parameter holding the multiplication factor<br>
  * \return The vector d1 * alpha
  */
-T[] multiply(T)(T[] d1, float alpha = 1.0){
+pure T[] multiply(T)(in T[] d1, in float alpha = 1.0){
   T[] factor;
   factor.length = d1.length;
   for(size_t x=0; x < d1.length; x++){ factor[x] = d1[x] * alpha; }
@@ -156,7 +156,7 @@ T[] multiply(T)(T[] d1, float alpha = 1.0){
  * \param alpha parameter holding the multiplication factor<br>
  * \return The vector d1 + ( d2 * alpha )
  */
-T[] addnmultiply(T)(T[] d1,T[] d2, float alpha = 1.0){
+pure T[] addnmultiply(T)(in T[] d1, in T[] d2, in float alpha = 1.0){
   return add(d1, multiply(d2,alpha));
 }
 
@@ -167,7 +167,7 @@ T[] addnmultiply(T)(T[] d1,T[] d2, float alpha = 1.0){
  * \param d1 any type any length vector<br>
  * \return Magnitude of d1
  */
-float magnitude(T)(T[] d1){
+pure float magnitude(T)(in T[] d1){
   float f = 0.0;
   for(size_t x=0; x < d1.length; x++){ f += (d1[x] * d1[x]); }
   return sqrt(f);
@@ -180,9 +180,9 @@ float magnitude(T)(T[] d1){
  * \param d1 any type any length vector<br>
  * \return normalized d1
  */
-T[] normalize(T)(T[] d1){
+pure T[] normalize(T)(in T[] d1){
   T[] normal;
-  normal.reserve(d1.length);
+  normal.length = d1.length;
   
   float len = magnitude!T(d1);
   if(len == 0.0f) len = 1.0f;
@@ -199,7 +199,7 @@ T[] normalize(T)(T[] d1){
  * \param v any type 3x3 holding the three points of the triangle<br>
  * \return normalized normal of v
  */
-T[] trianglefindnormal(T)(T[3][3] v){
+pure T[] trianglefindnormal(T)(in T[3][3] v){
   T[3] a;
   T[3] b;
   T[3] normal;
