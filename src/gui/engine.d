@@ -11,13 +11,15 @@ module gui.engine;
 
 import std.stdio, std.conv, std.datetime;
 import sdl.sdl, sdl.sdlstructs, sdl.sdlfunctions;
-import core.typedefs.types;
+import core.typedefs.types, core.terminal;
 import sfx.engine;
 import game.engine, game.users.gameclient;
 import core.events.engine, core.events.clockevents;
 import core.events.keyevent, core.events.mouseevent;
 import core.events.networkevent;
 import gui.enginefunctions, gui.screen, gui.hudhandler;
+
+mixin(GenOutput!("GFX", "Green")); alias wGFX GFX;
 
 /*! \brief EventHandler for all GFX related events
  *
@@ -26,25 +28,25 @@ import gui.enginefunctions, gui.screen, gui.hudhandler;
 class GFXEngine : ClockEventHandler{
   public:
   this(GameEngine game, SFXEngine sound, bool verbose = false){
-    if(SDL_Init(SDL_INIT_VIDEO) < 0){ writefln("Video initialization failed: %s", SDL_GetError()); return; }
+    if(SDL_Init(SDL_INIT_VIDEO) < 0){ ERR("Video initialization failed: %s", SDL_GetError()); return; }
     videoInfo = SDL_GetVideoInfo();
     if(videoInfo is null){ 
-      writefln("Video initialization failed: %s", SDL_GetError()); 
+      ERR("Video initialization failed: %s", SDL_GetError()); 
       return;
     }
     
     videoFlags = initVideoFlags(videoInfo);
-    writeln("[GFX] videoFlags done");
+    GFX("Done with setup of video flags");
     SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
     surface = SDL_SetVideoMode(screen_width, screen_height, screen_bpp, videoFlags );
     if(surface is null){ 
-      writefln("Video mode set failed: %s", SDL_GetError()); 
+      ERR("Video mode set failed: %s", SDL_GetError()); 
       return; 
     }
-    writeln("[GFX] surface done");
+    GFX("Done with SDL surface");
     SDL_WM_SetCaption("Game", "Danny Arends");
     initGL();
-    writeln("[GFX] initGL done");
+    GFX("Done with openGL initialization");
     _sound = sound;
     _game = game;
     _screen = new Screen(this);
@@ -76,32 +78,32 @@ class GFXEngine : ClockEventHandler{
             resizeWindow(screen_width, screen_height);
           break;        
           case SDL_QUIT:
-            writeln("[GUI] QUIT received");
+            GFX("QUIT event received");
             if(game.gamestage == Stage.PLAYING) e = new QuitEvent();
             if(game.gamestage == Stage.MENU) rendering = false;
           break;
           case SDL_MOUSEMOTION:
             int[2] xy = [cast(int)event.button.x, cast(int)event.button.y];
             handle(new MouseEvent(cast(MouseBtn)0, KeyEventType.NONE, &getUnproject, xy, event.motion.xrel, event.motion.yrel));
-            if(verbose) writefln("Mouse moved by %d,%d to (%d,%d)", event.motion.xrel, event.motion.yrel, xy);
+            if(verbose) GFX("MOUSE MOVE event received ([%d,%d] to [%d,%d])", event.motion.xrel, event.motion.yrel, xy);
           break;
           case SDL_MOUSEBUTTONDOWN:
             int[2] xy = [cast(int)event.button.x, cast(int)event.button.y];
             e = new MouseEvent(cast(MouseBtn)event.button.button,KeyEventType.DOWN, &getUnproject, xy);
-            if(verbose) writefln("Mouse button %d pressed at (%d,%d)", event.button.button, xy);
+            if(verbose) GFX("MOUSE DOWN event received (%d at (%d,%d))", event.button.button, xy);
           break;
           case SDL_MOUSEBUTTONUP:
             int[2] xy = [cast(int)event.button.x, cast(int)event.button.y];
             e = new MouseEvent(cast(MouseBtn)event.button.button,KeyEventType.UP, &getUnproject, xy);
-            if(verbose) writefln("Mouse button %d pressed at (%d,%d)", event.button.button, xy);
+            if(verbose) GFX("MOUSE UP event received (%d at (%d,%d))", event.button.button, xy);
           break;
           case SDL_KEYDOWN:
             e = new KeyEvent(event.key.keysym.sym, KeyEventType.DOWN);
-            if(verbose) writefln("Key down");
+            if(verbose) GFX("KETBOARD DOWN event received");
           break;
           case SDL_KEYUP:
             e = new KeyEvent(event.key.keysym.sym, KeyEventType.UP);
-            if(verbose) writefln("Key up");
+            if(verbose) GFX("KETBOARD UP event received");
           break;
           default:
           break;
@@ -158,7 +160,7 @@ class GFXEngine : ClockEventHandler{
       NetworkEvent n_evt = cast(NetworkEvent) e;
       if(network !is null){
         if(n_evt.incomming){
-          //writeln("[ENG] NetEvent: " ~ n_evt.full);
+          //GFX("NETWORK event received: " ~ n_evt.full);
         }else{
           network.send(n_evt.full);
         }
@@ -185,4 +187,3 @@ class GFXEngine : ClockEventHandler{
     SDL_Surface*        surface;
     SDL_VideoInfo*      videoInfo;
 }
-

@@ -11,9 +11,11 @@ module gui.formats.tga;
 
 import std.stdio, std.array, std.string, std.c.stdio, std.cstream;
 import std.conv, std.file, std.regex;
-import core.arrays.types;
+import core.arrays.types, core.terminal;
 import core.typedefs.types, core.typedefs.color;
 import gl.gl_1_0, gl.gl_1_1;
+
+mixin(GenOutput!("TGA", "Green"));
 
 uint getDataSize(Texture texture){
  return texture.height * texture.width * texture.bpp;
@@ -58,11 +60,11 @@ int loadTextureAsFont(GLint id){
 Texture loadTgaAsTexture(string filename, bool verbose = false){
   Texture texture = Texture(filename);
   if(!exists(filename) || !filename.isFile){
-    writefln("[TGA] No such file '%s'",filename);
+    ERR("No such file '%s'",filename);
     texture.status = FileStatus.NO_SUCH_FILE;
     return texture;
   }
-  if(verbose) writefln("[TGA] Opening '%s'",filename);
+  if(verbose) wTGA("Opening '%s'",filename);
   
   ubyte cGarbage;
   short iGarbage;
@@ -87,13 +89,13 @@ Texture loadTgaAsTexture(string filename, bool verbose = false){
   fread(&cGarbage, ubyte.sizeof, 1, f);
 
   if(tgatype == 1){
-    writefln("[TGA] Unsupported format: %s",filename);
+    ERR("Unsupported format: %s",filename);
     texture.status = FileStatus.INDEXED_COLOR;
     fp.close(); 
     return texture;
   }
   if((tgatype != 2) && (tgatype !=3)){
-    writefln("[TGA] Unsupported format: %s",tgatype);
+    ERR("Unsupported format: %s",tgatype);
     texture.status = FileStatus.COMPRESSED_FILE;
     fp.close(); 
     return texture;
@@ -102,7 +104,7 @@ Texture loadTgaAsTexture(string filename, bool verbose = false){
   texture.bpp = pixelDepth / 8;
   texture.data = new ubyte[getDataSize(texture)];
   if(texture.data == null){
-    writeln("[TGA] ERROR: Unable to allocate memory required");
+    ERR("Unable to allocate memory required");
     texture.status = FileStatus.MEMORY;
     fp.close(); 
     return texture;
@@ -115,7 +117,7 @@ Texture loadTgaAsTexture(string filename, bool verbose = false){
       texture.data[i+2] = aux;
     }
   }
-  if(verbose) writefln("[TGA] File '%s' in memory",filename);
+  if(verbose) wTGA("File '%s' in memory",filename);
   if(texture.bpp == 3) texture.type = GL_RGB;
   
   texture.status = FileStatus.OK;
@@ -195,5 +197,5 @@ void save(Texture texture, string filename) {
   }
   fwrite(&texture.data[0], ubyte.sizeof, getDataSize(texture), f);
   fp.close();
-  writefln("[TGA] Saved file: %s",filename);
+  wTGA("Saved file: %s",filename);
 }

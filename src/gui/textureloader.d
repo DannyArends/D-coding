@@ -10,8 +10,10 @@
 module gui.textureloader;
 
 import core.stdinc;
-import core.typedefs.types;
+import core.typedefs.types, core.terminal;
 import gui.formats.tga, gui.formats.img;
+
+mixin(GenOutput!("TEX", "Green"));
 
 class TextureLoader{
   public:
@@ -21,11 +23,11 @@ class TextureLoader{
       if(isFile(e)){
         Texture texture;
         if(e.indexOf(".tga") > 0){
-          writeln("[TEX] TGA:",e);
+          wTEX("TGA: '%s'",e);
           texture = loadTgaAsTexture(e);
         }
         if(e.indexOf(".png") > 0 || e.indexOf(".jpg") > 0){
-          writeln("[TEX] PNG/JPG:",e);
+          wTEX("PNG/JPG: '%s'",e);
           texture = loadImageAsTexture(e);
         }
         if(texture.status == FileStatus.OK){
@@ -34,7 +36,7 @@ class TextureLoader{
         }
       }
     }
-    writefln("[GFX] Buffered %d textures",textures.length);
+    wTEX("Buffered %d textures",textures.length);
   }
   
   void refreshAfterResize(bool verbose = false){
