@@ -9,18 +9,14 @@
  **********************************************************************/
 module game.games.servergame;
 
-import core.stdinc;
-import core.typedefs.types, core.typedefs.location;
-import core.arrays.algebra;
-import core.events.engine, core.events.networkevent;
-import game.engine, game.player, game.tilemap;
-import gui.stdinc;
-import sfx.engine;
+import core.stdinc, core.typedefs.types, core.typedefs.location;
+import core.arrays.algebra, core.events.engine, core.events.networkevent;
+import game.engine,game.games.empty, game.player, game.tilemap;
+import gui.stdinc, sfx.engine;
 
-class ServerGame : Game{
+class ServerGame : Empty{
   public:
-  override void setup2D(Screen screen){
-    writefln("[ G ] setup2D");
+  override void setup2D(Screen screen){ super.setup2D(screen);
     time = new Text(screen, 0, screen.height-32);
     text = new Text(screen, 0, 0, screen.width, 64);
     text.setMaxLines(7);
@@ -30,30 +26,16 @@ class ServerGame : Game{
     screen.add(commandline);
   }
 
-  override void setup3D(Screen screen){
-    writefln("[ G ] setup3D");
-  }
-  
-  override void setupSound(SFXEngine sound){
-    writefln("[ G ] setupSound");    
-  }
-
-  override void quit(){
-    writefln("[ G ] quit");
+  override void quit(){ super.quit();
     if(engine.network.isOnline()) engine.network.shutdown();
   }
   
-  override void load(){
-    writefln("[ G ] load");
+  override void load(){ super.load();
     engine.requestUpdate(1.0);
     engine.network.start();
     hudHandler(new HudHandler(engine.gfxengine));
   }
-  
-  override void save(){
-    writefln("[ G ] save");
-  }
-  
+    
   override void render(GFXEngine engine){
     time.setText(servertime.val);
   }
@@ -98,11 +80,11 @@ class ServerGame : Game{
       NetworkEvent n_evt = cast(NetworkEvent) e;
       switch(n_evt.getNetEvent()){
         case NetEvent.HEARTBEAT:
-          writeln("[ G ] Network sync");
+          wGAME("Received: Network sync");
           servertime.fromString(n_evt.msg);
           e.handled=true;
         break;
-        case NetEvent.GAME:  writeln("[ G ] Network game event");
+        case NetEvent.GAME:  wGAME("Received: Network game event");
           if(n_evt.msg.length > 0){
             auto plist = split(n_evt.msg," ");
             writeln("[CLN] From server: ",plist[0]);

@@ -9,15 +9,15 @@
  **********************************************************************/
 module game.engine;
 
-import core.stdinc;
-import core.typedefs.types;
-import core.events.engine;
-import core.events.clockevents;
+import core.stdinc, core.terminal, core.typedefs.types;
+import core.events.engine, core.events.clockevents;
 import gui.engine, gui.screen, gui.motion, gui.hudhandler;
 import sfx.engine;
 import game.tilemap, game.player;
 import game.games.triggerpull;
 import game.users.gameclient;
+
+mixin(GenOutput!("GAME", "Green", "Gray"));
 
 enum Stage{STARTUP, MENU, PLAYING};
 
@@ -66,6 +66,7 @@ class GameEngine : ClockEventHandler{
       this.engine = engine;
       this.stage = Stage.STARTUP;
       engine.screen.showLoading();
+      wGAME("Changing stage to STARTUP");
     }
     
     void rotateLogo(int after, int ntime){
@@ -75,6 +76,7 @@ class GameEngine : ClockEventHandler{
     }
 
     void changeLogo(int after, int ntime){
+      wGAME("Logo changed %s",ntime);
       if(stage == Stage.STARTUP){
         if(ntime==2)engine.screen.changeLogo("openGL");
         if(ntime==1)engine.screen.changeLogo("openAL");
@@ -82,7 +84,7 @@ class GameEngine : ClockEventHandler{
     }
     
     void setMainMenuStage(int after, int ntime){
-      writeln("[ G ] Changing stage to menu");
+      wGAME("Changing stage to MENU");
       cleanUpGame();
       stage = Stage.MENU;
       engine.screen.clear();
@@ -99,7 +101,7 @@ class GameEngine : ClockEventHandler{
     }
 
     void setGameStage(Game g){
-      writeln("[ G ] Changing stage to playing");
+      wGAME("Changing stage to PLAYING");
       cleanUpGame();
       game = g;
       stage = Stage.PLAYING;

@@ -9,47 +9,17 @@
 module game.games.empty;
 
 import std.stdio;
-
-import core.arrays.algebra;
-
-import core.events.engine;
-import game.engine;
-import gui.stdinc;
-import sfx.engine;
+import core.arrays.algebra, core.events.engine;
+import game.engine, gui.stdinc, sfx.engine;
 
 class Empty : Game{
   public:
-  override void setup2D(Screen screen){
-    writefln("[ G ] setup2D");
-  }
-
-  override void setup3D(Screen screen){
-    writefln("[ G ] setup3D");
-  }
-  
-  override void setupSound(SFXEngine sound){
-    writefln("[ G ] setupSound");    
-  }
-
-  override void quit(){
-    writefln("[ G ] quit");
-  }
-  
-  override void load(){
-    writefln("[ G ] load");
-  }
-  
-  override void save(){
-    writefln("[ G ] save");
-  }
-  
-  override void render(GFXEngine engine){
-
-  }
-  
-  override void handle(Event e){
-    writefln("[ G ] event received");
-  }
-  
-  private:
+  override void setup2D(Screen screen){ wGAME("Done with 2D setup"); }
+  override void setup3D(Screen screen){ wGAME("Done with 3D setup"); }
+  override void setupSound(SFXEngine sound){ wGAME("Done with sound setup"); }
+  override void quit(){ wGAME("Received: QUIT"); }  
+  override void load(){ wGAME("Received: LOAD"); }
+  override void save(){ wGAME("Received: SAVE"); }
+  override void render(GFXEngine engine){ }  
+  override void handle(Event e){ wGAME("Received: EVENT"); }
 }

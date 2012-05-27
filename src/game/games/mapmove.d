@@ -10,21 +10,12 @@
 module game.games.mapmove;
 
 import std.stdio, std.math;
+import core.typedefs.types, core.arrays.algebra;
+import core.events.engine, core.events.mouseevent, game.engine;
+import game.games.empty, gui.stdinc, sfx.engine;
 
-import core.typedefs.types;
-import core.arrays.algebra;
-
-import core.events.engine;
-import core.events.mouseevent;
-import game.engine;
-import gui.stdinc;
-import sfx.engine;
-
-class MapMove : Game{
+class MapMove : Empty{
   public:
-  override void setup2D(Screen screen){
-    writefln("[ G ] setup2D");
-  }
 
   override void setup3D(Screen screen){
     writefln("[ G ] setup3D");
@@ -34,26 +25,9 @@ class MapMove : Game{
     screen.add(map);
     screen.add(player);
   }
-  
-  override void setupSound(SFXEngine sound){
-    writefln("[ G ] setupSound");    
-  }
 
-  override void quit(){
-    writefln("[ G ] quit");
-  }
-  
-  override void load(){
-    writefln("[ G ] load");
+  override void load(){ super.load(); 
     map.buffer();
-  }
-  
-  override void save(){
-    writefln("[ G ] save");
-  }
-  
-  override void render(GFXEngine engine){
-
   }
   
   override void handle(Event e){
