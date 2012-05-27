@@ -8,19 +8,17 @@
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 import std.stdio;
-
-import gui.engine;
-import sfx.engine;
-import game.engine;
+import core.terminal;
+import gui.engine, sfx.engine, game.engine;
 
 void main(string[] args){
-  writeln("[DBG] Starting game engine");
+  MSG("Starting game engine");
   GameEngine game = new GameEngine();
-  writeln("[DBG] Starting SFX engine");
+  MSG("Starting SFX engine");
   SFXEngine sound = new SFXEngine();
   sound.load();
-  writeln("[DBG] Starting GFX engine");
+  MSG("Starting GFX engine");
   GFXEngine graphics = new GFXEngine(game, sound);
   graphics.start();
-  writeln("[DBG] Finished");
+  MSG("Finished");
 }

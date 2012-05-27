@@ -23,7 +23,7 @@ public:
   bool generate(Algorithm a, Grammar g);
 }
 
-class Generator : AbstractGenerator{
+class TemplateGenerator : AbstractGenerator{
 public:
   override bool generate(Algorithm a, Grammar g){
     return false;
