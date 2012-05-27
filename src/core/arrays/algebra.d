@@ -47,8 +47,8 @@ pure T mean(T)(in T[] r){
  * \return The min or max based on op
  */
 pure T minmax(string op, T)(in T[] r){
-  assert(r.length >= 1);
-  T best = r[0];
+  assert(r.length >= 0);
+  T best = T.min;
   foreach(e; r){
     mixin("if (e " ~ op ~ " best) best = e;");
   }
