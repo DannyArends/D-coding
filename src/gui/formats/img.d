@@ -12,26 +12,28 @@ module gui.formats.img;
 import std.stdio, std.string, std.file, std.conv, std.utf;
 import sdl.sdlstructs, sdl.sdlfunctions, sdl.sdlimage;
 import gl.gl_1_0, gl.gl_1_1, gl.gl_1_2;
-import core.typedefs.types;
+import core.typedefs.types, core.terminal;
+
+mixin(GenOutput!("IMG", "Green"));
 
 Texture loadImageAsTexture(string filename, bool verbose = true){  
   Texture texture = Texture(filename);
   if(!exists(filename) || !filename.isFile){
-    writefln("[GFX] No such file: %s",filename);
+    ERR("No such file: '%s'",filename);
     texture.status = FileStatus.NO_SUCH_FILE;
     return texture;
   }
-  if(verbose) writefln("[GFX] Opening file: %s",filename);
+  if(verbose) wIMG("Opening file: '%s'",filename);
   SDL_Surface* image;
   try{
     int flags=IMG_INIT_JPG|IMG_INIT_PNG;
     IMG_Init(flags);
     image = IMG_Load(toUTFz!(char*)(filename));
   }catch(Throwable t){
-    writeln("This means we bound SDL_image, but it fails to load");
+    ERR("Found SDL_image, but it fails to load");
   }
   if(image is null){
-    writefln("[GFX] No surface: %s",to!string(cast(char*)IMG_GetError()));
+    wIMG("No surface: %s",to!string(cast(char*)IMG_GetError()));
     texture.status = FileStatus.NO_SUCH_FILE;  
     return texture;
   }
@@ -42,41 +44,30 @@ Texture loadImageAsTexture(string filename, bool verbose = true){
   int size       = texture.width*texture.height*texture.bpp;
   texture.data   = cast(ubyte[])image.pixels[0..size];
   texture.status = FileStatus.OK;
-  writefln("[GFX] Image %s (%d x %d) loaded", 
-         filename, texture.width, texture.height);
+  wIMG("Image %s (%d x %d) loaded", filename, texture.width, texture.height);
   return texture;
 }
 
 GLuint[] bufferTexture(Texture texture, bool verbose = false){
   texture.id = new GLuint[1];
-  if((texture.width & (texture.width - 1)) != 0){
-		writeln("[GFX] WARN: width is not a power of 2");
-	}
-	if((texture.height & (texture.height - 1)) != 0){
-		writeln("[GFX] WARN: height is not a power of 2");
-	}
-	glGenTextures(1, &(texture.id[0]) );
-	glBindTexture(GL_TEXTURE_2D, texture.id[0] );
+  if((texture.width & (texture.width - 1)) != 0){ WARN("Width is not a power of 2"); }
+  if((texture.height & (texture.height - 1)) != 0){ WARN("Height is not a power of 2");}
+  glGenTextures(1, &(texture.id[0]) );
+  glBindTexture(GL_TEXTURE_2D, texture.id[0] );
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-	glTexImage2D(GL_TEXTURE_2D, 0, texture.bpp, texture.width, texture.height, 0, texture.type, GL_UNSIGNED_BYTE, texture.data.ptr);
+  glTexImage2D(GL_TEXTURE_2D, 0, texture.bpp, texture.width, texture.height, 0, texture.type, GL_UNSIGNED_BYTE, texture.data.ptr);
   return texture.id;
 }
 
 GLint getTextureType(SDL_Surface* surface){
   GLint nOfColors = surface.format.BytesPerPixel;
   if(nOfColors == 4){
-    if(surface.format.Rmask == 0x000000ff){
-      return GL_RGBA;
-    }else{
-      return GL_BGRA;
-    }    
+    if(surface.format.Rmask == 0x000000ff) return GL_RGBA;
+    return GL_BGRA;
   }else if(nOfColors == 3){
-    if(surface.format.Rmask == 0x000000ff){
-      return GL_RGB;
-    }else{
-      return GL_BGR;
-    }
+    if(surface.format.Rmask == 0x000000ff) return GL_RGB;
+    return GL_BGR;
   }
   assert(0);
 }

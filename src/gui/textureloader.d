@@ -43,7 +43,7 @@ class TextureLoader{
     for(auto x =0; x< textures.length;x++){
       textures[x].id = bufferTexture(textures[x],verbose);
     }
-    if(verbose) writeln("[GFX] Refreshed " ~ to!string(textures.length) ~ " textures");
+    if(verbose) wTEX("Refreshed " ~ to!string(textures.length) ~ " textures");
   }
   
   Texture getTexture(string name){ 
