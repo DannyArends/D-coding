@@ -11,32 +11,23 @@ module gui.screen;
 
 import std.array, std.stdio, std.conv;
 import gl.gl_1_0, gl.gl_1_1, gl.gl_1_5, gl.gl_ext;
-import core.arrays.search;
-import core.typedefs.types;
-import core.typedefs.camera;
+import core.arrays.search, core.terminal;
+import core.typedefs.types, core.typedefs.camera;
 
 import gui.engine;
-import gui.widgets.object2d;
-import gui.widgets.window;
-import gui.widgets.text;
-import gui.widgets.gamebutton;
-import gui.objects.object3d;
-import gui.objects.quad;
-import gui.textureloader;
-import gui.formats.tga;
+import gui.widgets.object2d, gui.widgets.window, gui.widgets.text;
+import gui.widgets.gamebutton, gui.objects.object3d, gui.objects.quad;
+import gui.textureloader, gui.formats.tga;
 
-import game.games.triggerpull;
-import game.games.mapmove;
-import game.games.empty;
-import game.games.servergame;
+import game.games.triggerpull, game.games.mapmove;
+import game.games.empty, game.games.servergame;
 
-import game.tests.objects2d;
-import game.tests.lqt;
-import game.tests.spheres;
-import game.tests.heightmap;
-import game.tests.liquid;
-import game.tests.object3ds;
+import game.tests.objects2d, game.tests.lqt;
+import game.tests.spheres, game.tests.heightmap;
+import game.tests.liquid, game.tests.object3ds;
 import game.tests.emission;
+
+mixin(GenOutput!("SCR", "Green"));
 
 struct SceneObject{
   string   name;
@@ -51,15 +42,15 @@ class Screen : Object2D{
   public:
     this(GFXEngine engine){
       super(0,0,engine.width,engine.height);
-      writeln("[SCR] Screen constructor");
+      wSCR("Screen constructor starting");
       this.engine = engine;
       this.camera = new Camera();
       textureloader = new TextureLoader();
       textureloader.load();
-      fontID = textureloader.getTextureID("font");
-      writeln("[SCR] fontID:",fontID);
+      fontID = textureloader.getTextureID(fontname);
+      wSCR("Loaded font '%s:%s'", fontname, fontID);
       base = loadTextureAsFont(fontID);
-      writeln("[SCR] Screen constructor done");
+      wSCR("Done with screen constructor");
     }
     
     void render3D(bool verbose = false){
@@ -72,7 +63,7 @@ class Screen : Object2D{
         Object3D obj = sceneobj.object3d;
         obj.render(obj.getFaceType());
       }
-      if(verbose) writefln("[SCREEN] Rendered: %s objects", sceneobjects.length);
+      if(verbose) wSCR("Rendered: %s objects", sceneobjects.length);
     }
 
     override void render(){
@@ -180,6 +171,7 @@ class Screen : Object2D{
 
 private:
   GLuint        base;
+  string        fontname = "font";
   GLuint        fontID;
   Camera        camera;
   TextureLoader textureloader;  

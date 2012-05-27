@@ -28,6 +28,7 @@ mixin(GenOutput!("GFX", "Green")); alias wGFX GFX;
 class GFXEngine : ClockEventHandler{
   public:
   this(GameEngine game, SFXEngine sound, bool verbose = false){
+    GFX("Engine constructor starting");
     if(SDL_Init(SDL_INIT_VIDEO) < 0){ ERR("Video initialization failed: %s", SDL_GetError()); return; }
     videoInfo = SDL_GetVideoInfo();
     if(videoInfo is null){ 
@@ -53,7 +54,7 @@ class GFXEngine : ClockEventHandler{
     _hud = new HudHandler(this);
     _network = new GameClient(this,"localhost");
     _game.startRendering(this);
-    writeln("[GFX] Constructor done");
+     GFX("Done with engine constructor");
   }
   
   void start(bool verbose = false){
