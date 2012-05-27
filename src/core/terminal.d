@@ -21,7 +21,7 @@ version(Windows){
   enum CColor : ushort{ 
     Black  = 0 , DarkBlue   = 1 , DarkGreen = 2 , DarkAzure = 3 , DarkRed = 4,
     Purple = 5 , DarkYellow = 6 , Silver    = 7 , Gray      = 8 , Blue    = 9,
-    Green  = 10, Aqua       = 11, Red       = 12, Yellow    = 13, Orange  = 14,
+    Green  = 10, Aqua       = 11, Red       = 12, Magenta    = 13, Orange  = 14,
     White  = 15, Default    = 256}
   
   static{ extern(C) HANDLE hConsole = null; }
@@ -80,9 +80,10 @@ void setCColor(CColor fore = CColor.White, CColor back = CColor.White.Black){
   setConsoleBackground(back);
 }
 
-template GenOutput(string name, string color){
+template GenOutput(string name, string color, string bcolor = "Black"){
   const char[] GenOutput = "void w"~ name ~ "(A...)(A a){" ~
-  "setCColor(CColor."~color~"); write(\"["~name~"] \"); std.stdio.stdout.flush();" ~
+  "setCColor(CColor."~color~",CColor."~bcolor~"); write(\"["~name~"]\"); std.stdio.stdout.flush();" ~
+  "setCColor(); write(\" \"); std.stdio.stdout.flush();" ~
   "setCColor(); writefln(a);}";
 }
 
