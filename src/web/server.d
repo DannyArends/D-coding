@@ -9,7 +9,7 @@
  **********************************************************************/
 module web.server;
 
-import core.stdinc;
+import core.stdinc, core.terminal;
 import core.typedefs.types;
 
 class Server(Client) : core.thread.Thread{
@@ -40,7 +40,7 @@ class Server(Client) : core.thread.Thread{
         listen(20);
       }
       clients = new Client[max_clients];
-      writeln("[Server] Constructed:",_hostname,":",_port," - (0/",_max_clients,")");
+      MSG("Constructed:",_hostname,":",_port," - (0/",_max_clients,")");
     }
     
     @property string  servertime(){ return _servertime.val; }
@@ -53,7 +53,7 @@ class Server(Client) : core.thread.Thread{
     void  shutdown(){ _online = false; }
 
     void run(){
-      writeln("[Server] Start listening for clients");
+      MSG("[Server] Start listening for clients");
       set = new SocketSet();
       while(_online){
         assert(set !is null);
@@ -65,7 +65,7 @@ class Server(Client) : core.thread.Thread{
                set.add(clients[index].socket);            
              }else{
                 clients[index] = null;
-                writefln("[Server] Dropped connection %d",index);
+                MSG("Dropped connection %d",index);
              }
           }
         }
@@ -79,7 +79,7 @@ class Server(Client) : core.thread.Thread{
                 if(clients[index] is null) {
                   clients[index] = new Client(this, sock, cast(uint)index);
                   clients[index].start();
-                  writefln("[Server] Accepted connection on %d",index);
+                  MSG("Accepted new connection on %d",index);
                   break;
                 }
               }
@@ -90,25 +90,21 @@ class Server(Client) : core.thread.Thread{
             }
           }
           foreach(uint index, ref Client fib; clients) {
-            
             if(fib is null) continue;
-            writeln("Not NULL");
             if(set.isSet(fib.socket)){
-              writeln("client");
               auto received = fib.socket.receive(buffer);
               if(received <= 0) {
                 clients[index].close();
                 clients[index].offline();
                 clients[index] = null;
-                writefln("[Server] Dropped connection %d",index);
+                WARN("Dropped connection %d",index);
                 continue;
               }else{
                 clients[index].processCommand(buffer[0..received]);
-                writefln("[Server] Received from %d: %s",index, to!string(toType!char(buffer[0..received])));
+                MSG("Received data from %d: %s",index, to!string(toType!char(buffer[0..received])));
               }
             }
           }
-          writeln("Next...");
         }
         if((Clock.currTime() - t0).total!"msecs" > 950){
           _servertime.addSecond();
@@ -116,7 +112,7 @@ class Server(Client) : core.thread.Thread{
         }
       }
       _servertime.save();
-      writeln("[Server] Shutdown");
+      WARN("Shutdown started");
     }
 }
 
