@@ -9,14 +9,13 @@
  **********************************************************************/
 module game.users.gameclient;
 
-import core.stdinc;
-
-import core.typedefs.webtypes;
-import core.events.engine;
-import core.events.networkevent;
+import core.stdinc, core.terminal, core.typedefs.webtypes;
+import core.events.engine, core.events.networkevent;
 import web.socketclient;
 
 alias core.thread.Thread Thread;
+
+mixin(GenOutput!("NET", "DarkYellow"));
 
 class GameClient : Thread{
   private:
@@ -32,7 +31,7 @@ class GameClient : Thread{
     this.online  = true;
     this.handler = handler;
     super(&run);
-    writeln("[NET] Network setup done");
+    wNET("Network setup done");
   }
   
   ~this(){ network.disconnect(); }
@@ -40,7 +39,7 @@ class GameClient : Thread{
   void send(string rawtext){
     if(rawtext[($-1)] != '\0') rawtext ~= "\0";
     online = network.write(rawtext);
-    writeln("[NET] Online:",online); 
+    debug wNET("Network online: %s",online); 
   }
   
   void shutdown(){ online = false; }
@@ -59,15 +58,15 @@ class GameClient : Thread{
               }
             }
           }catch(Throwable exception){
-            writeln("[NET] Unable to handle command:",s,"\n",exception);
+            ERR("Unable to handle command: %s",s);
           }
         }
         Thread.sleep( dur!("msecs")( 10 ) );
       }
-      writeln("[NET] Network closing down");
+      WARN("Network closing down");
       network.disconnect();
     }catch(Throwable exception){
-      if(verbose) writeln("[NET] GameClient threw an error\n",exception);
+      ERR("GameClient threw an error");
       return;
     }
   }

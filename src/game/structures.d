@@ -9,7 +9,7 @@
  **********************************************************************/
 module game.structures;
 
-import core.stdinc;
+import core.stdinc, core.terminal;
 import core.typedefs.location;
 import game.tilemap;
 
@@ -52,27 +52,23 @@ abstract class GameObject{
     this(string dir, string name){
       _filename = name;
       _filepath = dir ~ name;
-      if(exists(filepath) && isFile(filepath)){
-        writefln("[OBJ] Loading GameObject-file: %s",filepath);
-        fromString(readText(filepath));
-        writefln("[OBJ] Done loading GameObject-file: %s",filepath);    
-      }
+      load();
     }
     
     void load(){
       if(exists(filepath) && isFile(filepath)){
-        writefln("[OBJ] Loading GameObject-file: %s",filepath);
+        MSG("Loading GameObject-file: %s",filepath);
         fromString(readText(filepath));
-        writefln("[OBJ] Done loading GameObject-file: %s",filepath);    
+        MSG("Done loading GameObject-file: %s",filepath);    
       }
     }
 
     void save(){
-      writefln("[OBJ] Saving GameObject-file: %s",filepath);
+      MSG("Saving GameObject-file: %s",filepath);
       auto fp = new File(filepath,"wb");
       fp.write(asString());
       fp.close();
-      writefln("[OBJ] Done saving GameObject-file: %s",filepath);  
+      MSG("Done saving GameObject-file: %s",filepath);  
     }
     
     @property{

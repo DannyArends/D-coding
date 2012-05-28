@@ -9,11 +9,8 @@
  **********************************************************************/
 module game.server.movementserver;
 
-import core.stdinc;
-import core.typedefs.types;
-import core.typedefs.location;
-import core.typedefs.webtypes;
-
+import core.stdinc, core.terminal, core.typedefs.types;
+import core.typedefs.location, core.typedefs.webtypes;
 import game.search, game.tilemap, game.player;
 import game.server.gameserver;
 
@@ -36,11 +33,11 @@ class MovementServer : Thread{
           TileMap map = players[x].info.map;
           if(cur.x != req.x || cur.y != req.y){
             if(req.x < map.x && req.y < map.y && req.x >= 0 && req.y >= 0){
-              writeln("[MOV] Player who needs movement detected");
+              MSG("Player who needs movement detected");
               AStarSearch search = new AStarSearch(to!int(cur.x),to!int(cur.z),to!int(req.x),to!int(req.y),players[x].info.map);
               long wait = search.searchPath(200);
               if(wait > 0 && wait < 200) Thread.sleep( dur!("msecs")( wait ) );
-              writeln("[PATH] ",wait," -> ", search.getPath());
+              MSG("Path after %s ms -> %s", wait, search.getPath());
             }
           }
         }
@@ -48,7 +45,7 @@ class MovementServer : Thread{
       //writeln("[ S ] Gonna sleep ",players.length);
       Thread.sleep(dur!("msecs")( 200 ));
     }
-     writeln("[SEVERE] MOVEMENT DIED");
+     WARN("Movement server stopped");
   }
 
 private:

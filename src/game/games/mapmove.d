@@ -17,8 +17,7 @@ import game.games.empty, gui.stdinc, sfx.engine;
 class MapMove : Empty{
   public:
 
-  override void setup3D(Screen screen){
-    writefln("[ G ] setup3D");
+  override void setup3D(Screen screen){ super.setup3D(screen);
     player = new Skeleton(100, -1, 100);
     cameraMotion(new ObjectMotion(screen,player));
     map = new HeightMap(0, -5, 0, screen.getTexture("map"));

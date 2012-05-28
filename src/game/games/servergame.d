@@ -10,7 +10,7 @@
 module game.games.servergame;
 
 import core.stdinc, core.typedefs.types, core.typedefs.location;
-import core.events.engine, core.events.networkevent;
+import core.events.engine, core.terminal, core.events.networkevent;
 import game.engine,game.games.empty, game.player, game.tilemap;
 import gui.stdinc, sfx.engine;
 
@@ -53,22 +53,22 @@ class ServerGame : Empty{
       string objectType = objectData.split(":")[0];
       objectData = objectData[idx+1..$];
       switch(objectType){
-        case "Map":    writeln("[NG ] map"); 
+        case "Map":    wGAME("New Map data received"); 
           TileMap map = new TileMap(objectData);
           HeightMap hmap = new HeightMap(0, 0, 0, map.heightmap, map.colormap);
           engine.screen.add(hmap,"map");
         break;
-        case "User":   writeln("[NG ] User"); 
+        case "User":   wGAME("User data received");
           Player p = new Player(objectData);
           Location l = p.info.location[0];
           Skeleton sk = new Skeleton(l.x, l.y, l.z);
           cameraMotion(new ObjectMotion(engine.screen,sk));
           engine.screen.add(sk,"player");
         break;
-        case "Player": writeln("[NG ] Player"); break;
-        case "NPC":    writeln("[NG ] NPC"); break;
-        case "Struct": writeln("[NG ] Structure"); break;
-        default: writeln("[ G ] Unknown data");
+        case "Player": wGAME("New Player"); break;
+        case "NPC":    wGAME("New NPC"); break;
+        case "Struct": wGAME("New Structure"); break;
+        default: WARN("Received unknown object type (%s)",objectType);
         break;
       }
     }
@@ -93,30 +93,28 @@ class ServerGame : Empty{
           }
           e.handled=true;
         break;
-        case NetEvent.MOVEMENT:  writeln("[ G ] Movement event");
+        case NetEvent.MOVEMENT:  wGAME("Received: Movement event");
           e.handled=true;
         break;
-        case NetEvent.CHAT:  writeln("[ G ] Chat event");
+        case NetEvent.CHAT:      wGAME("Received: Chat event");
           text.addLine(n_evt.msg);
           e.handled=true;
         break;        
-        case NetEvent.SOUND: writeln("[ G ] Sound event");
+        case NetEvent.SOUND:     wGAME("Received: Sound event");
           e.handled=true;
         break;
-        case NetEvent.OBJECT: writeln("[ G ] object event");
+        case NetEvent.OBJECT:    wGAME("Received: Object event");
           createObject(n_evt.msg);
           e.handled=true;
         break;
-        case NetEvent.GFX2D: writeln("[ G ] 2D object event");
+        case NetEvent.GFX2D:     wGAME("Received: GFX2D event");
           e.handled=true;
         break;
-        case NetEvent.GFX3D: writeln("[ G ] 3D object event");
-
- //         cameraMotion(new ObjectMotion(engine.screen,h));
+        case NetEvent.GFX3D:     wGAME("Received: GFX3D event");
           e.handled=true;
         break;
         default:
-          writeln("[ G ] Unknown net event: ",n_evt.getNetEvent());
+          WARN("Received: Unknown Network event: '%s'",n_evt.getNetEvent());
         break;
       }
     }

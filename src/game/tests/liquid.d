@@ -34,7 +34,6 @@ class Test_Liquid : Empty{
   }
   
   override void handle(Event e){
-    writefln("[ G ] event received");
     if(e.getEventType() == EventType.MOUSE){
       liquid.effect(uniform(0, liquid.getMapX()),uniform(0, liquid.getMapY()),uniform(0, 100));
     }

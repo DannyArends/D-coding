@@ -10,23 +10,18 @@
 module game.tests.lqt;
 
 import std.stdio, std.conv;
-import core.typedefs.types;
-import core.events.engine;
-import game.engine;
-import game.games.empty;
-import gui.stdinc;
-import sfx.engine;
+import core.typedefs.types, core.events.engine;
+import game.engine, game.games.empty;
+import gui.stdinc, sfx.engine;
 
 class Test_LQT : Empty{
   public:
-  override void setup2D(Screen screen){
-    writefln("[ G ] setup2D");
+  override void setup2D(Screen screen){ super.setup2D(screen);
     text = new Text(screen, 10, 10);
     screen.add(text);
   }
 
-  override void setup3D(Screen screen){
-    writefln("[ G ] setup3D");
+  override void setup3D(Screen screen){ super.setup3D(screen);
     Texture map = screen.getTexture("map");
     objects ~= new Line(-1, -1,-5, 0, -1,2);
     objects ~= new Line(-10, 2,-30, 0, 5, 5);

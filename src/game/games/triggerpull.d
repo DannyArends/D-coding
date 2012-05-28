@@ -46,7 +46,7 @@ class TriggerPull : Empty{
       fp.close();
       wGAME("Saved game '%s' loaded", filename);
     }
-    wGAME("[ G ] Triggerpull reloaded");
+    wGAME("Welcome to 'Triggerpull reloaded'");
   }
   
   override void save(){
