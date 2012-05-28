@@ -9,23 +9,19 @@
  **********************************************************************/
 module game.games.triggerpull;
 
-import std.stdio, std.string, std.conv, std.file;
-
-import core.typedefs.types;
-import core.arrays.algebra;
-import core.events.engine, core.events.mouseevent;
-import game.engine;
-import gui.stdinc;
+import std.stdio, std.string, std.conv, std.file, core.terminal;
+import core.typedefs.types, core.arrays.algebra, core.events.engine;
+import core.events.mouseevent, game.engine, game.games.empty, gui.stdinc;
 import sfx.engine, sfx.formats.wav;
 
-class TriggerPull : Game{
+class TriggerPull : Empty{
 
-  override void setup2D(Screen screen){
+  override void setup2D(Screen screen){ super.setup2D(screen);
     text = new Text(screen, 10, 10);
     screen.add(text);
   }
 
-  override void setup3D(Screen screen){
+  override void setup3D(Screen screen){ super.setup3D(screen);
     gun = new Quad(1.4,-0.4,0);
     gun.direction = [0.0,0.0,0.0];
     gun.setTexture(screen.getTextureID("Gun"));
@@ -33,18 +29,12 @@ class TriggerPull : Game{
     screen.add(gun);
   }
   
-  override void setupSound(SFXEngine sound){
-    gunsound = sound.getSound("gun");
-  }
-
-  override void quit(){
-    writefln("[ G ] Triggerpull bye");
-  }
+  override void setupSound(SFXEngine sound){ gunsound = sound.getSound("gun"); }
   
   override void load(){
     engine.requestUpdate(1.0);
     if(!exists(filename)){
-      writefln("[ G ] No save game found: %s",filename);    
+      WARN("No save game found: '%s'",filename);
     }else{
       auto fp = new File(filename,"rb");
       string buffer;
@@ -54,9 +44,9 @@ class TriggerPull : Game{
       string[] entities = buffer.split("\t");
       foreach(string e; entities){cnts ~= to!int(e); }
       fp.close();
-      writefln("[ G ] %s loaded", filename);
+      wGAME("Saved game '%s' loaded", filename);
     }
-    writeln("[ G ] Triggerpull reloaded");
+    wGAME("[ G ] Triggerpull reloaded");
   }
   
   override void save(){
@@ -70,7 +60,7 @@ class TriggerPull : Game{
     }
     fp.writeln(buffer);
     fp.close();
-    writefln("[ G ] Saved game to %s", filename);
+    wGAME("Saved game '%s'", filename);
   }
   
   override void render(GFXEngine engine){

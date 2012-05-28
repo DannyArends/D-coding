@@ -10,26 +10,20 @@
 module game.tests.heightmap;
 
 import std.stdio, std.conv;
-import core.typedefs.types;
-import core.events.engine, core.events.mouseevent;
-import game.engine;
-import game.games.empty;
-import gui.stdinc;
-import sfx.engine;
+import core.typedefs.types, core.events.engine, core.events.mouseevent;
+import game.engine, game.games.empty, gui.stdinc, sfx.engine;
 
 class Test_HeightMap : Empty{
   public:
-  override void setup2D(Screen screen){
-    writefln("[ G ] setup2D");
+  override void setup2D(Screen screen){ super.setup2D(screen);
     text = new Text(screen, 10, 10);
     screen.add(text);
   }
 
   
-  override void setup3D(Screen screen){
-    writefln("[ G ] setup 3D movement");
+  override void setup3D(Screen screen){ super.setup3D(screen);
     cameraMotion(new FPMotion(screen));
-    writefln("[ G ] setup 3D scene");
+    wGAME("Done with 3D motion setup");
     Texture map = screen.getTexture("map");
     heightmap = new HeightMap(-50, -10,-100, map);
     heightmap.rotate([0,20,0]);
