@@ -40,7 +40,7 @@ sfx_files     = Dir.glob("./src/sfx/**/*.d").join(' ')
 web_files     = Dir.glob("./src/web/**/*.d").join(' ')
 genetic_files = Dir.glob("./src/genetics/*.d").join(' ')
 plugin_gui    = Dir.glob("./src/gui/**/*.d").join(' ')
-plugin_gen  = Dir.glob("./src/plugins/generator/*.d").join(' ')
+plugin_gen    = Dir.glob("./src/plugins/generator/*.d").join(' ')
 plugin_stats  = Dir.glob("./src/plugins/regression/*.d").join(' ')
 plugin_opts   = Dir.glob("./src/plugins/optionsparser/*.d").join(' ')
 deps_opengl   = Dir.glob("./deps/gl/*.d").join(' ')
@@ -113,7 +113,7 @@ namespace :app do
   
   desc "Multiple lineair regression"
   task "regression" do
-    sh "#{compiler} #{comp_args} src/main/regression.d #{core_files} #{libload_files} #{plugin_stats} #{deps_r} -od#{bd} -ofregression.#{execext} #{link_args}"
+    sh "#{compiler} #{comp_args} src/main/regression.d #{core_files} #{plugin_stats} -od#{bd} -ofregression.#{execext} #{link_args}"
   end
   
   desc "HTPPserver supporting D as CGI"
