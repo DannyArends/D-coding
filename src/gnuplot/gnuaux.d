@@ -10,7 +10,7 @@
 module gnuplot.gnuaux;
 
 import std.stdio, std.string, std.conv, std.file;
-import core.arrays.matrix, core.terminal;
+import core.arrays.matrix, core.terminal, core.typedefs.types;
 
 struct GNUtype{
   string   type;
@@ -44,22 +44,6 @@ enum TERMINAL: GNUout{
   PS   = GNUout("postscript","ps"),
   SVG  = GNUout("svg","svg"),
   SVGI = GNUout("svg enhanced mouse","svg")
-}
-
-string toD(int x, int d){
-  string s = to!string(x);
-  while(s.length < d){ s = "0" ~ s; }
-  return s;
-}
-
-string freefilename(string stem = "temp", string ext = "dat", uint digits = 6){
-  int dataid = 0;
-  string filename;
-  do{
-    filename = stem ~ toD(dataid, digits) ~ "." ~ ext;
-    dataid++;
-  }while(exists(filename));
-  return filename;
 }
 
 T[][] parseCSV(T)(string filename, string sep="\t", bool verbose = true){

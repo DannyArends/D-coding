@@ -10,7 +10,7 @@
 module gnuplot.data;
 
 import std.stdio, std.string, std.conv, std.file;
-import core.arrays.matrix;
+import core.arrays.matrix, core.typedefs.files;
 import gnuplot.gnuaux;
 
 //Container interface

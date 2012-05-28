@@ -10,9 +10,8 @@
 module gnuplot.output;
 
 import std.stdio, std.string, std.conv, std.file;
-import core.executor, core.terminal;
-import core.arrays.ranges;
-import gnuplot.gnuaux, gnuplot.plot;
+import core.executor, core.terminal, core.typedefs.files;
+import core.arrays.ranges, gnuplot.gnuaux, gnuplot.plot;
 
 struct GNUoutput{
   GNUout device   = TERMINAL.PNG;
