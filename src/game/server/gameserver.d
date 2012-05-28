@@ -12,7 +12,7 @@ module game.server.gameserver;
 import core.stdinc;
 import core.typedefs.types, core.typedefs.location, core.typedefs.webtypes;
 
-import web.server;
+import web.server, core.terminal;
 import game.player, game.tilemap, game.structures;
 import game.server.clientcommand;
 import game.server.clienthandler;
@@ -23,14 +23,13 @@ T[] load(T)(string dir = "data/maps/", string ext = ".map"){
   foreach(string e; dirEntries(dir, SpanMode.breadth)){
     if(isFile(e)){
       if(e.indexOf(ext) > 0){
-        writefln(e);
         e = e[e.indexOf(dir)+dir.length..$];
         T item = new T(dir, e);
         if(item.status == FileStatus.OK) items ~= item;
       }
     }
   }
-  writefln("[SERVER] Loaded %d  %s items from %s",items.length, ext, dir);
+  MSG("Loaded %d  %s items from %s",items.length, ext, dir);
   return items;
 }
 
@@ -103,42 +102,41 @@ class GameServer : Server!ClientHandler{
         std.file.remove(userfile);
         if(exists(mapsfile)) std.file.remove(mapsfile);
         log(this, "User '"~name~"' permanently deleted: " ~ userfile,"server");
-        writeln("[SEVERE] Deleted  user files: ",userfile);
+        WARN("Deleted user files: '%s'",userfile);
         return true;
       }
       return false;
     }
     
     void updateUser(T)(string name, T newvalue, string what){
-      writeln("[UPD] Updating ",what);
       static if(is(T == Location)){
-        writeln("[UPD] Updating user requested location");
+        MSG("Updating user requested location");
         users[getUserSlot(name)].info.location[1] = cast(Location)newvalue;
       }
       static if(is(T == TileMap)){
-        writeln("[UPD] Updating user current map");
+        MSG("Updating user current map");
         users[getUserSlot(name)].info.map = cast(TileMap)newvalue;
         log(this, "User "~name~" changed map", "server");
       }
       static if(is(T == string)){
         switch(what){
           case "name":
-            writeln("[UPD] Updating username");
+            MSG("Updating username %s -> %s", name, newvalue);
             users[getUserSlot(name)].info.name = cast(string)newvalue;
             log(this, "User '"~name~"' changed name to "~ cast(string)newvalue, "server");
           break;
           case "pass":
-            writeln("[UPD] Updating password");
+            MSG("Updating password for user %s",name);
             users[getUserSlot(name)].info.pass = cast(string)newvalue;
             log(this, "User '"~name~"' changed his password", "server");
           break;
           case "lastloggedin":
-            writeln("[UPD] Updating last logged in for " ~ name);
+            MSG("Updating last logged in %s ",name);
             users[getUserSlot(name)].online(true);
             users[getUserSlot(name)].info.lastloggedin = servertime;
           break;
           default:
-          writeln("[ERR] Request to update unknown string in user");
+          WARN("Request to update unknown string in user");
           break;
         }
       }

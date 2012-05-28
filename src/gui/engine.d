@@ -12,7 +12,7 @@ module gui.engine;
 import std.stdio, std.conv, std.datetime;
 import sdl.sdl, sdl.sdlstructs, sdl.sdlfunctions;
 import core.typedefs.types, core.terminal;
-import sfx.engine;
+import sfx.engine, core.memory;
 import game.engine, game.users.gameclient;
 import core.events.engine, core.events.clockevents;
 import core.events.keyevent, core.events.mouseevent;
@@ -57,12 +57,19 @@ class GFXEngine : ClockEventHandler{
      GFX("Done with engine constructor");
   }
   
+  void gc(int after, int ntime){
+    DBG("D - GC collection run");
+    GC.collect();
+    GC.minimize();
+  }
+  
   void start(bool verbose = false){
     setT0();
     printOpenGlInfo(verbose);
     add(new ClockEvent(&game.setMainMenuStage,8000));
     add(new ClockEvent(&game.rotateLogo,40,199,false));
     add(new ClockEvent(&game.changeLogo,2600,2,false));
+    add(new ClockEvent(&this.gc,30000,-1,false));
     while(rendering){
       SysTime st = Clock.currTime();
       update();

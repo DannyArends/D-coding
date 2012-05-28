@@ -93,7 +93,7 @@ mixin(GenOutput!("ERR", "Red"));
 alias wERR ERR;
 mixin(GenOutput!("WARN","Orange"));
 alias wWARN WARN;
-mixin(GenOutput!("DBG", "Blue"));
+mixin(GenOutput!("DBG", "Silver"));
 alias wDBG DBG;
 
 CColor getConsoleForeground(){ return fg; }

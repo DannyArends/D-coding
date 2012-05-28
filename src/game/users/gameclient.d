@@ -15,7 +15,7 @@ import web.socketclient;
 
 alias core.thread.Thread Thread;
 
-mixin(GenOutput!("NET", "DarkYellow"));
+mixin(GenOutput!("NET", "Silver"));
 
 class GameClient : Thread{
   private:
