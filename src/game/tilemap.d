@@ -9,11 +9,12 @@
  **********************************************************************/
 module game.tilemap;
 
-import core.stdinc;
-import std.algorithm;
+import core.stdinc, core.terminal;
 import core.typedefs.color, core.typedefs.types;
 import core.arrays.types, core.arrays.search;
 import game.engine, game.structures, game.tile, game.mover;
+
+mixin(GenOutput!("MAP", "Green"));
 
 class TileMap : GameObject{
 public:
@@ -99,15 +100,15 @@ public:
   
   override void fromString(string data){
     string[] lines = splitLines(data);
-    writeln("[MAP] Start of parsing ",lines.length," lines of data");
+    wMAP("Start of parsing %s lines of data",lines.length);
     int currentline = 0;
     while(currentline < lines.length){
       if(chomp(lines[currentline]) == "# --- Data tiledefs begin"){
-        writeln("[MAP] Tile definitions");
+        wMAP("Tile definitions found");
         currentline++;
         while(currentline < lines.length){
           if(chomp(lines[currentline]) == "# --- Data tiledefs end"){
-            writeln("[MAP] Tile definitions done");
+            wMAP("Done with tile definitions");
             break;
           }
           if(lines[currentline][0] == '#') continue;
@@ -117,12 +118,12 @@ public:
       }
       
       if(chomp(lines[currentline]) == "# --- Data tiles begin"){
-        writeln("[MAP] Tiles");
+        wMAP("Tiles found");
         currentline++;
         while(currentline < lines.length){
           if(chomp(lines[currentline]) == "# --- Data tiles end"){
             _status = FileStatus.OK;
-            writeln("[MAP] Tiles done");
+            wMAP("Done with tiles");
             break;
           }
           if(lines[currentline][0] == '#') continue;

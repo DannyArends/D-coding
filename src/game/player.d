@@ -1,20 +1,19 @@
-/**********************************************************************
+/******************************************************************//**
  * \file src/game/player.d
+ * \brief A user that is playing
  *
- * copyright (c) 2012 Danny Arends
- * last modified Feb, 2012
- * first written Jun, 2011
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Mar, 2012<br>
+ * First written Jun, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 module game.player;
 
-import core.stdinc;
-import core.typedefs.types;
-import core.typedefs.location;
-import core.typedefs.color;
-import game.engine;
-import game.structures;
-import game.tilemap;
+import core.stdinc, core.typedefs.types, core.typedefs.location;
+import core.typedefs.color, core.terminal;
+import game.engine, game.structures, game.tilemap;
+
+mixin(GenOutput!("USR", "Green"));
 
 class Player : GameObject{
   public:
@@ -53,11 +52,11 @@ class Player : GameObject{
     int currentline = 7;
     while(currentline < lines.length){
       if(chomp(lines[currentline]) == "# --- Data inventory begin"){
-        writeln("[USR] inventory definitions");
+        wUSR("Inventory found");
         currentline++;
         while(currentline < lines.length){
           if(chomp(lines[currentline]) == "# --- Data inventory end"){
-            writeln("[USR] inventory done");
+            wUSR("Done with inventory");
             _status = FileStatus.OK;
             break;
           }
@@ -68,7 +67,7 @@ class Player : GameObject{
       }
       currentline++;
     }
-    writefln("Done player-file: %s",filename);
+    wUSR("Done parsing player file: '%s'",filename);
   }
 
   string asLimited(){

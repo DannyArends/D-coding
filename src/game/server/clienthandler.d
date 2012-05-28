@@ -125,7 +125,7 @@ class ClientHandler : Thread {
 private:
 
   void payload(){
-    writeln("[CLIENT] Client",id,": starting");
+    wCLN("Starting a new client (%s)", id);
     log(server,"Client " ~ address() ~ " on " ~ to!string(id) ~ " online");
     send(NetEvent.HEARTBEAT ~ server.servertime);
     Thread.sleep( dur!("msecs")( 20 ) );
@@ -141,6 +141,7 @@ private:
         Thread.sleep( dur!("msecs")( 20 ) );
       }
     }
+    wCLN("Client (%s) stopped", id);
   }
   
   SysTime    lastBeat;

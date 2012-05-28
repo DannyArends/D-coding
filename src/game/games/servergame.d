@@ -87,7 +87,7 @@ class ServerGame : Empty{
         case NetEvent.GAME:  wGAME("Received: Network game event");
           if(n_evt.msg.length > 0){
             auto plist = split(n_evt.msg," ");
-            writeln("[CLN] From server: ",plist[0]);
+            wGAME("Event received from server: ",plist[0]);
             if(plist.length > 1) writeln(", args:",plist[1..$]);
             processGameCommand(plist);
           }

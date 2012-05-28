@@ -9,13 +9,11 @@
  **********************************************************************/
 module game.server.clientcommand;
 
-import core.stdinc;
-import core.typedefs.types;
-import core.typedefs.location;
-
-import game.tilemap;
-import game.server.gameserver;
+import core.stdinc, core.typedefs.types, core.typedefs.location;
+import core.terminal, game.tilemap, game.server.gameserver;
 import game.server.clienthandler;
+
+mixin(GenOutput!("CLN", "Green"));
 
 void processSync(GameServer server, ClientHandler handler, string command){
 
@@ -136,15 +134,15 @@ void handleDelete(GameServer server, ClientHandler handler){
 void handleLogin(GameServer server, ClientHandler handler, string name){
   handler.username(name);
   server.updateUser!string(name, "", "lastloggedin");
-  writeln("[CLN] Sending map & Location"); sendLocation(server, handler, true);
-  writeln("[CLN] Sending user data"); sendUserData(server, handler);
+  wCLN("Sending map & Location"); sendLocation(server, handler, true);
+  wCLN("Sending user data"); sendUserData(server, handler);
 }
 
 void processClientCommand(GameServer server, ClientHandler handler, string command){
   if(command.length > 0){
     auto plist = split(command," ");
-    writeln("[CLN] Command: ",plist[0]);
-    if(plist.length > 1) writeln("[CLN] Command args:",plist[1..$]);
+    wCLN("Command: %s",plist[0]);
+    if(plist.length > 1) wCLN("Command arguments: %s",plist[1..$]);
     switch(toLower(plist[0])){
       case "create": processCreate(server,handler,plist); break;
       case "login" : processLogin(server,handler,plist); break;
@@ -200,7 +198,7 @@ void processMovement(GameServer server, ClientHandler handler, string command){
   if(handler.loggedin){
     handler.firsttimedelete = true;
     Location l = new Location(command);
-    writeln("[CLN] Movement request from client: ",l);
+    wCLN("Movement request from client: %s", l);
     handler.setReqLocation(l);
   }
 }
