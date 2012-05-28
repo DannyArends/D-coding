@@ -10,8 +10,7 @@
 module plugins.regression.regression;
  
 import std.stdio, std.conv, std.math;
-import core.arrays.types;
-import core.arrays.matrix;
+import core.arrays.types, core.arrays.matrix;
 import plugins.regression.support;
 
 double multipleregression(double[][] designmatrix, double[] y, double[] weight, int[] nullmodellayout, bool verbose = true){

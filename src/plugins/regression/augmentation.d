@@ -10,8 +10,7 @@
 module plugins.regression.augmentation;
  
 import std.stdio, std.math;
-import core.arrays.types;
-import plugins.regression.support;
+import core.arrays.types, plugins.regression.support;
 
 const int RFUNKNOWN = 999;
 

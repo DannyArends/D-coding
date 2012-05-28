@@ -10,8 +10,7 @@
 module plugins.regression.LUdecomposition;
  
 import std.stdio, std.math;
-import core.arrays.types;
-import plugins.regression.support;
+import core.arrays.types, plugins.regression.support;
 
 bool LUdecompose(double[][] m, int dim, int[] ndx, int *d) {
   int r, c, rowmax, i;
