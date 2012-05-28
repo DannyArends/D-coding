@@ -1,8 +1,14 @@
+/******************************************************************//**
+ * \file src/main/scanentropy.d
+ * \brief Main function to compile the file entropy scanner
+ *
+ * <i>Copyright (c) 2012</i> Danny Arends<br>
+ * Last modified Mar, 2012<br>
+ * First written 2012<br>
+ * Written in the D Programming Language (http://www.digitalmars.com/d)
+ **********************************************************************/
 import std.stdio, std.math, std.file, std.path, std.string, std.conv;
-import std.getopt;
-import core.memory;
-import core.numbers.entropy;
-import io.walkdir;
+import std.getopt, core.memory, core.terminal, core.numbers.entropy, io.walkdir;
 
 void main(string[] args){
   bool help    = false;
@@ -16,13 +22,13 @@ void main(string[] args){
              , "output|o", &output
              , "input|i", &input );
   if(!help){
-    writefln("Scanning: %s to a depth of %s, saving to %s",input,depth,output);
+    MSG("Scanning: %s to a depth of %s, saving to %s",input,depth,output);
     auto fp = new File(output,"w");
     scope(exit) fp.close();
     ulong cnts[2] = walkdir(fp, input,[0, 0], depth);
-    writefln("Done: %s files / %s dirs", cnts[0], cnts[1]);
+    MSG("Done: %s files / %s dirs", cnts[0], cnts[1]);
   }else{
-    writeln("File entropy scanner");
+    MSG("File entropy scanner");
     writeln(" -h(elp)    Show this help");
     writeln(" -i(nput)   Input path: e.g: C:\\");
     writeln(" -io(utput) Filename of the output file");
