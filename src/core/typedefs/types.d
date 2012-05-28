@@ -10,7 +10,7 @@
 module core.typedefs.types;
 
 import std.stdio, std.file, std.conv, std.string, std.random;
-import core.memory;
+import core.memory, core.terminal;
 
 enum EventType       { NULL, MOUSE, KEYBOARD, SOUND, GFX2D, GFX3D, CLOCK, NETWORK, QUIT }
 enum NetEvent : char { UNKNOWN = 'U', HEARTBEAT = 'H', REGISTER = 'R', LOGIN = 'L', CHAT = 'C', MOVEMENT = 'M', GAME = 'G', OBJECT = 'O', SOUND = 'S', GFX2D = '2', GFX3D = '3'}
@@ -118,14 +118,14 @@ struct TimeTracker{
   public:
     void load(string filename = "ST.save"){
       if(!exists(filename)){
-        writefln("[T T] Not found: %s",filename);    
+        WARN("Servert time not found: '%s'",filename);    
       }else{
         auto fp = new File(filename,"rb");
         string buffer;
         fp.readln(buffer);
         fromString(chomp(buffer));
         fp.close();
-        writefln("[ G ] %s loaded", filename);
+        MSG("Server time loaded from '%s'", filename);
       }
     }
     
@@ -133,16 +133,16 @@ struct TimeTracker{
       string[] dt = msg.split(" ");
       string[] entities = dt[1].split(":");
       size_t cnt=0;
-      for(size_t x = 2; x>=0; x--){mytime[cnt] = to!int(entities[x]); cnt++; }
+      for(int x = 2; x >= 0; x--){ mytime[cnt] = to!int(entities[x]); cnt++; }
       entities = dt[0].split("-");
-      for(size_t x = 2; x>=0; x--){mytime[cnt] = to!int(entities[x]); cnt++; }
+      for(int x = 2; x >= 0; x--){ mytime[cnt] = to!int(entities[x]); cnt++; }
     }
     
     void save(string filename = "ST.save"){
       auto fp = new File(filename,"wb");
       fp.writeln(val);
       fp.close();
-      writefln("[ G ] Saved to %s", filename);
+      MSG("Server time saved to '%s'", filename);
     }
     
     void addSecond(){
