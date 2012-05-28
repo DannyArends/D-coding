@@ -10,8 +10,8 @@
 module gui.enginefunctions;
 
 import std.array, std.stdio, std.conv;
-import sdl.sdlstructs, sdl.sdlfunctions;
-import gl.gl_1_0, gl.gl_1_1, gl.glu;
+import sdl.sdlstructs, sdl.sdlfunctions, core.terminal;
+import gl.gl_1_0, gl.gl_1_1, gl.glu, gui.engine;
 
 bool resizeWindow(int width, int height){
   if(height == 0) height = 1;
@@ -59,9 +59,9 @@ double[3] getUnproject(int x, int y){
 
 void printOpenGlInfo(bool verbose = false){
   if(verbose){
-    writefln("[GFX] Renderer = %s", to!string(glGetString(GL_RENDERER)));
-    writefln("[GFX] OpenGL   = %s", to!string(glGetString(GL_VERSION)));
-    writefln("[GFX] Vendor   = %s", to!string(glGetString(GL_VENDOR)));
+    GFX("Renderer = %s", to!string(glGetString(GL_RENDERER)));
+    GFX("OpenGL   = %s", to!string(glGetString(GL_VERSION)));
+    GFX("Vendor   = %s", to!string(glGetString(GL_VENDOR)));
   }
 }
 
@@ -72,16 +72,18 @@ int initVideoFlags(SDL_VideoInfo* videoInfo){
   videoFlags |= SDL_RESIZABLE;       /* Enable window resizing */
 
   if(videoInfo.hw_available){
-    writefln("[GFX] Video hardware surface available");
+    GFX("Video hardware surface available");
     videoFlags |= SDL_HWSURFACE;
   }else{
-    writefln("[GFX] Video fallback to software surface");
+    WARN("Video fallback to software surface");
     videoFlags |= SDL_SWSURFACE;
   }
   
   if(videoInfo.blit_hw){
-    writefln("[GFX] Video hardware acceleration available");
+    GFX("Video hardware acceleration available");
     videoFlags |= SDL_HWACCEL;
+  }else{
+    WARN("No video hardware acceleration available");
   }
   return videoFlags;
 }

@@ -11,7 +11,7 @@ module gui.motion;
 
 import std.array, std.stdio, std.math, std.conv;
 import sdl.sdlstructs;
-import core.typedefs.types, core.typedefs.camera;
+import core.typedefs.types, core.typedefs.camera, core.terminal;
 import core.events.engine, core.events.keyevent, core.events.mouseevent;
 import gui.screen;
 import gui.objects.object3d;
@@ -62,7 +62,7 @@ class FPMotion : CameraMotion {
           break;
         default: break;
         }
-        writefln("[MOV] KeyBOARD %s",evt.getSDLkey());
+        MSG("KEYBOARD event: key %s", evt.getSDLkey());
       }
     }
   }
@@ -112,7 +112,7 @@ class ObjectMotion : CameraMotion {
           break;
         default: break;
       }
-      writefln("[MOV] KeyBOARD %s",k_evt.getSDLkey());
+      MSG("KEYBOARD event: key %s",k_evt.getSDLkey());
     }
     if(e.getEventType() == EventType.MOUSE){
       MouseEvent m_evt = cast(MouseEvent) e;

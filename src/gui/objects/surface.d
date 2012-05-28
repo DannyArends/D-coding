@@ -11,10 +11,9 @@ module gui.objects.surface;
 
 import std.stdio, std.conv, std.math, std.random;
 import gl.gl_1_0, gl.gl_1_1;
-import core.arrays.types;
+import core.arrays.types, core.terminal;
 import core.typedefs.types, core.typedefs.color, core.typedefs.camera;
-import gui.formats.tga;
-import gui.objects.object3d;
+import gui.formats.tga, gui.objects.object3d;
 
 /*! \brief 3D HeightMap
  *
@@ -83,7 +82,7 @@ class Surface : Object3D{
     glNewList(displaylist, GL_COMPILE);
     printOGL(getFaceType());
     glEndList();
-    writefln("[OBJ] Surface buffered in %s",displaylist);
+    MSG("Surface (re)buffered in displaylist: %s",displaylist);
     buffered(true);
   }
   

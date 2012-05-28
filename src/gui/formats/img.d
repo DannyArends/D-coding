@@ -50,8 +50,8 @@ Texture loadImageAsTexture(string filename, bool verbose = true){
 
 GLuint[] bufferTexture(Texture texture, bool verbose = false){
   texture.id = new GLuint[1];
-  if((texture.width & (texture.width - 1)) != 0){ WARN("Width is not a power of 2"); }
-  if((texture.height & (texture.height - 1)) != 0){ WARN("Height is not a power of 2");}
+  if((texture.width & (texture.width - 1)) != 0){ WARN("Image %s width is not a power of 2",texture.name); }
+  if((texture.height & (texture.height - 1)) != 0){ WARN("Image %s height is not a power of 2",texture.name);}
   glGenTextures(1, &(texture.id[0]) );
   glBindTexture(GL_TEXTURE_2D, texture.id[0] );
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
