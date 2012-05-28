@@ -10,9 +10,11 @@
 module game.search;
 
 import core.thread, std.array, std.conv, std.stdio, std.math;
-import std.string, std.datetime, core.time;
+import std.string, std.datetime, core.time, core.terminal;
 import core.arrays.types;
 import game.searchnode, game.tilemap, game.mover,game.path;
+
+mixin(GenOutput!("MOV", "Green"));
 
 /*! \brief SearchHeuristic interface definition
  *
@@ -62,6 +64,12 @@ class AStarSearch{
     
     this(int sx, int sy, int tx, int ty, TileMap map, SearchHeuristic heuristic, int maxDepth){
       this.heuristic=heuristic;
+      newTarget(sx, sy, tx, ty, map);
+      this.maxDepth=maxDepth;
+      wMOV("Movement request constructed [",sx," ",sy,"] to [",tx," ",ty,"]");
+    }
+
+    void newTarget(int sx,int sy,int tx,int ty,TileMap map){
       this.map=map;
       for(size_t x=0; x < map.x; x++){
         Node[] nlist;
@@ -74,20 +82,22 @@ class AStarSearch{
       this.sy=sy;
       this.tx=tx;
       this.ty=ty;
-      this.maxDepth=maxDepth;
       open ~= nodes[sx][sy];
-      writeln("[SEARCH] CONSTRUCTED [",sx," ",sy,"] [",tx," ",ty,"]");
+      this.done = false;
     }
+
     
     long searchPath(long msec){
-      writeln("[SEARCH] STARTED");
+      wMOV("Path finding started");
       auto t0 = Clock.currTime();
       auto t1 = Clock.currTime();
-      while((t1-t0).total!"msecs" < msec){
+      while((t1-t0).total!"msecs" < msec && !done){
         if((open.length != 0)){
           debug writeln("[SEARCH] Open length: ",open.length);
           Node current = getFirstInOpen();
-          if(current.x == tx && current.y==ty){ writeln("[SEARCH] DONE, at destination");
+          if(current.x == tx && current.y==ty){ 
+            wMOV("Path constructed, at destination");
+            done = true;
             return(msec - (t1-t0).total!"msecs");
           }
           removeFromOpen(current);
@@ -126,12 +136,13 @@ class AStarSearch{
           debug writeln("[SEARCH] Resorting open:",open.length);
           open = mostLikelyOnTop(open);
         }else{
-          writeln("[SEARCH] DONE, no more options");
+          wMOV("Exhaustive search done, no more options");
+          done = true;
           return(msec - (t1-t0).total!"msecs");
         }
         t1 = Clock.currTime();
       }
-      writeln("[SEARCH] DONE, search time expired");
+      if(!done) wMOV("Search interupted, search time expired");
       return 0;
     }
       
@@ -147,6 +158,10 @@ class AStarSearch{
       path.prepend(Step(sx,sy));
       return path;
     }
+    
+    @property bool active(){ return !done; }
+    @property int to_x(){ return tx; }
+    @property int to_y(){ return ty; }
     
   private:
     Node[] mostLikelyOnTop(Node[] nodelist){
@@ -168,9 +183,7 @@ class AStarSearch{
       return false;
     }
     
-    Node getFirstInOpen(){
-      return open[0];
-    }
+    Node getFirstInOpen(){ return open[0]; }
 
     void removeFromOpen(Node n){
       Node[] newopen;
@@ -188,17 +201,15 @@ class AStarSearch{
       closed = newclosed;
     }
 
-    void addToClosed(Node n){
-      closed ~= n;
-    }
+    void addToClosed(Node n){ closed ~= n; }
 
+  private:
     SearchHeuristic heuristic;
     TileMap         map;
+    bool            done = false;
     Node[][]        nodes;
-    Node[]          open;
-    Node[]          closed;
+    Node[]          open, closed;
     Mover           mover;
     int             maxDepth;
-    int             sx,sy;
-    int             tx,ty;
+    int             sx, sy, tx, ty;
 }

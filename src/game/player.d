@@ -10,7 +10,7 @@
 module game.player;
 
 import core.stdinc, core.typedefs.types, core.typedefs.location;
-import core.typedefs.color, core.terminal;
+import core.typedefs.color, core.terminal, game.search;
 import game.engine, game.structures, game.tilemap;
 
 mixin(GenOutput!("USR", "Green"));
@@ -109,7 +109,12 @@ class Player : GameObject{
       }
   }
   
+  @property AStarSearch search(AStarSearch s= null){
+    if(s !is null){_search = s; } return _search;
+  }
+  
   private:
+    AStarSearch  _search = null;
     bool         _online = true;
     GameUser     userinfo;
     FileStatus   _status = FileStatus.NO_SUCH_FILE;

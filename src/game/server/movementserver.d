@@ -33,11 +33,20 @@ class MovementServer : Thread{
           TileMap map = players[x].info.map;
           if(cur.x != req.x || cur.y != req.y){
             if(req.x < map.x && req.y < map.y && req.x >= 0 && req.y >= 0){
-              MSG("Player who needs movement detected");
-              AStarSearch search = new AStarSearch(to!int(cur.x),to!int(cur.z),to!int(req.x),to!int(req.y),players[x].info.map);
-              long wait = search.searchPath(200);
+              if(players[x].search is null){
+                players[x].search = new AStarSearch(to!int(cur.x),to!int(cur.z),to!int(req.x),to!int(req.y),players[x].info.map);
+              }else{
+                if(!(to!int(req.x) == players[x].search.to_x && to!int(req.y)== players[x].search.to_y)){
+                  players[x].search.newTarget(to!int(cur.x),to!int(cur.z),to!int(req.x),to!int(req.y),players[x].info.map);
+                }
+              }
+              long wait = 200;
+              if(players[x].search.active()){
+                MSG("Player with active search");
+                wait = players[x].search.searchPath(200);
+                MSG("Path after %s ms -> %s", wait, players[x].search.getPath());
+              }
               if(wait > 0 && wait < 200) Thread.sleep( dur!("msecs")( wait ) );
-              MSG("Path after %s ms -> %s", wait, search.getPath());
             }
           }
         }
