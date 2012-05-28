@@ -80,10 +80,15 @@ void setCColor(CColor fore = CColor.White, CColor back = CColor.White.Black){
   setConsoleBackground(back);
 }
 
+void addWhite(string name){
+  assert(name.length < 6, "The maximum name length of GenOutput is 6");
+  for(size_t x=0; x < (6-name.length);x++){ write(" "); }
+}
+
 template GenOutput(string name, string color, string bcolor = "Black"){
   const char[] GenOutput = "void w"~ name ~ "(A...)(A a){" ~
-  "setCColor(CColor."~color~",CColor."~bcolor~"); write(\"["~name~"]\"); std.stdio.stdout.flush();" ~
-  "setCColor(); write(\" \"); std.stdio.stdout.flush();" ~
+  "setCColor(CColor."~color~",CColor."~bcolor~"); writef(\"["~name~"]\"); std.stdio.stdout.flush();" ~
+  "setCColor(); addWhite(\""~name~"\"); std.stdio.stdout.flush();" ~
   "setCColor(); writefln(a);}";
 }
 

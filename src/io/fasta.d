@@ -10,8 +10,7 @@
 module io.fasta;
 
 import std.stdio, std.math, std.file, std.path, std.string, std.conv;
-import core.arrays.matrix;
-import core.arrays.types;
+import core.arrays.matrix, core.terminal, core.arrays.types;
 import core.arrays.ranges;
 
 /*! \brief Fasta sequence structure
@@ -68,7 +67,7 @@ Fasta[] readFasta(string fn, bool circular = false){
 void shiftSequence(Fasta f, uint n = 0, bool verbose = true){
   assert(n < f.sequence.length,"Faste: shift >= sequence.length");
   if(n==0) return;
-  writefln("MOV sequence: %s...%s", f.sequence[0..10], f.sequence[($-10)..$]);
+  MSG("Moving sequence: %s...%s", f.sequence[0..10], f.sequence[($-10)..$]);
   if(f.circular){
     if(n > 0) f.sequence = f.sequence[n..$] ~ f.sequence[0..n];
     if(n < 0) f.sequence = f.sequence[($-n)..$] ~ f.sequence[0..($-n)];
@@ -77,5 +76,5 @@ void shiftSequence(Fasta f, uint n = 0, bool verbose = true){
     if(n > 0) f.sequence = f.sequence[n..$] ~ mask;
     if(n < 0) f.sequence = mask ~ f.sequence[0..($-n)];    
   }
-  writefln("NEW sequence: %s...%s", f.sequence[0..10], f.sequence[($-10)..$]);
+  MSG("New sequence: %s...%s", f.sequence[0..10], f.sequence[($-10)..$]);
 }

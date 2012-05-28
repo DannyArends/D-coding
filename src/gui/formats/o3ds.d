@@ -11,7 +11,7 @@ module gui.formats.o3ds;
 
 import core.stdinc, std.c.stdio, std.cstream;
 import gl.gl_1_0, gl.gl_1_1, gl.gl_1_5, gl.gl_ext;
-import core.arrays.algebra;
+import core.arrays.algebra, core.terminal;
 
 struct vertextype{
   int boneID;
@@ -60,7 +60,7 @@ bool bufferModelInfo3DS(ModelInfo3DS* model){
   // Generate And Bind The Vertex Buffer
   glGenBuffersARB(cast(int)model.objects.length, &model.vertexbuffer); // Objects
   glGenBuffersARB(cast(int)model.objects.length, &model.colorbuffer); // Colors
-  writefln("[3DS] Generated buffers: %d %d",model.vertexbuffer,model.colorbuffer);
+  MSG("Generated 3DS buffers: %d %d",model.vertexbuffer,model.colorbuffer);
   GLfloat[] verticesunpacked = new GLfloat[](9*model.npolygons);
   ubyte[] colorunpacked = new ubyte[](12*model.npolygons);
 
@@ -72,7 +72,7 @@ bool bufferModelInfo3DS(ModelInfo3DS* model){
         for(size_t sideloc = 0; sideloc < 3; sideloc++){
           size_t vertexnum = o3ds.polygon[x].p[triside];
           if(vertexnum >= o3ds.vertex.length){
-            writefln("[3DS] Model %s contains incomplete polygon at %d",o3ds.name,x);
+            WARN("3DS model %s contains incomplete polygon at %d",o3ds.name,x);
             vertexnum=1;
           }
           verticesunpacked[vcnt] = o3ds.vertex[vertexnum].v[sideloc];
@@ -101,7 +101,7 @@ bool bufferModelInfo3DS(ModelInfo3DS* model){
   glBufferDataARB(GL_ARRAY_BUFFER_ARB, model.npolygons*12*ubyte.sizeof, colorunpacked.ptr, GL_STATIC_DRAW_ARB);
   
   model.buffered = true;
-  writefln("[3DS] Buffering done");
+  MSG("Done with buffering a 3DS object");
   return model.buffered;
 }
 
@@ -114,10 +114,10 @@ int findMaterial(string name, Material3DS[] materials){
 
 ModelInfo3DS* loadModelInfo3DS(string filename){
   if(!exists(filename) || !filename.isFile){
-    writefln("[3DS] No such file: %s",filename);
+    ERR("No such file: %s",filename);
     return null;
   }
-  writefln("[3DS] Opening 3ds-file: %s",filename);
+  MSG("Opening 3DS file: %s",filename);
   string materialname = "";
   string objectname   = "";
   string texturename  = "";
@@ -247,7 +247,7 @@ ModelInfo3DS* loadModelInfo3DS(string filename){
   if(model!=null) fullmodel.objects ~= (*model);
   if(material!=null) fullmodel.materials ~= (*material);
   fp.close();
-  writefln("[3DS] Loaded 3ds-file: %s, %d objects, %d materials",filename, fullmodel.objects.length,fullmodel.materials.length);
+  MSG("Parsed 3DS file: %s, %d objects, %d materials",filename, fullmodel.objects.length,fullmodel.materials.length);
   foreach(Object3DS m;fullmodel.objects){
     float triangle[3][3];
     for(size_t x=0;x<m.polygon.length;x++){
@@ -260,6 +260,6 @@ ModelInfo3DS* loadModelInfo3DS(string filename){
       }
     }
   }
-  writefln("[3DS] Calculated normals, object %s OK",filename);
+  MSG("Calculated normals, object %s OK",filename);
   return fullmodel;
 }

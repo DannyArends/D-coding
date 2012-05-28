@@ -7,25 +7,18 @@
  * First written Dec, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-import std.stdio;
-import std.math;
-
-import r.r;
-import r.lapack;
-
-import core.arrays.types;
-import plugins.regression.support;
+import std.stdio, std.math, core.terminal, core.arrays.types;
 import plugins.regression.regression;
-import plugins.regression.augmentation;
 
 void main(string[] args){
-  writefln("Multiple linear regression in D");
+  MSG("Multiple linear regression in D\n");
   double[][] designmatrix = [[1,1],[1,1],[1,2],[1,2],[1,2],[1,2]];
-  double[]   trait = [1,1,1,2000,2000,2000];
+  double[]   trait = [4,1,3,7,5,6];
   double[]   weight = [1,1,1,1,1,1];
   int[]      nullmodellayout = [1,1];  //The D[][1] is dropped from the model to test its predictive value 
   for(size_t i = 0; i < designmatrix.length; i++){
-    writefln("[%s] = %s",trait[i],designmatrix[i]);
+    MSG("[%s] = %s",trait[i],designmatrix[i]);
   }
-  writefln("LOD = %s",multipleregression(designmatrix,trait,weight,nullmodellayout,0));
+  writeln();
+  MSG("LOD = %s",multipleregression(designmatrix,trait,weight,nullmodellayout,0));
 }

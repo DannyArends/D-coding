@@ -10,12 +10,8 @@
 module io.walkdir;
 
 import std.stdio, std.math, std.file, std.path, std.string, std.conv;
-import std.getopt;
-import core.memory;
-
-import core.arrays.ranges;
-import core.arrays.matrix;
-import core.numbers.entropy;
+import std.getopt, core.memory, core.terminal, core.numbers.entropy;
+import core.arrays.ranges, core.arrays.matrix;
 
 string[] forbidden_names = ["pagefile.sys","System Volume Information","CONFIG.SYS","","RECYCLER"];
 
@@ -33,7 +29,7 @@ ulong[2] walkdir(File* fp, string dir = ".", ulong cnts[2] = [0, 0], uint depth 
     if(valid_name(sn)){
       if(isDir(fn)){
         if(cnts[1] % 100 == 0){
-          writefln("In %s, done: %s files / %s dirs", fn[0..getI(18,fn)], cnts[0], cnts[1]);
+          MSG("In %s, done: %s files / %s dirs", fn[0..getI(18,fn)], cnts[0], cnts[1]);
         }
         cnts[1]++;
         cnts = walkdir(fp, dir ~ "\\" ~ sn, cnts,(depth-1));

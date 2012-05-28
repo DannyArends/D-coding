@@ -10,7 +10,7 @@
 module gnuplot.output;
 
 import std.stdio, std.string, std.conv, std.file;
-import core.executor;
+import core.executor, core.terminal;
 import core.arrays.ranges;
 import gnuplot.gnuaux, gnuplot.plot;
 
@@ -74,15 +74,13 @@ struct GNUoutput{
       int rc = system(("gnuplot " ~ outfile ~ "\0").dup.ptr);
       if(rc == 0){
         cleanup();
-        writefln("[DGNUplot] Created: %s",plotfile);
+        MSG("Created: %s",plotfile);
       }else{
-        writefln("[ERROR] Plot failed: %s, script saved",plotfile);
+        ERR("Plot failed: %s, script saved",plotfile);
       }
     }
     
-    void cleanup(){ 
-      remove(outfile); 
-    }
+    void cleanup(){ remove(outfile); }
 
     string outfile;
     string plotfile;

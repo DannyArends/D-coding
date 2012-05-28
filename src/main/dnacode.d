@@ -7,13 +7,8 @@
  * First written 2010<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-import std.array;
-import std.stdio;
-import std.conv;
-import std.string;
-import genetics.dna;
-import genetics.rna;
-import genetics.protein;
+import std.array, std.stdio, std.conv, std.string;
+import genetics.dna, genetics.rna, genetics.protein;
 
 void print_usage(){
   writeln("   Usage: dnacode DNAstrand");

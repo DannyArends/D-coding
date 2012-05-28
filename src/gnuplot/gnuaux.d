@@ -10,7 +10,7 @@
 module gnuplot.gnuaux;
 
 import std.stdio, std.string, std.conv, std.file;
-import core.arrays.matrix;
+import core.arrays.matrix, core.terminal;
 
 struct GNUtype{
   string   type;
@@ -48,9 +48,7 @@ enum TERMINAL: GNUout{
 
 string toD(int x, int d){
   string s = to!string(x);
-  while(s.length < d){
-    s = "0" ~ s;
-  }
+  while(s.length < d){ s = "0" ~ s; }
   return s;
 }
 
@@ -67,7 +65,7 @@ string freefilename(string stem = "temp", string ext = "dat", uint digits = 6){
 T[][] parseCSV(T)(string filename, string sep="\t", bool verbose = true){
   T[][] data;
   if(!exists(filename) || !isFile(filename)){
-    writefln("[ERROR] No such file %s",filename);
+    ERR("No such file %s",filename);
   }else{
     try{
       auto fp = new File(filename,"rb");
@@ -77,9 +75,9 @@ T[][] parseCSV(T)(string filename, string sep="\t", bool verbose = true){
         data ~= stringvectortotype!T(buffer.split(sep));
       }
       fp.close();
-      if(verbose) writefln("[DGNUplot] Parsed %s lines in file: %s",data.length, filename);
+      if(verbose) MSG("Parsed %s lines in file: %s",data.length, filename);
     }catch(Throwable e){
-      writefln("[ERROR] File %s read exception: %s", filename,e);
+      ERR("File %s read exception: %s", filename,e);
     }
   }
   return data;

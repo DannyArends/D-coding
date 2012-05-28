@@ -17,7 +17,7 @@ import game.tilemap, game.player;
 import game.games.triggerpull;
 import game.users.gameclient;
 
-mixin(GenOutput!("GAME", "Green", "Gray"));
+mixin(GenOutput!("GAME", "Green"));
 
 enum Stage{STARTUP, MENU, PLAYING};
 

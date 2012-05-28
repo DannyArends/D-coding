@@ -63,10 +63,10 @@ package struct function_binding(T) {
   bool opCall(HXModule lib, string name) {
     try{
       *fptr = getFunctionThroughVoid(lib, name);
-      debug writeln("[LIB] Loaded shared function: " ~ name);
+      debug MSG("Loaded shared function: %s", name);
       return true;
     }catch(Exception e){
-      writeln("[LIB] Cannot bind function: " ~ name);
+      WARN("Unable to load shared function: %s", name);
       return false;
     }
   }

@@ -9,10 +9,8 @@
  **********************************************************************/
 module gui.formats.csv;
 
-import core.stdinc;
-import core.typedefs.types;
-import core.typedefs.files;
-import core.typedefs.color;
+import core.stdinc, core.terminal, core.typedefs.types;
+import core.typedefs.files, core.typedefs.color;
 
 import gl.gl_1_0;
 import gl.gl_1_1;
@@ -75,7 +73,7 @@ CsvInfo!T loadCsvFile(T)(string filename, string sep="\t", bool header = false){
     csvData.status = CsvType.CSV_ERROR;
     return csvData;
   }
-  writefln("Opening csv-file: %s",filename);
+  MSG("Opening .csv file: '%s'",filename);
   auto lines = splitLines(readText(filename));
   
   int cnt=0;
@@ -83,7 +81,7 @@ CsvInfo!T loadCsvFile(T)(string filename, string sep="\t", bool header = false){
     string[] entities = chomp(line).split(sep);
     if(header){
       if(entities.length <= 1){
-        writeln("Unable to parse line: " ~ to!string(cnt));
+        WARN("Unable to parse line: " ~ to!string(cnt));
       }else{
         if(cnt==0){
           csvData.colnames = entities[1..$];
@@ -103,6 +101,6 @@ CsvInfo!T loadCsvFile(T)(string filename, string sep="\t", bool header = false){
   }else{
     csvData.status = CsvType.CSV_OK_NO_HEADER;
   }
-  writeln("Read: " ~ to!string(cnt) ~ " lines");
+  MSG("Parsed: %s lines",cnt);
   return csvData;
 }

@@ -9,24 +9,17 @@
  **********************************************************************/
 module io.csv.parse;
 
-import std.stdio;
-import std.string;
-import std.file;
-import std.conv;
-
-import io.reader;
-import core.arrays.matrix;
+import std.stdio, std.string, std.file, std.conv;
+import core.arrays.matrix, core.terminal, io.reader;
 
 class CSVreader : Reader{
   
-  T[][] load(T)(string filename = "phenotypes.csv"){
-    return parseFile!T(filename,sep);
-  }
+  T[][] load(T)(string fn = "phenotypes.csv"){ return parseFile!T(fn,sep); }
 
   T[][] parseFile(T)(string filename, sep="\t", bool verbose = false){
     T[][] data;
     if(!exists(filename) || !isFile(filename)){
-      writefln("No such file %s",filename);
+      ERR("No such file %s",filename);
     }else{
       try{
         auto fp = new File(filename,"rb");
@@ -47,9 +40,9 @@ class CSVreader : Reader{
           }
         }
         fp.close();
-        if(verbose) writefln("Parsed %s imports from file: %s",data.length, filename);
+        if(verbose) MSG("Parsed %s imports from file: %s",data.length, filename);
       }catch(Throwable e){
-        writefln("File %s read exception: %s", filename,e);
+        ERR("File %s read exception", filename);
       }
     }
     return data;
