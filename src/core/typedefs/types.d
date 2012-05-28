@@ -102,12 +102,9 @@ T[] toType(T)(ubyte[] buffer){
   return returnbuffer;
 }
 
-
-string toD(int x, int d){
+string toD(int x, size_t d = 6){
   string s = to!string(x);
-  while(s.length < d){
-    s = "0" ~ s;
-  }
+  while(s.length < d){ s = "0" ~ s; }
   return s;
 }
 

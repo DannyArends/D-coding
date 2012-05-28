@@ -9,14 +9,10 @@
  **********************************************************************/
 module game.server.gameserver;
 
-import core.stdinc;
-import core.typedefs.types, core.typedefs.location, core.typedefs.webtypes;
-
-import web.server, core.terminal;
-import game.player, game.tilemap, game.structures;
-import game.server.clientcommand;
-import game.server.clienthandler;
-import game.server.movementserver;
+import core.stdinc, core.typedefs.types, core.typedefs.files, game.structures;
+import core.typedefs.location, core.typedefs.webtypes, game.tilemap;
+import web.server, core.terminal, game.player, game.server.movementserver;
+import game.server.clientcommand, game.server.clienthandler;
 
 T[] load(T)(string dir = "data/maps/", string ext = ".map"){
   T[] items;
@@ -54,11 +50,8 @@ class GameServer : Server!ClientHandler{
     bool createUser(string name, string pass){
       if(userExists(name)) return false;
       int userid = 0;
-      string filename = "user" ~ toD(userid,6) ~ ".usr";
-      while(exists(user_dir ~ filename)){
-        userid++;
-        filename = "user" ~ toD(userid,6) ~ ".usr";
-      }
+      
+      string filename = freefilename("user", "usr",6, user_dir);
       users ~= new Player(user_dir, filename, name, pass, servertime);
       log(this, "New user '" ~ name ~ "' in file: " ~ filename, "server");
       return true;

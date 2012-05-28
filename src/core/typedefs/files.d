@@ -9,12 +9,14 @@
  **********************************************************************/
 module core.typedefs.files;
 
-import std.stdio, std.conv, std.file;
+import std.stdio, std.conv, std.file, core.typedefs.types;
 
-enum FileStatus{ NOTHING = 0, IS_FILE = 1, IS_DIR = 2 }
-
-FileStatus checkFile(string filename){
-  if(!exists(filename)) return FileStatus.NOTHING;
-  if(!isFile(filename)) return FileStatus.IS_DIR;
-  return FileStatus.IS_FILE;
+string freefilename(string stem = "temp", string ext = "dat", uint digits = 6, string dir="/"){
+  int dataid = 0;
+  string filename;
+  do{
+    filename = stem ~ toD(dataid, digits) ~ "." ~ ext;
+    dataid++;
+  }while(exists(dir ~ filename));
+  return filename;
 }
