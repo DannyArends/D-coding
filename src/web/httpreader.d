@@ -10,7 +10,7 @@
 module web.httpreader;
  
 import std.stdio, std.math, std.conv;
-import web.socketclient;
+import web.socketclient, core.terminal;
 
 class HttpReader{
   SocketClient server;
@@ -26,13 +26,17 @@ class HttpReader{
   
   string getRawURL(string url = "/"){
     if(server.connect()){
-      server.write("GET " ~ url ~ " " ~ protocol ~ "\r\nHost: " ~ host ~ "\r\n\r\n");
-      string r = server.read(1);
-      server.disconnect();
+      string r;
+      if(server.write("GET " ~ url ~ " " ~ protocol ~ "\r\nHost: " ~ host ~ "\r\n\r\n")){
+        r = server.read(1);
+        server.disconnect();
+      }else{
+        r = "Write failed";
+      }
       return r;
     }else{
+      ERR("Not connect to server");
       return null;
     }
   }
-  
 }

@@ -6,10 +6,7 @@
  * first written Jul, 2011
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-import std.stdio;
-import std.math;
-import std.conv;
-
+import std.stdio, std.math, std.conv;
 import web.httpreader;
 
 void print_usage(){
@@ -20,7 +17,7 @@ void print_usage(){
 void main(string[] args){
   if(args.length > 3){
     HttpReader c = new HttpReader(args[1],to!ushort(args[2]));
-    writeln(c.getRawURL(args[3])[0..100]); // Only first 100 characters to not flush the test
+    writeln(c.getRawURL(args[3])); // Only first 100 characters to not flush the test
   }else{
     print_usage();
   }

@@ -79,7 +79,6 @@ class SocketClient{
     
     char[] buf = new char[bufferSize];
     auto ret = handle.receive(buf);
-    
     if(!ret) return null;
     if(ret == -1) return null;
 

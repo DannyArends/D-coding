@@ -10,9 +10,9 @@ BIN =   ['app:fileloader', 'app:filesplitter', 'app:aligner', 'app:actor',
          'app:startJVM', 'app:httpreader', 'app:regression', 'app:httpserver',
          'app:gameserver', 'app:voynich', 'app:dnacode', 'app:testal', 'app:sdl',
          'app:scanentropy', 'app:servertest', 'app:scanfasta', 'app:gnuplot', 
-         'app:generator']
+         'app:generator', 'app:ebnf']
 TESTS = ['test:plang', 'test:dnacode', 'test:fileloader', 'test:correlation', 
-         'test:httpreader']
+         'test:httpreader', 'test:ebnf']
 
 def windows?; return RUBY_PLATFORM =~ /(:?mswin|mingw)/; end
 
@@ -34,7 +34,7 @@ CLEAN.include("*.SAVE",'*.map','*.svg','*.png','*.eps','*.ps','*.jpg','*.dat','*
 core_files    = Dir.glob("./src/core/**/*.d").join(' ')
 io_files      = Dir.glob("./src/io/**/*.d").join(' ')
 gnu_files     = Dir.glob("./src/gnuplot/**/*.d").join(' ')
-inter_files   = Dir.glob("./src/interpreters/*.d").join(' ')
+inter_files   = Dir.glob("./src/interpreters/**/*.d").join(' ')
 libload_files = Dir.glob("./src/libload/*.d").join(' ')
 game_files    = Dir.glob("./src/game/**/*.d").join(' ')
 sfx_files     = Dir.glob("./src/sfx/**/*.d").join(' ')
@@ -171,6 +171,11 @@ namespace :app do
   task "generator" do
     sh "#{compiler} #{comp_args} src/main/generator.d #{core_files} #{plugin_gen} -od#{bd} -ofgen.#{execext}"
   end
+
+  desc "EBFN grammar"
+  task "ebnf" do
+    sh "#{compiler} #{comp_args} src/main/ebnf.d #{core_files} #{inter_files} -od#{bd} -ofebnf.#{execext}"
+  end
   
 end
 
@@ -240,5 +245,11 @@ namespace :test do
     print "Testing httpreader\n"
     sh "./httpreader.#{execext}"
     sh "./httpreader.#{execext} www.dannyarends.nl 80 /" 
+  end
+
+  desc "Test eBNF"
+  task :ebnf => [ 'app:ebnf' ] do 
+    print "Testing eBNF\n"
+    sh "./ebnf.#{execext} data/example/ebnf.in" 
   end
 end
