@@ -9,12 +9,12 @@
  **********************************************************************/
 module sfx.engine;
 
-import core.stdinc;
+import core.stdinc, core.terminal;
 import openal.al, openal.alc, openal.alut;
-import openal.alstructs;
-import openal.alutstructs;
-import core.events.engine;
-import sfx.formats.wav;
+import openal.alstructs, openal.alutstructs;
+import core.events.engine, sfx.formats.wav;
+
+mixin(GenOutput!("SFX", "Green"));
 
 /*! \brief EventHandler for all SFX related events
  *
@@ -25,13 +25,11 @@ class SFXEngine : EventHandler{
   this(){
     try{
       alutInit(cast(int*)0, cast(char**)"");
-      if(alGetError() == AL_NO_ERROR){
-        writeln("[SFX] Sound initialized.");
-      }
+      if(alGetError() == AL_NO_ERROR){ wSFX("Sound initialized"); }
       listDevices();
       checkEAX();
     }catch(Throwable t){
-      writeln("This means we bound ALUT, but it fails to load");
+      ERR("ALUT found, but it fails to load");
     }
   }
   
@@ -43,22 +41,24 @@ class SFXEngine : EventHandler{
         sounds ~= e;
       }
     }
-    writefln("[SFX] Buffered %d sounds",sounds.length);
+    wSFX("Buffered %d sounds",sounds.length);
   }
   
   void listDevices(){
-    write("[SFX] Devices available: ");
+    wSFX("Devices available: ");
     if(alcIsExtensionPresent(null, "ALC_ENUMERATION_EXT".dup.ptr) == AL_TRUE){
-      writef("%s\n",to!string(cast(char*)alcGetString(null, ALC_DEVICE_SPECIFIER)));
+      wSFX("%s",to!string(cast(char*)alcGetString(null, ALC_DEVICE_SPECIFIER)));
     }else{
-      write("ALC_ENUMERATION_EXT not supported\n");
+      WARN("Device enumeration (ALC_ENUMERATION_EXT) not supported");
     }
   }
  
   bool checkEAX(){
     if(alIsExtensionPresent("EAX2.0".dup.ptr) == AL_TRUE){
       hasEAX = true;
-      writeln("[SFX] EAX 2.0 is supported");
+      wSFX("EAX 2.0 is supported");
+    }else{
+      WARN("EAX 2.0 not supported");
     }
     return hasEAX;
   }

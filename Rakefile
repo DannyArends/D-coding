@@ -18,6 +18,7 @@ def windows?; return RUBY_PLATFORM =~ /(:?mswin|mingw)/; end
 bd         = "build"    #Name of the build directory
 compiler   = "dmd"      #Name of the compiler executable
 comp_args  = "-w"       #Arguments passed to compiler
+comp_args2 = "-O -inline -release"
 link_args  = ""         #Arguments passed to linker
 
 if ! windows? then; link_args = "-L-ldl"; end

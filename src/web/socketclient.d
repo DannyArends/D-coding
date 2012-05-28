@@ -9,7 +9,7 @@
  **********************************************************************/
 module web.socketclient;
 
-import std.stdio, std.socket;
+import std.stdio, std.socket, core.terminal;
 
 class SocketClient{
   private:
@@ -43,7 +43,7 @@ class SocketClient{
       handle.connect( new InternetAddress( host, cast(int)port ) );
       handle.blocking(false);
     }catch(SocketException ex){
-      writefln("Failed to connect to %s:%d - %s", host, port, ex.toString());
+      ERR("Failed to connect to server (%s:%d)", host, port);
       delete handle;
       return false;
     }
@@ -67,7 +67,7 @@ class SocketClient{
 
   public bool write(string msg){
     if(!isAlive) return false;
-    debug writefln("Sending: %s", msg );
+    debug MSG("Sending: %s", msg );
     auto ret = handle.send( msg );
     if(!ret) return false;
     if(ret == -1) return false;
