@@ -9,7 +9,8 @@ BIN =   ['app:fileloader', 'app:filesplitter', 'app:aligner', 'app:actor',
          'app:single_map_probes', 'app:correlation', 'app:ostest', 'app:plang',
          'app:startJVM', 'app:httpreader', 'app:regression', 'app:httpserver',
          'app:gameserver', 'app:voynich', 'app:dnacode', 'app:testal', 'app:sdl',
-         'app:scanentropy', 'app:scanfasta', 'app:gnuplot', 'app:generator']
+         'app:scanentropy', 'app:servertest', 'app:scanfasta', 'app:gnuplot', 
+         'app:generator']
 TESTS = ['test:plang', 'test:dnacode', 'test:fileloader', 'test:correlation', 
          'test:httpreader']
 
@@ -122,7 +123,7 @@ namespace :app do
   end
   
   desc "Server for a multiplayer network mud"
-  task "gameserver" do
+  task "gameserver" => :servertest do
     sh "#{compiler} #{comp_args} src/main/server.d #{core_files} #{libload_files} #{web_files} #{game_files} #{plugin_gui} #{sfx_files} #{deps_sdl} #{deps_opengl} #{deps_openal} -od#{bd} -ofserver.#{execext} #{link_args}"
   end
 
@@ -146,9 +147,9 @@ namespace :app do
     sh "#{compiler} #{comp_args} src/main/sdlengine.d #{core_files} #{libload_files} #{web_files} #{game_files} #{plugin_gui} #{sfx_files} #{deps_sdl} #{deps_opengl} #{deps_openal} -od#{bd} -ofsdltest.#{execext} #{link_args}"
   end
   
-  desc "Server-tester"
-  task "stest" do
-    sh "#{compiler} #{comp_args} src/main/testserver.d src/web/socketclient.d -od#{bd} -ofstest.#{execext}"
+  desc "Test program for the Gameserver"
+  task "servertest" do
+    sh "#{compiler} #{comp_args} src/main/testserver.d src/core/terminal.d src/web/socketclient.d -od#{bd} -ofservertest.#{execext}"
   end
 
   desc "Folder entropy scanner"

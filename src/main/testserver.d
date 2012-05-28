@@ -7,20 +7,15 @@
  * First written Apr, 2012<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-import std.stdio;
-import std.math;
-import std.conv;
-import std.string;
-import std.array;
-import std.concurrency;
-import std.conv;
-
-import core.time;
-import core.thread;
-
+import std.stdio, std.math, std.conv, std.string, std.array;
+import std.concurrency, std.conv;
+import core.time, core.thread, core.terminal;
 import web.socketclient;
 
 alias core.thread.Thread Thread;
+
+mixin(GenOutput!("TO", "Green"));
+mixin(GenOutput!("FROM", "Orange"));
 
 class MyReader : Thread{
   this(){
@@ -39,11 +34,11 @@ class MyReader : Thread{
             if(cmd.length > 100){
              cmd = cmd[0..50] ~ ".." ~ cmd[($-50)..$];
             }
-            writeln("<<<--- ",chomp(cmd).replace("\n","\n<<<--- "));
+            wFROM("%s",chomp(cmd));
           }
         }
       }catch(Throwable exception){
-        writeln("[NET] Unable to handle command:",s,"\n",exception);
+        ERR("Unable to handle command: %s",s);
       }
     }
     Thread.sleep( dur!("msecs")( 10 ) );
@@ -70,6 +65,7 @@ string[] cmds = [ "C#help",
   "C#help"];
 
 void main(string[] args){
+  MSG("Server test v0.1");
   MyReader r = new MyReader();
   r.start();
   Thread.sleep( dur!("msecs")( 1500 ) );
@@ -77,20 +73,13 @@ void main(string[] args){
   int cnt = 0;
   while(r.online){
     if(cnt < cmds.length){
-      writeln("\n--->>> ",cmds[cnt]);
+      wTO("%s",cmds[cnt]);
       r.network.write(cmds[cnt] ~ "\0");
       Thread.sleep( dur!("msecs")( 300 ) );
     }else{
-//      stdin.readln(buf);
-//      if(chomp(to!string(buf)) == "quit"){
-        r.online=false;
-        Thread.sleep( dur!("msecs")( 100 ) );
-//      }else{
-//        r.network.write(to!string(buf));
-//        writeln(buf);
-//      }
+      r.online=false;
     }
     cnt++;
   }
-  writeln("[NET] Network closing down");
+  MSG("Network closing down");
 }
