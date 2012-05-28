@@ -397,7 +397,7 @@ static this(){
   load_function(glDrawArrays)(lib, "glDrawArrays");
   load_function(glDrawElements)(lib, "glDrawElements");
   load_function(glInterleavedArrays)(lib, "glInterleavedArrays");
-  writeln("[ D ] Mapped OPENGL functionality");
+  debug writeln("[ D ] Mapped OPENGL functionality");
 }
 
 
@@ -523,5 +523,5 @@ void load_extensions(){
   load_extension(glUnmapBuffer)("glUnmapBuffer");
   load_extension(glGetBufferParameteriv)("glGetBufferParameteriv");
   load_extension(glGetBufferPointerv)("glGetBufferPointerv");
-  writeln("[EXT] Loaded OPENGL EXTENSIONS functionality");
+  debug writeln("[EXT] Loaded OPENGL EXTENSIONS functionality");
 }

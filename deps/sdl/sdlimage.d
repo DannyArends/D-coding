@@ -61,7 +61,7 @@ static this(){
   load_function(IMG_LoadXV_RW)(lib, "IMG_LoadXV_RW");
   load_function(IMG_ReadXPMFromArray)(lib, "IMG_ReadXPMFromArray");
 
-  writeln("[ D ] Mapped SDL_image functionality");
+  debug writeln("[ D ] Mapped SDL_image functionality");
 }
 
 extern(C++){  

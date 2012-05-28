@@ -38,7 +38,7 @@ static this(){
   load_function(alutLoadWAVFile)(lib, "alutLoadWAVFile");
   load_function(alutLoadWAVMemory)(lib, "alutLoadWAVMemory");
   load_function(alutUnloadWAV)(lib, "alutUnloadWAV");
-  writeln("[ D ] Mapped ALUT functionality");
+  debug writeln("[ D ] Mapped ALUT functionality");
 }
 
 extern (C){

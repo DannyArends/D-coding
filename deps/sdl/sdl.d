@@ -222,5 +222,5 @@ static this(){  //Load the functions when the module is loaded
   
   // syswm.d
   version(Windows) load_function(SDL_GetWMInfo)(lib,"SDL_GetWMInfo");
-  writeln("[ D ] Mapped SDL functionality");
+  debug writeln("[ D ] Mapped SDL functionality");
 }

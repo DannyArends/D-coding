@@ -80,7 +80,7 @@ static this(){
   load_function(alcCaptureStart)(lib, "alcCaptureStart");
   load_function(alcCaptureStop)(lib, "alcCaptureStop");
   load_function(alcCaptureSamples)(lib, "alcCaptureSamples");
-  writeln("[ D ] Mapped ALC functionality");
+  debug writeln("[ D ] Mapped ALC functionality");
 }
 
 extern(C){
