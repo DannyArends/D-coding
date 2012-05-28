@@ -52,7 +52,7 @@ protected HXModule load_library(string win_name, string linux_name = "", string 
   if((shared_library = ExeModule_Load(full_name)) is null){
     throw new Exception("[LIB] Unable to find shared library: " ~ full_name);
   }
-  writeln("[LIB] Loaded shared library: " ~ full_name);
+  debug writeln("[LIB] Loaded shared library: " ~ full_name);
   return shared_library;
 }
 
