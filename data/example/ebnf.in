@@ -1,0 +1,38 @@
+#Numbers
+INT    := '-' DL | '+' DL | DL
+FLOAT  := '-' FN | '+' FN | FN
+NUMBER := INT | FLOAT
+FN     := DL '.' DL | '.' DL
+DL     := D DR
+DR     := D DR | @
+
+#Characters and strings
+CHAR   := CQUOTE UCC CQUOTE | CQUOTE LCC CQUOTE
+STRING := SQUOTE UCC WR SQUOTE | WQUOTE LCC WR SQUOTE
+IDENT  := UCC WR | LCC WR
+CONST  := UCC UCWR
+WR     := LCC WR | UCC WR | @
+UCWR   := UCC WR | @
+
+#Math sentence concepts
+MATHOP := PLUS | MINUS | MULT | DIV | EQUAL
+LVALUE := NUMBER | CHAR | STRING | MATHF
+
+MATHF  := LVALUE SPACE MATHFR
+MATHFR := MATHOP SPACE LVALUE SPACE MATHFR | @
+
+ASSIGNMENT := IDENT SPACE ASSIGN SPACE LVALUE
+
+#Definition of terminal symbols
+D      := '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+LCC    := 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z'
+UCC    := 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z'
+SPACE  := ' '
+SQUOTE := '"'
+CQUOTE := '''
+PLUS   := '+'
+MINUS  := '-'
+MULT   := '*'
+DIV    := '/'
+ASSIGN := '='
+EQUAL  := '=' '='
