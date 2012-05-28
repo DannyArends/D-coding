@@ -53,7 +53,7 @@ class Server(Client) : core.thread.Thread{
     void  shutdown(){ _online = false; }
 
     void run(){
-      MSG("[Server] Start listening for clients");
+      MSG("Start listening for clients");
       set = new SocketSet();
       while(_online){
         assert(set !is null);

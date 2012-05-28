@@ -9,9 +9,8 @@
  **********************************************************************/
 module libload.libload;
 
-private import std.loader;
-private import std.stdio;
-private import std.conv;
+private import core.stdc.stdlib, core.terminal;
+private import std.loader, std.stdio, std.conv, std.string;
 
 /*
  * Gets a function void* from a HXModule and functionname 
@@ -50,9 +49,10 @@ protected HXModule load_library(string win_name, string linux_name = "", string 
     if(extension) full_name = full_name ~ sh_lib_ext;
   }
   if((shared_library = ExeModule_Load(full_name)) is null){
-    throw new Exception("[LIB] Unable to find shared library: " ~ full_name);
+    ERR("Shared library %s not found on PATH", full_name.toUpper());
+    exit(0);
   }
-  debug writeln("[LIB] Loaded shared library: " ~ full_name);
+  debug MSG("Shared library: %s loaded", full_name);
   return shared_library;
 }
 
