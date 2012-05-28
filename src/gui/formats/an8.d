@@ -9,14 +9,15 @@
  **********************************************************************/
 module gui.formats.an8;
 
-import core.stdinc;
-import core.typedefs.types;
-import gui.formats.an8types;
+import core.stdinc, core.terminal;
+import core.typedefs.types, gui.formats.an8types;
+
+mixin(GenOutput!("AN8", "Green"));
 
 An8 loadAn8(string filename){
   An8 animator = An8(filename);
   if(!exists(filename) || !filename.isFile){
-    writefln("[AN8] No such file '%s'",filename);
+    WARN("No such file '%s'",filename);
     animator.status = FileStatus.NO_SUCH_FILE;
     return animator;
   } 
@@ -27,7 +28,7 @@ An8 loadAn8(string filename){
   }
   animator.chunks = parseChunks(animator.filecontent);
   animator.figures = parseFigures(animator.chunks);
-  writefln("[AN8] Loaded '%s' into memory",filename);
+  wAN8("Loaded '%s' into memory",filename);
   animator.status = FileStatus.OK;
   return animator;
 }
@@ -53,15 +54,15 @@ Bone chunkToBone(An8Chunk chunk, bool verbose = false){
       b.ori = stringArrayToType!float(stripChar(stripChar(s.content,')'),'(').split(" ")[1..5]);
     }
   }
-  if(verbose)writefln("[An8] - Bone %s: %s %s",b.name,b.length,b.bones.length);
+  if(verbose)wAN8(" - Bone %s: %s %s",b.name,b.length,b.bones.length);
   return b;
 }
 
 Figure chunkToFigure(An8Chunk chunk){
   Figure figure;
-  if(chunk.subchunks.length != 1 ) writeln("[An8] No (or multiple) root-bones");
+  if(chunk.subchunks.length != 1 ) wAN8("Found: None (or multiple) root-bones");
   figure.name = getChunkName(chunk.content);
-  writefln("[An8] Figure %s",figure.name);
+  wAN8("Found figure: %s",figure.name);
   figure.root = chunkToBone(chunk.subchunks[0]);
   return figure;
 }

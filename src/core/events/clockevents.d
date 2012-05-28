@@ -10,7 +10,7 @@
 module core.events.clockevents;
 
 import std.array, std.stdio, std.conv, std.datetime;
-import core.typedefs.types;
+import core.typedefs.types, core.terminal;
 import core.events.engine;
 
 alias void delegate(int, int) FUN;
@@ -56,7 +56,7 @@ class ClockEventHandler : EventHandler{
           ClockEvent ce = cast(ClockEvent)eventqueue[x];
           ce.checks++;
           if(ce.getAge() >= ce.period) {
-            if(ce.verbose) writeln("[EVT] Executing ", ce.toexecute, " after ", ce.checks, " after ", ce.times);
+            if(ce.verbose) MSG("Executing %s after %s/%s", ce.toexecute, ce.checks, ce.times);
             ce.toexecute(ce.checks, ce.times);
             ce.resetAge();
           }

@@ -25,9 +25,10 @@ class SFXEngine : EventHandler{
   this(){
     try{
       alutInit(cast(int*)0, cast(char**)"");
-      if(alGetError() == AL_NO_ERROR){ wSFX("Sound initialized"); }
-      listDevices();
-      checkEAX();
+      if(alGetError() == AL_NO_ERROR){ wSFX("Sound initialized");
+        listDevices();
+        checkEAX();
+      }else{ ERR("ALUT initialization failed"); }
     }catch(Throwable t){
       ERR("ALUT found, but it fails to load");
     }
@@ -86,3 +87,4 @@ class SFXEngine : EventHandler{
     ALfloat   ListenerVel[3] = [0.0, 0.0, 0.0];
     ALfloat   ListenerOri[6] = [0.0, 0.0, -1.0,  0.0, 1.0, 0.0];
 }
+  

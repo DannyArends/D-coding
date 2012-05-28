@@ -118,7 +118,7 @@ struct TimeTracker{
   public:
     void load(string filename = "ST.save"){
       if(!exists(filename)){
-        WARN("Servert time not found: '%s'",filename);    
+        WARN("Server time not found: '%s'",filename);    
       }else{
         auto fp = new File(filename,"rb");
         string buffer;
