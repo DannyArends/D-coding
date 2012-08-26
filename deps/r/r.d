@@ -9,8 +9,8 @@
  **********************************************************************/
 module r.r;
 
-private import std.loader, std.stdio, std.conv;
-import libload.libload;
+import std.stdio, std.conv;
+import libload.loader, libload.libload;
 
 extern(C){
   void function(size_t argc, char **argv) Rf_initEmbeddedR;

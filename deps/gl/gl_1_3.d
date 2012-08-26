@@ -1,10 +1,7 @@
 module gl.gl_1_3;
 
-import std.c.stdio;
-import std.c.stdarg;
-import gl.gl_1_0;
-import gl.gl_1_1;
-import gl.gl_1_2;
+import std.c.stdio, std.c.stdarg;
+import gl.gl_1_0, gl.gl_1_1, gl.gl_1_2;
 
 enum : GLenum{
   GL_TEXTURE0                    = 0x84C0,

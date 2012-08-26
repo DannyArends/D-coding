@@ -9,8 +9,8 @@
  **********************************************************************/
 module jni.jni;
 
-import std.loader, std.stdio, std.c.stdio, std.c.stdarg;
-import libload.libload;
+import std.stdio, std.c.stdio, std.c.stdarg;
+import libload.loader, libload.libload;
 import jni.jnitypes, jni.jnistructs;
 
 const JNI_VERSION_1_1 = 0x00010001;

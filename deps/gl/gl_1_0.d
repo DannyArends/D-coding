@@ -1,7 +1,6 @@
 module gl.gl_1_0;
 
-import std.c.stdio;
-import std.c.stdarg;
+import std.c.stdio, std.c.stdarg;
 
 const GL_VERSION_1_1 = 1;
 

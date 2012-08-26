@@ -10,7 +10,7 @@
 module libload.libload;
 
 private import core.stdc.stdlib, core.terminal;
-private import std.loader, std.stdio, std.conv, std.string;
+private import libload.loader, std.stdio, std.conv, std.string;
 
 /*
  * Gets a function void* from a HXModule and functionname 

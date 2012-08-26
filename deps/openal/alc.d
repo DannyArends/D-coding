@@ -5,9 +5,8 @@
  **********************************************************************/ 
 module openal.alc;
 
-import std.loader, std.stdio, std.conv, std.c.stdarg;
-
-import libload.libload;
+import std.stdio, std.conv, std.c.stdarg;
+import libload.loader, libload.libload;
 
 const ALC_INVALID = 0;
 const ALC_VERSION_0_1 = 1;

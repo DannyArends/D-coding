@@ -9,7 +9,7 @@
  **********************************************************************/
 module sdl.sdlstructs;
 
-private import std.stdio, core.bitop, std.conv, std.c.stdio;
+import std.stdio, core.bitop, std.conv, std.c.stdio;
 
 enum : Uint32{
   SDL_INIT_TIMER   = 0x00000001,

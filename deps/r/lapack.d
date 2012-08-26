@@ -9,9 +9,9 @@
  **********************************************************************/
 module r.lapack;
 
-private import std.loader, std.stdio, std.conv;
+import std.stdio, std.conv;
 import std.c.stdlib, std.c.stdio, std.c.math;
-import libload.libload;
+import libload.loader, libload.libload;
 
 immutable TOL = 1e-12;  // tolerance for linear regression
 

@@ -9,10 +9,9 @@
  **********************************************************************/
 module gl.gl_ext;
 
-import std.loader, std.stdio, std.conv, std.c.stdarg;
-import libload.libload;
-private import gl.gl;
-private import gl.gl_1_0;
+import std.stdio, std.conv, std.c.stdarg;
+import libload.loader, libload.libload;
+import gl.gl, gl.gl_1_0;
 
 private bool arb_buffer_enabled = false;
 

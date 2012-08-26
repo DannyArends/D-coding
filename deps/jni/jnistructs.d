@@ -9,7 +9,7 @@
  **********************************************************************/
 module jni.jnistructs;
 
-import std.loader, std.stdio, std.c.stdio, std.c.stdarg;
+import std.stdio, std.c.stdio, std.c.stdarg;
 import jni.jnitypes;
 
 extern(C){

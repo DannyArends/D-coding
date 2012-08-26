@@ -9,8 +9,8 @@
  **********************************************************************/
 module sdl.sdl;
 
-private import std.loader, std.stdio, std.conv;
-import libload.libload;
+import std.stdio, std.conv;
+import libload.loader, libload.libload;
 import sdl.sdlstructs, sdl.sdlfunctions;
 
 static this(){  //Load the functions when the module is loaded

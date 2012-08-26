@@ -9,14 +9,9 @@
  **********************************************************************/
 module gl.gl;
 
-import std.loader, std.stdio, std.conv, std.c.stdarg;
-import libload.libload;
-private import gl.gl_1_0;
-private import gl.gl_1_1;
-private import gl.gl_1_2;
-private import gl.gl_1_3;
-private import gl.gl_1_4;
-private import gl.gl_1_5;
+import std.stdio, std.conv, std.c.stdarg;
+import libload.loader, libload.libload;
+import gl.gl_1_0, gl.gl_1_1, gl.gl_1_2, gl.gl_1_3, gl.gl_1_4, gl.gl_1_5;
 
 /* Loads a single gl extension (Needs a live reference to the library) */
 template load_extension(T){

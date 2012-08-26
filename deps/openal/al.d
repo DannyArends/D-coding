@@ -9,8 +9,8 @@
  **********************************************************************/
 module openal.al;
 
-import std.loader, std.stdio, std.conv, std.c.stdarg;
-import libload.libload;
+import std.stdio, std.conv, std.c.stdarg;
+import libload.loader, libload.libload;
 import openal.alstructs;
 
 template load_extension(T){

@@ -61,7 +61,7 @@ void worker(int id, bool verbose){
         if(m.payload==1000){
           active = false;
         }
-        Thread.sleep(uniform(0, 70000));
+        Thread.sleep(dur!("msecs")(uniform(0, 70000)));
       },
 	  (int m){
 	    //writefln("Received an int", m);

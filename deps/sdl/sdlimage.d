@@ -9,8 +9,8 @@
  **********************************************************************/
 module sdl.sdlimage;
 
-import std.loader, std.stdio, std.conv;
-import libload.libload;
+import std.stdio, std.conv;
+import libload.loader, libload.libload;
 import sdl.sdlstructs, sdl.sdlfunctions;
 
 const SDL_IMAGE_MAJOR_VERSION = 1;

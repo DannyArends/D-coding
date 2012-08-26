@@ -1,7 +1,6 @@
 module gl.gl_1_1;
 
-import std.c.stdio;
-import std.c.stdarg;
+import std.c.stdio, std.c.stdarg;
 import gl.gl_1_0;
 
 /* OpenGL 1.1 */
