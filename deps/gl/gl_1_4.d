@@ -1,7 +1,7 @@
 module gl.gl_1_4;
 
 import std.c.stdio, std.c.stdarg;
-import gl.gl_1_0;
+import gl.gl_1_0, gl.gl_1_1, gl.gl_1_2, gl.gl_1_3;
 
 /* OpenGL 1.4 */
 enum : GLenum{

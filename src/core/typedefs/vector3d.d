@@ -27,10 +27,10 @@ class Vector3D : Location{
 
   /*! \brief Rotate this vector
    *  \param r 3D rotation to add<br> */
-  void rotate(double[] r){ rot = add(rot,r); }
+  void rotate(in double[] r){ rot = add(rot,r); }
 
   @property{
-    double[] direction(double[] r = null){ if(r !is null){ rot=r; } return rot; }
+    double[] direction(in double[] r = null){ if(r !is null){ rot=r; } return rot; }
     float rx(){ return rot[0]; }   //!< Rotation X component
     float ry(){ return rot[1]; }   //!< Rotation Y component
     float rz(){ return rot[2]; }   //!< Rotation Z component

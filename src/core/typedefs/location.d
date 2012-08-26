@@ -29,9 +29,9 @@ public:
     if(elements.length >= 3) loc[2] = to!double(elements[2]);
   }
   
-  void move(double[] m){ loc = add(loc, m); }
+  void move(in double[] m){ loc = add(loc, m); }
   
-  @property double[] location(double[] l = null){ if(l !is null){ loc=l; } return loc; }
+  @property double[] location(in double[] l = null){ if(l !is null){ loc=l; } return loc; }
   @property float x(){ return loc[0]; }  //!< X component (location[0])
   @property float y(){ return loc[1]; }  //!< Y component (location[1])
   @property float z(){ return loc[2]; }  //!< Z component (location[2])
