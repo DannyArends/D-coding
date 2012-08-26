@@ -124,8 +124,13 @@ pure T[] subtract(T)(in T[] d1, in T[] d2){
  * \param d2 any type any length vector<br>
  * \return The vector d1 + d2
  */
-pure T[] add(T)(in T[] d1, in T[] d2){
+pure T[] add(T)(in T[] d1, in T[] d2)
+in{
+  assert(null !is d1, "Error: d1 cannot be null");
+  assert(null !is d2, "Error: d2 cannot be null");
   assert(d1.length == d2.length, "Error: Should have same length");
+}
+body{
   T[] sum;
   sum.length = d1.length;
   for(size_t x=0;x<d1.length;x++){ sum[x] = d1[x] + d2[x]; }
@@ -140,7 +145,11 @@ pure T[] add(T)(in T[] d1, in T[] d2){
  * \param alpha parameter holding the multiplication factor<br>
  * \return The vector d1 * alpha
  */
-pure T[] multiply(T)(in T[] d1, in float alpha = 1.0){
+pure T[] multiply(T)(in T[] d1, float alpha = 1.0)
+in{
+  assert(null !is d1, "Error: d1 cannot be null");
+}
+body{
   T[] factor;
   factor.length = d1.length;
   for(size_t x=0; x < d1.length; x++){ factor[x] = d1[x] * alpha; }
@@ -156,7 +165,7 @@ pure T[] multiply(T)(in T[] d1, in float alpha = 1.0){
  * \param alpha parameter holding the multiplication factor<br>
  * \return The vector d1 + ( d2 * alpha )
  */
-pure T[] addnmultiply(T)(in T[] d1, in T[] d2, in float alpha = 1.0){
+pure T[] addnmultiply(T)(in T[] d1, in T[] d2, float alpha = 1.0){
   return add(d1, multiply(d2,alpha));
 }
 
