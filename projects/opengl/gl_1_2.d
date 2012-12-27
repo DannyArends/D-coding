@@ -1,9 +1,7 @@
-module gl.gl_1_2;
+module opengl.gl_1_2;
 
-import std.c.stdio;
-import std.c.stdarg;
-import gl.gl_1_0;
-import gl.gl_1_1;
+import std.c.stdio, std.c.stdarg;
+import opengl.gl_1_0, opengl.gl_1_1;
 
 /* OpenGL 1.2 */
 enum : GLenum{

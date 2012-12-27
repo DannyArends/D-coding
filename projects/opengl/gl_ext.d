@@ -7,11 +7,11 @@
  * First written 2010<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module gl.gl_ext;
+module opengl.gl_ext;
 
 import std.stdio, std.conv, std.c.stdarg;
 import libload.loader, libload.libload;
-import gl.gl, gl.gl_1_0;
+import opengl.gl;
 
 private bool arb_buffer_enabled = false;
 

@@ -1,4 +1,4 @@
-module gl.gl_1_0;
+module opengl.gl_1_0;
 
 import std.c.stdio, std.c.stdarg;
 

@@ -1,7 +1,7 @@
-module gl.gl_1_1;
+module opengl.gl_1_1;
 
 import std.c.stdio, std.c.stdarg;
-import gl.gl_1_0;
+import opengl.gl_1_0;
 
 /* OpenGL 1.1 */
 const GL_PROXY_TEXTURE_1D = 0x8063;

@@ -7,11 +7,11 @@
  * First written 2010<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module gl.glu;
+module opengl.glu;
 
 import std.stdio, std.conv, std.c.stdarg;
 import libload.loader, libload.libload;
-import gl.gl_1_0, gl.gl_1_1;
+import opengl.gl_1_0, opengl.gl_1_1;
 
 static this(){
   HXModule lib = load_library("glu32","GLU","");
