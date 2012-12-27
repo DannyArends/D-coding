@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/core/arrays/ray.d
+ * \file dcode/arrays/ray.d
  * \brief Ray tracing definition
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
@@ -7,11 +7,10 @@
  * First written 2010<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module core.arrays.ray;
+module dcode.arrays.ray;
 
 import std.math;
-import core.typedefs.camera;
-import core.arrays.algebra;
+import dcode.structs.camera, dcode.arrays.algebra;
 
 struct world{
   double[] right;
@@ -53,3 +52,4 @@ Ray constructRayThroughPixel(world w, Camera c, int x, int y){
   ray.norm();
   return ray;
 }
+

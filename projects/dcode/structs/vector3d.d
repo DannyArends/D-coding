@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/core/typedefs/vector3d.d
+ * \file dcode/structs/vector3d.d
  * \brief 3D vector definition
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
@@ -7,11 +7,10 @@
  * First written Dec, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module core.typedefs.vector3d;
+module dcode.structs.vector3d;
 
 import std.array, std.stdio, std.conv;
-import core.typedefs.location;
-import core.arrays.algebra;
+import dcode.structs.location, dcode.arrays.algebra;
 
 /*! \brief Abstract Vector3D class
  *

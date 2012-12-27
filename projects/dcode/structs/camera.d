@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/core/typedefs/camera.d
+ * \file dcode/structs/camera.d
  * \brief camera definition
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
@@ -7,10 +7,10 @@
  * First written Feb, 2012<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module core.typedefs.camera;
+module dcode.structs.camera;
 
 import std.array, std.stdio, std.conv;
-import core.typedefs.vector3d;
+import dcode.structs.vector3d;
 
 /*! \brief Camera class
  *
@@ -40,3 +40,4 @@ public:
     double _height;
     double _width;
 }
+

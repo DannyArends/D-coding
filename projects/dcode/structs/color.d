@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/core/typedefs/color.d
+ * \file dcode/structs/color.d
  * \brief Color class definition
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
@@ -7,7 +7,7 @@
  * First written 2010<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module core.typedefs.color;
+module dcode.structs.color;
 
 import std.array, std.stdio, std.conv, std.random;
 
@@ -70,3 +70,4 @@ class Color{
   private:
     double[4] color;
 }
+

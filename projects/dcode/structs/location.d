@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/core/typedefs/location.d
+ * \file dcode/structs/location.d
  * \brief 3D location definition
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
@@ -7,10 +7,10 @@
  * First written Feb, 2012<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module core.typedefs.location;
+module dcode.structs.location;
 
 import std.array, std.stdio, std.conv;
-import core.arrays.algebra;
+import dcode.arrays.algebra;
 
 /*! \brief Location class
  *
@@ -18,9 +18,9 @@ import core.arrays.algebra;
  */
 class Location{
 public:
-  this(){ this(0.0, 0.0, 0.0); }
-  this(double l[3]){ loc=l; }
-  this(double x, double y, double z){ this([x,y,z]); }
+  this(){ loc = [0.0, 0.0, 0.0]; }
+  this(double l[3]){ loc = l; }
+  this(double x, double y, double z){ loc = [x,y,z]; }
   
   this(string input){
     auto elements = input.split(":");
@@ -43,3 +43,4 @@ public:
 private:
   double loc[3] = [0.0, 0.0, 0.0];
 }
+
