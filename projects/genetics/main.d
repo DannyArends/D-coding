@@ -1,6 +1,6 @@
 /******************************************************************//**
- * \file src/main/dnacode.d
- * \brief Shared library loader
+ * \file genetics/main.d
+ * \brief Basic classes used in genetics
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
  * Last modified Apr, 2012<br>

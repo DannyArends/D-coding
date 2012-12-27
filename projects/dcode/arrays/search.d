@@ -7,7 +7,7 @@
  * First written May, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module core.arrays.search;
+module dcode.arrays.search;
 
 import std.stdio, std.conv, std.string, std.random;
 

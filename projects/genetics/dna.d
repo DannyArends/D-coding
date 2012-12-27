@@ -10,7 +10,7 @@
 module genetics.dna;
 
 import std.stdio, std.math, std.conv, std.string, std.algorithm, std.random;
-import core.arrays.search;
+import dcode.arrays.search;
 
 /*! \brief DNA type definition
  *
