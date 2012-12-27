@@ -10,7 +10,7 @@
 module regression.statistics;
  
 import std.math, std.stdio, std.conv;
-import core.arrays.algebra, core.arrays.search;
+import dcode.arrays.algebra, dcode.arrays.search;
 
 pure real doSumOfSquares(T)(T[] data){
   T mean = mean(data);

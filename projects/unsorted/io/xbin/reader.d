@@ -10,7 +10,8 @@ module io.xbin.reader;
 
 import core.stdinc;
 
-enum BUFFERSIZE {BUFFER_16KB = 16_384,BUFFER_2MB = 2_097_152, BUFFER_4MB = 4_194_304,BUFFER_16MB = 16_777_216, BUFFER_64MB = 67_108_864, BUFFER_256MB = 268_435_456}
+enum BUFFER { 16KB = 16_384, 2MB = 2_097_152, 4MB = 4_194_304, 16MB = 16_777_216, 
+              64MB = 67_108_864, 256MB = 268_435_456}
 
 class BinaryReader{
   ubyte[] buffer;

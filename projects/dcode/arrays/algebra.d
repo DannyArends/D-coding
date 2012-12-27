@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/core/arrays/algebra.d
+ * \file dcode/arrays/algebra.d
  * \brief Basic array algebra
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
@@ -7,7 +7,7 @@
  * First written May, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module core.arrays.algebra;
+module dcode.arrays.algebra;
 
 import std.stdio, std.conv, std.string, std.math, std.random;
 
