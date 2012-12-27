@@ -7,7 +7,7 @@
  * First written 2010<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module jni.jnitypes;
+module ext.jni.jnitypes;
 
 import std.stdio, std.c.stdio, std.c.stdarg;
 

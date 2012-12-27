@@ -7,10 +7,10 @@
  * First written 2010<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module jni.jnistructs;
+module ext.jni.jnistructs;
 
 import std.stdio, std.c.stdio, std.c.stdarg;
-import jni.jnitypes;
+import ext.jni.jnitypes;
 
 extern(C){
 
