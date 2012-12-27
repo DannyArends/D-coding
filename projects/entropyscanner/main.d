@@ -8,7 +8,7 @@
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 import std.stdio, std.math, std.file, std.path, std.string, std.conv;
-import std.getopt, core.memory, core.terminal, core.numbers.entropy, io.walkdir;
+import std.getopt, core.memory, dcode.numbers.entropy, dcode.structs.dirs;
 
 void main(string[] args){
   bool help    = false;
@@ -22,13 +22,13 @@ void main(string[] args){
              , "output|o", &output
              , "input|i", &input );
   if(!help){
-    MSG("Scanning: %s to a depth of %s, saving to %s",input,depth,output);
+    writefln("Scanning: %s to a depth of %s, saving to %s",input,depth,output);
     auto fp = new File(output,"w");
     scope(exit) fp.close();
     ulong cnts[2] = walkdir(fp, input,[0, 0], depth);
-    MSG("Done: %s files / %s dirs", cnts[0], cnts[1]);
+    writefln("Done: %s files / %s dirs", cnts[0], cnts[1]);
   }else{
-    MSG("File entropy scanner");
+    writefln("File entropy scanner");
     writeln(" -h(elp)    Show this help");
     writeln(" -i(nput)   Input path: e.g: C:\\");
     writeln(" -io(utput) Filename of the output file");

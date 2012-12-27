@@ -6,11 +6,7 @@
  * first written May, 2011
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-import std.concurrency;
-import std.stdio;
-import core.thread;
-import std.random;
-import std.typecons;
+import std.concurrency, std.stdio, core.thread, std.random, std.typecons;
 
 struct Message{
   int        senderid;
@@ -72,3 +68,4 @@ void worker(int id, bool verbose){
     );
   }
 }
+

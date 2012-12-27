@@ -11,7 +11,7 @@ module dcode.numbers.entropy;
 
 import std.stdio, std.math, std.file, std.path, std.string, std.conv;
 import std.getopt, core.memory;
-import dcode.arrays.search, dcode.arrays.types;
+import dcode.arrays.search, dcode.arrays.vector;
 
 struct Entropy{
   double val;

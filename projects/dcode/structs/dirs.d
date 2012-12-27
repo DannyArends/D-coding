@@ -7,11 +7,11 @@
  * First written May, 2012<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module io.walkdir;
+module dcode.structs.dirs;
 
 import std.stdio, std.math, std.file, std.path, std.string, std.conv;
-import std.getopt, core.memory, core.terminal, core.numbers.entropy;
-import core.arrays.ranges, core.arrays.matrix;
+import std.getopt, core.memory, dcode.numbers.entropy;
+import dcode.arrays.vector, dcode.arrays.matrix;
 
 string[] forbidden_names = ["pagefile.sys","System Volume Information","CONFIG.SYS","","RECYCLER"];
 
@@ -21,7 +21,7 @@ bool valid_name(string sn){
   return true;
 }
 
-ulong[2] walkdir(File* fp, string dir = ".", ulong cnts[2] = [0, 0], uint depth = 4){
+ulong[2] walkdir(File* fp, string dir = ".", ulong cnts[2] = [0, 0], uint depth = 4, bool verbose = false){
   if(depth<=0) return cnts;
   string sn;
   foreach(string fn; dirEntries(dir, SpanMode.shallow)){
@@ -29,7 +29,7 @@ ulong[2] walkdir(File* fp, string dir = ".", ulong cnts[2] = [0, 0], uint depth 
     if(valid_name(sn)){
       if(isDir(fn)){
         if(cnts[1] % 100 == 0){
-          MSG("In %s, done: %s files / %s dirs", fn[0..getI(18,fn)], cnts[0], cnts[1]);
+          writefln("In %s, done: %s files / %s dirs", fn[0..getI(18,fn)], cnts[0], cnts[1]);
         }
         cnts[1]++;
         cnts = walkdir(fp, dir ~ "\\" ~ sn, cnts,(depth-1));
@@ -39,9 +39,10 @@ ulong[2] walkdir(File* fp, string dir = ".", ulong cnts[2] = [0, 0], uint depth 
           entropy!ushort(fn,fp); 
           cnts[0]++; 
         }
-        //writefln("File: %s",fn);
+        if(verbose) writefln("File: %s",fn);
       }
     }
   }
   return cnts;
 }
+
