@@ -7,7 +7,7 @@
  * First written May, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module interpreters.lsystem;
+module dcode.structs.lsystem;
 
 import std.array, std.stdio, std.conv;
 
