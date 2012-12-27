@@ -7,11 +7,11 @@
  * First written 2010<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module gl.gl;
+module opengl.gl;
 
 import std.stdio, std.conv, std.c.stdarg;
 import libload.loader, libload.libload;
-import gl.gl_1_0, gl.gl_1_1, gl.gl_1_2, gl.gl_1_3, gl.gl_1_4, gl.gl_1_5;
+public import gl.gl_1_0, gl.gl_1_1, gl.gl_1_2, gl.gl_1_3, gl.gl_1_4, gl.gl_1_5;
 
 /* Loads a single gl extension (Needs a live reference to the library) */
 template load_extension(T){
