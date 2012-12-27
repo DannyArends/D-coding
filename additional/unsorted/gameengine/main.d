@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/main/sdlengine.d
+ * \file gameengine/main.d
  * \brief Main function for rake app::sdl
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
