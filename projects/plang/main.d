@@ -10,7 +10,7 @@ import std.array;
 import std.stdio;
 import std.conv;
 
-import interpreters.p;
+import plang.p;
 
 void main(string[] args){
   string input = "";

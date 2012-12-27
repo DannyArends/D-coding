@@ -7,10 +7,9 @@
  * First written 2010<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module interpreters.p;
+module plang.p;
 
 import std.array, std.stdio, std.conv, std.datetime;
-import core.thread, core.time;
 
 enum OP : char {R = 'R', LAMBDA = 'l', START_BLOCK = '(', CLOSE_BLOCK = ')'};
 
