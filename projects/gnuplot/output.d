@@ -10,8 +10,8 @@
 module gnuplot.output;
 
 import std.stdio, std.string, std.conv, std.file;
-import core.executor, core.terminal, core.typedefs.files;
-import core.arrays.ranges, gnuplot.gnuaux, gnuplot.plot;
+import dcode.executor, dcode.structs.files;
+import dcode.arrays.vector, gnuplot.gnuaux, gnuplot.plot;
 
 struct GNUoutput{
   GNUout device   = TERMINAL.PNG;
@@ -57,9 +57,9 @@ struct GNUoutput{
       auto fp = new File(outfile,"wb");
       fp.writefln("set term %s size %s,%s", device.terminal, device.size[0], device.size[1]);
       fp.writefln("set output '%s'",plotfile);
-      fp.writefln("set xlabel \"%s\"", getIe(0,labels));
-      fp.writefln("set ylabel \"%s\"", getIe(1,labels));
-      fp.writefln("set zlabel \"%s\"", getIe(2,labels));
+      fp.writefln("set xlabel \"%s\"", getIe(0, labels));
+      fp.writefln("set ylabel \"%s\"", getIe(1, labels));
+      fp.writefln("set zlabel \"%s\"", getIe(2, labels));
       fp.writefln("set title  \"%s\"", title);
       if(grid) fp.writefln("set grid");
       if(legend){
@@ -73,9 +73,9 @@ struct GNUoutput{
       int rc = system(("gnuplot " ~ outfile ~ "\0").dup.ptr);
       if(rc == 0){
         cleanup();
-        MSG("Created: %s",plotfile);
+        writefln("Created: %s",plotfile);
       }else{
-        ERR("Plot failed: %s, script saved",plotfile);
+        writefln("Plot failed: %s, script saved",plotfile);
       }
     }
     

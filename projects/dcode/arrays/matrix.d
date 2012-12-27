@@ -78,7 +78,8 @@ pure T[][] vectortomatrix(T)(size_t nrow, size_t ncol, in T[] invector){
 
 
 pure T[][] translate(T)(in T[][] i){
-  T[][] m = newmatrix!T(i[0].length,i.length);
+  if(i.length == 0) throw new Exception("Matrix needs to be at least of dim 1,1");
+  T[][] m = newmatrix!T(i[0].length, i.length);
   for(size_t r=0;r<i.length;r++){
     for(size_t c=0;c<i[0].length;c++){
       m[c][r] = i[r][c];

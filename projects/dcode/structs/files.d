@@ -7,11 +7,12 @@
  * First written Mar, 2012<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module core.typedefs.files;
+module dcode.structs.files;
 
-import std.stdio, std.conv, std.file, core.typedefs.types;
+import std.stdio, std.conv, std.file;
+import dcode.arrays.vector, dcode.types;
 
-string freefilename(string stem = "temp", string ext = "dat", uint digits = 6, string dir="/"){
+string freefilename(string stem = "temp", string ext = "dat", uint digits = 6, string dir="./"){
   int dataid = 0;
   string filename;
   do{
@@ -20,3 +21,4 @@ string freefilename(string stem = "temp", string ext = "dat", uint digits = 6, s
   }while(exists(dir ~ filename));
   return filename;
 }
+

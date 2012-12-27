@@ -83,3 +83,24 @@ string toD(int x, size_t d = 6){
   return s;
 }
 
+pure uint[] dorange(uint start, size_t length){
+  uint array[];
+  for(size_t i = 0; i < (length-1); i++){
+    array ~= start+i;
+  }
+  return array;
+}
+
+pure T getIe(T)(size_t cnt, in T[] range){
+  size_t l = range.length;
+  if(cnt < l) return range[cnt];
+  return getIe(cnt-l, range);
+}
+
+pure uint getI(T)(size_t cnt, in T[] range){
+  size_t l = range.length;
+  if(cnt < l) return cnt;
+  return (l-1);
+}
+
+

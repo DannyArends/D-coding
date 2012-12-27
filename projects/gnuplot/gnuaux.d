@@ -10,7 +10,7 @@
 module gnuplot.gnuaux;
 
 import std.stdio, std.string, std.conv, std.file;
-import core.arrays.matrix, core.terminal, core.typedefs.types;
+import dcode.arrays.matrix, dcode.arrays.vector, dcode.types;
 
 struct GNUtype{
   string   type;
@@ -49,19 +49,19 @@ enum TERMINAL: GNUout{
 T[][] parseCSV(T)(string filename, string sep="\t", bool verbose = true){
   T[][] data;
   if(!exists(filename) || !isFile(filename)){
-    ERR("No such file %s",filename);
+    writefln("No such file %s",filename);
   }else{
     try{
       auto fp = new File(filename,"rb");
       string      buffer;
       while(fp.readln(buffer)){
         buffer = chomp(buffer);
-        data ~= stringvectortotype!T(buffer.split(sep));
+        data ~= stringToVector!T(buffer.split(sep));
       }
       fp.close();
-      if(verbose) MSG("Parsed %s lines in file: %s",data.length, filename);
+      if(verbose) writefln("Parsed %s lines in file: %s",data.length, filename);
     }catch(Throwable e){
-      ERR("File %s read exception: %s", filename,e);
+      writefln("File %s read exception: %s", filename,e);
     }
   }
   return data;

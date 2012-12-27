@@ -10,7 +10,7 @@
 module gnuplot.plot;
 
 import std.stdio, std.string, std.conv, std.file;
-import core.arrays.matrix, core.arrays.ranges;
+import dcode.arrays.matrix, dcode.arrays.vector;
 import gnuplot.gnuaux, gnuplot.data;
 
 struct GNUplot{
