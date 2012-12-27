@@ -7,7 +7,7 @@
  * First written 2012<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module interpreters.bnf.symbol;
+module ebnf.symbol;
 
 import std.file, std.stdio, std.string, std.conv;
 
@@ -51,3 +51,4 @@ class Range : Symbol{
 
   Symbol[] symbols;
 }
+

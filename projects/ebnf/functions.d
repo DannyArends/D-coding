@@ -1,5 +1,5 @@
 ﻿/******************************************************************//**
- * \file src/interpreters/bnf/functions.d
+ * \file ebnf/functions.d
  * \brief Functions for BNF
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
@@ -7,10 +7,10 @@
  * First written 2012<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module interpreters.bnf.functions;
+module ebnf.functions;
 
 import std.file, std.stdio, std.string, std.conv;
-import interpreters.bnf.rule, interpreters.bnf.symbol;
+import ebnf.rule, ebnf.symbol;
 
 Symbol[][] getAlternatives(string input){
   Symbol[][] alt;
@@ -47,3 +47,4 @@ size_t[] pathlength(Symbol[][] symbols){
   foreach(Symbol[] s;symbols) lengths ~= s.length;
   return lengths;
 }
+
