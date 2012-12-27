@@ -10,7 +10,7 @@
 module regression.support;
 
 import std.stdio, std.math;
-import dcode.arrays.types, dcode.arrays.matrix;
+import dcode.arrays.vector, dcode.arrays.matrix;
 import regression.LUdecomposition;
 
 double Lnormal(double residual, double variance){

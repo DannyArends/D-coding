@@ -7,7 +7,7 @@
  * First written May, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module core.stdinc;
+module dcode.stdinc;
 
 public import std.stdio;
 public import std.math; 

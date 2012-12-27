@@ -7,7 +7,7 @@
  * First written May, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module dcode.arrays.types;
+module dcode.arrays.vector;
 import core.memory, std.random, std.conv;
 
 pure T[] newvector(T)(size_t length, T value = T.init){
@@ -30,15 +30,56 @@ pure T[] copyvector(T)(in T[] c){
   return x;
 }
 
-T[] stringvectortotype(T)(in string[] entities){
+/*
+ * Splits a string by sep, and transforms each element to types of T
+ */
+T[] stringToVector(T)(string s, string sep= ","){
+  string[] entities = s.split(sep);
+  return stringToVector!T(entities);
+}
+
+/*
+ * Convert a string vector to a vector of type T
+ */
+T[] stringToVector(T)(in string[] entities){
   T[] rowleveldata;
   for(size_t e=0; e < entities.length; e++){
     try{
       rowleveldata ~= to!T(entities[e]);
-    }catch(Throwable e){
+    }catch(Throwable e){ 
       rowleveldata ~= T.init;
     }
   }
   return rowleveldata;
+}
+
+/*
+ * Convert a vector of type T to a string
+ */
+string arrayToString(T)(T[] entities, string sep = ":", bool conv=false){
+  string retdata;
+  for(auto e=0;e < entities.length; e++){
+    if(e != 0) retdata ~= sep;
+    if(conv){
+      retdata ~= to!char(entities[e]);
+    }else{
+      retdata ~= to!string(entities[e]);
+    }
+  }
+  return retdata;
+}
+
+T[] toType(T)(ubyte[] buffer){
+  T[] returnbuffer;
+  foreach(int i, byte b ; buffer){
+    returnbuffer ~= to!T(b);
+  }
+  return returnbuffer;
+}
+
+string toD(int x, size_t d = 6){
+  string s = to!string(x);
+  while(s.length < d){ s = "0" ~ s; }
+  return s;
 }
 

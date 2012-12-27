@@ -10,7 +10,7 @@
 module regression.LUdecomposition;
  
 import std.stdio, std.math;
-import dcode.arrays.types, regression.support;
+import dcode.arrays.vector, regression.support;
 
 bool LUdecompose(double[][] m, int dim, int[] ndx, int *d) {
   int r, c, rowmax, i;

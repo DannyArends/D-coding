@@ -10,7 +10,7 @@
 module regression.regression;
  
 import std.stdio, std.conv, std.math;
-import dcode.arrays.types, dcode.arrays.matrix;
+import dcode.arrays.vector, dcode.arrays.matrix;
 import regression.support;
 
 double multipleregression(double[][] designmatrix, double[] y, double[] weight, int[] nullmodellayout, bool verbose = true){

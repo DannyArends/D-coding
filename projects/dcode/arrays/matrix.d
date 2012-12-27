@@ -10,7 +10,7 @@
 module dcode.arrays.matrix;
 
 import std.stdio, std.conv, std.math;
-import dcode.arrays.types;
+import dcode.arrays.vector;
 
 pure T[][] newmatrix(T)(size_t nrow, size_t ncol, T init = T.init){
   T[][] x;

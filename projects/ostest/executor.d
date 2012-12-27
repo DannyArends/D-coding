@@ -7,10 +7,9 @@
  * First written Jun, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module core.executor;
+module ostest.executor;
 
-import core.stdinc;
-import core.typedefs.types;
+import dcode.stdinc, dcode.types;
 
 extern (C) int system(char *);
 
@@ -141,3 +140,4 @@ class Executor{
     return result;
   }
 }
+
