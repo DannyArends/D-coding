@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/plugins/regression/support.d
+ * \file statistics/support.d
  * \brief Regression supporting functions
  *
  * <i>Copyright (c) 1991-2012</i>Ritsert C. Jansen, Danny Arends, Pjotr Prins, Karl W. Broman<br>
@@ -7,11 +7,11 @@
  * First written 1991<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module regression.support;
+module statistics.support;
 
 import std.stdio, std.math;
 import dcode.arrays.vector, dcode.arrays.matrix;
-import regression.LUdecomposition;
+import statistics.LUdecomposition;
 
 double Lnormal(double residual, double variance){
   return exp(-pow(residual/sqrt(variance),2.0)/2.0 - log(sqrt(2.0*acos(-1.0)*variance)));

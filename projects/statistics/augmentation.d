@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/plugins/regression/augmentation.d
+ * \file statistics/augmentation.d
  * \brief Missing data augmentation routine
  *
  * <i>Copyright (c) 1991-2012</i>Ritsert C. Jansen, Danny Arends, Pjotr Prins, Karl W. Broman<br>
@@ -7,7 +7,7 @@
  * First written 1991<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module regression.augmentation;
+module statistics.augmentation;
  
 import std.stdio, std.math;
 import core.arrays.types, plugins.regression.support;

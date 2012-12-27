@@ -7,11 +7,11 @@
  * First written 1991<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module regression.qtl;
+module statistics.qtl;
 
 import std.stdio, std.math, std.datetime;
 import core.arrays.types, core.arrays.ranges;
-import regression.support, regression.regression;
+import statistics.support, statistics.regression;
 
 class SingleQTL{
   double[][] analyse(int[][] genotypes, double[][] phenotypes, int[] geno_cov = [], bool verbose = true){

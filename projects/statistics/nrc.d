@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/plugins/regression/nrc.d
+ * \file statistics/nrc.d
  * \brief Old NRC file, now holding inverseF
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
@@ -7,7 +7,7 @@
  * First written Jan, 2012<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module regression.nrc;
+module statistics.nrc;
 
 import std.stdio, std.math, std.mathspecial;
 

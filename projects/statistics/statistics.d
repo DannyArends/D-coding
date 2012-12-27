@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/plugins/regression/statistics.d
+ * \file statistics/statistics.d
  * \brief Basic statistical functions
  *
  * <i>Copyright (c) 1991-2012</i>Ritsert C. Jansen, Danny Arends, Pjotr Prins, Karl W. Broman<br>
@@ -7,7 +7,7 @@
  * First written 1991<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module regression.statistics;
+module statistics.statistics;
  
 import std.math, std.stdio, std.conv;
 import dcode.arrays.algebra, dcode.arrays.search;

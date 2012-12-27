@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/plugins/regression/LUdecomposition.d
+ * \file statistics/LUdecomposition.d
  * \brief LUdecomposition, LUsolve and LUinvert
  *
  * <i>Copyright (c) 1991-2012</i> Ritsert C. Jansen, Danny Arends, Pjotr Prins, Karl W. Broman<br>
@@ -7,10 +7,10 @@
  * First written 1991<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module regression.LUdecomposition;
+module statistics.LUdecomposition;
  
 import std.stdio, std.math;
-import dcode.arrays.vector, regression.support;
+import dcode.arrays.vector, statistics.support;
 
 bool LUdecompose(double[][] m, int dim, int[] ndx, int *d) {
   int r, c, rowmax, i;

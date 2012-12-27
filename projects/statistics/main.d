@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/main/regression.d
+ * \file statistics/main.d
  * \brief Main function for rake app::regression
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
@@ -8,7 +8,7 @@
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 import std.stdio, std.math, std.datetime, core.time;
-import dcode.arrays.search, regression.regression, regression.statistics;
+import dcode.arrays.search, statistics.regression, statistics.statistics;
 import dcode.io.reader, dcode.io.textreader;
 
 void print_usage(){
