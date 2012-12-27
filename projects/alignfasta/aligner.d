@@ -7,12 +7,9 @@
  * First written Jun, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module io.aligner;
+module alignfasta.aligner;
  
-import core.stdinc;
-import core.executor;
-import io.xbin.reader;
-import io.iofunctions;
+import dcode.stdinc, dcode.executor;
 
 /*! \brief Align DNA nucleotide sequences
  *
@@ -102,8 +99,9 @@ public:
   
 private:
   string input_filename = "in.seq";
-  string temp_filename = "fasta.txt";
-  string genome_name = "ITAG2_genomic.fasta";
-  string task = "blastn";
-  double evalue = 0.0001;
+  string temp_filename  = "fasta.txt";
+  string genome_name    = "ITAG2_genomic.fasta";
+  string task           = "blastn";
+  double evalue         = 0.0001;
 }
+

@@ -7,36 +7,32 @@
  * First written Jun, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module web.httpreader;
+module http.reader.reader;
  
 import std.stdio, std.math, std.conv;
-import web.socketclient, core.terminal;
+import http.socketclient;
 
-class HttpReader{
-  SocketClient server;
-  string host;
+class HttpReader : SocketClient{
   string protocol = "HTTP/1.0";
-  ushort port = 80;
 
-  this(string h, ushort p = 80){
-    host = h;
-    port = p;
-    server = new SocketClient(h,p);
-  }
+  this(string h, ushort p = 80){ super(h, p); }
   
-  string getRawURL(string url = "/"){
-    if(server.connect()){
+  string getRawURL(string url = "/", bool verbose = true){
+    if(connect()){
+      writefln("Connected to %s:%s",host,port);      
       string r;
-      if(server.write("GET " ~ url ~ " " ~ protocol ~ "\r\nHost: " ~ host ~ "\r\n\r\n")){
-        r = server.read(1);
-        server.disconnect();
+      if(writeTo("GET " ~ url ~ " " ~ protocol ~ "\r\nHost: " ~ host ~ "\r\n\r\n")){
+        writefln("Wrote request");
+        r = readFrom(100);
+        disconnect();
       }else{
         r = "Write failed";
       }
       return r;
     }else{
-      ERR("Not connect to server");
+      writefln("Not connect to server: '%s'", host);
       return null;
     }
   }
 }
+

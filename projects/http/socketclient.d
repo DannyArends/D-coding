@@ -7,43 +7,27 @@
  * First written Jun, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module web.socketclient;
+module http.socketclient;
 
-import std.stdio, std.socket, core.terminal;
+import std.stdio, std.socket;
 
 class SocketClient{
-  private:
-  string host;
-  ushort port;
-  Socket handle;
-
-  public:
-  this(string h, ushort p){
-    handle = null;
+  this(string h, ushort p = 80){
     host = h;
     port = p;
   }
-  
-  ~this(){
-    host = null;
-    port = 0;
-    if(handle !is null){
-      if(handle.isAlive) handle.close;
-      delete handle;
-    }
-  }
  
-  public bool connect(){
-    assert(host !is null);
-    assert(port > 0);
-
-    handle = new TcpSocket;
-    assert(handle.isAlive);
+  public bool connect(bool block = true){
+    if(host is null){  writefln("Host cannot be null"); return false; }
+    if(port <= 0){ writefln("Port needs to be larger then 0"); return false; }
+    blocking = block;
+    handle   = new TcpSocket;
+    if(!handle.isAlive){ writefln("Handle is closed before connection"); return false; }
     try{
       handle.connect( new InternetAddress( host, cast(int)port ) );
-      handle.blocking(false);
+      handle.blocking(blocking);
     }catch(SocketException ex){
-      ERR("Failed to connect to server (%s:%d)", host, port);
+      writefln("Failed to connect to server (%s:%d)", host, port);
       delete handle;
       return false;
     }
@@ -59,26 +43,24 @@ class SocketClient{
   }
 
   public bool isAlive(){
-    if(handle !is null){
-      return handle.isAlive;
-    }
+    if(handle !is null) return handle.isAlive;
     return false;
   }
 
-  public bool write(string msg){
+  public bool writeTo(string msg){
     if(!isAlive) return false;
-    debug MSG("Sending: %s", msg );
-    auto ret = handle.send( msg );
+    debug writefln("Sending: %s", msg);
+    auto ret = handle.send(msg);
     if(!ret) return false;
     if(ret == -1) return false;
     return true;
   }
 
-  public string read(uint bufferSize){
+  public string readFrom(uint bufferSize){
     if(!isAlive) return null;
     
     char[] buf = new char[bufferSize];
-    auto ret = handle.receive(buf);
+    auto ret   = handle.receive(buf);
     if(!ret) return null;
     if(ret == -1) return null;
 
@@ -95,7 +77,12 @@ class SocketClient{
     return cast(string)data;
   }
 
-  public Socket* getHandle(){
-    return &handle;
-  }
+  public Socket* getHandle(){ return &handle; }
+
+  protected:
+    string host;
+    ushort port     = 80;
+    Socket handle   = null;
+    bool   blocking = true;
 }
+

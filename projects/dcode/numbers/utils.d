@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/core/numbers/utils.d
+ * \file dcode/numbers/utils.d
  * \brief Utilities for numbers (used by RSA)
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
@@ -7,7 +7,7 @@
  * First written Feb, 2012<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module core.numbers.utils;
+module dcode.numbers.utils;
 
 import std.stdio, std.conv, std.math, std.string, std.random;
 
@@ -44,3 +44,4 @@ unittest{
     writefln(" - %s\nFAILED: %s",err,__FILE__);  
   }
 }
+

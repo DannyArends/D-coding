@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/core/numbers/entropy.d
+ * \file dcode/numbers/entropy.d
  * \brief Entropy functions
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
@@ -7,14 +7,11 @@
  * First written May, 2012<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module core.numbers.entropy;
+module dcode.numbers.entropy;
 
 import std.stdio, std.math, std.file, std.path, std.string, std.conv;
-import std.getopt;
-import core.memory;
-
-import core.arrays.ranges;
-import core.arrays.types;
+import std.getopt, core.memory;
+import dcode.arrays.search, dcode.arrays.types;
 
 struct Entropy{
   double val;
@@ -74,3 +71,4 @@ void entropy(T)(string fn, File* fo, uint base = 2){
   GC.collect();
   GC.minimize();
 }
+

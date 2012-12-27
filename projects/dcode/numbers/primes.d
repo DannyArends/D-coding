@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/core/numbers/primes.d
+ * \file dcode/numbers/primes.d
  * \brief Functions for prime numbers
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
@@ -7,7 +7,7 @@
  * First written Feb, 2012<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module core.numbers.primes;
+module dcode.numbers.primes;
 
 import std.stdio, std.conv, std.datetime, std.math, std.string, std.random;
 

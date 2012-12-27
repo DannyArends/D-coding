@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/core/executor.d
+ * \file dcode/executor.d
  * \brief Execute commands via the commandline 
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
@@ -7,7 +7,7 @@
  * First written Jun, 2011<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module ostest.executor;
+module dcode.executor;
 import dcode.stdinc, dcode.types;
 
 extern (C) int system(char *);

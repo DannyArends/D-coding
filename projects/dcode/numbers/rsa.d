@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/core/numbers/rsa.d
+ * \file dcode/numbers/rsa.d
  * \brief Implementation of the RSA algorithm
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
@@ -7,11 +7,10 @@
  * First written Feb, 2012<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module core.numbers.rsa;
+module dcode.numbers.rsa;
 
 import std.stdio, std.conv, std.math, std.string, std.random;
-import core.numbers.primes;
-import core.numbers.utils;
+import dcode.numbers.primes, dcode.numbers.utils;
 
 pure long getE(long N, uint[] pq){
   long x = (N/2);

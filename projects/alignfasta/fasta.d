@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/io/fasta.d
+ * \file alignfasta/fasta.d
  * \brief Fasta file type definition
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>
@@ -7,11 +7,10 @@
  * First written May, 2012<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module io.fasta;
+module alignfasta.fasta;
 
 import std.stdio, std.math, std.file, std.path, std.string, std.conv;
-import core.arrays.matrix, core.terminal, core.arrays.types;
-import core.arrays.ranges;
+import dcode.arrays.matrix, dcode.arrays.vector, dcode.arrays.search;
 
 /*! \brief Fasta sequence structure
  *
@@ -67,7 +66,7 @@ Fasta[] readFasta(string fn, bool circular = false){
 void shiftSequence(Fasta f, uint n = 0, bool verbose = true){
   assert(n < f.sequence.length,"Faste: shift >= sequence.length");
   if(n==0) return;
-  MSG("Moving sequence: %s...%s", f.sequence[0..10], f.sequence[($-10)..$]);
+  writefln("Moving sequence: %s...%s", f.sequence[0..10], f.sequence[($-10)..$]);
   if(f.circular){
     if(n > 0) f.sequence = f.sequence[n..$] ~ f.sequence[0..n];
     if(n < 0) f.sequence = f.sequence[($-n)..$] ~ f.sequence[0..($-n)];
@@ -76,5 +75,6 @@ void shiftSequence(Fasta f, uint n = 0, bool verbose = true){
     if(n > 0) f.sequence = f.sequence[n..$] ~ mask;
     if(n < 0) f.sequence = mask ~ f.sequence[0..($-n)];    
   }
-  MSG("New sequence: %s...%s", f.sequence[0..10], f.sequence[($-10)..$]);
+  writefln("New sequence: %s...%s", f.sequence[0..10], f.sequence[($-10)..$]);
 }
+

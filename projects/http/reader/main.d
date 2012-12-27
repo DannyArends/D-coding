@@ -7,7 +7,7 @@
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 import std.stdio, std.math, std.conv;
-import web.httpreader;
+import http.reader.reader;
 
 void print_usage(){
   writeln("   Usage: httpreader host port page");
@@ -15,10 +15,13 @@ void print_usage(){
 }
 
 void main(string[] args){
-  if(args.length > 3){
-    HttpReader c = new HttpReader(args[1],to!ushort(args[2]));
-    writeln(c.getRawURL(args[3])); // Only first 100 characters to not flush the test
-  }else{
-    print_usage();
-  }
+  ushort port = 80;
+  string loc = "/";
+  if(args.length > 2) port = to!ushort(args[2]);
+  if(args.length > 3) loc = args[3];
+  if(args.length > 1){
+    HttpReader c = new HttpReader(args[1], port);
+    writefln("RawUrl: %s", c.getRawURL(loc)); // Only first 100 characters to not flush the test
+  }else{ print_usage(); }
 }
+

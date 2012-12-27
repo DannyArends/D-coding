@@ -1,6 +1,6 @@
 module ostest.execenv;
 import dcode.stdinc, dcode.types;
-import ostest.executor;
+import dcode.executor;
 
 class ExecEnvironment{
   public:
