@@ -7,7 +7,7 @@
  * First written 1991<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module plugins.regression.augmentation;
+module regression.augmentation;
  
 import std.stdio, std.math;
 import core.arrays.types, plugins.regression.support;

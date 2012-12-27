@@ -7,7 +7,7 @@
  * First written 1991<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module plugins.regression.statistics;
+module regression.statistics;
  
 import std.math, std.stdio, std.conv;
 import core.arrays.algebra, core.arrays.search;

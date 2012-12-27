@@ -7,10 +7,37 @@
  * First written May, 2012<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module core.arrays.matrix;
+module dcode.arrays.matrix;
 
 import std.stdio, std.conv, std.math;
-import core.arrays.types;
+import dcode.arrays.types;
+
+pure T[][] newmatrix(T)(size_t nrow, size_t ncol, T init = T.init){
+  T[][] x;
+  x.length=nrow;
+  for(size_t i=0;i < nrow;i++){
+    x[i] = newvector!T(ncol,init);
+  }
+  return x;
+}
+
+void freematrix(T)(T[][] m, size_t rows) {
+  for(size_t i=0; i < m.length; i++) {
+    if(m[i].length > 0) freevector!T(m[i]);
+  }
+  GC.removeRange(cast(void*)m);
+  GC.free(cast(void*)m);
+}
+
+T[][] randommatrix(T)(size_t nrow, size_t ncol){
+  T[][] x = newmatrix!T(nrow,ncol);
+  for(size_t i=0;i<nrow;i++){
+    for(size_t j=0;j<ncol;j++){      
+        x[i][j] = to!T(uniform(-4,4));
+    }
+  }
+  return x;
+}
 
 pure T[][] absmatrix(T)(in T[][] i){
   T[][] m = newmatrix!T(i.length,i[0].length);
@@ -33,11 +60,22 @@ pure T[] unlist(T)(in T[][] i){
 }
 
 pure T[][] asmatrix(T)(in T[] i){
-  T[][] m; T[]   row;
-  for(size_t idx=0;idx<i.length;idx++){ row ~= i[idx]; }
+  T[][] m; T[] row;
+  for(size_t idx = 0; idx < i.length; idx++){ row ~= i[idx]; }
   m ~= row;
   return m;
 }
+
+pure T[][] vectortomatrix(T)(size_t nrow, size_t ncol, in T[] invector){
+  T[][] outmatrix = newmatrix!T(nrow, ncol);
+  for(size_t r=0; r<nrow; r++){
+    for(size_t c=0; c<ncol; c++){
+      outmatrix[r][c] = invector[(c*nrow)+r];
+    }
+  }
+  return outmatrix;
+}
+
 
 pure T[][] translate(T)(in T[][] i){
   T[][] m = newmatrix!T(i[0].length,i.length);
@@ -58,14 +96,3 @@ void printmatrix(T)(in T[][] m) {
   }
 }
 
-T[] stringvectortotype(T)(in string[] entities){
-  T[] rowleveldata;
-  for(size_t e=0; e < entities.length; e++){
-    try{
-      rowleveldata ~= to!T(entities[e]);
-    }catch(Throwable e){
-      rowleveldata ~= T.init;
-    }
-  }
-  return rowleveldata;
-}

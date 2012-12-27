@@ -7,7 +7,7 @@
  * First written Jan, 2012<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module plugins.regression.nrc;
+module regression.nrc;
 
 import std.stdio, std.math, std.mathspecial;
 

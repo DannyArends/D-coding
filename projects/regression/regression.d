@@ -7,11 +7,11 @@
  * First written 1991<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module plugins.regression.regression;
+module regression.regression;
  
 import std.stdio, std.conv, std.math;
-import core.arrays.types, core.arrays.matrix;
-import plugins.regression.support;
+import dcode.arrays.types, dcode.arrays.matrix;
+import regression.support;
 
 double multipleregression(double[][] designmatrix, double[] y, double[] weight, int[] nullmodellayout, bool verbose = true){
   if (designmatrix.length != weight.length){ writeln("No weights for individuals found",designmatrix.length,weight.length); return 0.0; }

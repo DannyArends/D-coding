@@ -7,10 +7,10 @@
  * First written 1991<br>
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
-module plugins.regression.LUdecomposition;
+module regression.LUdecomposition;
  
 import std.stdio, std.math;
-import core.arrays.types, plugins.regression.support;
+import dcode.arrays.types, regression.support;
 
 bool LUdecompose(double[][] m, int dim, int[] ndx, int *d) {
   int r, c, rowmax, i;
