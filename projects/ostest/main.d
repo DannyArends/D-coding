@@ -7,7 +7,7 @@
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 import std.array, std.stdio, std.conv;
-import ostest.executor;
+import ostest.execenv;
 
 void main(string[] args){
   ExecEnvironment e = new ExecEnvironment();
