@@ -1,0 +1,20 @@
+//Layout for dcmp:
+
+errors.d         - error handling
+lexer.d          - structures and functions to tokenize string input
+parser.d         - structures and functions to move through an array of tokens
+recognizers.d    - recognize tokens
+stdtypes.d       - types
+expressions.d    - expressions
+controlstructs.d - control flow structures
+variables.d      - Global and Local variables
+procedures.d     - Functions
+
+interpreter.d    - Direct interpretation of the input
+
+codegen_asm.d    - Translation into NASM ASM
+codegen_386.d    - Translation into Intel x386
+
+main.d
+tests/           - Test scripts
+

@@ -1,0 +1,16 @@
+int a = 2 * (12 + 6) - 15;
+int b = (12 * (12 + 6) - 15);
+int c;
+
+int happy(){
+  int hh = 1 - 4 * 5 + 1 - 12;
+}
+
+int main(int argc){
+  int x = 5 + 10;
+  if(1){
+    int y = x + 7;
+  }
+  return(0, 5+9);
+}
+
