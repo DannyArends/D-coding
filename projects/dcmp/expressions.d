@@ -1,6 +1,6 @@
 module dcmp.expressions;
 
-import dcmp.errors, dcmp.token, dcmp.parser, dcmp.codegen_386;
+import dcmp.errors, dcmp.token, dcmp.parser, dcmp.codegen_asm;
 
 /* Mathematical expression consists of 1 or more 'terms' separated by 'addops' */
 void expression(ref Parser p){
@@ -44,24 +44,28 @@ void assignment(ref Parser p, Token id){
   storeVariable(id.value);
 }
 
+/* Add 2 terms */
 void add(ref Parser p){
   p.matchValue("+");
   p.term();
   popAdd();
 }
 
+/* Substract 2 terms */
 void substract(ref Parser p){
   p.matchValue("-");
   p.term();
   popSub();
 }
 
+/* Multiply 2 factors */
 void multiply(ref Parser p){
   p.matchValue("*");
   p.factor();
   popMul();
 }
 
+/* Divide 2 factors */
 void divide(ref Parser p){
   p.matchValue("/");
   p.factor();

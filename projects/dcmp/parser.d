@@ -1,7 +1,7 @@
 module dcmp.parser;
 
 import std.stdio, std.conv;
-import dcmp.token, dcmp.recognizers, dcmp.functions, dcmp.expressions, dcmp.errors, dcmp.codegen_386;
+import dcmp.token, dcmp.recognizers, dcmp.functions, dcmp.expressions, dcmp.errors, dcmp.codegen_asm;
 
 struct Parser{
   Token lookAhead;
@@ -28,6 +28,7 @@ void parseProgram(ref Parser p){
       p.doArgsDefinitionList();
       p.matchValue(")");
       string funlabel = addLabel(id.value, true);
+      functionProlog();
       p.doBlock();
       addLabel(funlabel ~ "_end");
     }else if(p.lookAhead.value == "="){
@@ -98,7 +99,7 @@ void doBlock(ref Parser p, bool isFunction = true){
       expected("keyword/type", p.lookAhead.type);
     }
   }
-  if(isFunction) returnFunction();
+  if(isFunction) functionEpilog();
   p.matchValue("}");
 }
 
