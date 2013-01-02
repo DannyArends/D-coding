@@ -5,7 +5,7 @@ import dcmp.errors, dcmp.functions, dcmp.token, dcmp.parser, dcmp.codegen_asm;
 /* Mathematical expression consists of 1 or more 'terms' separated by 'addops' */
 void expression(ref Parser p){
   p.term();
-  while(p.lookAhead.value == "+" || p.lookAhead.value == "-"){
+  while(isAddOp(p.lookAhead.value)){
     pushRegister();
     if(p.lookAhead.value == "+") p.add();
     if(p.lookAhead.value == "-") p.substract();
@@ -79,13 +79,22 @@ void factor(ref Parser p){
     p.expression();
     p.matchValue(")");
   }else if(p.lookAhead.type == "identifier"){
-    loadVariable(p.matchType("identifier").value);
+    Token id = p.matchType("identifier");
+    if(inTable(id.value, variables)){ // Variable
+      loadVariable(id.value);
+    }else if(inTable(id.value, labels)){ // Function
+      p.doArgsCallList(id);
+    }else{
+      undefined(p.lookAhead.value);      
+    }
   }else if(p.lookAhead.type == "numeric"){
     loadConstant(p.matchType("numeric").value);
   }else if(p.lookAhead.type == "boolean"){
     p.bfactor();
   }else if(p.lookAhead.type == "operator"){
     p.bfactor();
+  }else if(p.lookAhead.value == ")"){ // Only found when we have an empty function call
+    return;
   }else{
     expected("expression / identifier or numeric", p.lookAhead.type);
   }

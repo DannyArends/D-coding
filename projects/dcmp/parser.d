@@ -41,10 +41,10 @@ void doArgsDefinitionList(ref Parser p){
 
 void doArgsCallList(ref Parser p, Token func){
   p.matchValue("(");
-  p.expression();
+  p.bexpression();
   while(p.lookAhead.value == ","){
     p.matchValue(",");
-    p.expression();
+    p.bexpression();
   }
   p.matchValue(")");
   callFunction(func.value);

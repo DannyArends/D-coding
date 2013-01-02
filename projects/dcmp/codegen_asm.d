@@ -107,6 +107,7 @@ void jmpToLabel(string label){
 /* Emit a function call */
 void callFunction(string label){
   if(label == "print") return printf();
+  if(label == "return") return functionEpilog();
   if(!inTable(label, labels)) undefined(label);
   writefln("\t\tcall  %s", label);
 }

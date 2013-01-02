@@ -1,17 +1,18 @@
 module dcmp.functions;
 
 import std.stdio;
+import dcmp.recognizers;
 
-bool inTable(string n, string[] t){
-  foreach(s; t){if(n==s) return true; }
+bool inTable(string n, string[] t){ return inTable(n, cast(immutable)t); }
+
+bool inTable(string n, immutable(char[][]) t){
+  for(int x=0; x< t.length ; x++){
+    if(n == t[x]) return true; 
+  }
   return false;
 }
 
-bool isRelOp(string s){
-  if(s =="==") return true;
-  if(s =="<>") return true;
-  if(s =="<") return true;
-  if(s ==">") return true;
-  return false;
-}
+bool isAddOp(string s){ return inTable(s, addOps); }
+bool isMulOp(string s){ return inTable(s, mulOps); }
+bool isRelOp(string s){ return inTable(s, relOps); }
 

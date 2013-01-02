@@ -3,17 +3,17 @@ int b = (12 * (12 + 6) - 15);
 int c = true && 1;
 
 int happy(){
-  int hh = 1 - 4 * 5 + 1 - 12;
+  int hh = (4 * 5 + 1) - 12;
+  return(hh);
 }
 
 int another = 15;
 
 int main(int argc){
   int x = 5 + 10;
-  printf(x);  
-  if(1){
-    int y = x + 7;
-  }
-  return(0, 5+9);
+  int y = x + 7;
+  print(happy());
+  return(y);
 }
+
 

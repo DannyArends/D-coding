@@ -1,7 +1,10 @@
-int a;
+int a = 100;
+int b;
 
 int main(){
   a = 2 * 4 - 16;
   print(a);
+  b = 15 * 9 - 8;
+  print(b);
 }
-print(a);
+
