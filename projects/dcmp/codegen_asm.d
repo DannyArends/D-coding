@@ -87,15 +87,22 @@ void popDiv(string reg = "eax"){
 }
 
 /* Load a variable in register reg */
-void loadVariable(string name, string reg = "eax"){
+void loadVariable(string name, bool push = false, string reg = "eax"){
   if(!inTable(name, variables)) undefined(name);
   writefln("\t\tmov   %s, [%s]", reg, name);
+  if(push) writefln("\t\tpush   %s", reg);
+}
+
+/* Loads an argument passed to use in register reg */
+void loadLocalArgument(string offset, string reg = "eax"){
+  writefln("\t\tmov   %s, [ebp + %s]", reg, offset);
 }
 
 /* Store register reg in a variable */
-void storeVariable(string name, string reg = "eax"){
+void storeVariable(string name, bool push = false, string reg = "eax"){
   if(!inTable(name, variables)) undefined(name);
   writefln("\t\tmov   [%s], %s", name, reg);
+  if(push) writefln("\t\tpush   %s", reg);
 }
 
 /* Emit a jump to a label */
@@ -107,6 +114,7 @@ void jmpToLabel(string label){
 /* Emit a function call */
 void callFunction(string label){
   if(label == "print") return printf();
+  if(label == "exit") return exit("0");
   if(label == "return") return functionEpilog();
   if(!inTable(label, labels)) undefined(label);
   writefln("\t\tcall  %s", label);
@@ -142,22 +150,34 @@ void allocateVariable(string name){               // Allocate a variable
   variables ~= name;
 }
 
-void printf(){
-  writeln("push    eax");
-  writeln("push    format");
-  writeln("call    printf");
-  writeln("add     esp, 8");
+/* Small hack to have some output */
+void printf(){                                   // Should be changed to something like:
+  writeln("\t\tpush  eax");                      // mov eax, 4      ; write
+  writeln("\t\tpush  _formatI");                 // mov ebx, 1      ; to the standard output
+  writeln("\t\tcall  printf");                   // mov ecx, msg	  ; Name of the variable to write
+  writeln("\t\tadd   esp, 8");                   // mov edx, length ; length of variable in bytes
+}                                                // int 0×8         ; invoke an interrupt
+
+/* Exit from the program using an interupt */
+void exit(string code){
+  writeln("\t\tmov   eax, 1");
+  writefln("\t\tmov   ebx, %s", code);
+  writeln("\t\tint   0x80");
 }
 
+/* Write the program's epilog */
 void epilog(){
   if(inTable(user_entry, labels)){
-    writefln("\t\tcall  %s", user_entry);           // Call the user entry (Should return result to EAX)
-	}
-  writeln("\t\tmov   eax, 0");                    // Normal, no error, return value
+    writefln("\t\tcall  %s", user_entry);         // Call the user entry (Should return result to EAX)
+	}else{
+    writeln("\t\tmov   eax, 0");                  // Normal, no error, return value
+  }
 	writeln("\t\tret\n");
 
   writeln("section .data");                       // All 'global' variables
   foreach(name; variables){ writefln("\t%s:  dd 0", name); }
-  writeln("\tformat:  db  '%d',0xA");
+  writeln("\t_newline:  db  0xA, 0");
+  writeln("\t_formatI:  db  '%d', 0xA, 0");
+  writeln("\t_formatF:  db  '%f', 0xA, 0");
 }
 

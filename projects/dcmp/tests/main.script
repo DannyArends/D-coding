@@ -2,18 +2,14 @@ int a = 2 * (12 + 6) - 15;
 int b = (12 * (12 + 6) - 15);
 int c = true && 1;
 
-int happy(){
-  int hh = (4 * 5 + 1) - 12;
-  return(hh);
+int sum(int x, int y){
+  return(x + y);
 }
 
-int another = 15;
-
-int main(int argc){
+int main(){
   int x = 5 + 10;
   int y = x + 7;
-  print(happy());
+  print(sum(x - 8, 19));
   return(y);
 }
-
 

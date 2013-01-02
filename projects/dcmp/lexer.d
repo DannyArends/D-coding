@@ -5,6 +5,7 @@ import dcmp.errors, dcmp.recognizers, dcmp.token;
 
 alias dcmp.recognizers.isNumeric isNumeric;
 
+/* Wraps character based lexing of a string, allows skipping over newlines and spaces */
 struct Lexer{
   this(string input){ this.input = input; }
 
@@ -32,6 +33,7 @@ struct Lexer{
 
 alias bool  function(char) allowedCharFun;
 
+/* Create a token by looking forward and merging allowed characters */
 Token createToken(ref Lexer l, string type, allowedCharFun match, int mlength = -1){
   string value;
   while(mlength != 0 && match(l.currentChar())){
@@ -72,6 +74,7 @@ Token[] tokenizeString(string s){
   return(tokens);
 }
 
+/* Split a file into tokens */
 Token[] tokenizeFile(string fn){
   if(!exists(fn) || !isFile(fn)){ abort("No such file"); }
   return(tokenizeString(chomp(readText(fn)) ~ EOI));

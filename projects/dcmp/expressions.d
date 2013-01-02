@@ -1,6 +1,6 @@
 module dcmp.expressions;
 
-import dcmp.errors, dcmp.functions, dcmp.token, dcmp.parser, dcmp.codegen_asm;
+import dcmp.errors, dcmp.functions, dcmp.token, dcmp.parser, dcmp.procedures, dcmp.codegen_asm;
 
 /* Mathematical expression consists of 1 or more 'terms' separated by 'addops' */
 void expression(ref Parser p){
@@ -32,6 +32,7 @@ void term(ref Parser p){
   }
 }
 
+/* A boolean term */
 void bterm(ref Parser p){
   p.nbfactor();
   while(p.lookAhead.value == "&&"){
@@ -42,10 +43,11 @@ void bterm(ref Parser p){
   }
 }
 
+/* A boolean <-> integer relation term */
 void relation(ref Parser p){
   p.expression();
   if(isRelOp(p.lookAhead.type)){
-    pushRegister();
+    pushRegister();                             // TODO: Do we need this 1 line up ?
     if(p.lookAhead.value == "==") p.equals();
     if(p.lookAhead.value == "<>") p.notEquals();
     if(p.lookAhead.value == "<")  p.smaller();
@@ -54,6 +56,7 @@ void relation(ref Parser p){
   }
 }
 
+/* A negative boolean factor */
 void nbfactor(ref Parser p){
   if(p.lookAhead.value == "!"){
     p.matchValue("!");
@@ -64,6 +67,7 @@ void nbfactor(ref Parser p){
   }
 }
 
+/* A boolean factor */
 void bfactor(ref Parser p){
   if(p.lookAhead.type == "boolean"){
     pushBoolean(p.matchType("boolean").value);
@@ -72,31 +76,31 @@ void bfactor(ref Parser p){
   }
 }
 
-/* A factor is an expression / identifier or numeric */
+/* A factor is an expression / identifier / Boolean or numeric */
 void factor(ref Parser p){
-  if(p.lookAhead.value == "("){
+  if(p.lookAhead.value == "("){                     // Brackets around arguments 1 + (6 + 9)
     p.matchValue("(");
     p.expression();
     p.matchValue(")");
   }else if(p.lookAhead.type == "identifier"){
     Token id = p.matchType("identifier");
-    if(inTable(id.value, variables)){ // Variable
+    if(inTable(id.value, variables)){               // Variable: 1 + (x - y)
       loadVariable(id.value);
-    }else if(inTable(id.value, labels)){ // Function
+    }else if(inTable(id.value, p.lvarList())){      // Local variable or argument
+      loadLocalArgument(p.lvarOffset(id.value));
+    }else if(inTable(id.value, labels)){            // Function call in expression: 1 + sum(x) - y
       p.doArgsCallList(id);
     }else{
-      undefined(p.lookAhead.value);      
+      undefined(id.value);
     }
-  }else if(p.lookAhead.type == "numeric"){
+  }else if(p.lookAhead.type == "numeric"){          // Numeric constant
     loadConstant(p.matchType("numeric").value);
-  }else if(p.lookAhead.type == "boolean"){
+  }else if(p.lookAhead.type == "boolean"){          // Boolean constant: true / false
     p.bfactor();
-  }else if(p.lookAhead.type == "operator"){
-    p.bfactor();
-  }else if(p.lookAhead.value == ")"){ // Only found when we have an empty function call
-    return;
+  }else if(p.lookAhead.type == "operator"){         // Operators should be - and !
+    p.nbfactor();
   }else{
-    expected("expression / identifier or numeric", p.lookAhead.type);
+    expected("expression / identifier / or numeric", p.lookAhead.type);
   }
 }
 
@@ -135,6 +139,7 @@ void divide(ref Parser p){
   popDiv();
 }
 
+/* Test if 2 expressions are equal a == b */
 void equals(ref Parser p){
   p.matchValue("==");
   p.expression();
