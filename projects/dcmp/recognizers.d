@@ -4,7 +4,7 @@ import std.conv;
 
 immutable char EOI = '\0';
 immutable string[] types      = [ "int" ];
-immutable string[] operators  = [ "+", "-", "*", "/", "="];
+immutable string[] operators  = [ "+", "-", "*", "/", "=", "!", "&", "<", ">"];
 immutable string[] delimiters = [ "(", ")", "{", "}", ";", ","];
 immutable string[] keywords   = [ "if", "else", "for", "while", "break" ];
 
@@ -17,6 +17,8 @@ bool isType(string s){
   foreach(tp; types){ if(s == tp) return true; }
   return false; 
 }
+
+bool isBool(string s){if(s == "true" || s == "false") return true; return false; }
 
 bool isWhite(char ch){
   if(ch == ' ' || ch == '\t') return true;

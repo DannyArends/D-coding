@@ -63,6 +63,7 @@ Token[] tokenizeString(string s){
       tokens ~= l.createToken("identifier", &isIdentifier);
       if(isKeyword(tokens[($-1)].value)) tokens[($-1)].type = "keyword";
       if(isType(tokens[($-1)].value)) tokens[($-1)].type = "type";
+      if(isBool(tokens[($-1)].value)) tokens[($-1)].type = "boolean";
     }else{
       abort(format("Unknown: %s",l.currentChar()));
     }

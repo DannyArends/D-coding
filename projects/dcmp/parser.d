@@ -21,31 +21,7 @@ struct Parser{
 void parseProgram(ref Parser p){
   prolog();
   while(p.lookAhead.value[0] != EOI){
-    Token  type = p.matchType("type");
-    Token  id   = p.matchType("identifier");
-    if(p.lookAhead.value == "("){
-      p.matchValue("(");
-      p.doArgsDefinitionList();
-      p.matchValue(")");
-      string funlabel = addLabel(id.value, true);
-      functionProlog();
-      p.doBlock();
-      addLabel(funlabel ~ "_end");
-    }else if(p.lookAhead.value == "="){
-      allocateVariable(id.value);
-      p.assignment(id);
-      p.matchValue(";");
-    }else if(p.lookAhead.value == ","){
-      allocateVariable(id.value);
-      while(p.lookAhead.value == ","){
-        p.matchValue(",");
-        id   = p.matchType("identifier");
-        allocateVariable(id.value);
-      }
-    }else if(p.lookAhead.value == ";"){
-      allocateVariable(id.value);
-      p.matchValue(";");
-    }
+    p.matchStatement();
   }
   epilog();
 }
@@ -63,7 +39,7 @@ void doArgsDefinitionList(ref Parser p){
   }
 }
 
-void doArgsCallList(ref Parser p){
+void doArgsCallList(ref Parser p, Token func){
   p.matchValue("(");
   p.expression();
   while(p.lookAhead.value == ","){
@@ -71,33 +47,58 @@ void doArgsCallList(ref Parser p){
     p.expression();
   }
   p.matchValue(")");
+  callFunction(func.value);
+}
+
+void matchStatement(ref Parser p){
+  if(p.lookAhead.type == "type"){
+    Token  type = p.matchType("type");
+    Token  id   = p.matchType("identifier");
+    if(p.lookAhead.value == "("){        // Function declaration
+      p.matchValue("(");
+      p.doArgsDefinitionList();
+      p.matchValue(")");
+      string funlabel = addLabel(id.value, true);
+      functionProlog();
+      p.doBlock();
+      addLabel(funlabel ~ "_end");
+    }else if(p.lookAhead.value == "="){  // Variable allocation & assigment
+      allocateVariable(id.value);
+      p.assignment(id);
+      p.matchValue(";");
+    }else if(p.lookAhead.value == ","){  // Multiple variable allocation
+      allocateVariable(id.value);
+      while(p.lookAhead.value == ","){
+        p.matchValue(",");
+        id   = p.matchType("identifier");
+        allocateVariable(id.value);
+      }
+    }else if(p.lookAhead.value == ";"){  // Single variable allocation
+      allocateVariable(id.value);
+      p.matchValue(";");
+    }
+  }else if(p.lookAhead.type == "keyword"){      // Control statements
+    Token  keyw = p.matchType("keyword");
+    if(keyw.value != "else"){
+      p.matchValue("(");
+      p.bexpression();
+      p.matchValue(")");
+    }
+    p.doBlock(false);
+  }else if(p.lookAhead.type == "identifier"){   // Variable manipulation or Function call
+    Token  id   = p.matchType("identifier");
+    if(p.lookAhead.value == "(") p.doArgsCallList(id);
+    if(p.lookAhead.value == "=") p.assignment(id);
+    p.matchValue(";");
+  }else{
+    expected("keyword/type", p.lookAhead.type);
+  }
 }
 
 void doBlock(ref Parser p, bool isFunction = true){
   p.matchValue("{");
   while(p.lookAhead.value != "}"){
-    if(p.lookAhead.type == "type"){              // Variable allocation
-      Token  type = p.matchType("type");
-      Token  id   = p.matchType("identifier");
-      allocateVariable(id.value);
-      p.assignment(id);
-      p.matchValue(";");
-    }else if(p.lookAhead.type == "keyword"){      // Control statements
-      Token  keyw = p.matchType("keyword");
-      if(keyw.value != "else"){
-        p.matchValue("(");
-        p.expression();
-        p.matchValue(")");
-      }
-      p.doBlock(false);
-    }else if(p.lookAhead.type == "identifier"){   // Variable manipulation or Function call
-      Token  id   = p.matchType("identifier");
-      if(p.lookAhead.value == "(") p.doArgsCallList();
-      if(p.lookAhead.value == "=") p.assignment(id);
-      p.matchValue(";");
-    }else{
-      expected("keyword/type", p.lookAhead.type);
-    }
+    p.matchStatement();
   }
   if(isFunction) functionEpilog();
   p.matchValue("}");

@@ -1,0 +1,7 @@
+int a;
+
+int main(){
+  a = 2 * 4 - 16;
+  print(a);
+}
+print(a);

@@ -1,6 +1,6 @@
 module dcmp.expressions;
 
-import dcmp.errors, dcmp.token, dcmp.parser, dcmp.codegen_asm;
+import dcmp.errors, dcmp.functions, dcmp.token, dcmp.parser, dcmp.codegen_asm;
 
 /* Mathematical expression consists of 1 or more 'terms' separated by 'addops' */
 void expression(ref Parser p){
@@ -9,6 +9,16 @@ void expression(ref Parser p){
     pushRegister();
     if(p.lookAhead.value == "+") p.add();
     if(p.lookAhead.value == "-") p.substract();
+  }
+}
+
+/* Boolean expression consists of 1 or more 'boolean terms' separated by 'boolops' */
+void bexpression(ref Parser p){
+  p.bterm();
+  while(p.lookAhead.value == "==" || p.lookAhead.value == "<>"){
+    pushRegister();
+    if(p.lookAhead.value == "==") p.equals();
+    if(p.lookAhead.value == "<>") p.notEquals();
   }
 }
 
@@ -22,6 +32,46 @@ void term(ref Parser p){
   }
 }
 
+void bterm(ref Parser p){
+  p.nbfactor();
+  while(p.lookAhead.value == "&&"){
+    pushRegister();
+    p.matchValue("&&");
+    p.nbfactor();
+    andBoolean();
+  }
+}
+
+void relation(ref Parser p){
+  p.expression();
+  if(isRelOp(p.lookAhead.type)){
+    pushRegister();
+    if(p.lookAhead.value == "==") p.equals();
+    if(p.lookAhead.value == "<>") p.notEquals();
+    if(p.lookAhead.value == "<")  p.smaller();
+    if(p.lookAhead.value == ">")  p.larger();
+    emitTest();
+  }
+}
+
+void nbfactor(ref Parser p){
+  if(p.lookAhead.value == "!"){
+    p.matchValue("!");
+    p.bfactor();
+    negateBoolean();
+  }else{
+    p.bfactor();
+  }
+}
+
+void bfactor(ref Parser p){
+  if(p.lookAhead.type == "boolean"){
+    pushBoolean(p.matchType("boolean").value);
+  }else{
+    p.relation();
+  }
+}
+
 /* A factor is an expression / identifier or numeric */
 void factor(ref Parser p){
   if(p.lookAhead.value == "("){
@@ -32,6 +82,10 @@ void factor(ref Parser p){
     loadVariable(p.matchType("identifier").value);
   }else if(p.lookAhead.type == "numeric"){
     loadConstant(p.matchType("numeric").value);
+  }else if(p.lookAhead.type == "boolean"){
+    p.bfactor();
+  }else if(p.lookAhead.type == "operator"){
+    p.bfactor();
   }else{
     expected("expression / identifier or numeric", p.lookAhead.type);
   }
@@ -40,7 +94,7 @@ void factor(ref Parser p){
 /* Assign an expression to a variable */
 void assignment(ref Parser p, Token id){
   p.matchValue("=");
-  p.expression();
+  p.bexpression();
   storeVariable(id.value);
 }
 
@@ -70,5 +124,29 @@ void divide(ref Parser p){
   p.matchValue("/");
   p.factor();
   popDiv();
+}
+
+void equals(ref Parser p){
+  p.matchValue("==");
+  p.expression();
+  popEquals();
+}
+
+void smaller(ref Parser p){
+  p.matchValue("<");
+  p.expression();
+  popSmaller();
+}
+
+void larger(ref Parser p){
+  p.matchValue(">");
+  p.expression();
+  popLarger();
+}
+
+void notEquals(ref Parser p){
+  p.matchValue("<>");
+  p.expression();
+  popNotEquals();
 }
 

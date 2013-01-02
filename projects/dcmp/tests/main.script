@@ -1,6 +1,6 @@
 int a = 2 * (12 + 6) - 15;
 int b = (12 * (12 + 6) - 15);
-int c;
+int c = true && 1;
 
 int happy(){
   int hh = 1 - 4 * 5 + 1 - 12;
@@ -10,6 +10,7 @@ int another = 15;
 
 int main(int argc){
   int x = 5 + 10;
+  printf(x);  
   if(1){
     int y = x + 7;
   }

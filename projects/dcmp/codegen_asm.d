@@ -10,6 +10,7 @@ string[] labels;
 
 void prolog(){
   writeln("global main");
+  writeln("extern printf");
   writeln("section .text\n");
   writeln("main:");  
 }
@@ -27,13 +28,56 @@ void popAdd(string reg = "eax"){
 
 void popSub(string reg = "eax"){
   popRegister("ebx");
-  negateRegister("ebx");
+  negateRegister("eax");
   writeln("\t\tadd   eax, ebx");
 }
 
 void popMul(string reg = "eax"){
   popRegister("ebx");
   writeln("\t\timul  eax, ebx");
+}
+
+void popEquals(string reg = "eax"){
+  popRegister("ebx");
+  writeln("\t\tcmp   eax, ebx");
+  writeln("\t\tseq   eax");
+}
+
+void andBoolean(string reg = "eax"){
+  popRegister("ebx");
+  writeln("\t\tand   eax, ebx");
+}
+
+void pushBoolean(string value = "true"){
+  if(value == "true"){
+    loadConstant("-1");
+  }else{ clearRegister(); }
+}
+
+void emitTest(){
+  writeln("\t\ttst   eax");
+}
+
+void negateBoolean(string reg = "eax"){
+    writeln("\t\teor   eax, -1");
+}
+
+void popNotEquals(string reg = "eax"){
+  popRegister("ebx");
+  writeln("\t\tcmp   eax, ebx");
+  writeln("\t\tsne   eax");
+}
+
+void popSmaller(string reg = "eax"){
+  popRegister("ebx");
+  writeln("\t\tcmp   eax, ebx");
+  writeln("\t\tsge   eax");
+}
+
+void popLarger(string reg = "eax"){
+  popRegister("ebx");
+  writeln("\t\tcmp   eax, ebx");
+  writeln("\t\tsle   eax");
 }
 
 void popDiv(string reg = "eax"){
@@ -62,6 +106,7 @@ void jmpToLabel(string label){
 
 /* Emit a function call */
 void callFunction(string label){
+  if(label == "print") return printf();
   if(!inTable(label, labels)) undefined(label);
   writefln("\t\tcall  %s", label);
 }
@@ -96,12 +141,22 @@ void allocateVariable(string name){               // Allocate a variable
   variables ~= name;
 }
 
+void printf(){
+  writeln("push    eax");
+  writeln("push    format");
+  writeln("call    printf");
+  writeln("add     esp, 8");
+}
+
 void epilog(){
- writefln("\t\tcall  %s", user_entry);           // Call the user entry (Should return result to EAX)
-	writeln("\t\tmov   eax, 0");                    // Normal, no error, return value
+  if(inTable(user_entry, labels)){
+    writefln("\t\tcall  %s", user_entry);           // Call the user entry (Should return result to EAX)
+	}
+  writeln("\t\tmov   eax, 0");                    // Normal, no error, return value
 	writeln("\t\tret\n");
 
   writeln("section .data");                       // All 'global' variables
   foreach(name; variables){ writefln("\t%s:  dd 0", name); }
+  writeln("\tformat:  db  '%d',0xA");
 }
 
