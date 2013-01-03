@@ -36,9 +36,9 @@ void term(ref Parser p){
 /* A boolean term */
 void bterm(ref Parser p){
   p.nbfactor();
-  while(p.lookAhead.value == "&&"){
+  while(p.lookAhead.value == "&&" || p.lookAhead.value == "||"){
     pushRegister();
-    p.matchValue("&&");
+    p.matchType("operator");
     p.nbfactor();
     andBoolean();
   }
@@ -54,6 +54,8 @@ void relation(ref Parser p){
     if(p.lookAhead.value == "<>") p.notEquals();
     if(p.lookAhead.value == "<")  p.smaller();
     if(p.lookAhead.value == ">")  p.larger();
+    if(p.lookAhead.value == "<=") p.smaller(true);
+    if(p.lookAhead.value == ">=") p.larger(true);
   }
 }
 
@@ -81,7 +83,7 @@ void bfactor(ref Parser p){
 void factor(ref Parser p){
   if(p.lookAhead.value == "("){                     // Brackets around arguments 1 + (6 + 9)
     p.matchValue("(");
-    p.expression();
+    p.bexpression();
     p.matchValue(")");
   }else if(p.lookAhead.type == "identifier"){
     Token id = p.matchType("identifier");
@@ -147,16 +149,16 @@ void equals(ref Parser p){
   popEquals(p.getL2());
 }
 
-void smaller(ref Parser p){
-  p.matchValue("<");
+void smaller(ref Parser p, bool equal = false){
+  p.matchType("operator");
   p.expression();
-  popSmaller(p.getL2());
+  popSmaller(p.getL2(), equal);
 }
 
-void larger(ref Parser p){
-  p.matchValue(">");
+void larger(ref Parser p, bool equal = false){
+  p.matchValue("operator");
   p.expression();
-  popLarger(p.getL2());
+  popLarger(p.getL2(), equal);
 }
 
 void notEquals(ref Parser p){

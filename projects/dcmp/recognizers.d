@@ -6,7 +6,7 @@ immutable char EOI = '\0';
 immutable string[] types      = [ "int" ];
 immutable string[] addOps     = [ "+", "-" ];
 immutable string[] mulOps     = [ "*", "/" ];
-immutable string[] relOps     = [ "=", "==", "<>", "!", "&", "&&", "|", "||", "<", ">" ];
+immutable string[] relOps     = [ "=", "==", "<>", "!", "&", "&&",">=","<=", "|", "||", "<", ">" ];
 immutable string[] operators  = addOps ~ mulOps ~ relOps;
 immutable string[] delimiters = [ "(", ")", "{", "}", ";", ","];
 immutable string[] keywords   = [ "if", "else", "for", "while", "break" ];

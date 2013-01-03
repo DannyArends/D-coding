@@ -2,7 +2,7 @@ module dcmp.parser;
 
 import std.stdio, std.conv, std.string;
 import dcmp.token, dcmp.recognizers, dcmp.functions, dcmp.expressions;
-import dcmp.procedures, dcmp.errors, dcmp.codegen_asm;
+import dcmp.procedures, dcmp.errors, dcmp.controlstructs, dcmp.codegen_asm;
 
 struct Parser{
   Token lookAhead;
@@ -79,35 +79,6 @@ void matchStatement(ref Parser p){
     p.matchValue(";");
   }else{
     expected("keyword / identifier / type", p.lookAhead.type);
-  }
-}
-
-void controlStatement(ref Parser p, Token keyword){
-  p.nextLabel();
-  switch(keyword.value){
-    case "if":
-      p.matchValue("(");
-      p.bexpression();
-      p.matchValue(")");
-      p.doBlock(false);
-      jmpToLabel(p.getL1(), false);     // Don't check the label, it will be emitted after the else
-      addLabel(p.getL2());
-      if(p.lookAhead.value == "else"){
-        p.matchValue("else");
-        p.doBlock(false);
-      }
-      addLabel(p.getL1());
-    break;
-    case "while":
-      addLabel(p.getL1());
-      p.matchValue("(");
-      p.bexpression();
-      p.matchValue(")");
-      p.doBlock(false);
-      jmpToLabel(p.getL1());
-      addLabel(p.getL2());
-    break;
-    default: break;
   }
 }
 
