@@ -87,10 +87,10 @@ void factor(ref Parser p){
     p.matchValue(")");
   }else if(p.lookAhead.type == "identifier"){
     Token id = p.matchType("identifier");
-    if(inTable(id.value, variables)){               // Variable: 1 + (x - y)
+    if(inTable(id.value, getVariables())){               // Variable: 1 + (x - y)
       loadVariable(id.value);
-    }else if(inTable(id.value, p.lvarList())){      // Local variable or argument
-      loadLocalArgument(p.lvarOffset(id.value));
+    }else if(inTable(id.value, getArgs())){      // Local variable or argument
+      loadLocalArgument(getArgOffset(id.value));
     }else if(inTable(id.value, labels)){            // Function call in expression: 1 + sum(x) - y
       p.doArgsCallList(id);
     }else{
@@ -111,6 +111,7 @@ void factor(ref Parser p){
 void assignment(ref Parser p, Token id){
   p.matchValue("=");
   p.bexpression();
+  if(!inTable(id.value, getVariables())) undefined(id.value);
   storeVariable(id.value);
 }
 

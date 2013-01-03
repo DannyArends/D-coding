@@ -1,11 +1,10 @@
 module dcmp.codegen_asm;
 
 import std.stdio;
-import dcmp.errors, dcmp.functions;
+import dcmp.errors, dcmp.functions, dcmp.procedures;
 
 immutable string user_entry = "_umain";
 
-string[] variables;
 string[] labels;
 
 void prolog(){
@@ -96,7 +95,7 @@ void popLarger(bool equal = false, string reg = "eax"){
 
 /* Load a variable in register reg */
 void loadVariable(string name, bool push = false, string reg = "eax"){
-  if(!inTable(name, variables)) undefined(name);
+  if(!inTable(name, getVariables())) undefined(name);
   writefln("\t\tmov   %s, [%s]", reg, name);
   if(push) writefln("\t\tpush   %s", reg);
 }
@@ -108,7 +107,7 @@ void loadLocalArgument(string offset, string reg = "eax"){
 
 /* Store register reg in a variable */
 void storeVariable(string name, bool push = false, string reg = "eax"){
-  if(!inTable(name, variables)) undefined(name);
+  if(!inTable(name, getVariables())) undefined(name);
   writefln("\t\tmov   [%s], %s", name, reg);
   if(push) writefln("\t\tpush   %s", reg);
 }
@@ -153,9 +152,9 @@ void functionEpilog(){
 }
 
 /* Allocate a variable (so that it is added to the data section) */
-void allocateVariable(string name){               // Allocate a variable
-  if(inTable(name, variables)) duplicate(name);
-  variables ~= name;
+void allocateVariable(string name, string type, bool inFunction){
+  if(inTable(name, getVariables())) duplicate(name);
+  variables ~= Variable(name, type);
 }
 
 /* Small hack to have some output */
@@ -183,7 +182,7 @@ void epilog(){
 	writeln("\t\tret\n");
 
   writeln("section .data");                       // All 'global' variables
-  foreach(name; variables){ writefln("\t%s:  dd 0", name); }
+  foreach(v; variables){ writefln("\t%s:  dd 0", v.name); }
   writeln("\t_newline:  db  0xA, 0");
   writeln("\t_formatI:  db  '%d', 0xA, 0");
   writeln("\t_formatF:  db  '%f', 0xA, 0");

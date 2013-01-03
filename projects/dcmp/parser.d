@@ -19,7 +19,6 @@ struct Parser{
   string getL1(){ return(format("_Cl%s_1", curLabel)); }
   string getL2(){ return(format("_Cl%s_2", curLabel)); }
 
-  LocalVEntry[] args;   // When inside a function we use offsets to the arguments and local variables
   private:
     int     curLabel = 0;
     Token[] tokens;
@@ -37,36 +36,35 @@ void parseProgram(ref Parser p){
 void doBlock(ref Parser p, bool isFunction = true){
   p.matchValue("{");
   while(p.lookAhead.value != "}"){
-    p.matchStatement();
+    p.matchStatement(isFunction);
   }
   if(isFunction) functionEpilog();
   p.matchValue("}");
 }
 
-void matchStatement(ref Parser p){
+void matchStatement(ref Parser p, bool isFunction = false){
   if(p.lookAhead.type == "type"){
     Token  type = p.matchType("type");              // Type is always followed by identifier
     Token  id   = p.matchType("identifier");
     if(p.lookAhead.value == "("){                   // Function declaration
-      p.args = p.doArgsDefinitionList();
+      functions ~= p.doArgsDefinitionList(id.value, type.value);
       string funlabel = addLabel(id.value, true);
       functionProlog();
       p.doBlock();
       addLabel(funlabel ~ "_end");
-      p.args = [];
     }else if(p.lookAhead.value == "="){             // Variable allocation & assigment
-      allocateVariable(id.value);
+      allocateVariable(id.value, type.value, isFunction);
       p.assignment(id);
       p.matchValue(";");
     }else if(p.lookAhead.value == ","){             // Multiple variable allocation
-      allocateVariable(id.value);
+      allocateVariable(id.value, type.value, isFunction);
       while(p.lookAhead.value == ","){
         p.matchValue(",");
         id = p.matchType("identifier");
-        allocateVariable(id.value);
+        allocateVariable(id.value, type.value, isFunction);
       }
     }else if(p.lookAhead.value == ";"){             // Single variable allocation
-      allocateVariable(id.value);
+      allocateVariable(id.value, type.value, isFunction);
       p.matchValue(";");
     }
   }else if(p.lookAhead.type == "keyword"){          // Control statements
