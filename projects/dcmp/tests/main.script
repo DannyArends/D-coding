@@ -13,9 +13,9 @@ int main(){
     print(1);
   }else{
     print(11);
-  }  
-  print(3);
-  while(x <= 16){
+  }
+  print(sum(18, x));
+  while(x <= 25){
     print(x);
     x = x + 1;
   }

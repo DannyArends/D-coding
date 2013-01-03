@@ -64,23 +64,21 @@ void emitTest(string label){
   writefln("\t\tjz  %s", label);
 }
 
-void negateBoolean(string reg = "eax"){
-  writeln("\t\teor   eax, -1");
-}
+void negateBoolean(string reg = "eax"){ writeln("\t\txor   eax, 1"); }
 
-void popEquals(string label, string reg = "eax"){
+void popEquals(string reg = "eax"){
   popRegister("ebx");
   writeln("\t\tcmp   eax, ebx");
   writeln("\t\tsete  al");
 }
 
-void popNotEquals(string label, string reg = "eax"){
+void popNotEquals(string reg = "eax"){
   popRegister("ebx");
   writeln("\t\tcmp   eax, ebx");
   writeln("\t\tsetne al");
 }
 
-void popSmaller(string label, bool equal = false, string reg = "eax"){
+void popSmaller(bool equal = false, string reg = "eax"){
   popRegister("ebx");
   writeln("\t\tcmp    eax, ebx");
   string cmd = "setnle";
@@ -88,7 +86,7 @@ void popSmaller(string label, bool equal = false, string reg = "eax"){
   writefln("\t\t%s al", cmd);
 }
 
-void popLarger(string label, bool equal = false, string reg = "eax"){
+void popLarger(bool equal = false, string reg = "eax"){
   popRegister("ebx");
   writeln("\t\tcmp    ebx, eax");
   string cmd = "setnge";  

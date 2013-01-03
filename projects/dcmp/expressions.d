@@ -146,24 +146,24 @@ void divide(ref Parser p){
 void equals(ref Parser p){
   p.matchValue("==");
   p.expression();
-  popEquals(p.getL2());
+  popEquals();
 }
 
 void smaller(ref Parser p, bool equal = false){
   p.matchType("operator");
   p.expression();
-  popSmaller(p.getL2(), equal);
+  popSmaller(equal);
 }
 
 void larger(ref Parser p, bool equal = false){
   p.matchValue("operator");
   p.expression();
-  popLarger(p.getL2(), equal);
+  popLarger(equal);
 }
 
 void notEquals(ref Parser p){
   p.matchValue("<>");
   p.expression();
-  popNotEquals(p.getL2());
+  popNotEquals();
 }
 
