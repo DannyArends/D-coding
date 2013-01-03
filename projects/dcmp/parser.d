@@ -1,6 +1,6 @@
 module dcmp.parser;
 
-import std.stdio, std.conv;
+import std.stdio, std.conv, std.string;
 import dcmp.token, dcmp.recognizers, dcmp.functions, dcmp.expressions;
 import dcmp.procedures, dcmp.errors, dcmp.codegen_asm;
 
@@ -15,8 +15,13 @@ struct Parser{
   }
   Token currentToken(){ return tokens[ctok]; }
 
+  void nextLabel(){ curLabel++; }
+  string getL1(){ return(format("Cl_1_%s", curLabel)); }
+  string getL2(){ return(format("Cl_2_%s", curLabel)); }
+
   LocalVEntry[] args;   // When inside a function we use offsets to the arguments and local variables
   private:
+    int     curLabel = 1;
     Token[] tokens;
     int     ctok = 0;
 }
@@ -65,13 +70,8 @@ void matchStatement(ref Parser p){
       p.matchValue(";");
     }
   }else if(p.lookAhead.type == "keyword"){          // Control statements
-    Token keyw = p.matchType("keyword");
-    if(keyw.value != "else"){
-      p.matchValue("(");
-      p.bexpression();
-      p.matchValue(")");
-    }
-    p.doBlock(false);
+    Token keyword = p.matchType("keyword");
+    p.controlStatement(keyword);
   }else if(p.lookAhead.type == "identifier"){       // Variable manipulation or Function call
     Token  id   = p.matchType("identifier");
     if(p.lookAhead.value == "(") p.doArgsCallList(id);
@@ -79,6 +79,30 @@ void matchStatement(ref Parser p){
     p.matchValue(";");
   }else{
     expected("keyword / identifier / type", p.lookAhead.type);
+  }
+}
+
+void controlStatement(ref Parser p, Token keyword){
+  p.nextLabel();
+  switch(keyword.value){
+    case "if":
+      p.matchValue("(");
+      p.bexpression();
+      p.matchValue(")");
+      p.doBlock(false);
+      addLabel(p.getL2());
+    break;
+    case "else": break;
+    case "while":
+      addLabel(p.getL1());
+      p.matchValue("(");
+      p.bexpression();
+      p.matchValue(")");
+      p.doBlock(false);
+      jmpToLabel(p.getL1());
+      addLabel(p.getL2());
+    break;
+    default: break;
   }
 }
 

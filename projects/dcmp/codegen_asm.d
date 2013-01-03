@@ -37,12 +37,6 @@ void popMul(string reg = "eax"){
   writeln("\t\timul  eax, ebx");
 }
 
-void popEquals(string reg = "eax"){
-  popRegister("ebx");
-  writeln("\t\tcmp   eax, ebx");
-  writeln("\t\tseq   eax");
-}
-
 void andBoolean(string reg = "eax"){
   popRegister("ebx");
   writeln("\t\tand   eax, ebx");
@@ -54,30 +48,32 @@ void pushBoolean(string value = "true"){
   }else{ clearRegister(); }
 }
 
-void emitTest(){
-  writeln("\t\ttst   eax");
-}
-
 void negateBoolean(string reg = "eax"){
     writeln("\t\teor   eax, -1");
 }
 
-void popNotEquals(string reg = "eax"){
+void popEquals(string label, string reg = "eax"){
   popRegister("ebx");
   writeln("\t\tcmp   eax, ebx");
-  writeln("\t\tsne   eax");
+  writefln("\t\tjne %s", label);
 }
 
-void popSmaller(string reg = "eax"){
+void popNotEquals(string label, string reg = "eax"){
   popRegister("ebx");
   writeln("\t\tcmp   eax, ebx");
-  writeln("\t\tsge   eax");
+  writefln("\t\tje %s", label);
 }
 
-void popLarger(string reg = "eax"){
+void popSmaller(string label, string reg = "eax"){
   popRegister("ebx");
   writeln("\t\tcmp   eax, ebx");
-  writeln("\t\tsle   eax");
+  writefln("\t\tjl   %s", label);
+}
+
+void popLarger(string label, string reg = "eax"){
+  popRegister("ebx");
+  writeln("\t\tcmp   eax, ebx");
+  writefln("\t\tjg   %s", label);
 }
 
 void popDiv(string reg = "eax"){

@@ -9,7 +9,13 @@ int sum(int x, int y){
 int main(){
   int x = 5 + 10;
   int y = x + 7;
-  print(sum(x - 8, 19));
+  if(x < 16){
+    print(sum(x - 8, 19));
+  }
+  while(x < 20){
+    print(x);
+    x = x + 1;
+  }
   return(y);
 }
 

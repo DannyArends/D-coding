@@ -1,5 +1,6 @@
 module dcmp.expressions;
 
+import std.stdio;
 import dcmp.errors, dcmp.functions, dcmp.token, dcmp.parser, dcmp.procedures, dcmp.codegen_asm;
 
 /* Mathematical expression consists of 1 or more 'terms' separated by 'addops' */
@@ -46,13 +47,13 @@ void bterm(ref Parser p){
 /* A boolean <-> integer relation term */
 void relation(ref Parser p){
   p.expression();
-  if(isRelOp(p.lookAhead.type)){
+  if(isRelOp(p.lookAhead.value)){
+//    writefln("%s, %s",p.lookAhead.type,p.lookAhead.value);
     pushRegister();                             // TODO: Do we need this 1 line up ?
     if(p.lookAhead.value == "==") p.equals();
     if(p.lookAhead.value == "<>") p.notEquals();
     if(p.lookAhead.value == "<")  p.smaller();
     if(p.lookAhead.value == ">")  p.larger();
-    emitTest();
   }
 }
 
@@ -143,24 +144,24 @@ void divide(ref Parser p){
 void equals(ref Parser p){
   p.matchValue("==");
   p.expression();
-  popEquals();
+  popEquals(p.getL2());
 }
 
 void smaller(ref Parser p){
   p.matchValue("<");
   p.expression();
-  popSmaller();
+  popSmaller(p.getL2());
 }
 
 void larger(ref Parser p){
   p.matchValue(">");
   p.expression();
-  popLarger();
+  popLarger(p.getL2());
 }
 
 void notEquals(ref Parser p){
   p.matchValue("<>");
   p.expression();
-  popNotEquals();
+  popNotEquals(p.getL2());
 }
 
