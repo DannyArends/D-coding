@@ -16,12 +16,12 @@ struct Parser{
   Token currentToken(){ return tokens[ctok]; }
 
   void nextLabel(){ curLabel++; }
-  string getL1(){ return(format("Cl_1_%s", curLabel)); }
-  string getL2(){ return(format("Cl_2_%s", curLabel)); }
+  string getL1(){ return(format("_Cl%s_1", curLabel)); }
+  string getL2(){ return(format("_Cl%s_2", curLabel)); }
 
   LocalVEntry[] args;   // When inside a function we use offsets to the arguments and local variables
   private:
-    int     curLabel = 1;
+    int     curLabel = 0;
     Token[] tokens;
     int     ctok = 0;
 }
