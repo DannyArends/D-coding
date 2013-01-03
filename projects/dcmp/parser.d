@@ -90,9 +90,14 @@ void controlStatement(ref Parser p, Token keyword){
       p.bexpression();
       p.matchValue(")");
       p.doBlock(false);
+      jmpToLabel(p.getL1(), false);     // Don't check the label, it will be emitted after the else
       addLabel(p.getL2());
+      if(p.lookAhead.value == "else"){
+        p.matchValue("else");
+        p.doBlock(false);
+      }
+      addLabel(p.getL1());
     break;
-    case "else": break;
     case "while":
       addLabel(p.getL1());
       p.matchValue("(");

@@ -67,13 +67,13 @@ void popNotEquals(string label, string reg = "eax"){
 void popSmaller(string label, string reg = "eax"){
   popRegister("ebx");
   writeln("\t\tcmp   eax, ebx");
-  writefln("\t\tjl   %s", label);
+  writefln("\t\tjle   %s", label);
 }
 
 void popLarger(string label, string reg = "eax"){
   popRegister("ebx");
   writeln("\t\tcmp   eax, ebx");
-  writefln("\t\tjg   %s", label);
+  writefln("\t\tjge   %s", label);
 }
 
 void popDiv(string reg = "eax"){
@@ -102,8 +102,8 @@ void storeVariable(string name, bool push = false, string reg = "eax"){
 }
 
 /* Emit a jump to a label */
-void jmpToLabel(string label){
-  if(!inTable(label, labels)) undefined(label);
+void jmpToLabel(string label, bool check = true){
+  if(check && !inTable(label, labels)) undefined(label);
   writefln("\t\tjmp   %s", label);
 }
 
