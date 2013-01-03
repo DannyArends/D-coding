@@ -111,7 +111,6 @@ void factor(ref Parser p){
 void assignment(ref Parser p, Token id){
   p.matchValue("=");
   p.bexpression();
-  if(!inTable(id.value, getVariables())) undefined(id.value);
   storeVariable(id.value);
 }
 
@@ -157,7 +156,7 @@ void smaller(ref Parser p, bool equal = false){
 }
 
 void larger(ref Parser p, bool equal = false){
-  p.matchValue("operator");
+  p.matchType("operator");
   p.expression();
   popLarger(equal);
 }

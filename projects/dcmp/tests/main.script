@@ -15,9 +15,9 @@ int main(){
     print(11);
   }
   print(sum(18, x));
-  while(x <= 25){
+  while(x >= 0){
     print(x);
-    x = x + 1;
+    x = x - 1;
   }
   return(y);
 }

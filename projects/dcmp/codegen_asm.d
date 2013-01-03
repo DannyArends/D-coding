@@ -87,17 +87,16 @@ void popSmaller(bool equal = false, string reg = "eax"){
 
 void popLarger(bool equal = false, string reg = "eax"){
   popRegister("ebx");
-  writeln("\t\tcmp    ebx, eax");
+  writeln("\t\tcmp    eax, ebx");
   string cmd = "setnge";  
   if(equal) cmd = "setng";
   writefln("\t\t%s al", cmd);
 }
 
 /* Load a variable in register reg */
-void loadVariable(string name, bool push = false, string reg = "eax"){
+void loadVariable(string name, string reg = "eax"){
   if(!inTable(name, getVariables())) undefined(name);
   writefln("\t\tmov   %s, [%s]", reg, name);
-  if(push) writefln("\t\tpush   %s", reg);
 }
 
 /* Loads an argument passed to use in register reg */
