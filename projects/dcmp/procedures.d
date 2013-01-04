@@ -2,27 +2,7 @@ module dcmp.procedures;
 
 import std.conv;
 import dcmp.errors, dcmp.token, dcmp.expressions, dcmp.parser, dcmp.codegen_asm;
-import dcmp.functions;
-
-struct Variable{
-  string name;
-  string type;                     // char / short / int / float
-  int    offset;                   // Offset in the stack
-  int    nelems = 1;               // Number of elements
-
-  @property int size(){
-    int s = 0;
-    if(type == "char")  s = 1;
-    if(type == "short") s = 2;
-    if(type == "int")   s = 4;
-    if(type == "float") s = 4;
-    return s;
-  }
-
-  @property int bytesize(){
-    return nelems * size();
-  }
-}
+import dcmp.functions, dcmp.variables;
 
 struct Function{
   string     name;
@@ -31,20 +11,9 @@ struct Function{
   Variable[] local;
 }
 
-Variable[] variables; // All global variables
 Function[] functions; // All defined functions
 
-Variable getVariable(string name){
-  foreach(v; variables){ if(name == v.name) return v; }
-  undefined(name); assert(0);
-}
-
-string[] getVariables(){
-  string[] r;
-  foreach(v; variables){ r ~= v.name; }
-  return r;
-}
-
+/* Get a list of all argument variables */
 string[] getArgs(){
   string[] r;
   if(functions.length > 0){
@@ -53,6 +22,7 @@ string[] getArgs(){
   return r;
 }
 
+/* Get a list of all local variables (unused) */
 string[] getLocal(){
   string[] r;
   if(functions.length > 0){
@@ -61,7 +31,7 @@ string[] getLocal(){
   return r;
 }
 
-/* Get the offset of a scope local variable by name */
+/* Get the offset of a local argument variable by name */
 string getArgOffset(string name){
   if(functions.length > 0){
     Variable[] vars = functions[($-1)].args;
@@ -72,11 +42,13 @@ string getArgOffset(string name){
   undefined(name); assert(0);
 }
 
+/* Get a function by name */
 Function getFunction(string name){
   foreach(f; functions){ if(f.name == name) return f; }
   undefined(name); assert(0);
 }
 
+/* Get all function names */
 string[] getFunctionNames(){
   string[] r;
   foreach(f; functions){ r ~= f.name; }
@@ -84,7 +56,7 @@ string[] getFunctionNames(){
 }
 
 /* Parses and pushes supplied arguments to a function call */
-void doArgsCallList(ref Parser p, Token func){
+void doFunctionCall(ref Parser p, Token func){
   p.matchValue("(");
   if(p.lookAhead.value != ")"){
     p.bexpression();                        // Parse and

@@ -1,7 +1,8 @@
 module dcmp.expressions;
 
 import std.stdio, std.string;
-import dcmp.errors, dcmp.functions, dcmp.token, dcmp.parser, dcmp.procedures, dcmp.codegen_asm;
+import dcmp.errors, dcmp.variables, dcmp.functions, dcmp.token;
+import dcmp.parser, dcmp.procedures, dcmp.codegen_asm;
 
 /* Mathematical expression consists of 1 or more 'terms' separated by 'addops' */
 void expression(ref Parser p){
@@ -89,12 +90,12 @@ void factor(ref Parser p){
     Token id = p.matchType("identifier");
     if(inTable(id.value, getVariables())){          // Variable: 1 + (x - y)
       Variable v  = getVariable(id.value);
-      int n  = p.matchArrayIndex();
+      int n = p.matchArrayIndex();
       loadVariable(id.value, n * v.size);
     }else if(inTable(id.value, getArgs())){         // Local variable or argument
       loadLocalArgument(getArgOffset(id.value));
     }else if(inTable(id.value, labels)){            // Function call in expression: 1 + sum(x) - y
-      p.doArgsCallList(id);
+      p.doFunctionCall(id);
     }else{
       undefined(id.value);
     }
@@ -110,23 +111,25 @@ void factor(ref Parser p){
 }
 
 /* Assign an expression to a variable */
-void assignment(ref Parser p, Variable var, int index = -1){
+void assignment(ref Parser p, string name){
+  Variable v  = getVariable(name);
+  int index   = p.matchArrayIndex();
   p.matchValue("=");
-  if(p.lookAhead.value == "["){                     // Array assignment
-    int offset = 0;
+  if(p.lookAhead.value == "["){                     // Whole array assignment
+    index = 0;
     p.matchValue("[");
     p.bexpression();
-    storeVariable(var.name, offset);
+    storeVariable(v.name, index * v.size);
     while(p.lookAhead.value == ","){
+      index++;
       p.matchValue(",");
-      offset += var.size;
       p.bexpression();
-      storeVariable(var.name, offset);
+      storeVariable(v.name, index * v.size);
     }
     p.matchValue("]");
-  }else{                                            // Single variable
+  }else{                                            // Single variable or array element
     p.bexpression();
-    storeVariable(var.name, index);
+    storeVariable(v.name, index * v.size);
   }
 }
 
