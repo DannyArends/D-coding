@@ -6,8 +6,22 @@ import dcmp.functions;
 
 struct Variable{
   string name;
-  string type;     // int / char
-  int    offset;   // Offset in the stack
+  string type;                     // char / short / int / float
+  int    offset;                   // Offset in the stack
+  int    nelems = 1;               // Number of elements
+
+  @property int size(){
+    int s = 0;
+    if(type == "char")  s = 1;
+    if(type == "short") s = 2;
+    if(type == "int")   s = 4;
+    if(type == "float") s = 4;
+    return s;
+  }
+
+  @property int bytesize(){
+    return nelems * size();
+  }
 }
 
 struct Function{
@@ -19,6 +33,11 @@ struct Function{
 
 Variable[] variables; // All global variables
 Function[] functions; // All defined functions
+
+Variable getVariable(string name){
+  foreach(v; variables){ if(name == v.name) return v; }
+  undefined(name); assert(0);
+}
 
 string[] getVariables(){
   string[] r;

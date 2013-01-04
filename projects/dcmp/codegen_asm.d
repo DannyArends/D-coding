@@ -94,9 +94,10 @@ void popLarger(bool equal = false, string reg = "eax"){
 }
 
 /* Load a variable in register reg */
-void loadVariable(string name, string reg = "eax"){
+void loadVariable(string name, int offset = -1, string reg = "eax"){
   if(!inTable(name, getVariables())) undefined(name);
-  writefln("\t\tmov   %s, [%s]", reg, name);
+  if(offset < 1) return writefln("\t\tmov   %s, [%s]", reg, name);
+  writefln("\t\tmov   %s, [%s + %s]", reg, name, offset);
 }
 
 /* Loads an argument passed to use in register reg */
@@ -105,10 +106,10 @@ void loadLocalArgument(string offset, string reg = "eax"){
 }
 
 /* Store register reg in a variable */
-void storeVariable(string name, bool push = false, string reg = "eax"){
+void storeVariable(string name, int offset = -1, string reg = "eax"){
   if(!inTable(name, getVariables())) undefined(name);
-  writefln("\t\tmov   [%s], %s", name, reg);
-  if(push) writefln("\t\tpush   %s", reg);
+  if(offset < 1) return writefln("\t\tmov   [%s], %s", name, reg);
+  writefln("\t\tmov   [%s + %s], %s", name, offset, reg);
 }
 
 /* Emit a jump to a label */
@@ -119,6 +120,8 @@ void jmpToLabel(string label, bool check = true){
 
 /* Emit a function call */
 void callFunction(string label){
+  if(label == "printf") return printf("F");
+  if(label == "printc") return printf("C");
   if(label == "print") return printf();
   if(label == "exit") return exit("0");
   if(label == "return") return functionEpilog();
@@ -150,16 +153,10 @@ void functionEpilog(){
   writeln("\t\tret");
 }
 
-/* Allocate a variable (so that it is added to the data section) */
-void allocateVariable(string name, string type, bool inFunction){
-  if(inTable(name, getVariables())) duplicate(name);
-  variables ~= Variable(name, type);
-}
-
 /* Small hack to have some output */
-void printf(){                                   // Should be changed to something like:
+void printf(string type = "I"){                  // Should be changed to something like:
   writeln("\t\tpush  eax");                      // mov eax, 4      ; write
-  writeln("\t\tpush  _formatI");                 // mov ebx, 1      ; to the standard output
+  writefln("\t\tpush  _format%s", type);         // mov ebx, 1      ; to the standard output
   writeln("\t\tcall  printf");                   // mov ecx, msg	  ; Name of the variable to write
   writeln("\t\tadd   esp, 8");                   // mov edx, length ; length of variable in bytes
 }                                                // int 0×8         ; invoke an interrupt
@@ -180,9 +177,12 @@ void epilog(){
   }
 	writeln("\t\tret\n");
 
-  writeln("section .data");                       // All 'global' variables
-  foreach(v; variables){ writefln("\t%s:  dd 0", v.name); }
+  writeln("section .bss");                        // Global variables go to '.bss' section
+  foreach(v; variables){ writefln("\t%s: resb %s", v.name, v.bytesize); }
+
+  writeln("section .data");                       // Static is stored in the .data section
   writeln("\t_newline:  db  0xA, 0");
+  writeln("\t_formatC:  db  '%c', 0xA, 0");
   writeln("\t_formatI:  db  '%d', 0xA, 0");
   writeln("\t_formatF:  db  '%f', 0xA, 0");
 }

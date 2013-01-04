@@ -53,30 +53,59 @@ void matchStatement(ref Parser p, bool isFunction = false){
       p.doBlock();
       addLabel(funlabel ~ "_end");
     }else if(p.lookAhead.value == "="){             // Variable allocation & assigment
-      allocateVariable(id.value, type.value, isFunction);
-      p.assignment(id);
+      Variable v = p.allocateVariable(id.value, type.value, isFunction);
+      p.assignment(v);
       p.matchValue(";");
     }else if(p.lookAhead.value == ","){             // Multiple variable allocation
-      allocateVariable(id.value, type.value, isFunction);
+      p.allocateVariable(id.value, type.value, isFunction);
       while(p.lookAhead.value == ","){
         p.matchValue(",");
         id = p.matchType("identifier");
-        allocateVariable(id.value, type.value, isFunction);
+        p.allocateVariable(id.value, type.value, isFunction);
       }
     }else if(p.lookAhead.value == ";"){             // Single variable allocation
-      allocateVariable(id.value, type.value, isFunction);
+      p.allocateVariable(id.value, type.value, isFunction);
+      p.matchValue(";");
+    }else if(p.lookAhead.value == "["){             // Array allocation
+      Variable v = p.allocateVariable(id.value, type.value, isFunction);
+      if(p.lookAhead.value == "="){                 // Array initialization
+        p.assignment(v);
+      }
       p.matchValue(";");
     }
   }else if(p.lookAhead.type == "keyword"){          // Control statements
     Token keyword = p.matchType("keyword");
     p.controlStatement(keyword);
   }else if(p.lookAhead.type == "identifier"){       // Variable manipulation or Function call
-    Token  id   = p.matchType("identifier");
+    Token    id = p.matchType("identifier");
     if(p.lookAhead.value == "(") p.doArgsCallList(id);
-    if(p.lookAhead.value == "=") p.assignment(id);
+    if(p.lookAhead.value == "="){
+      Variable v  = getVariable(id.value);
+      int n  = p.matchArrayIndex();
+      p.assignment(v, n);
+    }
     p.matchValue(";");
   }else{
     expected("keyword / identifier / type", p.lookAhead.type);
   }
+}
+
+int matchArrayIndex(ref Parser p){
+  int n = 0;
+  if(p.lookAhead.value == "["){             // Array variable allocation
+    p.matchValue("[");
+    n = to!int(p.matchType("numeric").value);
+    p.matchValue("]");
+  }
+  return n;
+}
+
+/* Allocate a variable (so that it is added to the data section) */
+Variable allocateVariable(ref Parser p, string name, string type, bool inFunction){
+  if(inTable(name, getVariables())) duplicate(name);
+  int n = p.matchArrayIndex();
+  if(n == 0) n = 1;
+  variables ~= Variable(name, type, 0, n);
+  return variables[($-1)];
 }
 
