@@ -59,7 +59,7 @@ void pushBoolean(string value = "true"){
 }
 
 void emitTest(string label){
-  writeln("\t\tcmp   eax, 0");
+  writeln("\t\tcmp   al, 0");
   writefln("\t\tjz  %s", label);
 }
 

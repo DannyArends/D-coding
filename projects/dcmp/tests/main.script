@@ -1,4 +1,4 @@
-int a[5] = [65, 66, 67, 68 , 69];
+char a[5] = [65, 66, 67, 68 , 69];
 int b = (12 * (12 + 6) - 15);
 int c = true && 1;
 
@@ -10,11 +10,11 @@ int main(){
   int x = 5 + 10;
   int y = x + 7;
 
-  print(a[3]);
-  print(a[0]);
-  print(a[4]);
+  printc(a[3]);
+  printc(a[0]);
+  printc(a[4]);
   a[0] = a[4];
-  print(a[0]);
+  printc(a[0]);
 
   if(x < 16 && true){
     print(1);
