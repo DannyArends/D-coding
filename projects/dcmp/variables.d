@@ -1,7 +1,7 @@
 module dcmp.variables;
 
 import std.conv;
-import dcmp.errors, dcmp.functions, dcmp.token, dcmp.parser;
+import dcmp.errors, dcmp.functions, dcmp.token, dcmp.parser, dcmp.procedures;
 
 struct Variable{
   string name;
@@ -31,6 +31,14 @@ Variable getVariable(string name){
   undefined(name); assert(0);
 }
 
+/* Get a local variable */
+Variable getLocal(string name){
+  if(functions.length > 0){
+    foreach(v; functions[($-1)].local){ if(name == v.name) return v; }
+  }
+  undefined(name); assert(0);
+}
+
 /* Get a list of all global variables */
 string[] getVariables(){
   string[] r;
@@ -54,7 +62,9 @@ Variable allocateVariable(ref Parser p, string name, string type, bool inFunctio
   if(inTable(name, getVariables())) duplicate(name);
   int n = p.matchArrayIndex();
   if(n == 0) n = 1;
-  variables ~= Variable(name, type, 0, n);
-  return variables[($-1)];
+  Variable v = Variable(name, type, 0, n);
+  if(!inFunction) variables ~= v;
+  if(inFunction) functions[($-1)].local ~= v;
+  return v;
 }
 

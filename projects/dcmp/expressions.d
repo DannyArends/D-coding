@@ -92,11 +92,16 @@ void factor(ref Parser p){
       Variable v  = getVariable(id.value);
       int n = p.matchArrayIndex();
       loadVariable(id.value, n * v.size);
+    }else if(inTable(id.value, getLocals())){         // Local variable or argument
+      writefln("<local>");
     }else if(inTable(id.value, getArgs())){         // Local variable or argument
       loadLocalArgument(getArgOffset(id.value));
     }else if(inTable(id.value, labels)){            // Function call in expression: 1 + sum(x) - y
       p.doFunctionCall(id);
     }else{
+      writefln("Global: %s", getVariables());
+      writefln("Args: %s", getArgs());
+      writefln("Local: %s", getLocals());
       undefined(id.value);
     }
   }else if(p.lookAhead.type == "numeric"){          // Numeric constant
@@ -112,7 +117,16 @@ void factor(ref Parser p){
 
 /* Assign an expression to a variable */
 void assignment(ref Parser p, string name){
-  Variable v  = getVariable(name);
+  Variable v;
+  if(inTable(name, getVariables())){          // Variable: 1 + (x - y)
+    v  = getVariable(name);
+    int n = p.matchArrayIndex();
+    loadVariable(id.value, n * v.size);
+  }else if(inTable(name, getLocals())){        // Local variable or argument
+    v  = getLocal(name);
+  }else{
+    abort("Cannot assign to function parameters");
+  }
   int index   = p.matchArrayIndex();
   p.matchValue("=");
   if(p.lookAhead.value == "["){                     // Whole array assignment

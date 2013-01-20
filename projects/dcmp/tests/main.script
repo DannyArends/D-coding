@@ -7,8 +7,8 @@ int sum(int x, int y){
 }
 
 int main(){
-  int x = 5 + 10;
-  int y = x + 7;
+  int x;
+  int y;
 
   printc(a[3]);
   printc(a[0]);

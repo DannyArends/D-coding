@@ -1,6 +1,6 @@
 module dcmp.procedures;
 
-import std.conv;
+import std.conv, std.stdio;
 import dcmp.errors, dcmp.token, dcmp.expressions, dcmp.parser, dcmp.codegen_asm;
 import dcmp.functions, dcmp.variables;
 
@@ -23,7 +23,7 @@ string[] getArgs(){
 }
 
 /* Get a list of all local variables (unused) */
-string[] getLocal(){
+string[] getLocals(){
   string[] r;
   if(functions.length > 0){
     foreach(v; functions[($-1)].local){ r ~= v.name; }

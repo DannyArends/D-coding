@@ -95,7 +95,7 @@ void popLarger(bool equal = false, string reg = "eax"){
 
 /* Load a variable in register reg */
 void loadVariable(string name, int offset = -1, string reg = "eax"){
-  if(!inTable(name, getVariables())) undefined(name);
+//  if(!inTable(name, getVariables())) undefined(name);
   if(offset < 1) return writefln("\t\tmov   %s, [%s]", reg, name);
   writefln("\t\tmov   %s, [%s + %s]", reg, name, offset);
 }
@@ -107,14 +107,14 @@ void loadLocalArgument(string offset, string reg = "eax"){
 
 /* Store register reg in a variable */
 void storeVariable(string name, int offset = -1, string reg = "eax"){
-  if(!inTable(name, getVariables())) undefined(name);
+//  if(!inTable(name, getVariables())) undefined(name);
   if(offset < 1) return writefln("\t\tmov   [%s], %s", name, reg);
   writefln("\t\tmov   [%s + %s], %s", name, offset, reg);
 }
 
 /* Emit a jump to a label */
 void jmpToLabel(string label, bool check = true){
-  if(check && !inTable(label, labels)) undefined(label);
+  if(check && !inTable(label, labels)) undefined("label:" ~ label);
   writefln("\t\tjmp   %s", label);
 }
 
@@ -125,14 +125,14 @@ void callFunction(string label){
   if(label == "print") return printf();
   if(label == "exit") return exit("0");
   if(label == "return") return functionEpilog();
-  if(!inTable(label, labels)) undefined(label);
+  if(!inTable(label, labels)) undefined("label:" ~ label);
   writefln("\t\tcall  %s", label);
 }
 
 /* Add a label and emits a jump to the endlabel (if jump = true) */
 string addLabel(string label, bool jump = false){
   if(label == "main") label = user_entry;         // We use main to set-up the global environment
-  if(inTable(label, labels)) duplicate(label);    // Don't allow duplicate labels
+  if(inTable(label, labels)) duplicate("label:" ~ label);    // Don't allow duplicate labels
   if(jump) writefln("\t\tjmp   %s_end",label);
   writefln("%s:", label);
   labels ~= label;
@@ -140,7 +140,7 @@ string addLabel(string label, bool jump = false){
 }
 
 /* Prolog of a function, allows for local stack variables aligned to ebp */
-void functionProlog(string space = "0"){
+void functionProlog(string space = "512"){
   writeln("\t\tpush  ebp");                       // Establishing stack-frame
   writeln("\t\tmov   ebp, esp");
   writefln("\t\tsub   esp, %s", space);           // Stack space local variables [ebp-4] [ebp-8] [ebp-12]
