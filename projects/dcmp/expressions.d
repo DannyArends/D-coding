@@ -89,19 +89,13 @@ void factor(ref Parser p){
   }else if(p.lookAhead.type == "identifier"){
     Token id = p.matchType("identifier");
     if(inTable(id.value, getVariables())){          // Variable: 1 + (x - y)
-      Variable v  = getVariable(id.value);
-      int n = p.matchArrayIndex();
-      loadVariable(id.value, n * v.size);
-    }else if(inTable(id.value, getLocals())){         // Local variable or argument
-      writefln("<local>");
-    }else if(inTable(id.value, getArgs())){         // Local variable or argument
-      loadLocalArgument(getArgOffset(id.value));
+      Variable v = getVariable(id.value);
+      int index  = p.matchArrayIndex();
+      loadVariable(v, index * v.size);
     }else if(inTable(id.value, labels)){            // Function call in expression: 1 + sum(x) - y
       p.doFunctionCall(id);
     }else{
-      writefln("Global: %s", getVariables());
-      writefln("Args: %s", getArgs());
-      writefln("Local: %s", getLocals());
+      writefln("In scope: %s", getVariables());
       undefined(id.value);
     }
   }else if(p.lookAhead.type == "numeric"){          // Numeric constant
@@ -117,33 +111,24 @@ void factor(ref Parser p){
 
 /* Assign an expression to a variable */
 void assignment(ref Parser p, string name){
-  Variable v;
-  if(inTable(name, getVariables())){          // Variable: 1 + (x - y)
-    v  = getVariable(name);
-    int n = p.matchArrayIndex();
-    loadVariable(id.value, n * v.size);
-  }else if(inTable(name, getLocals())){        // Local variable or argument
-    v  = getLocal(name);
-  }else{
-    abort("Cannot assign to function parameters");
-  }
-  int index   = p.matchArrayIndex();
+  Variable v = getVariable(name);
+  int index  = p.matchArrayIndex();
   p.matchValue("=");
-  if(p.lookAhead.value == "["){                     // Whole array assignment
+  if(p.lookAhead.value == "["){                        // Whole array assignment
     index = 0;
     p.matchValue("[");
     p.bexpression();
-    storeVariable(v.name, index * v.size);
+    storeVariable(v, index * v.size);
     while(p.lookAhead.value == ","){
       index++;
       p.matchValue(",");
       p.bexpression();
-      storeVariable(v.name, index * v.size);
+      storeVariable(v, index * v.size);
     }
     p.matchValue("]");
-  }else{                                            // Single variable or array element
+  }else{                                               // Single variable or array element
     p.bexpression();
-    storeVariable(v.name, index * v.size);
+    storeVariable(v, index * v.size);
   }
 }
 

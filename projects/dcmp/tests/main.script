@@ -3,11 +3,11 @@ int b = (12 * (12 + 6) - 15);
 int c = true && 1;
 
 int sum(int x, int y){
-  return(x + y);
+  return(x+y);
 }
 
 int main(){
-  int x;
+  int x = 0;
   int y;
 
   printc(a[3]);
@@ -22,7 +22,7 @@ int main(){
     print(11);
   }
 
-  print(sum(18, x));
+  print(sum(18, 2));
 
   while(x >= 0){
     print(x);

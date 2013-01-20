@@ -93,23 +93,32 @@ void popLarger(bool equal = false, string reg = "eax"){
   writefln("\t\t%s al", cmd);
 }
 
-/* Load a variable in register reg */
-void loadVariable(string name, int offset = -1, string reg = "eax"){
-//  if(!inTable(name, getVariables())) undefined(name);
-  if(offset < 1) return writefln("\t\tmov   %s, [%s]", reg, name);
-  writefln("\t\tmov   %s, [%s + %s]", reg, name, offset);
+/* Load a variable v in register reg */
+void loadVariable(Variable v, int offset = -1, string reg = "eax"){
+  if(!inTable(v.name, getVariables())) undefined(v.name);
+  if(v.loc == "global"){
+    if(offset < 1) return writefln("\t\tmov   %s, [%s]", reg, v.name);
+    writefln("\t\tmov   %s, [%s + %s]", reg, v.name, offset);
+  } else if(v.loc == "local") {    
+    writefln("\t\tmov   %s, [ebp - %s]", reg, v.offset + offset);
+  } else if(v.loc == "argument") {
+    int toff = getOffset(functions[($-1)].vscope,"argument") + 4;
+    writefln("\t\tmov   %s, [ebp + %s]", reg, toff - v.offset + offset);
+  }
+
 }
 
-/* Loads an argument passed to use in register reg */
-void loadLocalArgument(string offset, string reg = "eax"){
-  writefln("\t\tmov   %s, [ebp + %s]", reg, offset);
-}
-
-/* Store register reg in a variable */
-void storeVariable(string name, int offset = -1, string reg = "eax"){
-//  if(!inTable(name, getVariables())) undefined(name);
-  if(offset < 1) return writefln("\t\tmov   [%s], %s", name, reg);
-  writefln("\t\tmov   [%s + %s], %s", name, offset, reg);
+/* Store register reg in variable v */
+void storeVariable(Variable v, int offset = -1, string reg = "eax"){
+  if(!inTable(v.name, getVariables())) undefined(v.name);
+  if(v.loc == "global"){
+    if(offset < 1) return writefln("\t\tmov   [%s], %s", v.name, reg);
+    writefln("\t\tmov   [%s + %s], %s", v.name, offset, reg);
+  } else if(v.loc == "local") {
+    writefln("\t\tmov   [ebp - %s], %s", v.offset + offset, reg);
+  } else if(v.loc == "argument") {
+    writefln("\t\tmov   [ebp + %s], %s", v.offset + offset, reg);
+  }
 }
 
 /* Emit a jump to a label */
