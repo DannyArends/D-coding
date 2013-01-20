@@ -1,7 +1,7 @@
 module dcmp.codegen_asm;
 
 import std.stdio;
-import dcmp.errors, dcmp.variables, dcmp.functions, dcmp.procedures;
+import dcmp.errors, dcmp.recognizers, dcmp.variables, dcmp.functions, dcmp.procedures;
 
 immutable string user_entry = "_umain";
 
@@ -94,26 +94,27 @@ void popLarger(bool equal = false, string reg = "eax"){
 }
 
 /* Load a variable v in register reg */
-void loadVariable(Variable v, int offset = -1, string reg = "eax"){
+void loadVariable(Variable v, int offset = 0, string reg = "eax"){
   if(!inTable(v.name, getVariables())) undefined(v.name);
   if(v.loc == "global"){
-    if(offset < 1) return writefln("\t\tmov   %s, [%s]", reg, v.name);
     writefln("\t\tmov   %s, [%s + %s]", reg, v.name, offset);
+  }else if(v.loc == "fglobal"){
+    writefln("\t\tmov   %s, [%s_%s + %s]", reg, functions[($-1)].name, v.name, offset);
   } else if(v.loc == "local") {    
     writefln("\t\tmov   %s, [ebp - %s]", reg, v.offset + offset);
   } else if(v.loc == "argument") {
     int toff = getOffset(functions[($-1)].vscope,"argument") + 4;
     writefln("\t\tmov   %s, [ebp + %s]", reg, toff - v.offset + offset);
   }
-
 }
 
 /* Store register reg in variable v */
-void storeVariable(Variable v, int offset = -1, string reg = "eax"){
+void storeVariable(Variable v, int offset = 0, string reg = "eax"){
   if(!inTable(v.name, getVariables())) undefined(v.name);
   if(v.loc == "global"){
-    if(offset < 1) return writefln("\t\tmov   [%s], %s", v.name, reg);
     writefln("\t\tmov   [%s + %s], %s", v.name, offset, reg);
+  } else if(v.loc == "fglobal"){
+    writefln("\t\tmov   [%s_%s + %s], %s", functions[($-1)].name, v.name, offset, reg);
   } else if(v.loc == "local") {
     writefln("\t\tmov   [ebp - %s], %s", v.offset + offset, reg);
   } else if(v.loc == "argument") {
@@ -149,10 +150,10 @@ string addLabel(string label, bool jump = false){
 }
 
 /* Prolog of a function, allows for local stack variables aligned to ebp */
-void functionProlog(string space = "512"){
-  writeln("\t\tpush  ebp");                       // Establishing stack-frame
+void functionProlog(){
+  writeln("\t\tpush  ebp");                        // Establishing stack-frame
   writeln("\t\tmov   ebp, esp");
-  writefln("\t\tsub   esp, %s", space);           // Stack space local variables [ebp-4] [ebp-8] [ebp-12]
+  writefln("\t\tsub   esp, %s", LOCALSTACKSPACE);  // local variables [ebp-4] [ebp-8] [ebp-12]
 }
 
 /* Restore the previous stack context */
@@ -187,8 +188,12 @@ void epilog(){
 	writeln("\t\tret\n");
 
   writeln("section .bss");                        // Global variables go to '.bss' section
-  foreach(v; variables){ writefln("\t%s: resb %s", v.name, v.bytesize); }
-
+  foreach(v; variables){ writefln("\t%s: resb %s ; Global", v.name, v.bytesize); }
+  foreach(f; functions){
+    foreach(v; f.vscope){
+      if(v.loc == "fglobal"){ writefln("\t%s_%s: resb %s ; Local", f.name, v.name, v.bytesize); }
+    }
+  }
   writeln("section .data");                       // Static is stored in the .data section
   writeln("\t_newline:  db  0xA, 0");
   writeln("\t_formatC:  db  '%c', 0xA, 0");

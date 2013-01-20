@@ -1,13 +1,13 @@
 module dcmp.variables;
 
-import std.conv;
-import dcmp.errors, dcmp.functions, dcmp.token, dcmp.parser, dcmp.procedures;
+import std.conv, std.string, std.stdio;
+import dcmp.errors, dcmp.recognizers, dcmp.functions, dcmp.token, dcmp.parser, dcmp.procedures;
 
 struct Variable{
   string name;
   string type    = "int";          // char / short / int / float
   string loc     = "global";       // Global / Argument / Local
-  int    offset  = -1;             // Offset in the stack
+  int    offset  = 0;              // Offset in the stack
   int    nelems  = 1;              // Number of elements
 
   @property int size(){
@@ -72,8 +72,13 @@ Variable allocateVariable(ref Parser p, string name, string type, bool inFunctio
   Variable v = Variable(name, type, "global", 0, n);
   if(!inFunction) variables ~= v;
   if(inFunction){
-    v.loc = "local";
-    v.offset = 12 + getOffset(functions[($-1)].vscope);
+    int offset = getOffset(functions[($-1)].vscope);
+    if(offset + v.size*v.nelems > LOCALSTACKSPACE){
+      v.loc = "fglobal";
+    }else{
+      v.loc = "local";
+      v.offset = offset;
+    }
     functions[($-1)].vscope ~= v;
   }
   return v;

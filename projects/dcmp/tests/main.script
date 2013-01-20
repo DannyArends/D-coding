@@ -3,12 +3,15 @@ int b = (12 * (12 + 6) - 15);
 int c = true && 1;
 
 int sum(int x, int y){
+  int x2;
+  int y2;
   return(x+y);
 }
 
 int main(){
   int x = 0;
   int y;
+  int y2;
 
   printc(a[3]);
   printc(a[0]);

@@ -3,8 +3,8 @@ module dcmp.errors;
 import std.stdio, std.c.stdlib, std.string;
 
 void error(string s){
-  writeln();
-  writefln("-Error: %s\n", s);
+  stderr.writeln();
+  stderr.writefln("-Error: %s\n", s);
 }
 
 void abort(string s){

@@ -3,6 +3,7 @@ module dcmp.recognizers;
 import std.conv;
 
 immutable char EOI = '\0';
+immutable uint LOCALSTACKSPACE = 6;
 immutable string[] types      = [ "char", "short", "int" ];
 immutable string[] addOps     = [ "+", "-" ];
 immutable string[] mulOps     = [ "*", "/" ];
