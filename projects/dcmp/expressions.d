@@ -62,7 +62,7 @@ void relation(ref Parser p){
 
 /* A negative boolean factor */
 void nbfactor(ref Parser p){
-  if(p.lookAhead.value == "!"){
+  if(p.lookAhead.value == "!"){ // Negative Bool
     p.matchValue("!");
     p.bfactor();
     negateBoolean();
@@ -86,6 +86,10 @@ void factor(ref Parser p){
     p.matchValue("(");
     p.bexpression();
     p.matchValue(")");
+  }else if(p.lookAhead.value == "-"){               // Negative factor -
+    p.matchValue("-");
+    p.factor();
+    negateRegister();
   }else if(p.lookAhead.type == "identifier"){
     Token id = p.matchType("identifier");
     if(inTable(id.value, getVariables())){          // Variable: 1 + (x - y)

@@ -3,7 +3,7 @@ module dcmp.recognizers;
 import std.conv;
 
 immutable char EOI = '\0';
-immutable uint LOCALSTACKSPACE = 6;
+immutable uint LOCALSTACKSPACE = 512;
 immutable string[] types      = [ "char", "short", "int" ];
 immutable string[] addOps     = [ "+", "-" ];
 immutable string[] mulOps     = [ "*", "/" ];
@@ -44,7 +44,7 @@ bool isDelimiter(char ch){
   return false; 
 }
 
-bool isNumeric(char ch){ 
+bool isNumeric(char ch){
   if('0' <= ch && ch <= '9'){return true;} 
   if(ch == '.') return true;
   return false; 
