@@ -65,12 +65,12 @@ void setup(ref Window window, string title, string author){
   window.font.base = textureAsFont(window.font.id);
   // Set the window caption
   SDL_WM_SetCaption(toStringz(title), toStringz(author));
-/*  window.widgets ~= new Button(100, 100, 30, 10, &echoname, GREEN);
+  window.widgets ~= new Button(100, 100, 30, 10, &echoname, GREEN);
   window.widgets ~= new Text2D(0, 0, "Danny Arends\nJust trying");
   for(auto x = 1; x < 10; x++){
   for(auto z = 1; z < 10; z++){
     window.objects ~= new Quad(x, 0.0, z);
-  }} */
+  }}
 }
 
 void setupViewport(GLsizei width, GLsizei height, GLfloat near = 1.0, GLfloat far = 1000.0){

@@ -1,15 +1,14 @@
-import std.stdio, std.conv, std.file, std.utf;
+import std.stdio, std.conv, std.file, std.utf, std.string;
 import ext.opengl.gl, ext.sdl.sdl;
-import window, handler;
+import objects, window, handler;
 
 void main(string[] args){
   Window    window;                     /* Our window structure */
   SDL_Event event;                      /* SDL event */
   bool      rendering  = true;
 
-  if(SDL_Init(SDL_INIT_VIDEO) < 0){ 
-    writefln("Video initialization failed: %s", SDL_GetError()); return; 
-  }
+  if(SDL_Init(SDL_INIT_VIDEO) < 0) abort(format("Video initialization failed: %s", SDL_GetError()));
+  scope(exit) SDL_Quit();
   window.setup("...", "D-Coding - Danny Arends");
 
   writefln("Renderer = %s", to!string(glGetString(GL_RENDERER)));
@@ -34,7 +33,6 @@ void main(string[] args){
     window.render2D();                            /* Render the HUD and widgets */
     SDL_GL_SwapBuffers();
   }
-  SDL_Quit();
   return;
 }
 

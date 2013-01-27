@@ -69,9 +69,9 @@ struct Texture{
 }
 
 struct Font{
-  @property GLint id(GLint id = -1){ 
-    if(id != -1){ texture.id = id; } 
-    return texture.id; 
+  @property GLint id(GLint id = -1){
+    if(id != -1){ texture.id = id; }
+    return texture.id;
   }
 
   Texture texture;
