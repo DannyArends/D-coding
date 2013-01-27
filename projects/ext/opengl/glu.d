@@ -10,7 +10,7 @@
 module ext.opengl.glu;
 
 import std.stdio, std.conv, std.c.stdarg;
-import libload.loader, libload.libload;
+import ext.load.loader, ext.load.libload;
 import ext.opengl.gl_1_0, ext.opengl.gl_1_1;
 
 static this(){

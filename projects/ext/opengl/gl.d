@@ -11,7 +11,7 @@ module ext.opengl.gl;
 
 import std.stdio, std.conv, std.c.stdarg;
 import ext.load.loader, ext.load.libload;
-import ext.opengl.gl_1_0, ext.opengl.gl_1_1, ext.opengl.gl_1_2;
+public import ext.opengl.gl_1_0, ext.opengl.gl_1_1, ext.opengl.gl_1_2;
 import ext.opengl.gl_1_3, ext.opengl.gl_1_4, ext.opengl.gl_1_5;
 
 /* Loads a single gl extension (Needs a live reference to the library) */

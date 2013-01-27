@@ -11,7 +11,7 @@ module ext.sdl.sdl;
 
 import std.stdio, std.conv;
 import ext.load.loader, ext.load.libload;
-import ext.sdl.sdlstructs, ext.sdl.sdlfunctions;
+public import ext.sdl.sdlstructs,ext.sdl.sdlimage, ext.sdl.sdlfunctions;
 
 static this(){  //Load the functions when the module is loaded
   HXModule lib = load_library("sdl","SDL","");
