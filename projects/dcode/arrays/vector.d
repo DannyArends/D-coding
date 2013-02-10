@@ -21,6 +21,12 @@ void freevector(T)(ref T[] v) {
   GC.free(cast(void*)v);
 }
 
+T sumvector(T)(in T[] v){
+  T sum = to!T(0);
+  foreach(e;v){ sum += e; }
+  return sum;
+}
+
 pure T[] copyvector(T)(in T[] c){
   T[] x;
   x.length = c.length;
@@ -56,7 +62,7 @@ T[] stringToVector(T)(in string[] entities){
 /*
  * Convert a vector of type T to a string
  */
-string arrayToString(T)(T[] entities, string sep = ":", bool conv=false){
+string arrayToString(T)(in T[] entities, string sep = ":", bool conv=false){
   string retdata;
   for(auto e=0;e < entities.length; e++){
     if(e != 0) retdata ~= sep;
@@ -69,7 +75,7 @@ string arrayToString(T)(T[] entities, string sep = ":", bool conv=false){
   return retdata;
 }
 
-T[] toType(T)(ubyte[] buffer){
+T[] toType(T)(in ubyte[] buffer){
   T[] returnbuffer;
   foreach(int i, byte b ; buffer){
     returnbuffer ~= to!T(b);
