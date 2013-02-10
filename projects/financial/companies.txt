@@ -1,0 +1,56 @@
+Adobe Systems Inc.     ,ADBE,NASDAQ
+Altera Corporation     ,ALTR,NASDAQ
+Amazone                ,AMZN,NASDAQ
+Apple Inc.             ,AAPL,NASDAQ
+BioGen                 ,BIIB,NASDAQ
+Cisco Systems          ,CSCO,NASDAQ
+Cognizant Corporation  ,CTSH,NASDAQ
+Citrix Systems         ,CTXS,NASDAQ
+DELL                   ,DELL,NASDAQ
+EBAY                   ,EBAY,NASDAQ
+Google Inc.            ,GOOG,NASDAQ
+Hasbro, Inc.           ,HAS,NASDAQ
+Intel Corporation      ,INTC,NASDAQ
+Jack in the Box Inc.   ,JACK,NASDAQ
+Liberty Media Int.     ,LBTYA,NASDAQ
+Maxim Integrated       ,MXIM,NASDAQ
+Microsoft Corporation  ,MSFT,NASDAQ
+Oracle Corporation     ,ORCL,NASDAQ
+Microchip Tech.        ,MCHP,NASDAQ
+Sears Holdings Corp.   ,SHLD,NASDAQ
+Yahoo                  ,YHOO,NASDAQ
+
+Daimler AG (USA)       ,DDAIF,PINK
+Volkswagen AG (ADR)    ,VLKAY,PINK
+
+Unilever N.V. (ADR)    ,UN,NYSE
+Agilent Tech Inc.      ,A,NYSE
+AT&T Inc.              ,T,NYSE
+Citigroup Inc.         ,C,NYSE
+General Electric Comp. ,GE,NYSE
+Coca-Cola Corporation  ,KO,NYSE
+3M Corporation         ,MMM,NYSE
+Alcoa Inc.             ,AA,NYSE
+Ford Motor Company     ,F,NYSE
+Exxon Mobile           ,XOM,NYSE
+General Electric       ,GE,NYSE
+Wal-Mart               ,WMT,NYSE
+J.P. Morgan Chase      ,JPM,NYSE
+Boeing Corporation     ,BA,NYSE
+Chipotle Grill, Inc.   ,CMG,NYSE
+IBM                    ,IBM,NYSE
+Johnson & Johnson      ,JNJ,NYSE
+Deere & Company        ,DE,NYSE
+MCDonalds Corp.        ,MCD,NYSE
+NYSE Euronext          ,NYX,NYSE
+Toyota Motor Corp.     ,TM,NYSE
+Du Pont                ,DD,NYSE
+Domino's Pizza, Inc.   ,DPZ,NYSE
+Verizon Comm.          ,VZ,NYSE
+Honeywell Int.         ,HON,NYSE
+Caterpillar Inc.       ,CAT,NYSE
+Procter & Gamble       ,PG,NYSE
+Walt Disney Corp.      ,DIS,NYSE
+Home Depot inc.        ,HD,NYSE
+American Express       ,AXP,NYSE
+Hewlett-Packard        ,HPQ,NYSE
