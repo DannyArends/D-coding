@@ -9,8 +9,13 @@
  **********************************************************************/
 module statistics.LUdecomposition;
  
-import std.stdio, std.math;
-import dcode.arrays.vector, statistics.support;
+import std.stdio;
+import std.math;
+
+import dcode.errors;
+import dcode.arrays.vector;
+
+import statistics.support;
 
 bool LUdecompose(double[][] m, int dim, int[] ndx, int *d) {
   int r, c, rowmax, i;
@@ -18,16 +23,13 @@ bool LUdecompose(double[][] m, int dim, int[] ndx, int *d) {
   double[] swap  = newvector!double(dim,0.0);
   double[] scale = newvector!double(dim,0.0);
   *d=1;
-  for(r=0; r < dim; r++) {
+  for(r = 0; r < dim; r++) {
     for(max=0.0, c=0; c < dim; c++){
       if((temp=fabs(m[r][c])) > max){
         max=temp;
       }
     }
-    if(max==0.0){
-      writefln("ERROR: Singular matrix");
-      return false;
-    }
+    if(max==0.0) abort("ERROR: Singular matrix");
     scale[r]=1.0/max;
   }
   for(c = 0; c < dim; c++){
@@ -35,7 +37,7 @@ bool LUdecompose(double[][] m, int dim, int[] ndx, int *d) {
       for(sum=m[r][c], i=0; i < r; i++) sum-= m[r][i]*m[i][c];
       m[r][c]=sum;
     }
-    for(max=0.0, rowmax=c, r=c; r<dim; r++){
+    for(max = 0.0, rowmax = c, r = c; r < dim; r++){
       for(sum=m[r][c], i=0; i < c; i++) sum-= m[r][i]*m[i][c];
       m[r][c]=sum;
       if((temp=scale[r]*fabs(sum)) > max){
@@ -43,11 +45,8 @@ bool LUdecompose(double[][] m, int dim, int[] ndx, int *d) {
         rowmax=r;
       }
     }
-    if(max==0.0){
-      writefln("ERROR: Singular matrix");
-      return false;
-    }
-    if(rowmax!=c){
+    if(max == 0.0) abort("ERROR: Singular matrix");
+    if(rowmax != c){
       swap=m[rowmax];
       m[rowmax]=m[c];
       m[c]=swap;
@@ -61,7 +60,7 @@ bool LUdecompose(double[][] m, int dim, int[] ndx, int *d) {
   return true;
 }
 
-void LUsolve(double[][] lu, int dim, int[] ndx, double[] b) {
+void LUsolve(in double[][] lu, int dim, in int[] ndx, double[] b) {
   int r, c;
   double sum;
   for(r = 0; r < dim; r++){
@@ -77,12 +76,3 @@ void LUsolve(double[][] lu, int dim, int[] ndx, double[] b) {
   }
 }
 
-void LUinvert(double[][] lu, double[][] inv, int dim, int[] ndx){
-  int r,c;
-  double[] b;
-  for(c = 0; c < dim; c++){
-    b[c]=1.0;
-    LUsolve(lu, dim, ndx, b);
-    for(r = 0; r < dim; r++) inv[r][c]= b[r];
-  }
-}
