@@ -1,5 +1,5 @@
 /******************************************************************//**
- * \file src/core/typedefs/types.d
+ * \file dcode/types.d
  * \brief Structure and type definitions
  *
  * <i>Copyright (c) 2012</i> Danny Arends<br>

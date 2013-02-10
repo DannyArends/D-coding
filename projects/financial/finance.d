@@ -1,3 +1,5 @@
+module financial.finance;
+
 import std.stdio;
 import std.datetime;
 import std.getopt;
