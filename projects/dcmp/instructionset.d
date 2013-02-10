@@ -1,6 +1,8 @@
 module dcmp.instructionset;
+
 import std.stdio;
-import dcmp.errors, dcmp.cpu;
+import dcode.errors;
+import dcmp.cpu;
 
 void push(ref Cpu c, Inst i){ with(c){
   switch(i.types[0]){

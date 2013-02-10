@@ -1,7 +1,8 @@
 module dcmp.procedures;
 
 import std.conv, std.stdio;
-import dcmp.errors, dcmp.token, dcmp.expressions, dcmp.parser, dcmp.codegen_asm;
+import dcode.errors;
+import dcmp.token, dcmp.expressions, dcmp.parser, dcmp.codegen_asm;
 import dcmp.functions, dcmp.variables;
 
 struct Function{

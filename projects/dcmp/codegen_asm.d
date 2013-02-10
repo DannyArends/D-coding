@@ -1,7 +1,8 @@
 module dcmp.codegen_asm;
 
 import std.stdio;
-import dcmp.errors, dcmp.recognizers, dcmp.variables, dcmp.functions, dcmp.procedures;
+import dcode.errors;
+import dcmp.recognizers, dcmp.variables, dcmp.functions, dcmp.procedures;
 
 immutable string user_entry = "_umain";
 

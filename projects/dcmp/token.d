@@ -1,6 +1,7 @@
 module dcmp.token;
 
-import dcmp.errors, dcmp.parser;
+import dcode.errors : expected;
+import dcmp.parser;
 
 struct Token{
   string value;

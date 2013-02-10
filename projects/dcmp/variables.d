@@ -1,7 +1,8 @@
 module dcmp.variables;
 
 import std.conv, std.string, std.stdio;
-import dcmp.errors, dcmp.recognizers, dcmp.functions, dcmp.token, dcmp.parser, dcmp.procedures;
+import dcode.errors;
+import dcmp.recognizers, dcmp.functions, dcmp.token, dcmp.parser, dcmp.procedures;
 
 struct Variable{
   string name;

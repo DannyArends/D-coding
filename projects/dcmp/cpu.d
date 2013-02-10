@@ -1,6 +1,7 @@
 module dcmp.cpu;
 import std.c.stdlib, std.stdio, std.file, std.string, std.array;
-import dcmp.errors, dcmp.instructionset;
+import dcode.errors;
+import dcmp.instructionset;
 
 enum cpuReg {EAX  = 0, EBX  = 1, ECX   = 2, EDX = 3 };
 enum opType {NONE = 0, REG  = 1, IMM   = 2, MEM = 3 };

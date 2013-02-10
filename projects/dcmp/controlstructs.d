@@ -1,7 +1,8 @@
 module dcmp.controlstructs;
 
 import std.stdio;
-import dcmp.errors, dcmp.token, dcmp.parser, dcmp.expressions, dcmp.codegen_asm;
+import dcode.errors;
+import dcmp.token, dcmp.parser, dcmp.expressions, dcmp.codegen_asm;
 
 void controlStatement(ref Parser p, Token keyword){
   p.nextLabel();

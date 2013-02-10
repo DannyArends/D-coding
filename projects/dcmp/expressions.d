@@ -1,7 +1,8 @@
 module dcmp.expressions;
 
 import std.stdio, std.string;
-import dcmp.errors, dcmp.variables, dcmp.functions, dcmp.token;
+import dcode.errors;
+import dcmp.variables, dcmp.functions, dcmp.token;
 import dcmp.parser, dcmp.procedures, dcmp.codegen_asm;
 
 /* Mathematical expression consists of 1 or more 'terms' separated by 'addops' */

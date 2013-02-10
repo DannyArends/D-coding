@@ -1,7 +1,8 @@
 module dcmp.functions;
 
 import std.stdio, std.conv;
-import dcmp.errors, dcmp.recognizers, dcmp.parser;
+import dcode.errors;
+import dcmp.recognizers, dcmp.parser;
 
 bool inTable(string n, string[] t){ return inTable(n, cast(immutable)t); }
 

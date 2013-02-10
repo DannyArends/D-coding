@@ -1,8 +1,9 @@
 module dcmp.parser;
 
 import std.stdio, std.conv, std.string;
+import dcode.errors;
 import dcmp.token, dcmp.recognizers, dcmp.functions, dcmp.expressions, dcmp.variables;
-import dcmp.procedures, dcmp.errors, dcmp.controlstructs, dcmp.codegen_asm;
+import dcmp.procedures, dcmp.controlstructs, dcmp.codegen_asm;
 
 struct Parser{
   Token lookAhead;

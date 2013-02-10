@@ -1,5 +1,6 @@
 import std.stdio, std.file, std.string;
-import dcmp.errors, dcmp.token, dcmp.lexer, dcmp.parser;
+import dcode.errors;
+import dcmp.token, dcmp.lexer, dcmp.parser;
 
 // dcmp/tests/main.script
 

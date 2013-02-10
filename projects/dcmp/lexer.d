@@ -1,7 +1,8 @@
 module dcmp.lexer;
 
 import std.file, std.string, std.stdio;
-import dcmp.errors, dcmp.recognizers, dcmp.token;
+import dcode.errors;
+import dcmp.recognizers, dcmp.token;
 
 alias dcmp.recognizers.isNumeric isNumeric;
 
