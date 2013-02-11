@@ -33,7 +33,7 @@ class Midi{
 		fp.rawWrite(midiheader);                                         // Midi header
     bool multiTrack = tracks.length > 1;
 		fp.rawWrite([to!ubyte(0), multiTrack?to!ubyte(1):to!ubyte(0)]);  // Type: 0 / 1 / 2
-		fp.rawWrite([high(tracks.length), low(tracks.length)]);          // Number of tracks
+		fp.rawWrite([high(to!int(tracks.length)), low(to!int(tracks.length))]);          // Number of tracks
 		fp.rawWrite([to!ubyte(0),to!ubyte(16)] );                        // Divisions
 
 		for(int t = 0; t < tracks.length; t++){
