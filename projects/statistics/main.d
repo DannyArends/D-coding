@@ -8,14 +8,7 @@
  * Written in the D Programming Language (http://www.digitalmars.com/d)
  **********************************************************************/
 import std.stdio, std.math, std.datetime, core.time;
-import dcode.arrays.search, statistics.regression, statistics.statistics, statistics.support;
-import dcode.io.reader, dcode.io.textreader;
-
-void print_usage(){
-  writeln("   Usage: correlation in.csv buffersize");
-  writeln("   Supported buffersize: 2mb, 4mb, 16mb, 64mb, 256mb");
-  writeln("   e.g.: correlation ./test/data.csvr 2mb");
-}
+import statistics.regression, statistics.support;
 
 void main(string[] args){
   writefln("Multiple linear regression in D\n");
