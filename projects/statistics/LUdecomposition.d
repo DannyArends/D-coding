@@ -17,7 +17,7 @@ import dcode.arrays.vector;
 
 import statistics.support;
 
-bool LUdecompose(double[][] m, int dim, int[] ndx, int *d) {
+bool LUdecompose(double[][] m, size_t dim, int[] ndx, int *d) {
   int r, c, rowmax, i;
   double max, temp, sum;
   double[] swap  = newvector!double(dim,0.0);
@@ -60,8 +60,8 @@ bool LUdecompose(double[][] m, int dim, int[] ndx, int *d) {
   return true;
 }
 
-void LUsolve(in double[][] lu, int dim, in int[] ndx, double[] b) {
-  int r, c;
+void LUsolve(in double[][] lu, size_t dim, in int[] ndx, double[] b) {
+  size_t r, c;
   double sum;
   for(r = 0; r < dim; r++){
     sum=b[ndx[r]];

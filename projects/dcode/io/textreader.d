@@ -46,7 +46,7 @@ class TextReader : Reader {
     return r;
   }
 
-  void addElement(T)(ref T[] inp, ubyte[] elem, int i){
+  void addElement(T)(ref T[] inp, ubyte[] elem, size_t i){
     try{
       inp ~= to!T(cast(string)elem);
     }catch(Throwable e){ errs++; }
@@ -55,7 +55,7 @@ class TextReader : Reader {
   
   protected:
   int     filesize;
-  int     si   = 0; // Start index of current element
+  size_t     si   = 0; // Start index of current element
   int     lcnt = 0; // Number of lines
   int     ecnt = 0; // Number of elements
   int     bcnt = 0; // Number of buffers

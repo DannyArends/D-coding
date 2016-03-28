@@ -10,7 +10,7 @@
 module statistics.regression;
  
 import std.stdio, std.math;
-import std.string : xformat;
+import std.string : format;
 
 import dcode.errors, dcode.arrays.vector;
 import dcode.arrays.matrix : translate;
@@ -18,7 +18,7 @@ import dcode.arrays.matrix : translate;
 import statistics.support;
 
 Model[2] mregression(in double[][] dm, in double[] y, double[] w, in int[] nullmodel = [1], bool verbose = false){
-  if(dm.length != w.length) abort(xformat("No weights for individuals found", dm.length, w.length));
+  if(dm.length != w.length) abort(format("No weights for individuals found", dm.length, w.length));
   if(dm.length != y.length) abort("No y variable for some individuals found"); 
   
   if(!sumvector!double(dm[0]) == y.length) writefln("NOTE: No estimate of constant in model");

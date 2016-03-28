@@ -37,7 +37,7 @@ double Lnormal(double residual, double variance){
 double toLOD(Model model, Model nmodel){ return(abs((2.0 * model.logL) - (2.0 * nmodel.logL)) / 4.60517); }
 double toLOD(Model[2] models){ return toLOD(models[MODEL], models[NULL]); }
 
-Model calcloglik(uint nsamples, in double[] residual, in double[] w, real variance, bool verbose = true){
+Model calcloglik(size_t nsamples, in double[] residual, in double[] w, real variance, bool verbose = true){
   Model f = Model(0.0, newvector!double(nsamples, 0.0), newvector!double(nsamples, 0.0));
 
   for(size_t i=0; i < nsamples; i++){

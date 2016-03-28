@@ -89,8 +89,8 @@ string toD(int x, size_t d = 6){
   return s;
 }
 
-pure uint[] dorange(uint start, size_t length){
-  uint array[];
+pure size_t[] dorange(uint start, size_t length){
+  size_t array[];
   for(size_t i = 0; i < (length-1); i++){
     array ~= start+i;
   }

@@ -2,7 +2,7 @@ module dcode.errors;
 
 import std.c.stdlib : exit;
 import std.stdio    : stderr, writeln, writefln;
-import std.string   : xformat;
+import std.string   : format;
 
 /* Write an warning string to stdout */
 void warning(in string s){
@@ -24,16 +24,16 @@ void abort(in string s, int exitcode = -1){
 
 /* Abort because an expectation isn't satisfied (-2) */
 void expected(in string s, in string o){
-  abort(xformat("'%s' expected, but found: '%s'", s, o), -2);
+  abort(format("'%s' expected, but found: '%s'", s, o), -2);
 }
 
 /* Abort because an identifier is undefined (-3) */
 void undefined(in string name){
-  abort(xformat("Undefined identifier: %s", name), -3);
+  abort(format("Undefined identifier: %s", name), -3);
 }
 
 /* Abort because an identifier is duplicated (-4) */
 void duplicate(in string name){
-  abort(xformat("Duplicate identifier: %s", name), -4);
+  abort(format("Duplicate identifier: %s", name), -4);
 }
 
